@@ -3,7 +3,8 @@
 <img src = "https://2.bp.blogspot.com/-Yu3jsuDAex0/Vj0kqb2HrfI/AAAAAAAAAHw/3Z8p7tAE2T0/s1600/HSQLDBDatoJavaIcon.png" height = 28 weight = 56 />
 
 ## Cómo iniciar la base de datos 💽
-1. Dirigirnos a IPS2022-PL61\hsqldb\hsqldb\data y abrir el fichero `runServer.bat` **IMPORTANTE**: no cerrar la terminal
-2. Si se quiere ver la base de datos en físico, ejecutar después el fichero `runManagerSwing.bat` **IMPORTANTE**: no cerrar la terminal
+1. Instalar Java -> https://download.oracle.com/java/18/archive/jdk-18.0.2.1_windows-x64_bin.exe
+2. Dirigirnos a IPS2022-PL61\hsqldb\hsqldb\data y abrir el fichero `runServer.bat` **IMPORTANTE**: no cerrar la terminal
+3. Si se quiere ver la base de datos en físico, ejecutar después el fichero `runManagerSwing.bat` **IMPORTANTE**: no cerrar la terminal
 
 ---
