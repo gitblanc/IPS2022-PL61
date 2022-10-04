@@ -8,3 +8,10 @@
 3. Si se quiere ver la base de datos en físico, ejecutar después el fichero `runManagerSwing.bat` **IMPORTANTE**: no cerrar la terminal
 
 ---
+## Cómo crear la base de datos 👣
+1. Comentar las queries de eliminar tablas
+2. Ejecutar el main de CreateDatabase
+
+(Si se quiere reinicializar la base de datos, descomentar los drops y ejecutar el main de nuevo)
+
+---
