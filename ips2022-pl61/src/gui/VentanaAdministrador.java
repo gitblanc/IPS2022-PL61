@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logic.Administrador;
+import logic.Aplicacion;
 
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
@@ -20,7 +21,8 @@ import java.awt.event.ActionEvent;
 public class VentanaAdministrador extends JFrame {
 
 	private JPanel contentPane;
-	private Administrador admin = new Administrador();
+	private Aplicacion app = new Aplicacion();
+	private Administrador admin = new Administrador(app);
 
 	/**
 	 * Launch the application.

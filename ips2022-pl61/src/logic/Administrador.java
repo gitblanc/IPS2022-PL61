@@ -9,8 +9,15 @@ package logic;
  */
 public class Administrador {
 
+	private Aplicacion app;
+	
+	public Administrador(Aplicacion app) {
+		if(app != null)
+			this.app = app;
+		System.out.println("No se pudo crear el administrador");
+	}
+
 	public void crearActividad() {
-		// TODO Auto-generated method stub
-		
+		app.addActividad(new Actividad());
 	}
 }
