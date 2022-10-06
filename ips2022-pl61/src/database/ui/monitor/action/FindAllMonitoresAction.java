@@ -17,7 +17,7 @@ public class FindAllMonitoresAction implements Action {
 
 	@Override
 	public void execute() {
-		Console.println("--- Lista de monitorwas ---");
+		Console.println("--- Lista de monitores ---");
 		MonitorService sm = BusinessFactory.forMonitorService();
 		for (MonitorBLDto s : sm.findAllMonitor())
 			Console.println(s.id + " - " + s.nombre + " - " + s.apellidos + " - " + s.correo);
