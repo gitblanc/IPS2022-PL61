@@ -61,6 +61,8 @@ public class CreateDatabase {
 		String crearCursillo = "create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, "
 				+ "duracion varchar(20) not null, horario date not null)";
 		String crearListaEspera = "create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)";
+		String crearAdministracion = "create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null"
+				+ ", apellidos_a varchar(50) not null, correo_a varchar(50) not null)";
 //
 
 		String dropSocios = "drop table socio";
@@ -71,6 +73,7 @@ public class CreateDatabase {
 		String dropActividad = "drop table actividad";
 		String dropCursillo = "drop table cursillo";
 		String dropListaEspera = "drop table lista_espera";
+		String dropAdministracion = "drop table administracion";
 
 		createQueries.add(crearSocios);
 		createQueries.add(crearMonitor);
@@ -80,6 +83,7 @@ public class CreateDatabase {
 		createQueries.add(crearActividad);
 		createQueries.add(crearCursillo);
 		createQueries.add(crearListaEspera);
+		createQueries.add(crearAdministracion);
 
 		dropTables.add(dropSocios);
 		dropTables.add(dropMonitor);
@@ -89,5 +93,6 @@ public class CreateDatabase {
 		dropTables.add(dropActividad);
 		dropTables.add(dropCursillo);
 		dropTables.add(dropListaEspera);
+		dropTables.add(dropAdministracion);
 	}
 }
