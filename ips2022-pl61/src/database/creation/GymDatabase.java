@@ -1,7 +1,7 @@
 /**
  * 
  */
-package database;
+package database.creation;
 
 import java.sql.*;
 
