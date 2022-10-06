@@ -22,7 +22,7 @@ public class DeleteSocio {
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	private SocioBLDto socio = null;
+	private SocioBLDto socio = new SocioBLDto();
 
 	public DeleteSocio(String idSocio) {
 		Argument.isNotNull(idSocio);

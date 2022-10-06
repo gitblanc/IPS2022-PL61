@@ -18,7 +18,7 @@ import database.business.socio.SocioService.SocioBLDto;
  */
 public class UpdateSocio {
 
-	private static String SQL = "update Socio set nombre_s = ?, apellidos_s = ?, correo_s = ?" + "where id = ?";
+	private static String SQL = "update Socio set nombre_s = ?, apellidos_s = ?, correo_s = ? where id_s = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
