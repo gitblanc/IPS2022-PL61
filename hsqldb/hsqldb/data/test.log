@@ -1,13 +1,13 @@
+/*C51*/SET SCHEMA PUBLIC
+DISCONNECT
 /*C52*/SET SCHEMA PUBLIC
-INSERT INTO SOCIO VALUES('41012833S','Edu','Blanco Bielsa','UO285176@uniovi.es')
+INSERT INTO RECURSO VALUES('gorros',20)
 COMMIT
 DISCONNECT
 /*C53*/SET SCHEMA PUBLIC
-INSERT INTO SOCIO VALUES('567567d','Adriana','Arias Coya','Uo245678@uniovi.es')
-COMMIT
 DISCONNECT
 /*C54*/SET SCHEMA PUBLIC
-INSERT INTO SOCIO VALUES('293784567','Xin','Pan Wang','89273456789@uniovi.es')
+INSERT INTO RECURSO VALUES('papel',10)
 COMMIT
 DISCONNECT
 /*C55*/SET SCHEMA PUBLIC
@@ -15,13 +15,16 @@ DISCONNECT
 /*C56*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C57*/SET SCHEMA PUBLIC
+INSERT INTO RECURSO VALUES('gafas',4)
+COMMIT
 DISCONNECT
 /*C58*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C59*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C60*/SET SCHEMA PUBLIC
-DELETE FROM SOCIO WHERE ID_S='567567d'
+DELETE FROM RECURSO WHERE NOMBRE_R='gorros' AND CANTIDAD_R=20
+INSERT INTO RECURSO VALUES('gorros',80)
 COMMIT
 DISCONNECT
 /*C61*/SET SCHEMA PUBLIC
@@ -29,149 +32,8 @@ DISCONNECT
 /*C62*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C63*/SET SCHEMA PUBLIC
-DELETE FROM SOCIO WHERE ID_S='293784567'
+DELETE FROM RECURSO WHERE NOMBRE_R='gorros' AND CANTIDAD_R=80
 COMMIT
 DISCONNECT
 /*C64*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C65*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C66*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C67*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C68*/SET SCHEMA PUBLIC
-DELETE FROM SOCIO WHERE ID_S='41012833S'
-INSERT INTO SOCIO VALUES('41012833S','wsd\u00f1ikfguhb','wsedpfgiuohb','wdljfyhb')
-COMMIT
-DISCONNECT
-/*C69*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C70*/SET SCHEMA PUBLIC
-INSERT INTO MONITOR VALUES('123434','Monitor1','sadofuji','sdvou')
-COMMIT
-DISCONNECT
-/*C71*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C72*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C73*/SET SCHEMA PUBLIC
-DELETE FROM MONITOR WHERE ID_M='123434'
-COMMIT
-DISCONNECT
-/*C74*/SET SCHEMA PUBLIC
-INSERT INTO SOCIO VALUES('12344','ssdfjovn','sdfioujn','sdgvno')
-COMMIT
-DISCONNECT
-/*C75*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C76*/SET SCHEMA PUBLIC
-INSERT INTO MONITOR VALUES('qwef','wqeff','wergg','wefg')
-COMMIT
-DISCONNECT
-/*C77*/SET SCHEMA PUBLIC
-INSERT INTO MONITOR VALUES('293876','wefvuyg','weifyg','sefho')
-COMMIT
-DISCONNECT
-/*C78*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C79*/SET SCHEMA PUBLIC
-DELETE FROM MONITOR WHERE ID_M='293876'
-COMMIT
-DISCONNECT
-/*C80*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C81*/SET SCHEMA PUBLIC
-DELETE FROM MONITOR WHERE ID_M='qwef'
-INSERT INTO MONITOR VALUES('qwef','wsdfwsgvg','actualizado','wsdfgoui')
-COMMIT
-DISCONNECT
-/*C82*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C83*/SET SCHEMA PUBLIC
-drop table socio
-drop table monitor
-drop table no_socio
-drop table instalacion
-drop table recurso
-drop table actividad
-drop table cursillo
-drop table lista_espera
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null)
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) not null, plazas int not null)
-create table recurso(nombre_r varchar(20) not null, cantidad_r int not null)
-create table actividad(id_a varchar(10) primary key, nombre_a varchar(20) not null)
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-DISCONNECT
-/*C84*/SET SCHEMA PUBLIC
-drop table socio
-drop table monitor
-drop table no_socio
-drop table instalacion
-drop table recurso
-drop table actividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null)
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) not null, plazas int not null)
-create table recurso(nombre_r varchar(20) not null, cantidad_r int not null)
-create table actividad(id_a varchar(10) primary key, nombre_a varchar(20) not null)
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-DISCONNECT
-/*C85*/SET SCHEMA PUBLIC
-INSERT INTO ADMINISTRACION VALUES('289137456','sdkvhgb','sdbvikub','bsdivkvb+\u00e7')
-COMMIT
-DISCONNECT
-/*C86*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C87*/SET SCHEMA PUBLIC
-DELETE FROM ADMINISTRACION WHERE ID_A='289137456'
-INSERT INTO ADMINISTRACION VALUES('289137456','actualizado','fiokujbn','fgdoui')
-COMMIT
-DISCONNECT
-/*C88*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C89*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C90*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C91*/SET SCHEMA PUBLIC
-DELETE FROM ADMINISTRACION WHERE ID_A='289137456'
-COMMIT
-DISCONNECT
-/*C92*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C93*/SET SCHEMA PUBLIC
-INSERT INTO ACTIVIDAD VALUES('45','Comba')
-COMMIT
-DISCONNECT
-/*C94*/SET SCHEMA PUBLIC
-INSERT INTO ACTIVIDAD VALUES('65','Bolos')
-COMMIT
-DISCONNECT
-/*C95*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C96*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C97*/SET SCHEMA PUBLIC
-DELETE FROM ACTIVIDAD WHERE ID_A='65'
-INSERT INTO ACTIVIDAD VALUES('65','Carrera')
-COMMIT
-DISCONNECT
-/*C98*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C99*/SET SCHEMA PUBLIC
-DELETE FROM ACTIVIDAD WHERE ID_A='45'
-COMMIT
-DISCONNECT
-/*C100*/SET SCHEMA PUBLIC
 DISCONNECT

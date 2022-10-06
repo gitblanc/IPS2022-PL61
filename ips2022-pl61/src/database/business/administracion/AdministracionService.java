@@ -11,7 +11,7 @@ import java.util.Optional;
  *
  */
 public interface AdministracionService {
-	// Le pasamos el admin a añadir
+	// Le pasamos el admin a aï¿½adir
 	AdministradorBLDto addAdministracion(AdministradorBLDto admin);
 
 	// Le pasamos el identificador del admin a eliminar
@@ -25,6 +25,7 @@ public interface AdministracionService {
 
 	// Devuelve una lista con todos los administradores
 	List<AdministradorBLDto> findAllAdministracion();
+
 
 	public class AdministradorBLDto {
 
