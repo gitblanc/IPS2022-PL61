@@ -1,19 +1,12 @@
-/**
- * 
- */
-package database.ui.socio;
+package database.ui.monitor;
 
 import console.Console;
-import database.ui.socio.action.AddSocioAction;
-import database.ui.socio.action.DeleteSocioAction;
-import database.ui.socio.action.FindAllAction;
-import database.ui.socio.action.UpdateSocioAction;
+import database.ui.monitor.action.AddMonitorAction;
+import database.ui.monitor.action.DeleteMonitorAction;
+import database.ui.monitor.action.FindAllMonitoresAction;
+import database.ui.monitor.action.UpdateMonitorAction;
 
-/**
- * @author UO285176
- *
- */
-public class MenuSocio {
+public class MenuMonitor {
 	private static final int EXIT = 0;
 
 	public static void main(String[] args) {
@@ -44,16 +37,16 @@ public class MenuSocio {
 		case EXIT:
 			return;
 		case 1:
-			new AddSocioAction().execute();
+			new AddMonitorAction().execute();
 			break;
 		case 2:
-			new DeleteSocioAction().execute();
+			new DeleteMonitorAction().execute();
 			break;
 		case 3:
-			new UpdateSocioAction().execute();
+			new UpdateMonitorAction().execute();
 			break;
 		case 4:
-			new FindAllAction().execute();
+			new FindAllMonitoresAction().execute();
 			break;
 		}
 
@@ -74,12 +67,11 @@ public class MenuSocio {
 	private static void showMenu() {
 		Console.println("");
 		Console.println("Selecciona una opción: ");
-		Console.println("1. Añadir un socio");
-		Console.println("2. Eliminar un socio");
-		Console.println("3. Actualizar un socio");
-		Console.println("4. Listar socios");
+		Console.println("1. Añadir un monitor");
+		Console.println("2. Eliminar un monitor");
+		Console.println("3. Actualizar un monitor");
+		Console.println("4. Listar monitores");
 		Console.println("0. Salir");
 		Console.println("");
 	}
-
 }
