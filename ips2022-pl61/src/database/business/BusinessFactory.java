@@ -3,6 +3,8 @@
  */
 package database.business;
 
+import database.business.actividad.ActividadService;
+import database.business.actividad.crud.ActividadServiceImpl;
 import database.business.administracion.AdministracionService;
 import database.business.administracion.crud.AdministracionServiceImpl;
 import database.business.monitor.MonitorService;
@@ -18,12 +20,16 @@ public class BusinessFactory {
 	public static SocioService forSocioService() {
 		return new SocioServiceImpl();
 	}
-	
+
 	public static MonitorService forMonitorService() {
 		return new MonitorServiceImpl();
 	}
-	
+
 	public static AdministracionService forAdministracionService() {
 		return new AdministracionServiceImpl();
+	}
+
+	public static ActividadService forActividadService() {
+		return new ActividadServiceImpl();
 	}
 }
