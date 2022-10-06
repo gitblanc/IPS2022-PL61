@@ -1,7 +1,7 @@
 /**
  * 
  */
-package database.ui.socio;
+package database.ui;
 
 /**
  * @author UO285176
