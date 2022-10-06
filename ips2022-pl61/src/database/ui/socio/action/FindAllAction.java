@@ -7,7 +7,7 @@ import console.Console;
 import database.business.BusinessFactory;
 import database.business.socio.SocioService;
 import database.business.socio.SocioService.SocioBLDto;
-import database.ui.socio.Action;
+import database.ui.Action;
 
 /**
  * @author UO285176
