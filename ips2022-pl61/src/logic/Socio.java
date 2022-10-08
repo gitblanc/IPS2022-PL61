@@ -1,5 +1,8 @@
 package logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Socio {
 
 	//Atributos de la clase
@@ -7,6 +10,9 @@ public class Socio {
 	private String nombreSocio;
 	private String apellidosSocio;
 	private String correoSocio;
+	
+	//Cada socio tiene una lista de actividades a la que está inscrito
+	private List<Actividad> actividadesApuntas = new ArrayList<Actividad>();
 	
 	/*
 	 * Constructor de la clase Socio
@@ -51,6 +57,21 @@ public class Socio {
 		this.correoSocio = correoSocio;
 	}
 	
+	/**
+	 * Mçetodo que añade una actividad al sociio
+	 * @param actividad de tipo Actividad
+	 */
+	public void addActividad(Actividad actividad) {
+		actividadesApuntas.add(actividad);
+	}
+
+	/**
+	 * Método que devuelve todas las actividades apuntadas por el socio
+	 * @return
+	 */
+	public List<Actividad> listarActividadesApuntadas() {
+		return actividadesApuntas;
+	}
 	
 	
 }
