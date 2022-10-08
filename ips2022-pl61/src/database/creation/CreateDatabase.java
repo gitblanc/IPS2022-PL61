@@ -54,13 +54,16 @@ public class CreateDatabase {
 				+ ", apellidos_m varchar(50) not null, correo_m varchar(50) not null)";
 		String crearNoSocio = "create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null"
 				+ ", apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)";
-		String crearRecurso = "create table recurso(nombre_r varchar(20) not null, cantidad_r int not null)";
+		String crearRecurso = "create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0))";
 		String crearInstalacion = "create table instalacion(nombre_i varchar(20) not null, plazas int not null)";
 		String crearActividad = "create table actividad(id_a varchar(10) primary key, nombre_a varchar(20) not null"
-				+ ")";
+				+ ", intensidad varchar(10) not null, nombre_r varchar(20) foreign key references Recurso(nombre_r)"
+				+ ",constraint chk_intensidad check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'))";
 		String crearCursillo = "create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, "
 				+ "duracion varchar(20) not null, horario date not null)";
 		String crearListaEspera = "create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)";
+		String crearAdministracion = "create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null"
+				+ ", apellidos_a varchar(50) not null, correo_a varchar(50) not null)";
 //
 
 		String dropSocios = "drop table socio";
@@ -71,6 +74,7 @@ public class CreateDatabase {
 		String dropActividad = "drop table actividad";
 		String dropCursillo = "drop table cursillo";
 		String dropListaEspera = "drop table lista_espera";
+		String dropAdministracion = "drop table administracion";
 
 		createQueries.add(crearSocios);
 		createQueries.add(crearMonitor);
@@ -80,14 +84,16 @@ public class CreateDatabase {
 		createQueries.add(crearActividad);
 		createQueries.add(crearCursillo);
 		createQueries.add(crearListaEspera);
+		createQueries.add(crearAdministracion);
 
 		dropTables.add(dropSocios);
 		dropTables.add(dropMonitor);
 		dropTables.add(dropNoSocio);
 		dropTables.add(dropInstalacion);
-		dropTables.add(dropRecurso);
 		dropTables.add(dropActividad);
+		dropTables.add(dropRecurso);
 		dropTables.add(dropCursillo);
 		dropTables.add(dropListaEspera);
+		dropTables.add(dropAdministracion);
 	}
 }

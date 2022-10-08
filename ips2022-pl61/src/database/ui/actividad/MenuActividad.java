@@ -1,19 +1,19 @@
 /**
  * 
  */
-package database.ui.socio;
+package database.ui.actividad;
 
 import console.Console;
-import database.ui.socio.action.AddSocioAction;
-import database.ui.socio.action.DeleteSocioAction;
-import database.ui.socio.action.FindAllAction;
-import database.ui.socio.action.UpdateSocioAction;
+import database.ui.actividad.action.AddActividadAction;
+import database.ui.actividad.action.DeleteActividadAction;
+import database.ui.actividad.action.FindAllActividadesAction;
+import database.ui.actividad.action.UpdateActividadAction;
 
 /**
  * @author UO285176
  *
  */
-public class MenuSocio {
+public class MenuActividad {
 	private static final int EXIT = 0;
 
 	public static void main(String[] args) {
@@ -44,16 +44,16 @@ public class MenuSocio {
 		case EXIT:
 			return;
 		case 1:
-			new AddSocioAction().execute();
+			new AddActividadAction().execute();
 			break;
 		case 2:
-			new DeleteSocioAction().execute();
+			new DeleteActividadAction().execute();
 			break;
 		case 3:
-			new UpdateSocioAction().execute();
+			new UpdateActividadAction().execute();
 			break;
-		case 4:
-			new FindAllAction().execute();
+		case 4:	
+			new FindAllActividadesAction().execute();
 			break;
 		}
 
@@ -74,12 +74,11 @@ public class MenuSocio {
 	private static void showMenu() {
 		Console.println("");
 		Console.println("Selecciona una opción: ");
-		Console.println("1. Añadir un socio");
-		Console.println("2. Eliminar un socio");
-		Console.println("3. Actualizar un socio");
-		Console.println("4. Listar socios");
+		Console.println("1. Añadir una actividad");
+		Console.println("2. Eliminar una actividad");
+		Console.println("3. Actualizar una actividad");
+		Console.println("4. Listar actividades");
 		Console.println("0. Salir");
 		Console.println("");
 	}
-
 }

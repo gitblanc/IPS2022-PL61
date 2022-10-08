@@ -11,7 +11,7 @@ import java.util.Optional;
  *
  */
 public interface SocioService {
-	// Le pasamos el mecánico a añadir
+	// Le pasamos el socio a añadir
 	SocioBLDto addSocio(SocioBLDto socio);
 
 	// Le pasamos el identificador del socio a eliminar
