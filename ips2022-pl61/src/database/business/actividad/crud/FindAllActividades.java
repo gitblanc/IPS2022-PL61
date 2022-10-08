@@ -40,6 +40,8 @@ public class FindAllActividades {
 				ActividadBLDto actividad = new ActividadBLDto();
 				actividad.id = rs.getString("id_a");
 				actividad.nombre = rs.getString("nombre_a");
+				actividad.intensidad = rs.getString("intensidad");
+				actividad.recurso = rs.getString("nombre_r");
 				actividades.add(actividad);
 			}
 		} catch (SQLException e) {
