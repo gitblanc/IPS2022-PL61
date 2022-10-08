@@ -21,6 +21,8 @@ public class UpdateActividadAction implements Action {
 		Console.println("Escribe los nuevos datos de la actividad que quieras:");
 		actividad.id = Console.readString("Id");
 		actividad.nombre = Console.readString("Nombre");
+		actividad.intensidad = Console.readString("Intensidad");
+		actividad.recurso = Console.readString("Recurso");
 		ActividadService as = BusinessFactory.forActividadService();
 		as.updateActividad(actividad);
 		Console.println("¡Actividad actualizada!");

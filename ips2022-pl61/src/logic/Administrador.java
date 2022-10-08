@@ -9,15 +9,16 @@ package logic;
  */
 public class Administrador {
 
-	private Aplicacion app;
-	
-	public Administrador(Aplicacion app) {
-		if(app != null)
-			this.app = app;
-		System.out.println("No se pudo crear el administrador");
-	}
-
-	public void crearActividad() {
-		app.addActividad(new Actividad());
+	/**
+	 * Método que permite que el administrador cree una actividad llamando
+	 * al método de la clase Actividad
+	 * @param id
+	 * @param nombre
+	 * @param intensidad
+	 * @param recurso
+	 */
+	public void crearActividad(String id, String nombre, String intensidad, String recurso) {
+		Actividad actividad = new Actividad();
+		actividad.crearActividad(id, nombre, intensidad, recurso);
 	}
 }
