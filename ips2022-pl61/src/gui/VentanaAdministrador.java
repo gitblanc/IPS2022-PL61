@@ -295,11 +295,11 @@ public class VentanaAdministrador extends JFrame {
 		if (!admin.crearActividad(id, nombre, intensidad, recurso)) {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.RED);
-			getLblValidacionCampos().setText("¡Los valores introducidos no son válidos, introdúcelos de nuevo!");
+			getLblValidacionCampos().setText("Â¡Los valores no son correctos, introdÃºcelos de nuevo!");
 		}else {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.GREEN);
-			getLblValidacionCampos().setText("¡Actividad creada!");
+			getLblValidacionCampos().setText("Â¡Actividad creada!");
 		}
 	}
 	private JLabel getLblValidacionCampos() {

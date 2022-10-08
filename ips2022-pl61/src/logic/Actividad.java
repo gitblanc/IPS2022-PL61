@@ -14,11 +14,11 @@ import database.business.actividad.ActividadService.ActividadBLDto;
  *
  */
 public class Actividad {
-	// factoría de actividades
+	// factorï¿½a de actividades
 	private ActividadService as = BusinessFactory.forActividadService();
 
 	/**
-	 * Método que lista todas las actividades existentes
+	 * Mï¿½todo que lista todas las actividades existentes
 	 * 
 	 * @return
 	 */
@@ -27,7 +27,7 @@ public class Actividad {
 	}
 
 	/**
-	 * Método que crea una actividad
+	 * Mï¿½todo que crea una actividad
 	 * 
 	 * @param id
 	 * @param nombre
@@ -35,7 +35,7 @@ public class Actividad {
 	 * @param recurso
 	 */
 	protected boolean crearActividad(String id, String nombre, String intensidad, String recurso) {
-		if (!validarParámetros(id, nombre, intensidad, recurso))
+		if (!validarParametros(id, nombre, intensidad, recurso))
 			return false;
 		ActividadBLDto actividad = new ActividadBLDto();
 		actividad.id = id;
@@ -44,9 +44,30 @@ public class Actividad {
 		as.addActividad(actividad);
 		return true;
 	}
+	
+	/**
+	 * Mï¿½todo que crea una actividad
+	 * 
+	 * @param id
+	 * @param nombre
+	 * @param intensidad
+	 * @param recurso
+	 * @param acceso
+	 */
+	protected boolean crearActividad(String id, String nombre, String intensidad, String recurso, String acceso) {
+		if (!validarParametros(id, nombre, intensidad, recurso))
+			return false;
+		ActividadBLDto actividad = new ActividadBLDto();
+		actividad.id = id;
+		actividad.nombre = nombre;
+		actividad.intensidad = intensidad;
+		actividad.acceso = acceso;
+		as.addActividad(actividad);
+		return true;
+	}
 
 	/**
-	 * Método que comprueba que no pasemos null, espacios en blanco o nada a la base
+	 * Mï¿½todo que comprueba que no pasemos null, espacios en blanco o nada a la base
 	 * de datos
 	 * 
 	 * @param id
@@ -55,7 +76,7 @@ public class Actividad {
 	 * @param recurso
 	 * @return
 	 */
-	private boolean validarParámetros(String id, String nombre, String intensidad, String recurso) {
+	private boolean validarParametros(String id, String nombre, String intensidad, String recurso) {
 		if (id == null || nombre == null || intensidad == null || recurso == null || id.isBlank() || nombre.isBlank()
 				|| intensidad.isBlank() || recurso.isBlank())
 			return false;
