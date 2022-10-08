@@ -1,7 +1,7 @@
 /**
  * 
  */
-package database.business.actividad.crud;
+package database.business.recursosActividad.crud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,20 +11,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.business.actividad.ActividadService.ActividadBLDto;
+import database.business.recursosActividad.RecursosActividadService.RecursosActividadBLDto;
 
 /**
  * @author UO285176
  *
  */
-public class FindAllActividades {
-	private static final String SQL = "select * from Actividad";
+public class FindAllRecursosActividad {
+	private static final String SQL = "select * from RecursosActividad";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	public List<ActividadBLDto> execute() {
-		List<ActividadBLDto> actividades = new ArrayList<>();
+	public List<RecursosActividadBLDto> execute() {
+		List<RecursosActividadBLDto> recursosActividades = new ArrayList<>();
 
 		Connection c = null;
 		PreparedStatement pst = null;
@@ -37,11 +37,10 @@ public class FindAllActividades {
 
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				ActividadBLDto actividad = new ActividadBLDto();
-				actividad.id = rs.getString("id_a");
-				actividad.nombre = rs.getString("nombre_a");
-				actividad.intensidad = rs.getString("intensidad");
-				actividades.add(actividad);
+				RecursosActividadBLDto recursosActividad = new RecursosActividadBLDto();
+				recursosActividad.actividad = rs.getString("id_a");
+				recursosActividad.recurso = rs.getString("nombre_r");
+				recursosActividades.add(recursosActividad);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -62,6 +61,6 @@ public class FindAllActividades {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return actividades;
+		return recursosActividades;
 	}
 }

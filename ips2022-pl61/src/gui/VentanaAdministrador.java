@@ -54,9 +54,12 @@ public class VentanaAdministrador extends JFrame {
 	private JTextField textFieldRecurso;
 	private JPanel panelBotonCrear;
 	private JButton btnCrearActividad;
+	private JLabel lblValidacionCampos;
+	private JButton btnVolverSeleccionAccion;
 
 	public VentanaAdministrador() {
 		getContentPane().setLayout(new CardLayout(0, 0));
+		this.setTitle("Administrador");
 		getContentPane().add(getPanelSelectorAccion(), "panelSelectorAction");
 		getContentPane().add(getPanelCrearActividad(), "panelCrearActividad");
 		this.setMinimumSize(new Dimension(850, 490));
@@ -101,6 +104,7 @@ public class VentanaAdministrador extends JFrame {
 	}
 
 	protected void mostrarPanelCrearActividad() {
+		this.setTitle("Administrador - Crear actividad");
 		((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelCrearActividad");
 	}
 
@@ -116,7 +120,7 @@ public class VentanaAdministrador extends JFrame {
 
 	private JLabel getLblAdministrador2() {
 		if (lblAdministrador2 == null) {
-			lblAdministrador2 = new JLabel("Administrador - crear actividad");
+			lblAdministrador2 = new JLabel("Administrador");
 			lblAdministrador2.setForeground(Color.BLUE);
 			lblAdministrador2.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		}
@@ -259,7 +263,10 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel getPanelBotonCrear() {
 		if (panelBotonCrear == null) {
 			panelBotonCrear = new JPanel();
-			panelBotonCrear.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 30));
+			FlowLayout fl_panelBotonCrear = new FlowLayout(FlowLayout.RIGHT, 15, 30);
+			panelBotonCrear.setLayout(fl_panelBotonCrear);
+			panelBotonCrear.add(getLblValidacionCampos());
+			panelBotonCrear.add(getBtnVolverSeleccionAccion());
 			panelBotonCrear.add(getBtnCrearActividad());
 		}
 		return panelBotonCrear;
@@ -285,6 +292,42 @@ public class VentanaAdministrador extends JFrame {
 		String nombre = getTextFieldNombre().getText();
 		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String recurso = getTextFieldRecurso().getText();
-		admin.crearActividad(id, nombre, intensidad, recurso);
+		if (!admin.crearActividad(id, nombre, intensidad, recurso)) {
+			getLblValidacionCampos().setEnabled(true);
+			getLblValidacionCampos().setForeground(Color.RED);
+			getLblValidacionCampos().setText("¡Los valores introducidos no son válidos, introdúcelos de nuevo!");
+		}else {
+			getLblValidacionCampos().setEnabled(true);
+			getLblValidacionCampos().setForeground(Color.GREEN);
+			getLblValidacionCampos().setText("¡Actividad creada!");
+		}
+	}
+	private JLabel getLblValidacionCampos() {
+		if (lblValidacionCampos == null) {
+			lblValidacionCampos = new JLabel("");
+			lblValidacionCampos.setEnabled(false);
+			lblValidacionCampos.setFont(new Font("Tahoma", Font.BOLD, 14));
+		}
+		return lblValidacionCampos;
+	}
+	private JButton getBtnVolverSeleccionAccion() {
+		if (btnVolverSeleccionAccion == null) {
+			btnVolverSeleccionAccion = new JButton("Atr\u00E1s");
+			btnVolverSeleccionAccion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPanelSeleccionAccion();
+				}
+			});
+			btnVolverSeleccionAccion.setForeground(new Color(255, 255, 255));
+			btnVolverSeleccionAccion.setBackground(new Color(100, 149, 237));
+			btnVolverSeleccionAccion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return btnVolverSeleccionAccion;
+	}
+
+	protected void mostrarPanelSeleccionAccion() {
+		((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelSelectorAction");
+		getLblValidacionCampos().setText("");
+		this.setTitle("Administrador");
 	}
 }
