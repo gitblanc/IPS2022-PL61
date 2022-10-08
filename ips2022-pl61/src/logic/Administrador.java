@@ -10,7 +10,7 @@ package logic;
 public class Administrador {
 
 	/**
-	 * Método que permite que el administrador cree una actividad llamando al método
+	 * MÃ©todo que permite que el administrador cree una actividad llamando al mï¿½todo
 	 * de la clase Actividad
 	 * 
 	 * @param id
@@ -22,4 +22,21 @@ public class Administrador {
 		Actividad actividad = new Actividad();
 		return actividad.crearActividad(id, nombre, intensidad, recurso);
 	}
+	
+	/**
+	 * MÃ©todo que permite que el administrador cree una actividad llamando al mï¿½todo
+	 * de la clase Actividad
+	 * 
+	 * @param id
+	 * @param nombre
+	 * @param intensidad
+	 * @param recurso
+	 * @param acceso
+	 */
+	public boolean crearActividad(String id, String nombre, String intensidad, String recurso, String acceso) {
+		Actividad actividad = new Actividad();
+		return actividad.crearActividad(id, nombre, intensidad, recurso, acceso);
+	}
+	
+	
 }

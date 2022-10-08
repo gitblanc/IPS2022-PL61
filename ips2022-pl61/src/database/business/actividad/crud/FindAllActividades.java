@@ -41,6 +41,7 @@ public class FindAllActividades {
 				actividad.id = rs.getString("id_a");
 				actividad.nombre = rs.getString("nombre_a");
 				actividad.intensidad = rs.getString("intensidad");
+				actividad.acceso = rs.getString("acceso");
 				actividades.add(actividad);
 			}
 		} catch (SQLException e) {
