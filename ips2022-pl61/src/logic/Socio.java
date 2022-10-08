@@ -51,4 +51,6 @@ public class Socio {
 		this.correoSocio = correoSocio;
 	}
 	
+	
+	
 }
