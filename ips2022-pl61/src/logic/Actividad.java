@@ -44,6 +44,27 @@ public class Actividad {
 		as.addActividad(actividad);
 		return true;
 	}
+	
+	/**
+	 * M�todo que crea una actividad
+	 * 
+	 * @param id
+	 * @param nombre
+	 * @param intensidad
+	 * @param recurso
+	 * @param acceso
+	 */
+	protected boolean crearActividad(String id, String nombre, String intensidad, String recurso, String acceso) {
+		if (!validarParametros(id, nombre, intensidad, recurso))
+			return false;
+		ActividadBLDto actividad = new ActividadBLDto();
+		actividad.id = id;
+		actividad.nombre = nombre;
+		actividad.intensidad = intensidad;
+		actividad.acceso = acceso;
+		as.addActividad(actividad);
+		return true;
+	}
 
 	/**
 	 * M�todo que comprueba que no pasemos null, espacios en blanco o nada a la base

@@ -41,6 +41,7 @@ public class UpdateActividad {
 			pst.setString(1, actividad.nombre);
 			pst.setString(2, actividad.intensidad);
 			pst.setString(3, actividad.id);
+			pst.setString(4, actividad.acceso);
 			
 
 			pst.executeUpdate();
