@@ -21,7 +21,7 @@ public class DeleteRecursoAction implements Action {
 		recurso.nombre = Console.readString("Introduce el nombre del recurso");
 		RecursoService rs = BusinessFactory.forRecursoService();
 		rs.deleteRecurso(recurso.nombre);
-		Console.println("Â¡Recurso eliminado!");
+		Console.println("¡Recurso eliminado!");
 	}
 
 }
