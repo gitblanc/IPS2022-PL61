@@ -23,7 +23,7 @@ public class UpdateRecursoAction implements Action {
 		recurso.cantidad = Console.readInt("Cantidad");
 		RecursoService rs = BusinessFactory.forRecursoService();
 		rs.updateRecurso(recurso);
-		Console.println("Â¡Recurso actualizado!");
+		Console.println("¡Recurso actualizado!");
 		Console.println("");
 	}
 

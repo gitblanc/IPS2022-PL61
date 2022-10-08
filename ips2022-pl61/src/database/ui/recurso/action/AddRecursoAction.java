@@ -25,7 +25,7 @@ public class AddRecursoAction implements Action {
 		RecursoService rs = BusinessFactory.forRecursoService();
 		recurso = rs.addRecurso(recurso);
 		//Print result
-		Console.println("Â¡Recurso aÃ±adido!");
+		Console.println("¡Recurso añadido!");
 		Console.println("");
 	}
 }
