@@ -21,7 +21,7 @@ public class DeleteActividadAction implements Action {
 		actividad.id = Console.readString("Introduce el id de la actividad");
 		ActividadService as = BusinessFactory.forActividadService();
 		as.deleteActividad(actividad.id);
-		Console.println("¡Actividad eliminada!");
+		Console.println("Â¡Activididad eliminada!");
 	}
 
 }
