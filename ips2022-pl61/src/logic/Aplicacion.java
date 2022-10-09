@@ -20,4 +20,12 @@ public class Aplicacion {
 				System.out.println("No se pudo añadir la actividad");
 			}
 	}
+
+	public List<Actividad> getActividadesCreadas() {
+		return actividadesCreadas;
+	}
+	
+	
+	
+	
 }
