@@ -22,6 +22,7 @@ public class AddActividadAction implements Action{
 		actividad.id = Console.readString("Id");
 		actividad.nombre = Console.readString("Nombre");
 		actividad.intensidad = Console.readString("Intensidad");
+		actividad.monitor = Console.readString("Monitor");
 		
 		ActividadService as = BusinessFactory.forActividadService();
 		as.addActividad(actividad);

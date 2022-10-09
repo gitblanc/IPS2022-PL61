@@ -31,6 +31,6 @@ public interface ActividadService {
 		public String id;
 		public String nombre;
 		public String intensidad;
-
+		public String monitor;
 	}
 }

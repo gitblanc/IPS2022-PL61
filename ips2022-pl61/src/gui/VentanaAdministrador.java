@@ -292,7 +292,7 @@ public class VentanaAdministrador extends JFrame {
 		String nombre = getTextFieldNombre().getText();
 		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String recurso = getTextFieldRecurso().getText();
-		if (!admin.crearActividad(id, nombre, intensidad, recurso)) {
+		if (!admin.crearActividad(id, nombre, intensidad, recurso, null)) {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.RED);
 			getLblValidacionCampos().setText("¡Los valores introducidos no son válidos, introdúcelos de nuevo!");
