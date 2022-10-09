@@ -3,6 +3,9 @@
  */
 package logic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import database.business.BusinessFactory;
@@ -16,6 +19,7 @@ import database.business.recursosActividad.RecursosActividadService.RecursosActi
  *
  */
 public class Actividad {
+	
 	// factoría de actividades
 	private ActividadService as = BusinessFactory.forActividadService();
 	// factoría de recursos por actividad
@@ -88,4 +92,16 @@ public class Actividad {
 		return true;
 	}
 
+//	/**
+//	 * Método que lista las actividades por hora
+//	 */
+//	public List<ActividadBLDto> ordenarActividadesPorHora() {
+//		List<ActividadBLDto> listActividades = new ArrayList<ActividadBLDto>();
+//		Collections.sort(listarActividades());
+//	}
+//
+//	@Override
+//	public int compare(ActividadBLDto o1, ActividadBLDto o2) {
+//		
+//	}
 }
