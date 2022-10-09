@@ -56,13 +56,17 @@ public class VentanaAdministrador extends JFrame {
 	private JButton btnCrearActividad;
 	private JLabel lblValidacionCampos;
 	private JButton btnVolverSeleccionAccion;
+	private JPanel panelAccesoActividad;
+	private JLabel lblNivelDeAcceso;
+	private JComboBox<String> comboBoxAcceso;
+	private JLabel lblSpace;
 
 	public VentanaAdministrador() {
+		setMinimumSize(new Dimension(870, 570));
 		getContentPane().setLayout(new CardLayout(0, 0));
 		this.setTitle("Administrador");
 		getContentPane().add(getPanelSelectorAccion(), "panelSelectorAction");
 		getContentPane().add(getPanelCrearActividad(), "panelCrearActividad");
-		this.setMinimumSize(new Dimension(850, 490));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 	}
@@ -98,7 +102,7 @@ public class VentanaAdministrador extends JFrame {
 			btnMostrarCrearActividad.setForeground(Color.WHITE);
 			btnMostrarCrearActividad.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnMostrarCrearActividad.setBackground(new Color(34, 139, 34));
-			btnMostrarCrearActividad.setBounds(138, 75, 530, 62);
+			btnMostrarCrearActividad.setBounds(164, 122, 530, 62);
 		}
 		return btnMostrarCrearActividad;
 	}
@@ -130,11 +134,12 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel getPanelTextoActividad() {
 		if (panelTextoActividad == null) {
 			panelTextoActividad = new JPanel();
-			panelTextoActividad.setLayout(new GridLayout(5, 1, 0, 0));
+			panelTextoActividad.setLayout(new GridLayout(6, 1, 0, 0));
 			panelTextoActividad.add(getPanelId());
 			panelTextoActividad.add(getPanelNombreActividad());
 			panelTextoActividad.add(getPanelIntensidadActividad());
 			panelTextoActividad.add(getPanelRecursosActividad());
+			panelTextoActividad.add(getPanelAccesoActividad());
 			panelTextoActividad.add(getPanelBotonCrear());
 		}
 		return panelTextoActividad;
@@ -268,6 +273,7 @@ public class VentanaAdministrador extends JFrame {
 			panelBotonCrear.add(getLblValidacionCampos());
 			panelBotonCrear.add(getBtnVolverSeleccionAccion());
 			panelBotonCrear.add(getBtnCrearActividad());
+			panelBotonCrear.add(getLblSpace());
 		}
 		return panelBotonCrear;
 	}
@@ -291,17 +297,19 @@ public class VentanaAdministrador extends JFrame {
 		String id = getTextFieldId().getText();
 		String nombre = getTextFieldNombre().getText();
 		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
-		String recurso = getTextFieldRecurso().getText();
-		if (!admin.crearActividad(id, nombre, intensidad, recurso)) {
+		String[] recurso = getTextFieldRecurso().getText().split(",");
+		String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
+		if (!admin.crearActividad(id, nombre, intensidad, recurso, acceso)) {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.RED);
 			getLblValidacionCampos().setText("¡Los valores no son correctos, introdúcelos de nuevo!");
-		}else {
+		} else {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.GREEN);
 			getLblValidacionCampos().setText("¡Actividad creada!");
 		}
 	}
+
 	private JLabel getLblValidacionCampos() {
 		if (lblValidacionCampos == null) {
 			lblValidacionCampos = new JLabel("");
@@ -310,6 +318,7 @@ public class VentanaAdministrador extends JFrame {
 		}
 		return lblValidacionCampos;
 	}
+
 	private JButton getBtnVolverSeleccionAccion() {
 		if (btnVolverSeleccionAccion == null) {
 			btnVolverSeleccionAccion = new JButton("Atr\u00E1s");
@@ -329,5 +338,42 @@ public class VentanaAdministrador extends JFrame {
 		((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelSelectorAction");
 		getLblValidacionCampos().setText("");
 		this.setTitle("Administrador");
+	}
+
+	private JPanel getPanelAccesoActividad() {
+		if (panelAccesoActividad == null) {
+			panelAccesoActividad = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelAccesoActividad.getLayout();
+			flowLayout.setHgap(10);
+			flowLayout.setVgap(30);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelAccesoActividad.add(getLblNivelDeAcceso());
+			panelAccesoActividad.add(getComboBoxAcceso());
+		}
+		return panelAccesoActividad;
+	}
+
+	private JLabel getLblNivelDeAcceso() {
+		if (lblNivelDeAcceso == null) {
+			lblNivelDeAcceso = new JLabel("Tipo de acceso:");
+			lblNivelDeAcceso.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblNivelDeAcceso;
+	}
+
+	private JComboBox<String> getComboBoxAcceso() {
+		if (comboBoxAcceso == null) {
+			comboBoxAcceso = new JComboBox<String>();
+			comboBoxAcceso.setModel(new DefaultComboBoxModel<String>(new String[] { "Libre acceso", "Con reserva" }));
+			comboBoxAcceso.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxAcceso;
+	}
+
+	private JLabel getLblSpace() {
+		if (lblSpace == null) {
+			lblSpace = new JLabel("");
+		}
+		return lblSpace;
 	}
 }
