@@ -8,14 +8,18 @@ import java.util.List;
 import database.business.BusinessFactory;
 import database.business.actividad.ActividadService;
 import database.business.actividad.ActividadService.ActividadBLDto;
+import database.business.recursosActividad.RecursosActividadService;
+import database.business.recursosActividad.RecursosActividadService.RecursosActividadBLDto;
 
 /**
  * @author UO285176
  *
  */
 public class Actividad {
-	// factor�a de actividades
+	// factoría de actividades
 	private ActividadService as = BusinessFactory.forActividadService();
+	// factoría de recursos por actividad
+	private RecursosActividadService ras = BusinessFactory.forRecursosActividadService();
 
 	/**
 	 * M�todo que lista todas las actividades existentes
@@ -27,26 +31,7 @@ public class Actividad {
 	}
 
 	/**
-	 * M�todo que crea una actividad
-	 * 
-	 * @param id
-	 * @param nombre
-	 * @param intensidad
-	 * @param recurso
-	 */
-	protected boolean crearActividad(String id, String nombre, String intensidad, String recurso) {
-		if (!validarParametros(id, nombre, intensidad, recurso))
-			return false;
-		ActividadBLDto actividad = new ActividadBLDto();
-		actividad.id = id;
-		actividad.nombre = nombre;
-		actividad.intensidad = intensidad;
-		as.addActividad(actividad);
-		return true;
-	}
-	
-	/**
-	 * M�todo que crea una actividad
+	 * Método que crea una actividad
 	 * 
 	 * @param id
 	 * @param nombre
@@ -54,16 +39,36 @@ public class Actividad {
 	 * @param recurso
 	 * @param acceso
 	 */
-	protected boolean crearActividad(String id, String nombre, String intensidad, String recurso, String acceso) {
+	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
 		if (!validarParametros(id, nombre, intensidad, recurso))
 			return false;
+		if (acceso == "libre acceso")
+			acceso = "libre";
+		acceso = "reserva";
 		ActividadBLDto actividad = new ActividadBLDto();
 		actividad.id = id;
 		actividad.nombre = nombre;
 		actividad.intensidad = intensidad;
 		actividad.acceso = acceso;
 		as.addActividad(actividad);
+		addRecursosActividad(id, recurso);
 		return true;
+	}
+
+	private void addRecursosActividad(String id, String[] recurso) {
+		RecursosActividadBLDto ra = new RecursosActividadBLDto();
+		ra.actividad = id;
+		// Una actividad sin recursos
+		if (recurso[0].isBlank()) {
+			ra.recurso = "sin recursos";
+			ras.addRecursosActividad(ra);
+		} // Una actividad con recursos
+		else {
+			for (int i = 0; i < recurso.length; i++) {
+				ra.recurso = recurso[i];
+				ras.addRecursosActividad(ra);
+			}
+		}
 	}
 
 	/**
@@ -76,11 +81,11 @@ public class Actividad {
 	 * @param recurso
 	 * @return
 	 */
-	private boolean validarParametros(String id, String nombre, String intensidad, String recurso) {
-		if (id == null || nombre == null || intensidad == null || recurso == null || id.isBlank() || nombre.isBlank()
-				|| intensidad.isBlank() || recurso.isBlank())
+	private boolean validarParametros(String id, String nombre, String intensidad, String[] recurso) {
+		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
+				|| intensidad.isBlank())
 			return false;
 		return true;
 	}
-	
+
 }

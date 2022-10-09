@@ -18,14 +18,14 @@ public class AddRecursoAction implements Action {
 	@Override
 	public void execute() {
 		RecursoBLDto recurso = new RecursoBLDto();
-		//Get info
+		// Get info
 		recurso.nombre = Console.readString("Nombre");
 		recurso.cantidad = Console.readInt("Cantidad");
-		
+
 		RecursoService rs = BusinessFactory.forRecursoService();
 		recurso = rs.addRecurso(recurso);
-		//Print result
-		Console.println("¡Recurso añadido!");
+		// Print result
+		Console.println("Â¡Recurso aÃ±adido!");
 		Console.println("");
 	}
 }
