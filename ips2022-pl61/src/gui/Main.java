@@ -14,7 +14,7 @@ import javax.swing.UIManager;
 public class Main {
 
 	/**
-	 * Lanza la aplicaci�n
+	 * Lanza la aplicación
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -22,9 +22,9 @@ public class Main {
 				try {
 					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 					VentanaAdministrador frame = new VentanaAdministrador();
-					VentanaSocio frame2 = new VentanaSocio();
+					//VentanaSocio frame2 = new VentanaSocio();
 					frame.setVisible(true);
-					frame2.setVisible(true);
+					//frame2.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
