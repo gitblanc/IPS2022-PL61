@@ -4,8 +4,6 @@
 package logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import database.business.BusinessFactory;
@@ -15,7 +13,7 @@ import database.business.recursosActividad.RecursosActividadService;
 import database.business.recursosActividad.RecursosActividadService.RecursosActividadBLDto;
 
 /**
- * @author UO285176
+ * @author UO285176 UO276967
  *
  */
 public class Actividad {
@@ -30,7 +28,7 @@ public class Actividad {
 	 * 
 	 * @return
 	 */
-	protected List<ActividadBLDto> listarActividades() {
+	public List<ActividadBLDto> listarActividades() {
 		return as.findAllActividades();
 	}
 
@@ -92,16 +90,27 @@ public class Actividad {
 		return true;
 	}
 
-//	/**
-//	 * Método que lista las actividades por hora
-//	 */
-//	public List<ActividadBLDto> ordenarActividadesPorHora() {
-//		List<ActividadBLDto> listActividades = new ArrayList<ActividadBLDto>();
-//		Collections.sort(listarActividades());
-//	}
-//
-//	@Override
-//	public int compare(ActividadBLDto o1, ActividadBLDto o2) {
-//		
-//	}
+	public List<ActividadBLDto> actividadesReserva() {
+		List<ActividadBLDto> listaReserva = new ArrayList<ActividadBLDto>();
+		for(ActividadBLDto a: listarActividades()) {
+			if(a.acceso.equals("reserva") || a.acceso.equals("RESERVA") || a.acceso.equals("Reserva")) {
+				listaReserva.add(a);
+			}
+		}
+		return listaReserva;
+	}
+	
+	public List<ActividadBLDto> actividadesLibre() {
+		List<ActividadBLDto> listaLibre = new ArrayList<ActividadBLDto>();
+		for(ActividadBLDto a: listarActividades()) {
+			if(a.acceso.equals("libre") || a.acceso.equals("LIBRE") || a.acceso.equals("Libre")) {
+				listaLibre.add(a);
+			}
+		}
+		return listaLibre;
+	}
+	
+	
+	
+	
 }
