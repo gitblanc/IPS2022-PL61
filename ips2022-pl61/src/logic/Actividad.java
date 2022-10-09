@@ -5,6 +5,7 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import database.business.BusinessFactory;
 import database.business.actividad.ActividadService;
@@ -18,7 +19,9 @@ import database.business.recursosActividad.RecursosActividadService.RecursosActi
  */
 public class Actividad {
 	
+
 	// factoría de actividades
+
 	private ActividadService as = BusinessFactory.forActividadService();
 	// factoría de recursos por actividad
 	private RecursosActividadService ras = BusinessFactory.forRecursosActividadService();
@@ -39,7 +42,6 @@ public class Actividad {
 	 * @param nombre
 	 * @param intensidad
 	 * @param recurso
-	 * @param acceso
 	 */
 	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
 		if (!validarParametros(id, nombre, intensidad, recurso))
@@ -86,6 +88,7 @@ public class Actividad {
 	private boolean validarParametros(String id, String nombre, String intensidad, String[] recurso) {
 		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
 				|| intensidad.isBlank())
+
 			return false;
 		return true;
 	}
@@ -108,6 +111,7 @@ public class Actividad {
 			}
 		}
 		return listaLibre;
+
 	}
 	
 	

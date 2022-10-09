@@ -22,6 +22,7 @@ public class Administrador {
 	public boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
 		Actividad actividad = new Actividad();
 		return actividad.crearActividad(id, nombre, intensidad, recurso, acceso);
+
 	}
 
 	
