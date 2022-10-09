@@ -66,7 +66,8 @@ public class CreateDatabase {
 				+ ", apellidos_a varchar(50) not null, correo_a varchar(50) not null)";
 		String crearRecursosActividad = "create table RecursosActividad(id_a varchar(10) foreign key references Actividad(id_a)"
 				+ ",nombre_r varchar(20) foreign key references Recurso(nombre_r))";
-//
+		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
+		//
 
 		String dropSocios = "drop table socio";
 		String dropMonitor = "drop table monitor";
@@ -84,6 +85,7 @@ public class CreateDatabase {
 		createQueries.add(crearNoSocio);
 		createQueries.add(crearInstalacion);
 		createQueries.add(crearRecurso);
+		createQueries.add(crearSinRecursos);
 		createQueries.add(crearActividad);
 		createQueries.add(crearCursillo);
 		createQueries.add(crearListaEspera);
