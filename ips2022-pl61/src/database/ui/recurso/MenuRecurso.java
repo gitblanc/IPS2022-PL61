@@ -64,7 +64,7 @@ public class MenuRecurso {
 		Integer opt;
 
 		do {
-			Console.print("Opción:");
+			Console.print("OpciÃ³n:");
 			opt = Console.readInt();
 
 		} while (opt == null || opt < EXIT);
@@ -74,8 +74,8 @@ public class MenuRecurso {
 
 	private static void showMenu() {
 		Console.println("");
-		Console.println("Selecciona una opción: ");
-		Console.println("1. Añadir un recurso");
+		Console.println("Selecciona una opciÃ³n: ");
+		Console.println("1. AÃ±adir un recurso");
 		Console.println("2. Eliminar un recurso");
 		Console.println("3. Actualizar un recurso");
 		Console.println("4. Listar recursos");

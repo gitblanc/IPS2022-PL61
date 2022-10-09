@@ -10,21 +10,24 @@ import java.util.Optional;
 import database.business.BusinessFactory;
 import database.business.actividad.ActividadService;
 import database.business.actividad.ActividadService.ActividadBLDto;
+import database.business.recursosActividad.RecursosActividadService;
+import database.business.recursosActividad.RecursosActividadService.RecursosActividadBLDto;
 
 /**
- * @author UO285176
+ * @author UO285176 UO276967
  *
  */
 public class Actividad {
 	
-	// lista de socios apuntados a una actividad
-	private List<Socio> sociosApuntados = new ArrayList<>();
-	
-	// factoría de actividades
+
+	// factorÃ­a de actividades
+
 	private ActividadService as = BusinessFactory.forActividadService();
+	// factorÃ­a de recursos por actividad
+	private RecursosActividadService ras = BusinessFactory.forRecursosActividadService();
 
 	/**
-	 * Método que lista todas las actividades existentes
+	 * Mï¿½todo que lista todas las actividades existentes
 	 * 
 	 * @return
 	 */
@@ -33,28 +36,47 @@ public class Actividad {
 	}
 
 	/**
-	 * Método que crea una actividad
+	 * MÃ©todo que crea una actividad
 	 * 
 	 * @param id
 	 * @param nombre
 	 * @param intensidad
 	 * @param recurso
-	 * @param monitor
 	 */
-	protected boolean crearActividad(String id, String nombre, String intensidad, String recurso, String id_m) {
-		if (!validarParámetros(id, nombre, intensidad, recurso, id_m))
+	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
+		if (!validarParametros(id, nombre, intensidad, recurso))
 			return false;
+		if (acceso == "libre acceso")
+			acceso = "libre";
+		acceso = "reserva";
 		ActividadBLDto actividad = new ActividadBLDto();
 		actividad.id = id;
 		actividad.nombre = nombre;
 		actividad.intensidad = intensidad;
-		actividad.monitor = id_m;
+		actividad.acceso = acceso;
 		as.addActividad(actividad);
+		addRecursosActividad(id, recurso);
 		return true;
 	}
 
+	private void addRecursosActividad(String id, String[] recurso) {
+		RecursosActividadBLDto ra = new RecursosActividadBLDto();
+		ra.actividad = id;
+		// Una actividad sin recursos
+		if (recurso[0].isBlank()) {
+			ra.recurso = "sin recursos";
+			ras.addRecursosActividad(ra);
+		} // Una actividad con recursos
+		else {
+			for (int i = 0; i < recurso.length; i++) {
+				ra.recurso = recurso[i];
+				ras.addRecursosActividad(ra);
+			}
+		}
+	}
+
 	/**
-	 * Método que comprueba que no pasemos null, espacios en blanco o nada a la base
+	 * Mï¿½todo que comprueba que no pasemos null, espacios en blanco o nada a la base
 	 * de datos
 	 * 
 	 * @param id
@@ -63,42 +85,33 @@ public class Actividad {
 	 * @param recurso
 	 * @return
 	 */
-	private boolean validarParámetros(String id, String nombre, String intensidad, String recurso, String id_m) {
-		if (id == null || nombre == null || intensidad == null || recurso == null || id_m == null|| id.isBlank() || nombre.isBlank()
-				|| intensidad.isBlank() || recurso.isBlank()|| id_m.isBlank())
+	private boolean validarParametros(String id, String nombre, String intensidad, String[] recurso) {
+		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
+				|| intensidad.isBlank())
+
 			return false;
 		return true;
 	}
 
-	public List<Socio> getSociosApuntados() {
-	
-		return sociosApuntados;
-	}
-
-	public ActividadService getAs() {
-		return as;
-	}
-
-	public boolean comprobarMonitorActividad(String monitor, String id) {
-		List<ActividadBLDto> actividades = listarActividades();
-		for (int i=0; i<actividades.size(); i++ ) {
-			if(actividades.get(i).monitor == monitor) {
-				if (actividades.get(i).id == id) {
-					return true;
-				}
+	public List<ActividadBLDto> actividadesReserva() {
+		List<ActividadBLDto> listaReserva = new ArrayList<ActividadBLDto>();
+		for(ActividadBLDto a: listarActividades()) {
+			if(a.acceso.equals("reserva") || a.acceso.equals("RESERVA") || a.acceso.equals("Reserva")) {
+				listaReserva.add(a);
 			}
 		}
-		return false;
+		return listaReserva;
 	}
 	
-	public String[] actividadesId() {
-		List<ActividadBLDto> actividades = listarActividades();
-		String[] act = new String[actividades.size()];
-		for (int i=0; i<actividades.size(); i++) {
-			String id = actividades.get(i).id;
-			act[i] = id;
+	public List<ActividadBLDto> actividadesLibre() {
+		List<ActividadBLDto> listaLibre = new ArrayList<ActividadBLDto>();
+		for(ActividadBLDto a: listarActividades()) {
+			if(a.acceso.equals("libre") || a.acceso.equals("LIBRE") || a.acceso.equals("Libre")) {
+				listaLibre.add(a);
+			}
 		}
-		return act;
+		return listaLibre;
+
 	}
 	
 	

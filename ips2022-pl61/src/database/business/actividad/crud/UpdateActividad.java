@@ -17,7 +17,7 @@ import database.business.actividad.ActividadService.ActividadBLDto;
  *
  */
 public class UpdateActividad {
-	private static String SQL = "update Actividad set nombre_a = ?, intensidad = ? where id_a = ?";
+	private static String SQL = "update Actividad set nombre_a = ?, intensidad = ?, acceso = ?, horario = ? where id_a = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
@@ -41,7 +41,9 @@ public class UpdateActividad {
 			pst.setString(1, actividad.nombre);
 			pst.setString(2, actividad.intensidad);
 			pst.setString(3, actividad.id);
-			pst.setString(4, actividad.monitor);
+			pst.setString(4, actividad.acceso);
+			pst.setString(5,  actividad.horario);
+
 
 			pst.executeUpdate();
 

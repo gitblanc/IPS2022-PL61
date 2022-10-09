@@ -17,7 +17,9 @@ import database.business.actividad.ActividadService.ActividadBLDto;
  *
  */
 public class AddActividad {
-	private static String SQL = "insert into Actividad(id_a, nombre_a, intensidad, id_m) values (?, ?, ?, ?)";
+
+	private static String SQL = "insert into Actividad(id_a, nombre_a, intensidad, acceso, horario) values (?, ?, ?, ?, ?)";
+
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
@@ -42,7 +44,9 @@ public class AddActividad {
 			pst.setString(1, actividad.id);
 			pst.setString(2, actividad.nombre);
 			pst.setString(3, actividad.intensidad);
-			pst.setString(4, actividad.monitor);
+			pst.setString(4, actividad.acceso);
+			pst.setString(5, actividad.horario);
+
 			pst.executeUpdate();
 
 		} catch (SQLException e) {

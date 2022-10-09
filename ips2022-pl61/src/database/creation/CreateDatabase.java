@@ -57,9 +57,8 @@ public class CreateDatabase {
 		String crearRecurso = "create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0))";
 		String crearInstalacion = "create table instalacion(nombre_i varchar(20) not null, plazas int not null)";
 		String crearActividad = "create table actividad(id_a varchar(10) primary key, nombre_a varchar(20) not null"
-				+ ", intensidad varchar(10) not null"
-				+ ",constraint chk_intensidad check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
-				+ "id_m varchar(10) foreign key references Monitor(id_m))";
+				+ ", intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
+				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), horario varchar(6)  not null)";
 		String crearCursillo = "create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, "
 				+ "duracion varchar(20) not null, horario date not null)";
 		String crearListaEspera = "create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)";
@@ -67,6 +66,10 @@ public class CreateDatabase {
 				+ ", apellidos_a varchar(50) not null, correo_a varchar(50) not null)";
 		String crearRecursosActividad = "create table RecursosActividad(id_a varchar(10) foreign key references Actividad(id_a)"
 				+ ",nombre_r varchar(20) foreign key references Recurso(nombre_r))";
+
+		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
+		//
+
 
 //     
 //		String dropSocios = "drop table socio";
@@ -80,11 +83,13 @@ public class CreateDatabase {
 //		String dropAdministracion = "drop table administracion";
 //		String dropRecursosActividad = "drop table recursosactividad";
 
-//		createQueries.add(crearSocios);
-//		createQueries.add(crearMonitor);
-//		createQueries.add(crearNoSocio);
-//		createQueries.add(crearInstalacion);
-//		createQueries.add(crearRecurso);
+
+		createQueries.add(crearSocios);
+		createQueries.add(crearMonitor);
+		createQueries.add(crearNoSocio);
+		createQueries.add(crearInstalacion);
+		createQueries.add(crearRecurso);
+		createQueries.add(crearSinRecursos);
 		createQueries.add(crearActividad);
 //		createQueries.add(crearCursillo);
 //		createQueries.add(crearListaEspera);
@@ -95,11 +100,12 @@ public class CreateDatabase {
 //		dropTables.add(dropMonitor);
 //		dropTables.add(dropNoSocio);
 //		dropTables.add(dropInstalacion);
-//		dropTables.add(dropActividad);
+//		dropTables.add(dropRecursosActividad);
 //		dropTables.add(dropRecurso);
+//		dropTables.add(dropActividad);
 //		dropTables.add(dropCursillo);
 //		dropTables.add(dropListaEspera);
 //		dropTables.add(dropAdministracion);
-//		dropTables.add(dropRecursosActividad);
-	}
+		
+			}
 }

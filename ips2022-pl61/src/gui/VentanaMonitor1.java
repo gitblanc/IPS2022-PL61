@@ -136,7 +136,7 @@ public class VentanaMonitor1 extends JFrame {
 			btnListaAsistencia = new JButton("Lista de asistencia");
 			btnListaAsistencia.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					comprobarMonitor();					
+//					comprobarMonitor();					
 				}
 			});
 			btnListaAsistencia.setBackground(Color.LIGHT_GRAY);
@@ -144,28 +144,28 @@ public class VentanaMonitor1 extends JFrame {
 		}
 		return btnListaAsistencia;
 	}
-	protected void comprobarMonitor() {
-		String name = JOptionPane.showInputDialog("Escriba el identificador de monitor");
-		if (actividad.comprobarMonitorActividad(name, getCbActividades().getSelectedItem().toString())) {
-			mostrarListaAsistencia();
-		}
-		JOptionPane.showMessageDialog(null, "Lo siento, no puede acceder a esta información ya que no es el monitor de esta actividad ");
-		
-	}
+//	protected void comprobarMonitor() {
+//		String name = JOptionPane.showInputDialog("Escriba el identificador de monitor");
+//		if (actividad.comprobarMonitorActividad(name, getCbActividades().getSelectedItem().toString())) {
+//			mostrarListaAsistencia();
+//		}
+//		JOptionPane.showMessageDialog(null, "Lo siento, no puede acceder a esta información ya que no es el monitor de esta actividad ");
+//		
+//	}
 
-	protected void mostrarListaAsistencia() {
-		((CardLayout) getContentPane().getLayout()).show(getContentPane(), "lista");
-		getTxtAListaAsistencia().setText(mostrarSocios());
-	}
+//	protected void mostrarListaAsistencia() {
+//		((CardLayout) getContentPane().getLayout()).show(getContentPane(), "lista");
+//		getTxtAListaAsistencia().setText(mostrarSocios());
+//	}
 
-	private String mostrarSocios() {
-		String s = new String();
-		List<Socio> socios = actividad.getSociosApuntados();
-		for (int i=0; i<socios.size(); i++) {
-			s = s + socios.get(i).getNombreSocio() + " " + socios.get(i).getApellidosSocio()+  "\n";
-		}
-		return s;
-	}
+//	private String mostrarSocios() {
+//		String s = new String();
+//		List<Socio> socios = actividad.getSociosApuntados();
+//		for (int i=0; i<socios.size(); i++) {
+//			s = s + socios.get(i).getNombreSocio() + " " + socios.get(i).getApellidosSocio()+  "\n";
+//		}
+//		return s;
+//	}
 
 	private JButton getBtnRegistrarAsistencia() {
 		if (btnRegistrarAsistencia == null) {
@@ -208,20 +208,20 @@ public class VentanaMonitor1 extends JFrame {
 			panelNorte = new JPanel();
 			panelNorte.setLayout(new GridLayout(2, 1, 0, 0));
 			panelNorte.add(getLblSelectAct());
-			panelNorte.add(getCbActividades());
+	//		panelNorte.add(getCbActividades());
 		}
 		return panelNorte;
 	}
-	private JComboBox<String> getCbActividades() {
-		if (cbActividades == null) {
-			
-			cbActividades = new JComboBox();
-			cbActividades.setModel(new DefaultComboBoxModel<String>(actividad.actividadesId()));
-			
-			cbActividades.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		}
-		return cbActividades;
-	}
+//	private JComboBox<String> getCbActividades() {
+//		if (cbActividades == null) {
+//			
+//			cbActividades = new JComboBox();
+//			cbActividades.setModel(new DefaultComboBoxModel<String>(actividad.actividadesId()));
+//			
+//			cbActividades.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		}
+//		return cbActividades;
+//	}
 	private JLabel getLblSelectAct() {
 		if (lblSelectAct == null) {
 			lblSelectAct = new JLabel("Seleccionar Actividad");
