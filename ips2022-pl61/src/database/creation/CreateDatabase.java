@@ -58,7 +58,7 @@ public class CreateDatabase {
 		String crearInstalacion = "create table instalacion(nombre_i varchar(20) not null, plazas int not null)";
 		String crearActividad = "create table actividad(id_a varchar(10) primary key, nombre_a varchar(20) not null"
 				+ ", intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
-				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'))";
+				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), horario varchar(6)  not null)";
 		String crearCursillo = "create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, "
 				+ "duracion varchar(20) not null, horario date not null)";
 		String crearListaEspera = "create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)";
