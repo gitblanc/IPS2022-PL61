@@ -63,7 +63,7 @@ public class MenuActividad {
 		Integer opt;
 
 		do {
-			Console.print("Opción:");
+			Console.print("OpciÃ³n:");
 			opt = Console.readInt();
 
 		} while (opt == null || opt < EXIT);
@@ -73,8 +73,8 @@ public class MenuActividad {
 
 	private static void showMenu() {
 		Console.println("");
-		Console.println("Selecciona una opción: ");
-		Console.println("1. Añadir una actividad");
+		Console.println("Selecciona una opciÃ³n: ");
+		Console.println("1. AÃ±adir una actividad");
 		Console.println("2. Eliminar una actividad");
 		Console.println("3. Actualizar una actividad");
 		Console.println("4. Listar actividades");
