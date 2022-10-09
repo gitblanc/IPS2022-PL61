@@ -42,7 +42,7 @@ public class Actividad {
 	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
 		if (!validarParametros(id, nombre, intensidad, recurso))
 			return false;
-		if(acceso == "libre acceso")
+		if (acceso == "libre acceso")
 			acceso = "libre";
 		acceso = "reserva";
 		ActividadBLDto actividad = new ActividadBLDto();
@@ -58,9 +58,16 @@ public class Actividad {
 	private void addRecursosActividad(String id, String[] recurso) {
 		RecursosActividadBLDto ra = new RecursosActividadBLDto();
 		ra.actividad = id;
-		for (int i = 0; i < recurso.length; i++) {
-			ra.recurso = recurso[i];
+		// Una actividad sin recursos
+		if (recurso[0].isBlank()) {
+			ra.recurso = "sin recursos";
 			ras.addRecursosActividad(ra);
+		} // Una actividad con recursos
+		else {
+			for (int i = 0; i < recurso.length; i++) {
+				ra.recurso = recurso[i];
+				ras.addRecursosActividad(ra);
+			}
 		}
 	}
 
@@ -75,7 +82,7 @@ public class Actividad {
 	 * @return
 	 */
 	private boolean validarParametros(String id, String nombre, String intensidad, String[] recurso) {
-		if (id == null || nombre == null || intensidad == null || recurso == null || id.isBlank() || nombre.isBlank()
+		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
 				|| intensidad.isBlank())
 			return false;
 		return true;
