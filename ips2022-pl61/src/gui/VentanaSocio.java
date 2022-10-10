@@ -182,7 +182,7 @@ public class VentanaSocio extends JFrame {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
 			panel_2.setBackground(new Color(250, 240, 230));
-			panel_2.setLayout(new GridLayout(16, 0, 0, 0));
+			panel_2.setLayout(new GridLayout(0, 1, 0, 0));
 			
 			rellenarActividades();
 		}
@@ -190,41 +190,38 @@ public class VentanaSocio extends JFrame {
 	}
 	
 	private void rellenarActividades() {
-		JButton bt = new JButton();
-		bt.setForeground(new Color(0, 100, 0));
-		bt.setBackground(new Color(0, 255, 255));
-		rellenarActividad8Reserva(bt);
-		rellenarActividad8Libre(bt);
-		rellenarActividad9Reserva(bt);
-		rellenarActividad9Libre(bt);
-		rellenarActividad10Reserva(bt);
-		rellenarActividad10Libre(bt);
-		rellenarActividad11Reserva(bt);
-		rellenarActividad11Libre(bt);
-		rellenarActividad12Reserva(bt);
-		rellenarActividad12Libre(bt);
-		rellenarActividad13Reserva(bt);
-		rellenarActividad13Libre(bt);
-		rellenarActividad14Reserva(bt);
-		rellenarActividad14Libre(bt);
-		rellenarActividad15Reserva(bt);
-		rellenarActividad15Libre(bt);
-		rellenarActividad16Reserva(bt);
-		rellenarActividad16Libre(bt);
-		rellenarActividad17Reserva(bt);
-		rellenarActividad17Libre(bt);
-		rellenarActividad18Reserva(bt);
-		rellenarActividad18Libre(bt);
-		rellenarActividad19Reserva(bt);
-		rellenarActividad19Libre(bt);	
-		rellenarActividad20Reserva(bt);
-		rellenarActividad20Libre(bt);
-		rellenarActividad21Reserva(bt);
-		rellenarActividad21Libre(bt);
-		rellenarActividad22Reserva(bt);
-		rellenarActividad22Libre(bt);
-		rellenarActividad23Reserva(bt);
-		rellenarActividad23Libre(bt);
+		rellenarActividad8Reserva();
+		rellenarActividad8Libre();
+		rellenarActividad9Reserva();
+		rellenarActividad9Libre();
+		rellenarActividad10Reserva();
+		rellenarActividad10Libre();
+		rellenarActividad11Reserva();
+		rellenarActividad11Libre();
+		rellenarActividad12Reserva();
+		rellenarActividad12Libre();
+		rellenarActividad13Reserva();
+		rellenarActividad13Libre();
+		rellenarActividad14Reserva();
+		rellenarActividad14Libre();
+		rellenarActividad15Reserva();
+		rellenarActividad15Libre();
+		rellenarActividad16Reserva();
+		rellenarActividad16Libre();
+		rellenarActividad17Reserva();
+		rellenarActividad17Libre();
+		rellenarActividad18Reserva();
+		rellenarActividad18Libre();
+		rellenarActividad19Reserva();
+		rellenarActividad19Libre();	
+		rellenarActividad20Reserva();
+		rellenarActividad20Libre();
+		rellenarActividad21Reserva();
+		rellenarActividad21Libre();
+		rellenarActividad22Reserva();
+		rellenarActividad22Libre();
+		rellenarActividad23Reserva();
+		rellenarActividad23Libre();
 	}
 	
 	
@@ -232,7 +229,10 @@ public class VentanaSocio extends JFrame {
 	//****************************************************************************************************************
 	//******************************************************************************************************************//
 		//****************************************************************************************************************
-	private void rellenarActividad8Reserva(JButton bt) {
+	private void rellenarActividad8Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("8:00")) {
 				bt.setText(a.nombre);
@@ -245,7 +245,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad8Libre(JButton bt) {
+	private void rellenarActividad8Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("8:00")) {
 				bt.setText(a.nombre);
@@ -258,7 +261,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad9Reserva(JButton bt) {
+	private void rellenarActividad9Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("9:00")) {
 				bt.setText(a.nombre);
@@ -271,7 +277,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad9Libre(JButton bt) {
+	private void rellenarActividad9Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("9:00")) {
 				bt.setText(a.nombre);
@@ -284,7 +293,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad10Reserva(JButton bt) {
+	private void rellenarActividad10Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("10:00")) {
 				bt.setText(a.nombre);
@@ -297,7 +309,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad10Libre(JButton bt) {
+	private void rellenarActividad10Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("10:00")) {
 				bt.setText(a.nombre);
@@ -310,7 +325,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad11Reserva(JButton bt) {
+	private void rellenarActividad11Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("11:00")) {
 				bt.setText(a.nombre);
@@ -323,7 +341,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad11Libre(JButton bt) {
+	private void rellenarActividad11Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("11:00")) {
 				bt.setText(a.nombre);
@@ -335,7 +356,10 @@ public class VentanaSocio extends JFrame {
 		}
 		getPanel_2_1().add(bt);
 	}
-	private void rellenarActividad12Reserva(JButton bt) {
+	private void rellenarActividad12Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("12:00")) {
 				bt.setText(a.nombre);
@@ -348,7 +372,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad12Libre(JButton bt) {
+	private void rellenarActividad12Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("12:00")) {
 				bt.setText(a.nombre);
@@ -361,7 +388,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad13Reserva(JButton bt) {
+	private void rellenarActividad13Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("13:00")) {
 				bt.setText(a.nombre);
@@ -374,7 +404,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad13Libre(JButton bt) {
+	private void rellenarActividad13Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("13:00")) {
 				bt.setText(a.nombre);
@@ -387,7 +420,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad14Reserva(JButton bt) {
+	private void rellenarActividad14Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("14:00")) {
 				bt.setText(a.nombre);
@@ -400,7 +436,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad14Libre(JButton bt) {
+	private void rellenarActividad14Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("14:00")) {
 				bt.setText(a.nombre);
@@ -413,7 +452,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad15Reserva(JButton bt) {
+	private void rellenarActividad15Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("15:00")) {
 				bt.setText(a.nombre);
@@ -426,7 +468,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad15Libre(JButton bt) {
+	private void rellenarActividad15Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("15:00")) {
 				bt.setText(a.nombre);
@@ -439,7 +484,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad16Reserva(JButton bt) {
+	private void rellenarActividad16Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("16:00")) {
 				bt.setText(a.nombre);
@@ -452,7 +500,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad16Libre(JButton bt) {
+	private void rellenarActividad16Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("16:00")) {
 				bt.setText(a.nombre);
@@ -465,7 +516,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad17Reserva(JButton bt) {
+	private void rellenarActividad17Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("17:00")) {
 				bt.setText(a.nombre);
@@ -478,7 +532,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad17Libre(JButton bt) {
+	private void rellenarActividad17Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("17:00")) {
 				bt.setText(a.nombre);
@@ -491,7 +548,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad18Reserva(JButton bt) {
+	private void rellenarActividad18Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("18:00")) {
 				bt.setText(a.nombre);
@@ -504,7 +564,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad18Libre(JButton bt) {
+	private void rellenarActividad18Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("18:00")) {
 				bt.setText(a.nombre);
@@ -517,7 +580,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad19Reserva(JButton bt) {
+	private void rellenarActividad19Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("19:00")) {
 				bt.setText(a.nombre);
@@ -530,7 +596,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad19Libre(JButton bt) {
+	private void rellenarActividad19Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("19:00")) {
 				bt.setText(a.nombre);
@@ -542,7 +611,10 @@ public class VentanaSocio extends JFrame {
 		}
 		getPanel_2_1().add(bt);
 	}
-	private void rellenarActividad20Reserva(JButton bt) {
+	private void rellenarActividad20Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("20:00")) {
 				bt.setText(a.nombre);
@@ -555,7 +627,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad20Libre(JButton bt) {
+	private void rellenarActividad20Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("20:00")) {
 				bt.setText(a.nombre);
@@ -568,7 +643,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad21Reserva(JButton bt) {
+	private void rellenarActividad21Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("21:00")) {
 				bt.setText(a.nombre);
@@ -581,7 +659,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad21Libre(JButton bt) {
+	private void rellenarActividad21Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("21:00")) {
 				bt.setText(a.nombre);
@@ -593,7 +674,10 @@ public class VentanaSocio extends JFrame {
 		}
 		getPanel_2_1().add(bt);
 	}
-	private void rellenarActividad22Reserva(JButton bt) {
+	private void rellenarActividad22Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("22:00")) {
 				bt.setText(a.nombre);
@@ -606,7 +690,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad22Libre(JButton bt) {
+	private void rellenarActividad22Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("22:00")) {
 				bt.setText(a.nombre);
@@ -619,7 +706,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad23Reserva(JButton bt) {
+	private void rellenarActividad23Reserva() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesReserva()) {
 			if(a.horario.equals("23:00")) {
 				bt.setText(a.nombre);
@@ -632,7 +722,10 @@ public class VentanaSocio extends JFrame {
 		getPanel_2_1().add(bt);
 	}
 	
-	private void rellenarActividad23Libre(JButton bt) {
+	private void rellenarActividad23Libre() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
 		for(ActividadBLDto a: actividad.actividadesLibre()) {
 			if(a.horario.equals("23:00")) {
 				bt.setText(a.nombre);
