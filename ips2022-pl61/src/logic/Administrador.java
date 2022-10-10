@@ -19,9 +19,9 @@ public class Administrador {
 	 * @param recurso
 	 * @param acceso
 	 */
-	public boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
+	public boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso, String horario) {
 		Actividad actividad = new Actividad();
-		return actividad.crearActividad(id, nombre, intensidad, recurso, acceso);
+		return actividad.crearActividad(id, nombre, intensidad, recurso, acceso, horario);
 
 	}
 
