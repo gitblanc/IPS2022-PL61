@@ -71,17 +71,17 @@ public class CreateDatabase {
 		//
 
 
-//     
-//		String dropSocios = "drop table socio";
-//		String dropMonitor = "drop table monitor";
-//		String dropNoSocio = "drop table no_socio";
-//		String dropInstalacion = "drop table instalacion";
-//		String dropRecurso = "drop table recurso";
+     
+		String dropSocios = "drop table socio";
+		String dropMonitor = "drop table monitor";
+		String dropNoSocio = "drop table no_socio";
+		String dropInstalacion = "drop table instalacion";
+		String dropRecurso = "drop table recurso";
 		String dropActividad = "drop table actividad";
-//		String dropCursillo = "drop table cursillo";
-//		String dropListaEspera = "drop table lista_espera";
-//		String dropAdministracion = "drop table administracion";
-//		String dropRecursosActividad = "drop table recursosactividad";
+		String dropCursillo = "drop table cursillo";
+		String dropListaEspera = "drop table lista_espera";
+		String dropAdministracion = "drop table administracion";
+		String dropRecursosActividad = "drop table recursosactividad";
 
 
 		createQueries.add(crearSocios);
@@ -91,21 +91,21 @@ public class CreateDatabase {
 		createQueries.add(crearRecurso);
 		createQueries.add(crearSinRecursos);
 		createQueries.add(crearActividad);
-//		createQueries.add(crearCursillo);
-//		createQueries.add(crearListaEspera);
-//		createQueries.add(crearAdministracion);
-//		createQueries.add(crearRecursosActividad);
+		createQueries.add(crearCursillo);
+		createQueries.add(crearListaEspera);
+		createQueries.add(crearAdministracion);
+		createQueries.add(crearRecursosActividad);
 
-//		dropTables.add(dropSocios);
-//		dropTables.add(dropMonitor);
-//		dropTables.add(dropNoSocio);
-//		dropTables.add(dropInstalacion);
-//		dropTables.add(dropRecursosActividad);
-//		dropTables.add(dropRecurso);
-//		dropTables.add(dropActividad);
-//		dropTables.add(dropCursillo);
-//		dropTables.add(dropListaEspera);
-//		dropTables.add(dropAdministracion);
+		dropTables.add(dropSocios);
+		dropTables.add(dropMonitor);
+		dropTables.add(dropNoSocio);
+		dropTables.add(dropInstalacion);
+		dropTables.add(dropRecursosActividad);
+		dropTables.add(dropRecurso);
+		dropTables.add(dropActividad);
+		dropTables.add(dropCursillo);
+		dropTables.add(dropListaEspera);
+		dropTables.add(dropAdministracion);
 		
 			}
 }
