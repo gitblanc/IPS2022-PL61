@@ -43,7 +43,7 @@ public class Actividad {
 	 * @param intensidad
 	 * @param recurso
 	 */
-	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
+	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso, String horario) {
 		if (!validarParametros(id, nombre, intensidad, recurso))
 			return false;
 		if (acceso == "libre acceso")
@@ -54,6 +54,7 @@ public class Actividad {
 		actividad.nombre = nombre;
 		actividad.intensidad = intensidad;
 		actividad.acceso = acceso;
+		actividad.horario = horario;
 		as.addActividad(actividad);
 		addRecursosActividad(id, recurso);
 		return true;
@@ -93,6 +94,10 @@ public class Actividad {
 		return true;
 	}
 
+	/**
+	 * Método que devuelve la lista de las actividades con reserva
+	 * @return
+	 */
 	public List<ActividadBLDto> actividadesReserva() {
 		List<ActividadBLDto> listaReserva = new ArrayList<ActividadBLDto>();
 		for(ActividadBLDto a: listarActividades()) {
@@ -103,6 +108,10 @@ public class Actividad {
 		return listaReserva;
 	}
 	
+	/**
+	 * Método que devuelve la lista de las actividades que no necesitan reserva
+	 * @return
+	 */
 	public List<ActividadBLDto> actividadesLibre() {
 		List<ActividadBLDto> listaLibre = new ArrayList<ActividadBLDto>();
 		for(ActividadBLDto a: listarActividades()) {
@@ -113,6 +122,10 @@ public class Actividad {
 		return listaLibre;
 
 	}
+	
+
+	
+	
 	
 	
 	

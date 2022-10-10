@@ -55,7 +55,7 @@ public class VentanaSocio extends JFrame {
 	private JLabel lblNewLabel_17;
 	
 	private Actividad actividad = new Actividad();
-	private JButton btnNewButton;
+
 
 	/**
 	 * Create the frame.
@@ -184,24 +184,471 @@ public class VentanaSocio extends JFrame {
 			panel_2.setBackground(new Color(250, 240, 230));
 			panel_2.setLayout(new GridLayout(16, 0, 0, 0));
 			
-//			rellenarActividadesReserva();
+			rellenarActividades();
 		}
 		return panel_2;
 	}
 	
-//	private void rellenarActividadesReserva() {
-//		for(ActividadBLDto a: actividad.actividadesReserva()) {
-//			JButton bt = new JButton();
-//			bt.setBackground(new Color(238, 232, 170));
-//			if(a.horario.equals()) {
-//				bt.setText(a.nombre);
-//				getPanel_2_1().ad;
-//			} else if(a.horario.equals("9:00")) {
-//				
-//			}
-//		}
-//		
-//	}
+	private void rellenarActividades() {
+		JButton bt = new JButton();
+		bt.setForeground(new Color(0, 100, 0));
+		bt.setBackground(new Color(0, 255, 255));
+		rellenarActividad8Reserva(bt);
+		rellenarActividad8Libre(bt);
+		rellenarActividad9Reserva(bt);
+		rellenarActividad9Libre(bt);
+		rellenarActividad10Reserva(bt);
+		rellenarActividad10Libre(bt);
+		rellenarActividad11Reserva(bt);
+		rellenarActividad11Libre(bt);
+		rellenarActividad12Reserva(bt);
+		rellenarActividad12Libre(bt);
+		rellenarActividad13Reserva(bt);
+		rellenarActividad13Libre(bt);
+		rellenarActividad14Reserva(bt);
+		rellenarActividad14Libre(bt);
+		rellenarActividad15Reserva(bt);
+		rellenarActividad15Libre(bt);
+		rellenarActividad16Reserva(bt);
+		rellenarActividad16Libre(bt);
+		rellenarActividad17Reserva(bt);
+		rellenarActividad17Libre(bt);
+		rellenarActividad18Reserva(bt);
+		rellenarActividad18Libre(bt);
+		rellenarActividad19Reserva(bt);
+		rellenarActividad19Libre(bt);	
+		rellenarActividad20Reserva(bt);
+		rellenarActividad20Libre(bt);
+		rellenarActividad21Reserva(bt);
+		rellenarActividad21Libre(bt);
+		rellenarActividad22Reserva(bt);
+		rellenarActividad22Libre(bt);
+		rellenarActividad23Reserva(bt);
+		rellenarActividad23Libre(bt);
+	}
+	
+	
+	//******************************************************************************************************************//
+	//****************************************************************************************************************
+	//******************************************************************************************************************//
+		//****************************************************************************************************************
+	private void rellenarActividad8Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("8:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad8Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("8:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad9Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("9:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad9Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("9:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad10Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("10:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad10Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("10:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad11Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("11:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad11Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("11:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	private void rellenarActividad12Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("12:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad12Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("12:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad13Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("13:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad13Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("13:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad14Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("14:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad14Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("14:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad15Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("15:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad15Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("15:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad16Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("16:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad16Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("16:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad17Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("17:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad17Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("17:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad18Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("18:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad18Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("18:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad19Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("19:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad19Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("19:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	private void rellenarActividad20Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("20:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad20Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("20:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad21Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("21:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad21Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("21:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	private void rellenarActividad22Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("22:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad22Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("22:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad23Reserva(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesReserva()) {
+			if(a.horario.equals("23:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(255, 140, 0));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	
+	private void rellenarActividad23Libre(JButton bt) {
+		for(ActividadBLDto a: actividad.actividadesLibre()) {
+			if(a.horario.equals("23:00")) {
+				bt.setText(a.nombre);
+				bt.setBackground(new Color(192, 192, 192));
+			} else {
+				bt.setText("Hora libre");
+				bt.setBackground(new Color(135, 206, 235));
+			}
+		}
+		getPanel_2_1().add(bt);
+	}
+	//****************************************************************************
+	//******************************************************************************************************************//
+		//****************************************************************************************************************
+	//******************************************************************************************************************//
+		//****************************************************************************************************************
 
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
@@ -322,5 +769,4 @@ public class VentanaSocio extends JFrame {
 		}
 		return lblNewLabel_17;
 	}
-
 }

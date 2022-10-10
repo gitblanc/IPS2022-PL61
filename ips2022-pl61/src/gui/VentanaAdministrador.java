@@ -60,9 +60,12 @@ public class VentanaAdministrador extends JFrame {
 	private JLabel lblNivelDeAcceso;
 	private JComboBox<String> comboBoxAcceso;
 	private JLabel lblSpace;
+	private JPanel panelHorario;
+	private JLabel lblHorario;
+	private JComboBox<String> comboBoxHorario;
 
 	public VentanaAdministrador() {
-		setMinimumSize(new Dimension(870, 570));
+		setMinimumSize(new Dimension(1000, 660));
 		getContentPane().setLayout(new CardLayout(0, 0));
 		this.setTitle("Administrador");
 		getContentPane().add(getPanelSelectorAccion(), "panelSelectorAction");
@@ -134,12 +137,13 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel getPanelTextoActividad() {
 		if (panelTextoActividad == null) {
 			panelTextoActividad = new JPanel();
-			panelTextoActividad.setLayout(new GridLayout(6, 1, 0, 0));
+			panelTextoActividad.setLayout(new GridLayout(7, 1, 0, 0));
 			panelTextoActividad.add(getPanelId());
 			panelTextoActividad.add(getPanelNombreActividad());
 			panelTextoActividad.add(getPanelIntensidadActividad());
 			panelTextoActividad.add(getPanelRecursosActividad());
 			panelTextoActividad.add(getPanelAccesoActividad());
+			panelTextoActividad.add(getPanelHorario());
 			panelTextoActividad.add(getPanelBotonCrear());
 		}
 		return panelTextoActividad;
@@ -299,7 +303,8 @@ public class VentanaAdministrador extends JFrame {
 		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String[] recurso = getTextFieldRecurso().getText().split(",");
 		String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
-		if (!admin.crearActividad(id, nombre, intensidad, recurso, acceso)) {
+		String horario = getComboBoxHorario().getSelectedItem().toString().split("@")[0].toLowerCase();
+		if (!admin.crearActividad(id, nombre, intensidad, recurso, acceso, horario)) {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.RED);
 			getLblValidacionCampos().setText("¡Los valores no son correctos, introdúcelos de nuevo!");
@@ -375,5 +380,32 @@ public class VentanaAdministrador extends JFrame {
 			lblSpace = new JLabel("");
 		}
 		return lblSpace;
+	}
+	private JPanel getPanelHorario() {
+		if (panelHorario == null) {
+			panelHorario = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelHorario.getLayout();
+			flowLayout.setVgap(30);
+			flowLayout.setHgap(10);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelHorario.add(getLblHorario());
+			panelHorario.add(getComboBoxHorario());
+		}
+		return panelHorario;
+	}
+	private JLabel getLblHorario() {
+		if (lblHorario == null) {
+			lblHorario = new JLabel("Horario: ");
+			lblHorario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblHorario;
+	}
+	private JComboBox<String> getComboBoxHorario() {
+		if (comboBoxHorario == null) {
+			comboBoxHorario = new JComboBox<String>();
+			comboBoxHorario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			comboBoxHorario.setModel(new DefaultComboBoxModel<String>(new String[] {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", ""}));
+		}
+		return comboBoxHorario;
 	}
 }
