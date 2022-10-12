@@ -47,10 +47,12 @@ public class Actividad {
 	 * @param recurso
 	 * @param instalacion
 	 * @param hora_fin
+	 * @param plazas
+	 * @param dia
 	 */
 	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso,
-			String hora_inicio, String hora_fin, String instalacion) {
-		if (!validarParametros(id, nombre, intensidad, recurso))
+			String hora_inicio, String hora_fin, String instalacion, int dia, int plazas) {
+		if (!validarParametros(id, nombre, intensidad, recurso, dia, plazas))
 			return false;
 		if (acceso == "libre acceso")
 			acceso = "libre";
@@ -63,6 +65,8 @@ public class Actividad {
 		actividad.hora_inicio = hora_inicio;
 		actividad.hora_fin = hora_fin;
 		actividad.instalacion = instalacion;
+		actividad.dia = dia;
+		actividad.plazas = plazas;
 		as.addActividad(actividad);
 		addRecursosActividad(id, recurso);
 		return true;
@@ -92,12 +96,18 @@ public class Actividad {
 	 * @param nombre
 	 * @param intensidad
 	 * @param recurso
+	 * @param plazas
+	 * @param dia
 	 * @return
 	 */
-	private boolean validarParametros(String id, String nombre, String intensidad, String[] recurso) {
+	private boolean validarParametros(String id, String nombre, String intensidad, String[] recurso, int dia,
+			int plazas) {
 		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
 				|| intensidad.isBlank())
-
+			return false;
+		if (dia < 0 || dia > 31)
+			return false;
+		if (plazas < -1 || plazas == 0)
 			return false;
 		return true;
 	}

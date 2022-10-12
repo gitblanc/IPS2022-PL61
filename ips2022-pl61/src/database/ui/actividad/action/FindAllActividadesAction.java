@@ -21,7 +21,7 @@ public class FindAllActividadesAction implements Action {
 		ActividadService sm = BusinessFactory.forActividadService();
 		for (ActividadBLDto s : sm.findAllActividades())
 			Console.println(s.id + " - " + s.nombre + " - " + s.intensidad + " - acceso por: " + s.acceso + " - "
-					+ s.hora_inicio + " - " + s.hora_fin + " - " + s.instalacion);
+					+ s.hora_inicio + " - " + s.hora_fin + " - " + s.instalacion + " - " + s.dia + " - " + s.plazas);
 	}
 
 }

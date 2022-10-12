@@ -345,7 +345,23 @@ public class VentanaAdministrador extends JFrame {
 		String hora_inicio = getComboBoxHorarioInicio().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String hora_fin = getComboBoxHorarioFin().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String instalacion = getComboBoxInstalacion().getSelectedItem().toString().split("@")[0].toLowerCase();
-		if (!admin.crearActividad(id, nombre, intensidad, recurso, acceso, hora_inicio, hora_fin, instalacion)) {
+		int dia = -1;
+		if (getTextFieldDia().getText().isBlank()) {
+			getLblValidacionCampos().setEnabled(true);
+			getLblValidacionCampos().setForeground(Color.GREEN);
+			getLblValidacionCampos().setText("¡Actividad creada!");
+			vaciarCampos();
+		} else {
+			dia = Integer.parseInt(getTextFieldDia().getText());
+		}
+		int plazas;
+		if (getTextFieldNumeroDePlazas().getText().isBlank()) {
+			plazas = -1;
+		} else {
+			plazas = Integer.parseInt(getTextFieldNumeroDePlazas().getText());
+		}
+		if (!admin.crearActividad(id, nombre, intensidad, recurso, acceso, hora_inicio, hora_fin, instalacion, dia,
+				plazas)) {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.RED);
 			getLblValidacionCampos().setText("¡Los valores no son correctos, introdúcelos de nuevo!");
@@ -355,6 +371,7 @@ public class VentanaAdministrador extends JFrame {
 			getLblValidacionCampos().setText("¡Actividad creada!");
 			vaciarCampos();
 		}
+		getLblValidacionCampos().setVisible(true);
 	}
 
 	private void vaciarCampos() {
@@ -385,6 +402,7 @@ public class VentanaAdministrador extends JFrame {
 			btnVolverSeleccionAccion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					mostrarPanel("panelSelectorAction");
+					getLblValidacionCampos().setVisible(false);
 				}
 			});
 			btnVolverSeleccionAccion.setForeground(new Color(255, 255, 255));
