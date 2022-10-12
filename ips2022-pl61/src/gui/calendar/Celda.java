@@ -11,100 +11,125 @@ import javax.swing.JButton;
  * @author UO285176
  *
  */
-@SuppressWarnings("serial")
-public class Celda extends JButton{
+public class Celda extends JButton {
+
 	public Celda(int i, int j) {
 		setContentAreaFilled(false);
 		setBorder(null);
-		pintarContenidoCelda(i,j);
+		asignarTexto(i, j);
 	}
 
-	private void pintarContenidoCelda(int x, int y) {
-		//la hora y los dias de la semana
-		if(x == 0) {
-			pintarDias(y);
-		}//las horas del dia
-		else if(x > 0 && y == 0) {
-			pintarHoras(x);
+	private void asignarTexto(int x, int y) {
+		if (x == 0) {
+			asignarDias(y);
+		} else if (y == 0) {
+			asignarHoras(x);
+		} else {
+			asignarActividades(x, y);
 		}
+
 	}
 
-	private void pintarHoras(int x) {
-		switch(x) {
-		case 1: 
-			this.setText("9:00");
-			break;
-		case 2: 
-			this.setText("10:00");
-			break;
-		case 3: 
-			this.setText("11:00");
-			break;
-		case 4: 
-			this.setText("12:00");
-			break;
-		case 5: 
-			this.setText("13:00");
-			break;
-		case 6: 
-			this.setText("14:00");
-			break;
-		case 7: 
-			this.setText("15:00");
-			break;
-		case 8: 
-			this.setText("16:00");
-			break;
-		case 9: 
-			this.setText("17:00");
-			break;
-		case 10: 
-			this.setText("18:00");
-			break;
-		case 11: 
-			this.setText("19:00");
-			break;
-		case 12: 
-			this.setText("20:00");
-			break;
-		case 13: 
-			this.setText("21:00");
-			break;
-		case 14: 
-			this.setText("22:00");
-			break;
-		default: 
-			this.setText("23:00");
-			break;
+	private void asignarActividades(int x, int y) {
+		// Hora - 9
+		if (x == 1) {
 		}
+		// Hora - 10
+		if (x == 2) {
+		}
+		// Hora - 11
+		if (x == 3) {
+		}
+		// Hora - 12
+		if (x == 4) {
+		}
+		// Hora - 13
+		if (x == 5) {
+		}
+		// Hora - 14
+		if (x == 6) {
+		}
+		// Hora - 15
+		if (x == 7) {
+		}
+		// Hora - 16
+		if (x == 8) {
+		}
+		// Hora - 17
+		if (x == 9) {
+		}
+		// Hora - 18
+		if (x == 10) {
+		}
+		// Hora - 19
+		if (x == 11) {
+		}
+		// Hora - 20
+		if (x == 12) {
+		}
+		// Hora - 21
+		if (x == 13) {
+		}
+		// Hora - 22
+		if (x == 14) {
+		}
+		// Hora - 23
+		if (x == 15) {
+		}
+
 	}
 
-	private void pintarDias(int y) {
-		switch(y) {
-		case 0:
-			this.setText("Hora");
-			this.setForeground(Color.BLUE);
-			break;
-		case 1:
-			this.setText("L");
-			break;
-		case 2,3:
-			this.setText("M");
-			break;
-		case 4:
-			this.setText("J");
-			break;
-		case 5:
-			this.setText("V");
-			break;
-		case 6:
-			this.setText("S");
-			this.setForeground(Color.RED);
-			break;
-		default:
-			this.setText("D");
-			this.setForeground(Color.RED);
-			break;
+	private void asignarHoras(int x) {
+		if (x == 1)
+			setText("9:00");
+		else if (x == 2)
+			setText("10:00");
+		else if (x == 3)
+			setText("11:00");
+		else if (x == 4)
+			setText("12:00");
+		else if (x == 5)
+			setText("13:00");
+		else if (x == 6)
+			setText("14:00");
+		else if (x == 7)
+			setText("15:00");
+		else if (x == 8)
+			setText("16:00");
+		else if (x == 9)
+			setText("17:00");
+		else if (x == 10)
+			setText("18:00");
+		else if (x == 11)
+			setText("19:00");
+		else if (x == 12)
+			setText("20:00");
+		else if (x == 13)
+			setText("21:00");
+		else if (x == 14)
+			setText("22:00");
+		else if (x == 15)
+			setText("23:00");
+	}
+
+	private void asignarDias(int y) {
+		if (y == 0) {
+			setText("Horas");
+			setForeground(Color.blue);
+		} else if (y == 1)
+			setText("L");
+		else if (y == 2 || y == 3)
+			setText("M");
+		else if (y == 4)
+			setText("J");
+		else if (y == 5)
+			setText("V");
+		else if (y == 6) {
+			setText("S");
+			setForeground(Color.RED);
+		} else if (y == 7) {
+			setText("D");
+			setForeground(Color.RED);
 		}
 	}
 }

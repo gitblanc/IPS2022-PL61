@@ -42,8 +42,9 @@ public class Actividad {
 	 * @param intensidad
 	 * @param recurso
 	 * @param acceso
+	 * @param horario 
 	 */
-	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
+	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso, String horario) {
 		if (!validarParametros(id, nombre, intensidad, recurso))
 			return false;
 		if (acceso == "libre acceso")
@@ -54,6 +55,7 @@ public class Actividad {
 		actividad.nombre = nombre;
 		actividad.intensidad = intensidad;
 		actividad.acceso = acceso;
+		actividad.horario = horario;
 		as.addActividad(actividad);
 		addRecursosActividad(id, recurso);
 		return true;
