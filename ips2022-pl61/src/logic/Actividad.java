@@ -5,11 +5,12 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import database.business.BusinessFactory;
 import database.business.actividad.ActividadService;
 import database.business.actividad.ActividadService.ActividadBLDto;
+import database.business.instalacion.InstalacionService;
+import database.business.instalacion.InstalacionService.InstalacionBLDto;
 import database.business.recursosActividad.RecursosActividadService;
 import database.business.recursosActividad.RecursosActividadService.RecursosActividadBLDto;
 
@@ -18,7 +19,6 @@ import database.business.recursosActividad.RecursosActividadService.RecursosActi
  *
  */
 public class Actividad {
-	
 
 	// factoría de actividades
 
@@ -26,8 +26,11 @@ public class Actividad {
 	// factoría de recursos por actividad
 	private RecursosActividadService ras = BusinessFactory.forRecursosActividadService();
 
+	// factoría de instalaciones
+	private static InstalacionService is = BusinessFactory.forInstalacionService();
+
 	/**
-	 * M�todo que lista todas las actividades existentes
+	 * Método que lista todas las actividades existentes
 	 * 
 	 * @return
 	 */
@@ -42,8 +45,11 @@ public class Actividad {
 	 * @param nombre
 	 * @param intensidad
 	 * @param recurso
+	 * @param instalacion
+	 * @param hora_fin
 	 */
-	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso, String horario) {
+	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso,
+			String hora_inicio, String hora_fin, String instalacion) {
 		if (!validarParametros(id, nombre, intensidad, recurso))
 			return false;
 		if (acceso == "libre acceso")
@@ -54,7 +60,9 @@ public class Actividad {
 		actividad.nombre = nombre;
 		actividad.intensidad = intensidad;
 		actividad.acceso = acceso;
-		actividad.horario = horario;
+		actividad.hora_inicio = hora_inicio;
+		actividad.hora_fin = hora_fin;
+		actividad.instalacion = instalacion;
 		as.addActividad(actividad);
 		addRecursosActividad(id, recurso);
 		return true;
@@ -77,7 +85,7 @@ public class Actividad {
 	}
 
 	/**
-	 * M�todo que comprueba que no pasemos null, espacios en blanco o nada a la base
+	 * Método que comprueba que no pasemos null, espacios en blanco o nada a la base
 	 * de datos
 	 * 
 	 * @param id
@@ -96,38 +104,47 @@ public class Actividad {
 
 	/**
 	 * Método que devuelve la lista de las actividades con reserva
+	 * 
 	 * @return
 	 */
 	public List<ActividadBLDto> actividadesReserva() {
 		List<ActividadBLDto> listaReserva = new ArrayList<ActividadBLDto>();
-		for(ActividadBLDto a: listarActividades()) {
-			if(a.acceso.equals("reserva") || a.acceso.equals("RESERVA") || a.acceso.equals("Reserva")) {
+		for (ActividadBLDto a : listarActividades()) {
+			if (a.acceso.equals("reserva") || a.acceso.equals("RESERVA") || a.acceso.equals("Reserva")) {
 				listaReserva.add(a);
 			}
 		}
 		return listaReserva;
 	}
-	
+
 	/**
 	 * Método que devuelve la lista de las actividades que no necesitan reserva
+	 * 
 	 * @return
 	 */
 	public List<ActividadBLDto> actividadesLibre() {
 		List<ActividadBLDto> listaLibre = new ArrayList<ActividadBLDto>();
-		for(ActividadBLDto a: listarActividades()) {
-			if(a.acceso.equals("libre") || a.acceso.equals("LIBRE") || a.acceso.equals("Libre")) {
+		for (ActividadBLDto a : listarActividades()) {
+			if (a.acceso.equals("libre") || a.acceso.equals("LIBRE") || a.acceso.equals("Libre")) {
 				listaLibre.add(a);
 			}
 		}
 		return listaLibre;
 
 	}
-	
 
-	
-	
-	
-	
-	
-	
+	/**
+	 * Método que devuelve las instalaciones existentes
+	 * 
+	 * @return
+	 */
+	public static String[] listarInstalaciones() {
+		List<InstalacionBLDto> instalaciones = is.findAllInstalaciones();
+		String[] result = new String[instalaciones.size()];
+		for (int i = 0; i < instalaciones.size(); i++) {
+			result[i] = instalaciones.get(i).nombre;
+		}
+		return result;
+	}
+
 }

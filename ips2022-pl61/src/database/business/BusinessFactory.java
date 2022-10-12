@@ -7,6 +7,8 @@ import database.business.actividad.ActividadService;
 import database.business.actividad.crud.ActividadServiceImpl;
 import database.business.administracion.AdministracionService;
 import database.business.administracion.crud.AdministracionServiceImpl;
+import database.business.instalacion.InstalacionService;
+import database.business.instalacion.crud.InstalacionServiceImpl;
 import database.business.monitor.MonitorService;
 import database.business.monitor.crud.MonitorServiceImpl;
 import database.business.recurso.RecursoService;
@@ -43,5 +45,9 @@ public class BusinessFactory {
 
 	public static RecursosActividadService forRecursosActividadService() {
 		return new RecursosActividadServiceImpl();
+	}
+
+	public static InstalacionService forInstalacionService() {
+		return new InstalacionServiceImpl();
 	}
 }
