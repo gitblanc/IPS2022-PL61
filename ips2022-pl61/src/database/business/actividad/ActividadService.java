@@ -36,6 +36,8 @@ public interface ActividadService {
 		public String hora_inicio;
 		public String hora_fin;
 		public String instalacion;
+		public int dia;
+		public int plazas;
 
 
 	}
