@@ -62,14 +62,29 @@ public class VentanaAdministrador extends JFrame {
 	private JLabel lblSpace;
 	private JButton btnMostrarPlanificarActividad;
 	private JPanel panelPlanificarActividad;
-	private JPanel panelCalendario;
-	private JPanel panelInfoActividad;
-	private JLabel lblActividades;
-	private JPanel panelActividades;
-	private JComboBox<String> comboBoxHorario;
+	private JComboBox<String> comboBoxHorarioInicio;
 	// private JPanel panelCeldasCalendario;
 	private JPanel panelHorarioActividad;
 	private JLabel lblHorario;
+	private JPanel panelIntroducirIdActividad;
+	private JLabel lblIntroduceId;
+	private JPanel panelPlanificacionId;
+	private JTextField textFieldIdPlanificacion;
+	private JPanel panelBotonesAtrasYAceptar;
+	private JButton btnAceptarPlanificacion;
+	private JButton btnAtrasPlanificacion;
+	private JLabel lblA;
+	private JComboBox<String> comboBoxHorarioFin;
+	private JPanel panelInstalacion;
+	private JLabel lblInstalacion;
+	private JComboBox<String> comboBox;
+	private JPanel panelNumeroDePlazas;
+	private JLabel lblNumeroDePlazas;
+	private JTextField textFieldNumeroDePlazas;
+	private JLabel lblSinLimite;
+	private JLabel lblSinRecursos;
+	private JLabel lblDia;
+	private JTextField textFieldDia;
 
 	public VentanaAdministrador() {
 		setMinimumSize(new Dimension(870, 670));
@@ -158,13 +173,15 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel getPanelTextoActividad() {
 		if (panelTextoActividad == null) {
 			panelTextoActividad = new JPanel();
-			panelTextoActividad.setLayout(new GridLayout(7, 1, 0, 0));
+			panelTextoActividad.setLayout(new GridLayout(9, 1, 0, 0));
 			panelTextoActividad.add(getPanelId());
 			panelTextoActividad.add(getPanelNombreActividad());
 			panelTextoActividad.add(getPanelIntensidadActividad());
 			panelTextoActividad.add(getPanelRecursosActividad());
 			panelTextoActividad.add(getPanelAccesoActividad());
 			panelTextoActividad.add(getPanelHorarioActividad());
+			panelTextoActividad.add(getPanel_1_1());
+			panelTextoActividad.add(getPanel_1_2());
 			panelTextoActividad.add(getPanelBotonCrear());
 		}
 		return panelTextoActividad;
@@ -269,6 +286,7 @@ public class VentanaAdministrador extends JFrame {
 			flowLayout.setAlignment(FlowLayout.LEFT);
 			panelRecursosActividad.add(getLblRecursosActividad_1());
 			panelRecursosActividad.add(getTextFieldRecurso());
+			panelRecursosActividad.add(getLblSinRecursos());
 		}
 		return panelRecursosActividad;
 	}
@@ -324,7 +342,7 @@ public class VentanaAdministrador extends JFrame {
 		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String[] recurso = getTextFieldRecurso().getText().split(",");
 		String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
-		String horario = getComboBoxHorario().getSelectedItem().toString().split("@")[0].toLowerCase();
+		String horario = getComboBoxHorarioInicio().getSelectedItem().toString().split("@")[0].toLowerCase();
 		if (!admin.crearActividad(id, nombre, intensidad, recurso, acceso, horario)) {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.RED);
@@ -343,7 +361,7 @@ public class VentanaAdministrador extends JFrame {
 		getTextFieldRecurso().setText("");
 		getComboBoxIntensidad().setSelectedIndex(0);
 		getComboBoxAcceso().setSelectedIndex(0);
-		getComboBoxHorario().setSelectedIndex(0);
+		getComboBoxHorarioInicio().setSelectedIndex(0);
 	}
 
 	private JLabel getLblValidacionCampos() {
@@ -426,49 +444,11 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel getPanelPlanificarActividad() {
 		if (panelPlanificarActividad == null) {
 			panelPlanificarActividad = new JPanel();
-			panelPlanificarActividad.setLayout(new GridLayout(0, 2, 0, 0));
-			panelPlanificarActividad.add(getPanelCalendario());
-			panelPlanificarActividad.add(getPanelInfoActividad());
+			panelPlanificarActividad.setBackground(Color.WHITE);
+			panelPlanificarActividad.setLayout(new GridLayout(0, 1, 0, 0));
+			panelPlanificarActividad.add(getPanelIntroducirIdActividad());
 		}
 		return panelPlanificarActividad;
-	}
-
-	private JPanel getPanelCalendario() {
-		if (panelCalendario == null) {
-			panelCalendario = new JPanel();
-			panelCalendario.setBackground(new Color(95, 158, 160));
-			panelCalendario.setLayout(new BorderLayout(0, 0));
-			// panelCalendario.add(getPanelCeldasCalendario(), BorderLayout.CENTER);
-		}
-		return panelCalendario;
-	}
-
-	private JPanel getPanelInfoActividad() {
-		if (panelInfoActividad == null) {
-			panelInfoActividad = new JPanel();
-			panelInfoActividad.setBackground(Color.WHITE);
-			panelInfoActividad.setLayout(new BorderLayout(0, 0));
-			panelInfoActividad.add(getLblActividades(), BorderLayout.NORTH);
-			panelInfoActividad.add(getPanelActividades(), BorderLayout.CENTER);
-		}
-		return panelInfoActividad;
-	}
-
-	private JLabel getLblActividades() {
-		if (lblActividades == null) {
-			lblActividades = new JLabel("Actividades");
-			lblActividades.setHorizontalAlignment(SwingConstants.CENTER);
-			lblActividades.setFont(new Font("Times New Roman", Font.BOLD, 34));
-		}
-		return lblActividades;
-	}
-
-	private JPanel getPanelActividades() {
-		if (panelActividades == null) {
-			panelActividades = new JPanel();
-			panelActividades.setBackground(Color.WHITE);
-		}
-		return panelActividades;
 	}
 
 	private JPanel getPanelHorarioActividad() {
@@ -479,27 +459,192 @@ public class VentanaAdministrador extends JFrame {
 			fl_panelHorarioActividad.setHgap(10);
 			fl_panelHorarioActividad.setAlignment(FlowLayout.LEFT);
 			panelHorarioActividad.add(getLblHorario());
-			panelHorarioActividad.add(getComboBoxHorario());
+			panelHorarioActividad.add(getComboBoxHorarioInicio());
+			panelHorarioActividad.add(getLblA());
+			panelHorarioActividad.add(getComboBoxHorarioFin());
+			panelHorarioActividad.add(getLblDia());
+			panelHorarioActividad.add(getTextFieldDia());
 		}
 		return panelHorarioActividad;
 	}
 
 	private JLabel getLblHorario() {
 		if (lblHorario == null) {
-			lblHorario = new JLabel("Horario: ");
+			lblHorario = new JLabel("Horario:   de");
 			lblHorario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lblHorario;
 	}
 
-	private JComboBox<String> getComboBoxHorario() {
-		if (comboBoxHorario == null) {
-			comboBoxHorario = new JComboBox<String>();
-			comboBoxHorario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			comboBoxHorario.setModel(new DefaultComboBoxModel<String>(
-					new String[] { "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
-							"18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "" }));
+	private JComboBox<String> getComboBoxHorarioInicio() {
+		if (comboBoxHorarioInicio == null) {
+			comboBoxHorarioInicio = new JComboBox<String>();
+			comboBoxHorarioInicio.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			comboBoxHorarioInicio.setModel(new DefaultComboBoxModel(new String[] {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"}));
 		}
-		return comboBoxHorario;
+		return comboBoxHorarioInicio;
+	}
+	private JPanel getPanelIntroducirIdActividad() {
+		if (panelIntroducirIdActividad == null) {
+			panelIntroducirIdActividad = new JPanel();
+			panelIntroducirIdActividad.setBackground(Color.WHITE);
+			panelIntroducirIdActividad.setLayout(new GridLayout(3, 1, 0, 0));
+			panelIntroducirIdActividad.add(getLblIntroduceId());
+			panelIntroducirIdActividad.add(getPanelPlanificacionId());
+			panelIntroducirIdActividad.add(getPanelBotonesAtrasYAceptar());
+		}
+		return panelIntroducirIdActividad;
+	}
+	private JLabel getLblIntroduceId() {
+		if (lblIntroduceId == null) {
+			lblIntroduceId = new JLabel("Introduce el id de la actividad:");
+			lblIntroduceId.setFont(new Font("Tahoma", Font.PLAIN, 30));
+			lblIntroduceId.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblIntroduceId;
+	}
+	private JPanel getPanelPlanificacionId() {
+		if (panelPlanificacionId == null) {
+			panelPlanificacionId = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelPlanificacionId.getLayout();
+			flowLayout.setVgap(20);
+			panelPlanificacionId.setBackground(new Color(95, 158, 160));
+			panelPlanificacionId.add(getTextFieldIdPlanificacion());
+		}
+		return panelPlanificacionId;
+	}
+	private JTextField getTextFieldIdPlanificacion() {
+		if (textFieldIdPlanificacion == null) {
+			textFieldIdPlanificacion = new JTextField();
+			textFieldIdPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			textFieldIdPlanificacion.setColumns(20);
+		}
+		return textFieldIdPlanificacion;
+	}
+	private JPanel getPanelBotonesAtrasYAceptar() {
+		if (panelBotonesAtrasYAceptar == null) {
+			panelBotonesAtrasYAceptar = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelBotonesAtrasYAceptar.getLayout();
+			flowLayout.setHgap(20);
+			flowLayout.setVgap(170);
+			flowLayout.setAlignment(FlowLayout.RIGHT);
+			panelBotonesAtrasYAceptar.setBackground(new Color(95, 158, 160));
+			panelBotonesAtrasYAceptar.add(getBtnAtrasPlanificacion());
+			panelBotonesAtrasYAceptar.add(getBtnAceptarPlanificacion());
+		}
+		return panelBotonesAtrasYAceptar;
+	}
+	private JButton getBtnAceptarPlanificacion() {
+		if (btnAceptarPlanificacion == null) {
+			btnAceptarPlanificacion = new JButton("Aceptar");
+			btnAceptarPlanificacion.setBackground(new Color(124, 252, 0));
+			btnAceptarPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return btnAceptarPlanificacion;
+	}
+	private JButton getBtnAtrasPlanificacion() {
+		if (btnAtrasPlanificacion == null) {
+			btnAtrasPlanificacion = new JButton("Atrás");
+			btnAtrasPlanificacion.setBackground(new Color(135, 206, 235));
+			btnAtrasPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return btnAtrasPlanificacion;
+	}
+	private JLabel getLblA() {
+		if (lblA == null) {
+			lblA = new JLabel("a");
+			lblA.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblA;
+	}
+	private JComboBox<String> getComboBoxHorarioFin() {
+		if (comboBoxHorarioFin == null) {
+			comboBoxHorarioFin = new JComboBox<String>();
+			comboBoxHorarioFin.setModel(new DefaultComboBoxModel(new String[] {"10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"}));
+			comboBoxHorarioFin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxHorarioFin;
+	}
+	private JPanel getPanel_1_1() {
+		if (panelInstalacion == null) {
+			panelInstalacion = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelInstalacion.getLayout();
+			flowLayout.setHgap(10);
+			flowLayout.setVgap(30);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelInstalacion.add(getLblInstalacion());
+			panelInstalacion.add(getComboBox());
+		}
+		return panelInstalacion;
+	}
+	private JLabel getLblInstalacion() {
+		if (lblInstalacion == null) {
+			lblInstalacion = new JLabel("Instalación:");
+			lblInstalacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblInstalacion;
+	}
+	private JComboBox<String> getComboBox() {
+		if (comboBox == null) {
+			comboBox = new JComboBox();
+			comboBox.setModel(new DefaultComboBoxModel(new String[] {"a"}));
+			comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBox;
+	}
+	private JPanel getPanel_1_2() {
+		if (panelNumeroDePlazas == null) {
+			panelNumeroDePlazas = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelNumeroDePlazas.getLayout();
+			flowLayout.setHgap(10);
+			flowLayout.setVgap(30);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelNumeroDePlazas.add(getLblNumeroDePlazas());
+			panelNumeroDePlazas.add(getTextFieldNumeroDePlazas());
+			panelNumeroDePlazas.add(getLblSinLimite());
+		}
+		return panelNumeroDePlazas;
+	}
+	private JLabel getLblNumeroDePlazas() {
+		if (lblNumeroDePlazas == null) {
+			lblNumeroDePlazas = new JLabel("Número de plazas:");
+			lblNumeroDePlazas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblNumeroDePlazas;
+	}
+	private JTextField getTextFieldNumeroDePlazas() {
+		if (textFieldNumeroDePlazas == null) {
+			textFieldNumeroDePlazas = new JTextField();
+			textFieldNumeroDePlazas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			textFieldNumeroDePlazas.setColumns(10);
+		}
+		return textFieldNumeroDePlazas;
+	}
+	private JLabel getLblSinLimite() {
+		if (lblSinLimite == null) {
+			lblSinLimite = new JLabel("Nota: Dejar en blanco si no hay límite de plazas");
+		}
+		return lblSinLimite;
+	}
+	private JLabel getLblSinRecursos() {
+		if (lblSinRecursos == null) {
+			lblSinRecursos = new JLabel("Nota: Dejar en blanco si no se requieren recursos");
+		}
+		return lblSinRecursos;
+	}
+	private JLabel getLblDia() {
+		if (lblDia == null) {
+			lblDia = new JLabel("el día: ");
+			lblDia.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblDia;
+	}
+	private JTextField getTextFieldDia() {
+		if (textFieldDia == null) {
+			textFieldDia = new JTextField();
+			textFieldDia.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			textFieldDia.setColumns(3);
+		}
+		return textFieldDia;
 	}
 }
