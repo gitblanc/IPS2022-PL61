@@ -25,4 +25,5 @@ public class Administrador {
 		return actividad.crearActividad(id, nombre, intensidad, recurso, acceso, horario);
 	}
 
+	
 }

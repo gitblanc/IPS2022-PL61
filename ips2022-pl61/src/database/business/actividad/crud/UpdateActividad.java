@@ -44,6 +44,7 @@ public class UpdateActividad {
 			pst.setString(4, actividad.acceso);
 			pst.setString(5,  actividad.horario);
 
+
 			pst.executeUpdate();
 
 		} catch (SQLException e) {

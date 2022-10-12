@@ -69,10 +69,12 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel panelHorarioActividad;
 	private JLabel lblHorarioActividad;
 	private JComboBox<String> comboBoxHorario;
-	//private JPanel panelCeldasCalendario;
+	// private JPanel panelCeldasCalendario;
+	private JPanel panelHorario;
+	private JLabel lblHorario;
 
 	public VentanaAdministrador() {
-		setMinimumSize(new Dimension(870, 570));
+		setMinimumSize(new Dimension(1000, 660));
 		getContentPane().setLayout(new CardLayout(0, 0));
 		this.setTitle("Administrador");
 		getContentPane().add(getPanelSelectorAccion(), "panelSelectorAction");
@@ -82,7 +84,7 @@ public class VentanaAdministrador extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 
-	//POSIBLE IMPLEMENTACION
+	// POSIBLE IMPLEMENTACION
 //	private void generarCeldasCalendario() {
 //		Celda celda;
 //		for (int i = 0; i < 16; i++) {
@@ -165,6 +167,7 @@ public class VentanaAdministrador extends JFrame {
 			panelTextoActividad.add(getPanelRecursosActividad());
 			panelTextoActividad.add(getPanelAccesoActividad());
 			panelTextoActividad.add(getPanelHorarioActividad());
+			panelTextoActividad.add(getPanelHorario());
 			panelTextoActividad.add(getPanelBotonCrear());
 		}
 		return panelTextoActividad;
@@ -438,7 +441,7 @@ public class VentanaAdministrador extends JFrame {
 			panelCalendario = new JPanel();
 			panelCalendario.setBackground(new Color(95, 158, 160));
 			panelCalendario.setLayout(new BorderLayout(0, 0));
-			//panelCalendario.add(getPanelCeldasCalendario(), BorderLayout.CENTER);
+			// panelCalendario.add(getPanelCeldasCalendario(), BorderLayout.CENTER);
 		}
 		return panelCalendario;
 	}
@@ -492,6 +495,7 @@ public class VentanaAdministrador extends JFrame {
 		}
 		return panelHorarioActividad;
 	}
+
 	private JLabel getLblHorarioActividad() {
 		if (lblHorarioActividad == null) {
 			lblHorarioActividad = new JLabel("Horario:");
@@ -499,11 +503,35 @@ public class VentanaAdministrador extends JFrame {
 		}
 		return lblHorarioActividad;
 	}
+
+	private JPanel getPanelHorario() {
+		if (panelHorario == null) {
+			panelHorario = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelHorario.getLayout();
+			flowLayout.setVgap(30);
+			flowLayout.setHgap(10);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelHorario.add(getLblHorario());
+			panelHorario.add(getComboBoxHorario());
+		}
+		return panelHorario;
+	}
+
+	private JLabel getLblHorario() {
+		if (lblHorario == null) {
+			lblHorario = new JLabel("Horario: ");
+			lblHorario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblHorario;
+	}
+
 	private JComboBox<String> getComboBoxHorario() {
 		if (comboBoxHorario == null) {
-			comboBoxHorario = new JComboBox();
-			comboBoxHorario.setModel(new DefaultComboBoxModel(new String[] {"9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"}));
+			comboBoxHorario = new JComboBox<String>();
 			comboBoxHorario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			comboBoxHorario.setModel(new DefaultComboBoxModel<String>(
+					new String[] { "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
+							"18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "" }));
 		}
 		return comboBoxHorario;
 	}

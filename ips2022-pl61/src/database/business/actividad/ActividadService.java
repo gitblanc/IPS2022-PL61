@@ -33,6 +33,8 @@ public interface ActividadService {
 		public String intensidad;
 		public String acceso;
 		public String horario;
+		public String monitor;
+
 
 	}
 }
