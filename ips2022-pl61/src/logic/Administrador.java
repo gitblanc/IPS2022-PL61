@@ -20,11 +20,13 @@ public class Administrador {
 	 * @param acceso
 	 * @param instalacion
 	 * @param hora_fin
+	 * @param plazas 
+	 * @param dia 
 	 */
 	public boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso,
-			String hora_inicio, String hora_fin, String instalacion) {
+			String hora_inicio, String hora_fin, String instalacion, int dia, int plazas) {
 		Actividad actividad = new Actividad();
-		return actividad.crearActividad(id, nombre, intensidad, recurso, acceso, hora_inicio, hora_fin, instalacion);
+		return actividad.crearActividad(id, nombre, intensidad, recurso, acceso, hora_inicio, hora_fin, instalacion, dia, plazas);
 
 	}
 

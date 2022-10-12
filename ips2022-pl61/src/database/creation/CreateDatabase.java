@@ -59,7 +59,8 @@ public class CreateDatabase {
 		String crearActividad = "create table actividad(id_a varchar(10) primary key, nombre_a varchar(20) not null"
 				+ ", intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
 				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,"
-				+ "hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
+				+ "hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),"
+				+ "dia int check((dia > 0 and dia < 32)), plazas_a int check(plazas_a = -1 or plazas_a > 0))";
 		String crearCursillo = "create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, "
 				+ "duracion varchar(20) not null, horario date not null)";
 		String crearListaEspera = "create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)";
@@ -70,8 +71,6 @@ public class CreateDatabase {
 
 		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
 		
-
-
      
 		String dropSocios = "drop table socio";
 		String dropMonitor = "drop table monitor";

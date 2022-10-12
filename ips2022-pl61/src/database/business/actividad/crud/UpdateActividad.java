@@ -45,6 +45,8 @@ public class UpdateActividad {
 			pst.setString(5, actividad.hora_inicio);
 			pst.setString(6, actividad.hora_fin);
 			pst.setString(7, actividad.instalacion);
+			pst.setInt(8, actividad.dia);
+			pst.setInt(9, actividad.plazas);
 
 			pst.executeUpdate();
 
