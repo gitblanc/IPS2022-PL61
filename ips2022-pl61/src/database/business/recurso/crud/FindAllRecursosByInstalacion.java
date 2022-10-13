@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package database.business.recurso.crud;
 
 import java.sql.Connection;
@@ -5,40 +8,33 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import assertion.Argument;
 import database.business.recurso.RecursoService.RecursoBLDto;
 
 /**
- * 
- * @author uo276967
+ * @author UO285176
  *
  */
-public class AddRecurso {
+public class FindAllRecursosByInstalacion {
 
-	//Conexiones
-	private static String SQL = "insert into Recurso(nombre_r, cantidad_r, nombre_i) values (?, ?, ?)";
+	private static final String SQL = "select * from Recurso where nombre_i = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
-	
-	private RecursoBLDto recurso = null;
-	
-	/**
-	 * Constructor de la clase 
-	 * @param recurso de tipo RecursoBLDto
-	 */
-	public AddRecurso(RecursoBLDto recurso) {
-		Argument.isNotNull(recurso);
-		this.recurso = recurso;
+
+	String instalacion = "";
+
+	public FindAllRecursosByInstalacion(String instalacion) {
+		Argument.isNotNull(instalacion);
+		this.instalacion = instalacion;
 	}
-	
-	/**
-	 * Método que ejecuta la transacción
-	 * @return un RecursoBLDto
-	 */
-	public RecursoBLDto execute() {
-		// Process
+
+	public List<RecursoBLDto> execute() {
+		List<RecursoBLDto> recursos = new ArrayList<>();
+
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -47,12 +43,15 @@ public class AddRecurso {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 
 			pst = c.prepareStatement(SQL);
-			pst.setString(1, recurso.nombre);
-			pst.setInt(2, recurso.cantidad);
-			pst.setString(3, recurso.instalacion);
-
-			pst.executeUpdate();
-
+			pst.setString(1, instalacion);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				RecursoBLDto recurso = new RecursoBLDto();
+				recurso.nombre = rs.getString("nombre_r");
+				recurso.cantidad = rs.getInt("cantidad_r");
+				recurso.instalacion = rs.getString("nombre_i");
+				recursos.add(recurso);
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -72,9 +71,8 @@ public class AddRecurso {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return recurso;
+		return recursos;
+
 	}
-	
-	
-	
+
 }

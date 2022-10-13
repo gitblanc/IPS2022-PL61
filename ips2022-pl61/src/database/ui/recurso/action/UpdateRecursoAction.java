@@ -21,9 +21,10 @@ public class UpdateRecursoAction implements Action {
 		Console.println("Escribe los nuevos datos del recurso que quieras:");
 		recurso.nombre = Console.readString("Nombre");
 		recurso.cantidad = Console.readInt("Cantidad");
+		recurso.instalacion = Console.readString("Instalacion");
 		RecursoService rs = BusinessFactory.forRecursoService();
 		rs.updateRecurso(recurso);
-		Console.println("¡Recurso actualizado!");
+		Console.println("Â¡Recurso actualizado!");
 		Console.println("");
 	}
 
