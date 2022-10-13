@@ -44,6 +44,7 @@ public class FindAllRecursos {
 				RecursoBLDto recurso = new RecursoBLDto();
 				recurso.nombre = rs.getString("nombre_r");
 				recurso.cantidad = rs.getInt("cantidad_r");
+				recurso.instalacion = rs.getString("nombre_i");
 				recursos.add(recurso);
 			}
 		} catch (SQLException e) {

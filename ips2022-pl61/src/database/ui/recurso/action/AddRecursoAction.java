@@ -21,6 +21,7 @@ public class AddRecursoAction implements Action {
 		// Get info
 		recurso.nombre = Console.readString("Nombre");
 		recurso.cantidad = Console.readInt("Cantidad");
+		recurso.instalacion = Console.readString("Instalación");
 
 		RecursoService rs = BusinessFactory.forRecursoService();
 		recurso = rs.addRecurso(recurso);

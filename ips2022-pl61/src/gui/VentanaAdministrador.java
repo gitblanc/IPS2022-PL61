@@ -20,7 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import logic.Administrador;
 
@@ -36,7 +35,6 @@ public class VentanaAdministrador extends JFrame {
 
 	private JPanel panelSelectorAccion;
 	private JLabel lblAdministrador;
-	private JButton btnMostrarCrearActividad;
 	private JPanel panelCrearActividad;
 	private JLabel lblAdministrador2;
 	private JPanel panelTextoActividad;
@@ -60,19 +58,10 @@ public class VentanaAdministrador extends JFrame {
 	private JLabel lblNivelDeAcceso;
 	private JComboBox<String> comboBoxAcceso;
 	private JLabel lblSpace;
-	private JButton btnMostrarPlanificarActividad;
-	private JPanel panelPlanificarActividad;
 	private JComboBox<String> comboBoxHorarioInicio;
 	// private JPanel panelCeldasCalendario;
 	private JPanel panelHorarioActividad;
 	private JLabel lblHorario;
-	private JPanel panelIntroducirIdActividad;
-	private JLabel lblIntroduceId;
-	private JPanel panelPlanificacionId;
-	private JTextField textFieldIdPlanificacion;
-	private JPanel panelBotonesAtrasYAceptar;
-	private JButton btnAceptarPlanificacion;
-	private JButton btnAtrasPlanificacion;
 	private JLabel lblA;
 	private JComboBox<String> comboBoxHorarioFin;
 	private JPanel panelInstalacion;
@@ -85,6 +74,10 @@ public class VentanaAdministrador extends JFrame {
 	private JLabel lblSinRecursos;
 	private JLabel lblDia;
 	private JTextField textFieldDia;
+	private JPanel panelLblAdmin;
+	private JPanel panelBtnCrearActividad;
+	private JButton btnCrearYPlanificar;
+	private JComboBox<String> comboBoxRecursosInstalacion;
 
 	public VentanaAdministrador() {
 		setMinimumSize(new Dimension(870, 670));
@@ -92,7 +85,6 @@ public class VentanaAdministrador extends JFrame {
 		this.setTitle("Administrador");
 		getContentPane().add(getPanelSelectorAccion(), "panelSelectorAction");
 		getContentPane().add(getPanelCrearActividad(), "panelCrearActividad");
-		getContentPane().add(getPanelPlanificarActividad(), "panelPlanificarActividad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 	}
@@ -112,10 +104,9 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel getPanelSelectorAccion() {
 		if (panelSelectorAccion == null) {
 			panelSelectorAccion = new JPanel();
-			panelSelectorAccion.setLayout(null);
-			panelSelectorAccion.add(getLblAdministrador());
-			panelSelectorAccion.add(getBtnMostrarCrearActividad());
-			panelSelectorAccion.add(getBtnMostrarPlanificarActividad());
+			panelSelectorAccion.setLayout(new BorderLayout(0, 0));
+			panelSelectorAccion.add(getPanelLblAdmin(), BorderLayout.NORTH);
+			panelSelectorAccion.add(getPanelBtnCrearActividad(), BorderLayout.CENTER);
 		}
 		return panelSelectorAccion;
 	}
@@ -125,25 +116,8 @@ public class VentanaAdministrador extends JFrame {
 			lblAdministrador = new JLabel("Administrador");
 			lblAdministrador.setForeground(Color.BLUE);
 			lblAdministrador.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblAdministrador.setBounds(10, 11, 150, 30);
 		}
 		return lblAdministrador;
-	}
-
-	private JButton getBtnMostrarCrearActividad() {
-		if (btnMostrarCrearActividad == null) {
-			btnMostrarCrearActividad = new JButton("Crear una actividad");
-			btnMostrarCrearActividad.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					mostrarPanel("panelCrearActividad");
-				}
-			});
-			btnMostrarCrearActividad.setForeground(Color.WHITE);
-			btnMostrarCrearActividad.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			btnMostrarCrearActividad.setBackground(new Color(34, 139, 34));
-			btnMostrarCrearActividad.setBounds(164, 122, 530, 62);
-		}
-		return btnMostrarCrearActividad;
 	}
 
 	protected void mostrarPanel(String panel) {
@@ -154,6 +128,7 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel getPanelCrearActividad() {
 		if (panelCrearActividad == null) {
 			panelCrearActividad = new JPanel();
+			panelCrearActividad.setBackground(Color.WHITE);
 			panelCrearActividad.setLayout(new BorderLayout(0, 0));
 			panelCrearActividad.add(getLblAdministrador2(), BorderLayout.NORTH);
 			panelCrearActividad.add(getPanelTextoActividad(), BorderLayout.CENTER);
@@ -163,7 +138,8 @@ public class VentanaAdministrador extends JFrame {
 
 	private JLabel getLblAdministrador2() {
 		if (lblAdministrador2 == null) {
-			lblAdministrador2 = new JLabel("Administrador");
+			lblAdministrador2 = new JLabel("   Administrador");
+			lblAdministrador2.setBackground(Color.WHITE);
 			lblAdministrador2.setForeground(Color.BLUE);
 			lblAdministrador2.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		}
@@ -177,10 +153,10 @@ public class VentanaAdministrador extends JFrame {
 			panelTextoActividad.add(getPanelId());
 			panelTextoActividad.add(getPanelNombreActividad());
 			panelTextoActividad.add(getPanelIntensidadActividad());
-			panelTextoActividad.add(getPanelRecursosActividad());
 			panelTextoActividad.add(getPanelAccesoActividad());
 			panelTextoActividad.add(getPanelHorarioActividad());
 			panelTextoActividad.add(getPanel_1_1());
+			panelTextoActividad.add(getPanelRecursosActividad());
 			panelTextoActividad.add(getPanel_1_2());
 			panelTextoActividad.add(getPanelBotonCrear());
 		}
@@ -285,6 +261,7 @@ public class VentanaAdministrador extends JFrame {
 			flowLayout.setHgap(10);
 			flowLayout.setAlignment(FlowLayout.LEFT);
 			panelRecursosActividad.add(getLblRecursosActividad_1());
+			panelRecursosActividad.add(getComboBoxRecursosInstalacion());
 			panelRecursosActividad.add(getTextFieldRecurso());
 			panelRecursosActividad.add(getLblSinRecursos());
 		}
@@ -293,7 +270,7 @@ public class VentanaAdministrador extends JFrame {
 
 	private JLabel getLblRecursosActividad_1() {
 		if (lblRecursosActividad_1 == null) {
-			lblRecursosActividad_1 = new JLabel("Recursos de la actividad:");
+			lblRecursosActividad_1 = new JLabel("Recursos disponibles:");
 			lblRecursosActividad_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lblRecursosActividad_1;
@@ -303,7 +280,7 @@ public class VentanaAdministrador extends JFrame {
 		if (textFieldRecurso == null) {
 			textFieldRecurso = new JTextField();
 			textFieldRecurso.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			textFieldRecurso.setColumns(30);
+			textFieldRecurso.setColumns(15);
 		}
 		return textFieldRecurso;
 	}
@@ -449,32 +426,6 @@ public class VentanaAdministrador extends JFrame {
 		return lblSpace;
 	}
 
-	private JButton getBtnMostrarPlanificarActividad() {
-		if (btnMostrarPlanificarActividad == null) {
-			btnMostrarPlanificarActividad = new JButton("Planificar una actividad");
-			btnMostrarPlanificarActividad.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					mostrarPanel("panelPlanificarActividad");
-				}
-			});
-			btnMostrarPlanificarActividad.setForeground(Color.WHITE);
-			btnMostrarPlanificarActividad.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			btnMostrarPlanificarActividad.setBackground(new Color(205, 133, 63));
-			btnMostrarPlanificarActividad.setBounds(164, 237, 530, 62);
-		}
-		return btnMostrarPlanificarActividad;
-	}
-
-	private JPanel getPanelPlanificarActividad() {
-		if (panelPlanificarActividad == null) {
-			panelPlanificarActividad = new JPanel();
-			panelPlanificarActividad.setBackground(Color.WHITE);
-			panelPlanificarActividad.setLayout(new GridLayout(0, 1, 0, 0));
-			panelPlanificarActividad.add(getPanelIntroducirIdActividad());
-		}
-		return panelPlanificarActividad;
-	}
-
 	private JPanel getPanelHorarioActividad() {
 		if (panelHorarioActividad == null) {
 			panelHorarioActividad = new JPanel();
@@ -509,79 +460,6 @@ public class VentanaAdministrador extends JFrame {
 							"18:00", "19:00", "20:00", "21:00", "22:00", "23:00" }));
 		}
 		return comboBoxHorarioInicio;
-	}
-
-	private JPanel getPanelIntroducirIdActividad() {
-		if (panelIntroducirIdActividad == null) {
-			panelIntroducirIdActividad = new JPanel();
-			panelIntroducirIdActividad.setBackground(Color.WHITE);
-			panelIntroducirIdActividad.setLayout(new GridLayout(3, 1, 0, 0));
-			panelIntroducirIdActividad.add(getLblIntroduceId());
-			panelIntroducirIdActividad.add(getPanelPlanificacionId());
-			panelIntroducirIdActividad.add(getPanelBotonesAtrasYAceptar());
-		}
-		return panelIntroducirIdActividad;
-	}
-
-	private JLabel getLblIntroduceId() {
-		if (lblIntroduceId == null) {
-			lblIntroduceId = new JLabel("Introduce el id de la actividad:");
-			lblIntroduceId.setFont(new Font("Tahoma", Font.PLAIN, 30));
-			lblIntroduceId.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblIntroduceId;
-	}
-
-	private JPanel getPanelPlanificacionId() {
-		if (panelPlanificacionId == null) {
-			panelPlanificacionId = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) panelPlanificacionId.getLayout();
-			flowLayout.setVgap(20);
-			panelPlanificacionId.setBackground(new Color(95, 158, 160));
-			panelPlanificacionId.add(getTextFieldIdPlanificacion());
-		}
-		return panelPlanificacionId;
-	}
-
-	private JTextField getTextFieldIdPlanificacion() {
-		if (textFieldIdPlanificacion == null) {
-			textFieldIdPlanificacion = new JTextField();
-			textFieldIdPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			textFieldIdPlanificacion.setColumns(20);
-		}
-		return textFieldIdPlanificacion;
-	}
-
-	private JPanel getPanelBotonesAtrasYAceptar() {
-		if (panelBotonesAtrasYAceptar == null) {
-			panelBotonesAtrasYAceptar = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) panelBotonesAtrasYAceptar.getLayout();
-			flowLayout.setHgap(20);
-			flowLayout.setVgap(170);
-			flowLayout.setAlignment(FlowLayout.RIGHT);
-			panelBotonesAtrasYAceptar.setBackground(new Color(95, 158, 160));
-			panelBotonesAtrasYAceptar.add(getBtnAtrasPlanificacion());
-			panelBotonesAtrasYAceptar.add(getBtnAceptarPlanificacion());
-		}
-		return panelBotonesAtrasYAceptar;
-	}
-
-	private JButton getBtnAceptarPlanificacion() {
-		if (btnAceptarPlanificacion == null) {
-			btnAceptarPlanificacion = new JButton("Aceptar");
-			btnAceptarPlanificacion.setBackground(new Color(124, 252, 0));
-			btnAceptarPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		}
-		return btnAceptarPlanificacion;
-	}
-
-	private JButton getBtnAtrasPlanificacion() {
-		if (btnAtrasPlanificacion == null) {
-			btnAtrasPlanificacion = new JButton("Atrás");
-			btnAtrasPlanificacion.setBackground(new Color(135, 206, 235));
-			btnAtrasPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		}
-		return btnAtrasPlanificacion;
 	}
 
 	private JLabel getLblA() {
@@ -627,6 +505,14 @@ public class VentanaAdministrador extends JFrame {
 	private JComboBox<String> getComboBoxInstalacion() {
 		if (comboBoxInstalacion == null) {
 			comboBoxInstalacion = new JComboBox<String>();
+			comboBoxInstalacion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					getComboBoxRecursosInstalacion()
+							.setModel(new DefaultComboBoxModel<String>(admin.getRecursosPorInstalacion(
+									getComboBoxInstalacion().getSelectedItem().toString().split("@")[0]
+											.toLowerCase())));
+				}
+			});
 			comboBoxInstalacion.setModel(new DefaultComboBoxModel<String>(admin.getInstalaciones()));
 			comboBoxInstalacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
@@ -667,13 +553,15 @@ public class VentanaAdministrador extends JFrame {
 	private JLabel getLblSinLimite() {
 		if (lblSinLimite == null) {
 			lblSinLimite = new JLabel("Nota: Dejar en blanco si no hay límite de plazas");
+			lblSinLimite.setForeground(new Color(128, 0, 0));
 		}
 		return lblSinLimite;
 	}
 
 	private JLabel getLblSinRecursos() {
 		if (lblSinRecursos == null) {
-			lblSinRecursos = new JLabel("Nota: Dejar en blanco si no se requieren recursos");
+			lblSinRecursos = new JLabel("Nota: Dejar en blanco si no se requieren recursos y separar por comas");
+			lblSinRecursos.setForeground(new Color(128, 0, 0));
 		}
 		return lblSinRecursos;
 	}
@@ -693,5 +581,51 @@ public class VentanaAdministrador extends JFrame {
 			textFieldDia.setColumns(3);
 		}
 		return textFieldDia;
+	}
+
+	private JPanel getPanelLblAdmin() {
+		if (panelLblAdmin == null) {
+			panelLblAdmin = new JPanel();
+			panelLblAdmin.setBackground(Color.WHITE);
+			FlowLayout flowLayout = (FlowLayout) panelLblAdmin.getLayout();
+			flowLayout.setHgap(15);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelLblAdmin.add(getLblAdministrador());
+		}
+		return panelLblAdmin;
+	}
+
+	private JPanel getPanelBtnCrearActividad() {
+		if (panelBtnCrearActividad == null) {
+			panelBtnCrearActividad = new JPanel();
+			panelBtnCrearActividad.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 250));
+			panelBtnCrearActividad.add(getBtnMostrarCrearActividad_1());
+		}
+		return panelBtnCrearActividad;
+	}
+
+	private JButton getBtnMostrarCrearActividad_1() {
+		if (btnCrearYPlanificar == null) {
+			btnCrearYPlanificar = new JButton("Crear y planificar una actividad");
+			btnCrearYPlanificar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPanel("panelCrearActividad");
+				}
+			});
+			btnCrearYPlanificar.setForeground(Color.WHITE);
+			btnCrearYPlanificar.setFont(new Font("Tahoma", Font.PLAIN, 40));
+			btnCrearYPlanificar.setBackground(new Color(34, 139, 34));
+		}
+		return btnCrearYPlanificar;
+	}
+
+	private JComboBox<String> getComboBoxRecursosInstalacion() {
+		if (comboBoxRecursosInstalacion == null) {
+			comboBoxRecursosInstalacion = new JComboBox<String>();
+			comboBoxRecursosInstalacion.setModel(new DefaultComboBoxModel<String>(admin.getRecursosPorInstalacion(
+					getComboBoxInstalacion().getSelectedItem().toString().split("@")[0].toLowerCase())));
+			comboBoxRecursosInstalacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxRecursosInstalacion;
 	}
 }
