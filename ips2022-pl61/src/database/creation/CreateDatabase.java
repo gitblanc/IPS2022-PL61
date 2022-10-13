@@ -54,7 +54,8 @@ public class CreateDatabase {
 				+ ", apellidos_m varchar(50) not null, correo_m varchar(50) not null )";
 		String crearNoSocio = "create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null"
 				+ ", apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)";
-		String crearRecurso = "create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0))";
+		String crearRecurso = "create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0)"
+				+ ", nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
 		String crearInstalacion = "create table instalacion(nombre_i varchar(20) primary key, plazas int not null)";
 		String crearActividad = "create table actividad(id_a varchar(10) primary key, nombre_a varchar(20) not null"
 				+ ", intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
@@ -70,8 +71,7 @@ public class CreateDatabase {
 				+ ",nombre_r varchar(20) foreign key references Recurso(nombre_r))";
 
 		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
-		
-     
+
 		String dropSocios = "drop table socio";
 		String dropMonitor = "drop table monitor";
 		String dropNoSocio = "drop table no_socio";
@@ -82,7 +82,6 @@ public class CreateDatabase {
 		String dropListaEspera = "drop table lista_espera";
 		String dropAdministracion = "drop table administracion";
 		String dropRecursosActividad = "drop table recursosactividad";
-
 
 		createQueries.add(crearSocios);
 		createQueries.add(crearMonitor);
@@ -100,12 +99,11 @@ public class CreateDatabase {
 		dropTables.add(dropMonitor);
 		dropTables.add(dropNoSocio);
 		dropTables.add(dropRecursosActividad);
-		dropTables.add(dropRecurso);
-		dropTables.add(dropActividad);
-		dropTables.add(dropInstalacion);
 		dropTables.add(dropCursillo);
 		dropTables.add(dropListaEspera);
 		dropTables.add(dropAdministracion);
-		
-			}
+		dropTables.add(dropActividad);
+		dropTables.add(dropRecurso);
+		dropTables.add(dropInstalacion);
+	}
 }

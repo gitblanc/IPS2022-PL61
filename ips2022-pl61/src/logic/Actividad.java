@@ -52,7 +52,7 @@ public class Actividad {
 	 */
 	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso,
 			String hora_inicio, String hora_fin, String instalacion, int dia, int plazas) {
-		if (!validarParametros(id, nombre, intensidad, recurso, dia, plazas))
+		if (!validarParametros(id, nombre, intensidad, recurso, dia, plazas, hora_inicio, hora_fin, instalacion))
 			return false;
 		if (acceso == "libre acceso")
 			acceso = "libre";
@@ -98,10 +98,13 @@ public class Actividad {
 	 * @param recurso
 	 * @param plazas
 	 * @param dia
+	 * @param hora_fin
+	 * @param hora_inicio
+	 * @param instalacion
 	 * @return
 	 */
-	private boolean validarParametros(String id, String nombre, String intensidad, String[] recurso, int dia,
-			int plazas) {
+	private boolean validarParametros(String id, String nombre, String intensidad, String[] recursos, int dia,
+			int plazas, String hora_inicio, String hora_fin, String instalacion) {
 		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
 				|| intensidad.isBlank())
 			return false;
@@ -109,7 +112,31 @@ public class Actividad {
 			return false;
 		if (plazas < -1 || plazas == 0)
 			return false;
+		if (Integer.parseInt(hora_inicio.split(":")[0].toString().split("@")[0]) >= Integer
+				.parseInt(hora_fin.split(":")[0].toString().split("@")[0]))
+			return false;
+		if (!existeRecursoEnInstalacion(recursos, instalacion))
+			return false;
 		return true;
+	}
+
+	private boolean existeRecursoEnInstalacion(String[] recursos, String instalacion) {
+		if(recursos[0].isBlank())
+			return true;
+		for (int i = 0; i < recursos.length; i++) {
+			if (!buscarRecurso(recursos[i], instalacion))
+				return false;
+		}
+		return true;
+	}
+
+	private boolean buscarRecurso(String recurso, String instalacion) {
+		String[] recursosInstalacion = Recurso.listarRecursosPorInstalacion(instalacion);
+		for (int i = 0; i < recursosInstalacion.length; i++) {
+			if (recursosInstalacion[i].equals(recurso))
+				return true;
+		}
+		return false;
 	}
 
 	/**

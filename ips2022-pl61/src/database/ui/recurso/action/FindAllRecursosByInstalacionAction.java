@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package database.ui.recurso.action;
 
 import console.Console;
@@ -7,17 +10,17 @@ import database.business.recurso.RecursoService.RecursoBLDto;
 import database.ui.Action;
 
 /**
- * 
- * @author uo276967
+ * @author UO285176
  *
  */
-public class FindAllRecursosAction implements Action {
+public class FindAllRecursosByInstalacionAction implements Action{
 
 	@Override
 	public void execute() {
-		Console.println("--- Lista de recursos ---");
+		String instalacion = Console.readString("Nombre de la instalacion");
+		Console.println("--- Lista de recursos de " + instalacion + "---");
 		RecursoService rs = BusinessFactory.forRecursoService();
-		for (RecursoBLDto r : rs.findAllRecursos())
+		for (RecursoBLDto r : rs.findRecursoByInstalacion(instalacion))
 			Console.println(r.nombre + " - " + r.cantidad + " - " + r.instalacion);
 	}
 

@@ -7,6 +7,7 @@ import console.Console;
 import database.ui.recurso.action.AddRecursoAction;
 import database.ui.recurso.action.DeleteRecursoAction;
 import database.ui.recurso.action.FindAllRecursosAction;
+import database.ui.recurso.action.FindAllRecursosByInstalacionAction;
 import database.ui.recurso.action.UpdateRecursoAction;
 
 /**
@@ -56,6 +57,9 @@ public class MenuRecurso {
 		case 4:
 			new FindAllRecursosAction().execute();
 			break;
+		case 5:
+			new FindAllRecursosByInstalacionAction().execute();
+			break;
 		}
 
 	}
@@ -79,6 +83,7 @@ public class MenuRecurso {
 		Console.println("2. Eliminar un recurso");
 		Console.println("3. Actualizar un recurso");
 		Console.println("4. Listar recursos");
+		Console.println("5. Listar recursos por instalación");
 		Console.println("0. Salir");
 		Console.println("");
 	}

@@ -18,7 +18,7 @@ import database.business.recurso.RecursoService.RecursoBLDto;
  */
 public class UpdateRecurso {
 
-	private static String SQL = "update Recurso set cantidad_r = ? where nombre_r = ?";
+	private static String SQL = "update Recurso set cantidad_r = ? where nombre_r = ?, nombre_i = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
@@ -26,16 +26,18 @@ public class UpdateRecurso {
 	private RecursoBLDto recurso = null;
 
 	/**
-	 * Constructor de la clase 
+	 * Constructor de la clase
+	 * 
 	 * @param recurso de tipo RecursoBLDto
 	 */
 	public UpdateRecurso(RecursoBLDto recurso) {
 		Argument.isNotNull(recurso);
 		this.recurso = recurso;
 	}
-	
+
 	/**
 	 * Método que ejecuta la transacción
+	 * 
 	 * @return un RecursoBLDto
 	 */
 	public void execute() {
@@ -49,7 +51,7 @@ public class UpdateRecurso {
 			pst = c.prepareStatement(SQL);
 			pst.setInt(1, recurso.cantidad);
 			pst.setString(2, recurso.nombre);
-			
+			pst.setString(3, recurso.instalacion);
 
 			pst.executeUpdate();
 
@@ -74,6 +76,5 @@ public class UpdateRecurso {
 		}
 
 	}
-	
 
 }

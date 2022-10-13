@@ -4,7 +4,6 @@
 package database.business.recurso.crud;
 
 import java.util.List;
-import java.util.Optional;
 
 import database.business.recurso.RecursoService;
 
@@ -34,14 +33,14 @@ public class RecursoServiceImpl implements RecursoService{
 	}
 
 	@Override
-	public Optional<RecursoBLDto> findRecursoByName(String nombreRecurso) {
-		// TODO Auto-generated method stub
-				return null;
+	public List<RecursoBLDto> findAllRecursos() {
+		return new FindAllRecursos().execute();
 	}
 
 	@Override
-	public List<RecursoBLDto> findAllRecursos() {
-		return new FindAllRecursos().execute();
+	public List<RecursoBLDto> findRecursoByInstalacion(String instalacion) {
+		FindAllRecursosByInstalacion fi = new FindAllRecursosByInstalacion(instalacion);
+		return fi.execute();
 	}
 
 	
