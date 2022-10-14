@@ -61,7 +61,7 @@ public class CreateDatabase {
 				+ ", intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
 				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,"
 				+ "hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),"
-				+ "dia int check((dia > 0 and dia < 32)), plazas_a int check(plazas_a = -1 or plazas_a > 0))";
+				+ "fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))";
 		String crearCursillo = "create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, "
 				+ "duracion varchar(20) not null, horario date not null)";
 		String crearListaEspera = "create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)";
