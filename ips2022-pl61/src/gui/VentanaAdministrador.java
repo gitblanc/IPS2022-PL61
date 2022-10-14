@@ -322,14 +322,14 @@ public class VentanaAdministrador extends JFrame {
 		String hora_inicio = getComboBoxHorarioInicio().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String hora_fin = getComboBoxHorarioFin().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String instalacion = getComboBoxInstalacion().getSelectedItem().toString().split("@")[0].toLowerCase();
-		int dia = -1;
+		String fecha = getTextFieldDia().getText();
 		if (getTextFieldDia().getText().isBlank()) {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.GREEN);
 			getLblValidacionCampos().setText("¡Actividad creada!");
 			vaciarCampos();
 		} else {
-			dia = Integer.parseInt(getTextFieldDia().getText());
+			fecha = getTextFieldDia().getText();
 		}
 		int plazas;
 		if (getTextFieldNumeroDePlazas().getText().isBlank()) {
@@ -337,7 +337,7 @@ public class VentanaAdministrador extends JFrame {
 		} else {
 			plazas = Integer.parseInt(getTextFieldNumeroDePlazas().getText());
 		}
-		if (!admin.crearActividad(id, nombre, intensidad, recurso, acceso, hora_inicio, hora_fin, instalacion, dia,
+		if (!admin.crearActividad(id, nombre, intensidad, recurso, acceso, hora_inicio, hora_fin, instalacion, fecha,
 				plazas)) {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.RED);

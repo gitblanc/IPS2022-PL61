@@ -22,7 +22,7 @@ public class Actividad {
 
 	// factoría de actividades
 
-	private ActividadService as = BusinessFactory.forActividadService();
+	private static ActividadService as = BusinessFactory.forActividadService();
 	// factoría de recursos por actividad
 	private RecursosActividadService ras = BusinessFactory.forRecursosActividadService();
 
@@ -34,7 +34,7 @@ public class Actividad {
 	 * 
 	 * @return
 	 */
-	public List<ActividadBLDto> listarActividades() {
+	public static List<ActividadBLDto> listarActividadesBLDto() {
 		return as.findAllActividades();
 	}
 
@@ -51,8 +51,8 @@ public class Actividad {
 	 * @param dia
 	 */
 	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso,
-			String hora_inicio, String hora_fin, String instalacion, int dia, int plazas) {
-		if (!validarParametros(id, nombre, intensidad, recurso, dia, plazas, hora_inicio, hora_fin, instalacion))
+			String hora_inicio, String hora_fin, String instalacion, String fecha, int plazas) {
+		if (!validarParametros(id, nombre, intensidad, recurso, fecha, plazas, hora_inicio, hora_fin, instalacion))
 			return false;
 		if (acceso == "libre acceso")
 			acceso = "libre";
@@ -65,7 +65,7 @@ public class Actividad {
 		actividad.hora_inicio = hora_inicio;
 		actividad.hora_fin = hora_fin;
 		actividad.instalacion = instalacion;
-		actividad.dia = dia;
+		actividad.fecha= fecha;
 		actividad.plazas = plazas;
 		as.addActividad(actividad);
 		addRecursosActividad(id, recurso);
@@ -103,12 +103,10 @@ public class Actividad {
 	 * @param instalacion
 	 * @return
 	 */
-	private boolean validarParametros(String id, String nombre, String intensidad, String[] recursos, int dia,
+	private boolean validarParametros(String id, String nombre, String intensidad, String[] recursos, String dia,
 			int plazas, String hora_inicio, String hora_fin, String instalacion) {
 		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
 				|| intensidad.isBlank())
-			return false;
-		if (dia < 0 || dia > 31)
 			return false;
 		if (plazas < -1 || plazas == 0)
 			return false;
@@ -139,36 +137,6 @@ public class Actividad {
 		return false;
 	}
 
-	/**
-	 * Método que devuelve la lista de las actividades con reserva
-	 * 
-	 * @return
-	 */
-	public List<ActividadBLDto> actividadesReserva() {
-		List<ActividadBLDto> listaReserva = new ArrayList<ActividadBLDto>();
-		for (ActividadBLDto a : listarActividades()) {
-			if (a.acceso.equals("reserva") || a.acceso.equals("RESERVA") || a.acceso.equals("Reserva")) {
-				listaReserva.add(a);
-			}
-		}
-		return listaReserva;
-	}
-
-	/**
-	 * Método que devuelve la lista de las actividades que no necesitan reserva
-	 * 
-	 * @return
-	 */
-	public List<ActividadBLDto> actividadesLibre() {
-		List<ActividadBLDto> listaLibre = new ArrayList<ActividadBLDto>();
-		for (ActividadBLDto a : listarActividades()) {
-			if (a.acceso.equals("libre") || a.acceso.equals("LIBRE") || a.acceso.equals("Libre")) {
-				listaLibre.add(a);
-			}
-		}
-		return listaLibre;
-
-	}
 
 	/**
 	 * Método que devuelve las instalaciones existentes
@@ -183,5 +151,30 @@ public class Actividad {
 		}
 		return result;
 	}
+	
+	public static List<String> listarActividades() {
+		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<String> result = new ArrayList<String>();
+		for(int i = 0; i < actividades.size(); i++) {
+			String a = actividades.get(i).nombre + " ------ " + actividades.get(i).hora_inicio + " - " + 
+		actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
+		result.add(a);
+		
+
+		}
+		return result;
+	}
+	
+	public static boolean comprobarDia(String dia) {
+		boolean comprobacion = false;
+		List<ActividadBLDto> actividades = listarActividadesBLDto();
+		for(int i = 0; i < actividades.size(); i++) {
+			if(actividades.get(i).fecha.equals(dia)) {
+				comprobacion = true;
+			}
+		}
+		return comprobacion;
+	}
+	
 
 }
