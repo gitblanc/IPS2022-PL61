@@ -45,7 +45,7 @@ public class FindAllActividades {
 				actividad.hora_inicio = rs.getString("hora_inicio");
 				actividad.hora_fin = rs.getString("hora_fin");
 				actividad.instalacion = rs.getString("nombre_i");
-				actividad.dia = rs.getInt("dia");
+				actividad.fecha = rs.getString("fecha");
 				actividad.plazas = rs.getInt("plazas_a");
 				actividades.add(actividad);
 			}
