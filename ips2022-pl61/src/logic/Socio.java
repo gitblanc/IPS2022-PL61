@@ -10,19 +10,38 @@ public class Socio {
 	private String nombreSocio;
 	private String apellidosSocio;
 	private String correoSocio;
+	private String contraseñaSocio;
 	
 	//Cada socio tiene una lista de actividades a la que está inscrito
-	private List<Actividad> actividadesApuntas = new ArrayList<Actividad>();
+	private List<Actividad> actividadesApuntadas = new ArrayList<Actividad>();
 	
 	/*
 	 * Constructor de la clase Socio
 	 */
-	public Socio(String idSocio, String nombreSocio, String apellidoSocio, String correoSocio) {
+	public Socio(String idSocio, String nombreSocio, String apellidoSocio, String correoSocio, String contraseñaSocio) {
 		setIdSocio(idSocio);
 		setNombreSocio(nombreSocio);
 		setApellidosSocio(apellidoSocio);
 		setCorreoSocio(correoSocio);
+		setContraseñaSocio(contraseñaSocio);
 		
+		
+	}
+
+	public String getContraseñaSocio() {
+		return contraseñaSocio;
+	}
+
+	public void setContraseñaSocio(String contraseñaSocio) {
+		this.contraseñaSocio = contraseñaSocio;
+	}
+
+	public List<Actividad> getActividadesApuntas() {
+		return actividadesApuntadas;
+	}
+
+	public void setActividadesApuntas(List<Actividad> actividadesApuntas) {
+		this.actividadesApuntadas = actividadesApuntas;
 	}
 
 	public String getIdSocio() {
@@ -62,15 +81,15 @@ public class Socio {
 	 * @param actividad de tipo Actividad
 	 */
 	public void addActividad(Actividad actividad) {
-		actividadesApuntas.add(actividad);
+		actividadesApuntadas.add(actividad);
 	}
 
 	/**
 	 * Método que devuelve todas las actividades apuntadas por el socio
 	 * @return
 	 */
-	public List<Actividad> listarActividadesApuntadas() {
-		return actividadesApuntas;
+	public  List<Actividad> listarActividadesApuntadas() {
+		return actividadesApuntadas;
 	}
 	
 	

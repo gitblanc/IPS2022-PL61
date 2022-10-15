@@ -11,7 +11,7 @@ import java.util.Optional;
  *
  */
 public interface SocioService {
-	// Le pasamos el socio a añadir
+	// Le pasamos el socio a aï¿½adir
 	SocioBLDto addSocio(SocioBLDto socio);
 
 	// Le pasamos el identificador del socio a eliminar
@@ -32,6 +32,7 @@ public interface SocioService {
 		public String nombre;
 		public String apellidos;
 		public String correo;
+		public String contraseÃ±a;
 
 	}
 }
