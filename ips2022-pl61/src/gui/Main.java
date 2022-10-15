@@ -21,10 +21,8 @@ public class Main {
 			public void run() {
 				try {
 					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-					//VentanaAdministrador frame = new VentanaAdministrador();
-					VentanaSocio frame2 = new VentanaSocio();
-					//frame.setVisible(true);
-					frame2.setVisible(true);
+					VentanaPrincipal frame = new VentanaPrincipal();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 

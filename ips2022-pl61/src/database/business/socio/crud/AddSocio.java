@@ -17,7 +17,7 @@ import database.business.socio.SocioService.SocioBLDto;
  *
  */
 public class AddSocio {
-	private static String SQL = "insert into Socio(id_s, nombre_s, apellidos_s, correo_s) values (?, ?, ?, ?)";
+	private static String SQL = "insert into Socio(id_s, nombre_s, apellidos_s, correo_s, contraseña_s) values (?, ?, ?, ?, ?)";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
@@ -43,6 +43,7 @@ public class AddSocio {
 			pst.setString(2, socio.nombre);
 			pst.setString(3, socio.apellidos);
 			pst.setString(4, socio.correo);
+			pst.setString(5, socio.contraseña);
 
 			pst.executeUpdate();
 

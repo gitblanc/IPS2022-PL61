@@ -21,7 +21,7 @@ public class DeleteSocioAction implements Action {
 		socio.id = Console.readString("Introduce el id del socio");
 		SocioService ss = BusinessFactory.forSocioService();
 		ss.deleteSocio(socio.id);
-		Console.println("¡Socio eliminado!");
+		Console.println("Â¡Socio eliminado!");
 	}
 
 }
