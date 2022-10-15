@@ -49,7 +49,7 @@ public class CreateDatabase {
 
 	private static void createQueries() {
 		String crearSocios = "create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null"
-				+ ", apellidos_s varchar(50) not null, correo_s varchar(50) not null)";
+				+ ", apellidos_s varchar(50) not null, correo_s varchar(50) not null, contraseña_s varchar(50) not null)";
 		String crearMonitor = "create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null"
 				+ ", apellidos_m varchar(50) not null, correo_m varchar(50) not null )";
 		String crearNoSocio = "create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null"

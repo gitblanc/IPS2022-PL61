@@ -42,6 +42,7 @@ public class FindAllSocios {
 				socio.nombre = rs.getString("nombre_s");
 				socio.apellidos = rs.getString("apellidos_s");
 				socio.correo = rs.getString("correo_s");
+				socio.contraseña = rs.getString("contraseña_s");
 				socios.add(socio);
 			}
 		} catch (SQLException e) {
