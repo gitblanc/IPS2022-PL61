@@ -25,6 +25,7 @@ public interface SocioService {
 
 	// Devuelve una lista con todos los socios
 	List<SocioBLDto> findAllSocios();
+	
 
 	public class SocioBLDto {
 

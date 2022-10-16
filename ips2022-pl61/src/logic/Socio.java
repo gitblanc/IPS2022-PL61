@@ -3,78 +3,54 @@ package logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Socio {
+import database.business.BusinessFactory;
+import database.business.socio.SocioService;
+import database.business.socio.SocioService.SocioBLDto;
 
-	//Atributos de la clase
-	private String idSocio;
-	private String nombreSocio;
-	private String apellidosSocio;
-	private String correoSocio;
-	private String contraseñaSocio;
+public class Socio {
+	
+	private static SocioService ss = BusinessFactory.forSocioService();
+
+
 	
 	//Cada socio tiene una lista de actividades a la que está inscrito
 	private List<Actividad> actividadesApuntadas = new ArrayList<Actividad>();
 	
-	/*
-	 * Constructor de la clase Socio
-	 */
-	public Socio(String idSocio, String nombreSocio, String apellidoSocio, String correoSocio, String contraseñaSocio) {
-		setIdSocio(idSocio);
-		setNombreSocio(nombreSocio);
-		setApellidosSocio(apellidoSocio);
-		setCorreoSocio(correoSocio);
-		setContraseñaSocio(contraseñaSocio);
+	public String socioCorrecto(String correo, String contraseña) {
+		String correcto = null;
+		if (!validarParametros(correo, contraseña))
+			correcto = null;
+		List<SocioBLDto> lista = ss.findAllSocios();
+		for(int i = 0; i < lista.size(); i++) {
+			if(lista.get(i).correo.equals(correo)) {
+				if(lista.get(i).contraseña.equals(contraseña)) {
+					correcto = lista.get(i).nombre;
+				} else {
+					correcto = null;
+				}
+			} else {
+				correcto = null;
+			}
+		}
+		return correcto;
 		
+
 		
 	}
 
-	public String getContraseñaSocio() {
-		return contraseñaSocio;
-	}
 
-	public void setContraseñaSocio(String contraseñaSocio) {
-		this.contraseñaSocio = contraseñaSocio;
+	
+	
+	private boolean validarParametros(String correo, String contraseña) {
+		if(correo == null || contraseña == null ) {
+			return false;
+		}
+		return true;
 	}
-
-	public List<Actividad> getActividadesApuntas() {
-		return actividadesApuntadas;
-	}
-
-	public void setActividadesApuntas(List<Actividad> actividadesApuntas) {
-		this.actividadesApuntadas = actividadesApuntas;
-	}
-
-	public String getIdSocio() {
-		return idSocio;
-	}
-
-	private void setIdSocio(String idSocio) {
-		this.idSocio = idSocio;
-	}
-
-	public String getNombreSocio() {
-		return nombreSocio;
-	}
-
-	private void setNombreSocio(String nombreSocio) {
-		this.nombreSocio = nombreSocio;
-	}
-
-	public String getApellidosSocio() {
-		return apellidosSocio;
-	}
-
-	private void setApellidosSocio(String apellidosSocio) {
-		this.apellidosSocio = apellidosSocio;
-	}
-
-	public String getCorreoSocio() {
-		return correoSocio;
-	}
-
-	private void setCorreoSocio(String correoSocio) {
-		this.correoSocio = correoSocio;
-	}
+	
+	
+	//------------------------------------------------------------
+	
 	
 	/**
 	 * Mçetodo que añade una actividad al sociio
@@ -91,6 +67,9 @@ public class Socio {
 	public  List<Actividad> listarActividadesApuntadas() {
 		return actividadesApuntadas;
 	}
+	
+	
+	
 	
 	
 }
