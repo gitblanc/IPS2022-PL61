@@ -1,8 +1,12 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
@@ -14,22 +18,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import logic.Actividad;
 import logic.Socio;
-
-import java.awt.CardLayout;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JPasswordField;
-import java.awt.Dimension;
 
 public class VentanaSocio extends JFrame {
 
@@ -73,6 +72,12 @@ public class VentanaSocio extends JFrame {
 	private JTextField txf_Correo;
 	private JLabel lbl_Contraseña;
 	private JPasswordField pw_contraseña;
+	private JPanel pn_Tus_Actividades;
+	private JList<String> list;
+	private JScrollPane scrollPane;
+	private Socio s = new Socio();
+	private JPanel pn_VerHorario;
+	private JButton btnNewButton;
 	
 
 
@@ -142,12 +147,10 @@ public class VentanaSocio extends JFrame {
 	
 	
 	private void actualizarHorario() {
-		List<String> listaActividades = Actividad.listarActividades();
+		List<String> listaActividades = Actividad.listarActividades(getLbl_Dia().getText());
 		((DefaultListModel<String>) modelHorario).removeAllElements();
 		for(int i = 0; i < listaActividades.size(); i++) {
-			if(Actividad.comprobarDia(getLbl_Dia().getText())) {
-				((DefaultListModel<String>) modelHorario).addElement(listaActividades.get(i));
-			}
+			((DefaultListModel<String>) modelHorario).addElement(listaActividades.get(i));
 			
 		}
 	}
@@ -171,6 +174,7 @@ public class VentanaSocio extends JFrame {
 			pnHorario.add(getPn_botones(), BorderLayout.SOUTH);
 			pnHorario.add(getListaHorario(), BorderLayout.CENTER);
 			pnHorario.add(getPnUsuario(), BorderLayout.EAST);
+			pnHorario.add(getScrollPane(), BorderLayout.WEST);
 		}
 		return pnHorario;
 	}
@@ -181,6 +185,8 @@ public class VentanaSocio extends JFrame {
 			pnInicioSesionCorrecto.setLayout(new BorderLayout(0, 0));
 			pnInicioSesionCorrecto.add(getPanel_boton_atras(), BorderLayout.SOUTH);
 			pnInicioSesionCorrecto.add(getPn_SusActividades(), BorderLayout.NORTH);
+			pnInicioSesionCorrecto.add(getPn_Tus_Actividades(), BorderLayout.CENTER);
+			pnInicioSesionCorrecto.add(getPn_VerHorario(), BorderLayout.WEST);
 		}
 		return pnInicioSesionCorrecto;
 	}
@@ -328,7 +334,7 @@ public class VentanaSocio extends JFrame {
 	}
 	private JLabel getLbl_TusActividades() {
 		if (lbl_TusActividades == null) {
-			lbl_TusActividades = new JLabel("tus actividades son:");
+			lbl_TusActividades = new JLabel("te apuntaste a las siguientes actividades:");
 			lbl_TusActividades.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lbl_TusActividades;
@@ -414,8 +420,14 @@ public class VentanaSocio extends JFrame {
 			bt_Siguiente_2 = new JButton("Siguiente");
 			bt_Siguiente_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					mostrarInicioSesionCorrecto();
-					getLblNombreUsuario().setText(getName());
+					if(inicioCorrecto() != null) {
+						mostrarInicioSesionCorrecto();
+						getLblNombreUsuario().setText(inicioCorrecto());
+					} else {
+						mostrarMensajeError();
+						limpiarValores();
+					}
+					
 				}
 			});
 			bt_Siguiente_2.setForeground(Color.WHITE);
@@ -424,6 +436,29 @@ public class VentanaSocio extends JFrame {
 		}
 		return bt_Siguiente_2;
 	}
+	
+	private void limpiarValores() {
+		getTxf_Correo().setText("");
+		getPw_contraseña().setText("");
+		
+		
+	}
+
+	protected void mostrarMensajeError() {
+		JOptionPane.showMessageDialog(this, "Error: el usuario o contraseña no son correctos", "Error inicio sesión", JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+
+	private String inicioCorrecto() {
+		String correo = getTxf_Correo().getText();
+		char[] contraseñaChar = getPw_contraseña().getPassword();
+		String contraseña = new String(contraseñaChar);
+		if(s.socioCorrecto(correo, contraseña) != null) {
+			return s.socioCorrecto(correo, contraseña);
+		}
+		return null;
+	}
+
 	private JPanel getPn_Correo() {
 		if (pn_Correo == null) {
 			pn_Correo = new JPanel();
@@ -496,5 +531,43 @@ public class VentanaSocio extends JFrame {
 			pw_contraseña.setBounds(20,100,80,30);
 		}
 		return pw_contraseña;
+	}
+	private JPanel getPn_Tus_Actividades() {
+		if (pn_Tus_Actividades == null) {
+			pn_Tus_Actividades = new JPanel();
+			pn_Tus_Actividades.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pn_Tus_Actividades.setBackground(new Color(255, 255, 255));
+			pn_Tus_Actividades.setLayout(new BorderLayout(0, 0));
+			pn_Tus_Actividades.add(getList(), BorderLayout.NORTH);
+		}
+		return pn_Tus_Actividades;
+	}
+	private JList<String> getList() {
+		if (list == null) {
+			list = new JList();
+			list.setBackground(new Color(255, 255, 255));
+		}
+		return list;
+	}
+	private JScrollPane getScrollPane() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+		}
+		return scrollPane;
+	}
+	private JPanel getPn_VerHorario() {
+		if (pn_VerHorario == null) {
+			pn_VerHorario = new JPanel();
+			pn_VerHorario.setBackground(new Color(169, 169, 169));
+			pn_VerHorario.setLayout(new GridLayout(0, 1, 0, 0));
+			pn_VerHorario.add(getBtnNewButton());
+		}
+		return pn_VerHorario;
+	}
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("Ver horario");
+		}
+		return btnNewButton;
 	}
 }
