@@ -152,30 +152,27 @@ public class Actividad {
 		return result;
 	}
 	
-	public static List<String> listarActividades() {
+	public static List<String> listarActividades(String dia) {
 		List<ActividadBLDto>actividades = listarActividadesBLDto();
 		List<String> result = new ArrayList<String>();
 		for(int i = 0; i < actividades.size(); i++) {
-			String a = actividades.get(i).nombre + " ------ " + actividades.get(i).hora_inicio + " - " + 
-		actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
-		result.add(a);
-		
-
+			if(actividades.get(i).fecha.equals(dia)) {
+				String a = actividades.get(i).nombre + " ------ " + actividades.get(i).hora_inicio + " - " + 
+						actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
+						result.add(a);
+			}
 		}
 		return result;
 	}
 	
-	public static boolean comprobarDia(String dia) {
-		boolean comprobacion = false;
-		List<ActividadBLDto> actividades = listarActividadesBLDto();
-		for(int i = 0; i < actividades.size(); i++) {
-			if(actividades.get(i).fecha.equals(dia)) {
-				comprobacion = true;
-			}
-		}
-		return comprobacion;
-	}
-	
+//	public static boolean comprobarDia(ActividadBLDto a, String dia) {
+//		boolean comprobacion = false;
+//		if(a.fecha.equals(dia)) {
+//			comprobacion = true;
+//		}
+//		return comprobacion;
+//	}
+
 	
 
 }
