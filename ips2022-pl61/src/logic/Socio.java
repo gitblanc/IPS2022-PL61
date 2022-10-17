@@ -10,8 +10,6 @@ import database.business.socio.SocioService.SocioBLDto;
 public class Socio {
 	
 	private static SocioService ss = BusinessFactory.forSocioService();
-
-
 	
 	//Cada socio tiene una lista de actividades a la que está inscrito
 	private List<Actividad> actividadesApuntadas = new ArrayList<Actividad>();
@@ -32,15 +30,9 @@ public class Socio {
 				correcto = null;
 			}
 		}
-		return correcto;
-		
-
-		
+		return correcto;		
 	}
 
-
-	
-	
 	private boolean validarParametros(String correo, String contraseña) {
 		if(correo == null || contraseña == null ) {
 			return false;
