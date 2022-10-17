@@ -76,8 +76,18 @@ public class VentanaSocio extends JFrame {
 	private JList<String> list;
 	private JScrollPane scrollPane;
 	private Socio s = new Socio();
-	private JPanel pn_VerHorario;
-	private JButton btnNewButton;
+	private JPanel pn_añadir_eliminar;
+	private JButton btAñadir;
+	private JButton btEliminar;
+	private JPanel pn_Horario_Añadir;
+	private JPanel pn_todas_las_actividades;
+	private JScrollPane scActividades;
+	private JLabel lblTodasLasActividades;
+	private JList<String> lista_actividades;
+	private DefaultListModel<String> modelActividades= new DefaultListModel<String>();;
+	private JPanel pn_boton_añadir;
+	private JButton bt_Añadir_4;
+	private JButton bt_Atras_3;
 	
 
 
@@ -162,6 +172,7 @@ public class VentanaSocio extends JFrame {
 			pnContenidos.add(getPnHorario(), "pn_Horario");
 			pnContenidos.add(getPnInicioSesionCorrecto(), "pn_InicioSesionCorrecto");
 			pnContenidos.add(getPn_IniciarSesion(), "pn_InicioSesion");
+			pnContenidos.add(getPn_Horario_Añadir(), "pn_Horario_Añadir");
 		}
 		return pnContenidos;
 	}
@@ -186,7 +197,6 @@ public class VentanaSocio extends JFrame {
 			pnInicioSesionCorrecto.add(getPanel_boton_atras(), BorderLayout.SOUTH);
 			pnInicioSesionCorrecto.add(getPn_SusActividades(), BorderLayout.NORTH);
 			pnInicioSesionCorrecto.add(getPn_Tus_Actividades(), BorderLayout.CENTER);
-			pnInicioSesionCorrecto.add(getPn_VerHorario(), BorderLayout.WEST);
 		}
 		return pnInicioSesionCorrecto;
 	}
@@ -539,6 +549,7 @@ public class VentanaSocio extends JFrame {
 			pn_Tus_Actividades.setBackground(new Color(255, 255, 255));
 			pn_Tus_Actividades.setLayout(new BorderLayout(0, 0));
 			pn_Tus_Actividades.add(getList(), BorderLayout.NORTH);
+			pn_Tus_Actividades.add(getPn_añadir_eliminar(), BorderLayout.EAST);
 		}
 		return pn_Tus_Actividades;
 	}
@@ -555,19 +566,149 @@ public class VentanaSocio extends JFrame {
 		}
 		return scrollPane;
 	}
-	private JPanel getPn_VerHorario() {
-		if (pn_VerHorario == null) {
-			pn_VerHorario = new JPanel();
-			pn_VerHorario.setBackground(new Color(169, 169, 169));
-			pn_VerHorario.setLayout(new GridLayout(0, 1, 0, 0));
-			pn_VerHorario.add(getBtnNewButton());
+	private JPanel getPn_añadir_eliminar() {
+		if (pn_añadir_eliminar == null) {
+			pn_añadir_eliminar = new JPanel();
+			pn_añadir_eliminar.setBackground(new Color(255, 255, 255));
+			pn_añadir_eliminar.setLayout(new GridLayout(0, 1, 0, 0));
+			pn_añadir_eliminar.add(getBtAñadir());
+			pn_añadir_eliminar.add(getBtEliminar());
 		}
-		return pn_VerHorario;
+		return pn_añadir_eliminar;
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("Ver horario");
+	private JButton getBtAñadir() {
+		if (btAñadir == null) {
+			btAñadir = new JButton("Añadir más actividades");
+			btAñadir.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarNuevaVentanaCOnHorario();
+				}
+			});
+			btAñadir.setBackground(new Color(244, 164, 96));
+			btAñadir.setForeground(new Color(0, 0, 0));
 		}
-		return btnNewButton;
+		return btAñadir;
+	}
+	private void mostrarNuevaVentanaCOnHorario() {
+		((CardLayout) getPnContenidos().getLayout()).show(pnContenidos, "pn_Horario_Añadir");
+		contentPane.getRootPane().setDefaultButton(btAñadir);
+		
+	}
+
+	private JButton getBtEliminar() {
+		if (btEliminar == null) {
+			btEliminar = new JButton("Eliminar actividad");
+			btEliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					eliminarActividad();
+				}
+			});
+			btEliminar.setBackground(new Color(250, 128, 114));
+		}
+		return btEliminar;
+	}
+	private void eliminarActividad() {
+		// TODO Auto-generated method stub
+		List<String> elegidoEliminar = getList().getSelectedValuesList();
+		for(int i = 0; i < elegidoEliminar.size(); i++) {
+			//modelCesta.removeElement(laEntrega.get(i));
+		}
+		// getListaCesta().setModel(modelCesta);
+		
+	}
+
+	private JPanel getPn_Horario_Añadir() {
+		if (pn_Horario_Añadir == null) {
+			pn_Horario_Añadir = new JPanel();
+			pn_Horario_Añadir.setBackground(new Color(255, 255, 255));
+			pn_Horario_Añadir.setLayout(new BorderLayout(0, 0));
+			pn_Horario_Añadir.add(getPn_todas_las_actividades(), BorderLayout.NORTH);
+			pn_Horario_Añadir.add(getScActividades(), BorderLayout.CENTER);
+			pn_Horario_Añadir.add(getPn_boton_añadir(), BorderLayout.SOUTH);
+		}
+		return pn_Horario_Añadir;
+	}
+	private JPanel getPn_todas_las_actividades() {
+		if (pn_todas_las_actividades == null) {
+			pn_todas_las_actividades = new JPanel();
+			pn_todas_las_actividades.setBackground(new Color(152, 251, 152));
+			pn_todas_las_actividades.add(getLblTodasLasActividades());
+		}
+		return pn_todas_las_actividades;
+	}
+	private JScrollPane getScActividades() {
+		if (scActividades == null) {
+			scActividades = new JScrollPane();
+			scActividades.setViewportView(getLista_actividades());
+		}
+		return scActividades;
+	}
+	private JLabel getLblTodasLasActividades() {
+		if (lblTodasLasActividades == null) {
+			lblTodasLasActividades = new JLabel("TODAS LAS ACTIVIDADES");
+			lblTodasLasActividades.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		}
+		return lblTodasLasActividades;
+	}
+	private JList<String> getLista_actividades() {
+		if (lista_actividades == null) {
+			lista_actividades = new JList<String>();
+			lista_actividades.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lista_actividades.setModel(modelActividades);
+			lista_actividades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			ponerHorarioVisible();
+		}
+		return lista_actividades;
+	}
+	private void ponerHorarioVisible() {
+		List<String> listaActividades = Actividad.listarActividades();
+		for(int i = 0; i < listaActividades.size(); i++) {
+			((DefaultListModel<String>) modelActividades).addElement(listaActividades.get(i));
+			
+		}
+		
+	}
+
+	private JPanel getPn_boton_añadir() {
+		if (pn_boton_añadir == null) {
+			pn_boton_añadir = new JPanel();
+			pn_boton_añadir.setBackground(new Color(255, 255, 255));
+			pn_boton_añadir.setLayout(new GridLayout(1, 0, 0, 0));
+			pn_boton_añadir.add(getBt_añadir());
+			pn_boton_añadir.add(getBt_Atras_3());
+		}
+		return pn_boton_añadir;
+	}
+	private JButton getBt_añadir() {
+		if (bt_Añadir_4 == null) {
+			bt_Añadir_4 = new JButton("Añadir");
+			bt_Añadir_4.setForeground(new Color(255, 255, 255));
+			bt_Añadir_4.setBackground(new Color(0, 128, 0));
+			bt_Añadir_4.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+		}
+		return bt_Añadir_4;
+	}
+	private JButton getBt_Atras_3() {
+		if (bt_Atras_3 == null) {
+			bt_Atras_3 = new JButton("Atrás");
+			bt_Atras_3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostarInicioSesionOtraVez();
+				}
+			});
+			bt_Atras_3.setForeground(new Color(255, 255, 255));
+			bt_Atras_3.setBackground(new Color(255, 0, 0));
+		}
+		return bt_Atras_3;
+	}
+
+	protected void mostarInicioSesionOtraVez() {
+		((CardLayout) getPnContenidos().getLayout()).show(pnContenidos, "pn_InicioSesionCorrecto");
+		contentPane.getRootPane().setDefaultButton(bt_Atras_3);
+		
+		
 	}
 }
