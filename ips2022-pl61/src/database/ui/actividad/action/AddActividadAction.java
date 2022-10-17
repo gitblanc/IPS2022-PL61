@@ -13,21 +13,25 @@ import database.ui.Action;
  * @author UO285176
  *
  */
-public class AddActividadAction implements Action{
+public class AddActividadAction implements Action {
 
 	@Override
 	public void execute() {
 		ActividadBLDto actividad = new ActividadBLDto();
-		//Get info
+		// Get info
 		actividad.id = Console.readString("Id");
 		actividad.nombre = Console.readString("Nombre");
 		actividad.intensidad = Console.readString("Intensidad");
 		actividad.acceso = Console.readString("Acceso por");
-		actividad.horario = Console.readString("Horario");
+		actividad.hora_inicio = Console.readString("Hora de inicio");
+		actividad.hora_fin = Console.readString("Hora de finalización");
+		actividad.instalacion = Console.readString("Instalación");
+		actividad.fecha = Console.readString("Fecha");
+		actividad.plazas = Console.readInt("Plazas");
 
 		ActividadService as = BusinessFactory.forActividadService();
 		as.addActividad(actividad);
-		//Print result
+		// Print result
 		Console.print("¡Actividad añadida!");
 		Console.println("");
 	}

@@ -11,7 +11,7 @@ import java.util.Optional;
  *
  */
 public interface ActividadService {
-	// Le pasamos la actividad a a�adir
+	// Le pasamos la actividad a añadir
 	ActividadBLDto addActividad(ActividadBLDto actividad);
 
 	// Le pasamos el identificador de la actividad a eliminar
@@ -32,8 +32,12 @@ public interface ActividadService {
 		public String nombre;
 		public String intensidad;
 		public String acceso;
-		public String horario;
 		public String monitor;
+		public String hora_inicio;
+		public String hora_fin;
+		public String instalacion;
+		public String fecha;
+		public int plazas;
 
 
 	}

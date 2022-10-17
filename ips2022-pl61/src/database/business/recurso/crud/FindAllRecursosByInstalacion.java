@@ -1,7 +1,7 @@
 /**
  * 
  */
-package database.business.socio.crud;
+package database.business.recurso.crud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,20 +11,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.business.socio.SocioService.SocioBLDto;
+import assertion.Argument;
+import database.business.recurso.RecursoService.RecursoBLDto;
 
 /**
  * @author UO285176
  *
  */
-public class FindAllSocios {
-	private static final String SQL = "select * from Socio";
+public class FindAllRecursosByInstalacion {
+
+	private static final String SQL = "select * from Recurso where nombre_i = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	public List<SocioBLDto> execute() {
-		List<SocioBLDto> socios = new ArrayList<>();
+	String instalacion = "";
+
+	public FindAllRecursosByInstalacion(String instalacion) {
+		Argument.isNotNull(instalacion);
+		this.instalacion = instalacion;
+	}
+
+	public List<RecursoBLDto> execute() {
+		List<RecursoBLDto> recursos = new ArrayList<>();
 
 		Connection c = null;
 		PreparedStatement pst = null;
@@ -34,16 +43,14 @@ public class FindAllSocios {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 
 			pst = c.prepareStatement(SQL);
-
+			pst.setString(1, instalacion);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				SocioBLDto socio = new SocioBLDto();
-				socio.id = rs.getString("id_s");
-				socio.nombre = rs.getString("nombre_s");
-				socio.apellidos = rs.getString("apellidos_s");
-				socio.correo = rs.getString("correo_s");
-				socio.contraseña = rs.getString("contraseña_s");
-				socios.add(socio);
+				RecursoBLDto recurso = new RecursoBLDto();
+				recurso.nombre = rs.getString("nombre_r");
+				recurso.cantidad = rs.getInt("cantidad_r");
+				recurso.instalacion = rs.getString("nombre_i");
+				recursos.add(recurso);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -64,6 +71,8 @@ public class FindAllSocios {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return socios;
+		return recursos;
+
 	}
+
 }

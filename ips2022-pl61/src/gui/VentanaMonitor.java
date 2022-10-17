@@ -1,23 +1,18 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import java.awt.TextField;
-import java.awt.Label;
+import javax.swing.border.EmptyBorder;
 
 public class VentanaMonitor extends JFrame {
 
@@ -30,15 +25,15 @@ public class VentanaMonitor extends JFrame {
 	private JPanel pnLista;
 	private JPanel pnPasarListaSocios;
 	private JScrollPane scrollPane;
-	private JPanel pnPlazasAñadir;
+	private JPanel pnPlazasAÃ±adir;
 	private JPanel pnNumPlazas;
-	private JPanel pnAñadirSocios;
+	private JPanel pnAÃ±adirSocios;
 	private JButton btnPasarLista;
 	private JTextField txtNumeroPlazasDis;
 	private JTextField txtNmeroDePlazas;
 	private JPanel pnIDok;
 	private JButton btnOk;
-	private JLabel lblAñadirSocio;
+	private JLabel lblAÃ±adirSocio;
 	private JPanel pnID;
 	private JLabel lblIntroducirID;
 	private JTextField txtID;
@@ -140,13 +135,13 @@ public class VentanaMonitor extends JFrame {
 		return scrollPane;
 	}
 	private JPanel getPanel_1_4() {
-		if (pnPlazasAñadir == null) {
-			pnPlazasAñadir = new JPanel();
-			pnPlazasAñadir.setLayout(new GridLayout(0, 1, 0, 0));
-			pnPlazasAñadir.add(getPanel_1_5());
-			pnPlazasAñadir.add(getPnAñadirSocios());
+		if (pnPlazasAÃ±adir == null) {
+			pnPlazasAÃ±adir = new JPanel();
+			pnPlazasAÃ±adir.setLayout(new GridLayout(0, 1, 0, 0));
+			pnPlazasAÃ±adir.add(getPanel_1_5());
+			pnPlazasAÃ±adir.add(getPnAÃ±adirSocios());
 		}
-		return pnPlazasAñadir;
+		return pnPlazasAÃ±adir;
 	}
 	private JPanel getPanel_1_5() {
 		if (pnNumPlazas == null) {
@@ -157,13 +152,13 @@ public class VentanaMonitor extends JFrame {
 		}
 		return pnNumPlazas;
 	}
-	private JPanel getPnAñadirSocios() {
-		if (pnAñadirSocios == null) {
-			pnAñadirSocios = new JPanel();
-			pnAñadirSocios.setLayout(new BorderLayout(0, 0));
-			pnAñadirSocios.add(getPanel_1_6());
+	private JPanel getPnAÃ±adirSocios() {
+		if (pnAÃ±adirSocios == null) {
+			pnAÃ±adirSocios = new JPanel();
+			pnAÃ±adirSocios.setLayout(new BorderLayout(0, 0));
+			pnAÃ±adirSocios.add(getPanel_1_6());
 		}
-		return pnAñadirSocios;
+		return pnAÃ±adirSocios;
 	}
 	private JButton getBtnPasarLista() {
 		if (btnPasarLista == null) {
@@ -194,7 +189,7 @@ public class VentanaMonitor extends JFrame {
 			pnIDok = new JPanel();
 			pnIDok.setLayout(new BorderLayout(0, 0));
 			pnIDok.add(getBtnOk(), BorderLayout.EAST);
-			pnIDok.add(getLblAñadirSocio(), BorderLayout.NORTH);
+			pnIDok.add(getLblAÃ±adirSocio(), BorderLayout.NORTH);
 			pnIDok.add(getPanel_1_7(), BorderLayout.CENTER);
 		}
 		return pnIDok;
@@ -206,12 +201,12 @@ public class VentanaMonitor extends JFrame {
 		}
 		return btnOk;
 	}
-	private JLabel getLblAñadirSocio() {
-		if (lblAñadirSocio == null) {
-			lblAñadirSocio = new JLabel("A\u00F1adir nuevo socio");
-			lblAñadirSocio.setFont(new Font("Tahoma", Font.PLAIN, 16));
+	private JLabel getLblAÃ±adirSocio() {
+		if (lblAÃ±adirSocio == null) {
+			lblAÃ±adirSocio = new JLabel("A\u00F1adir nuevo socio");
+			lblAÃ±adirSocio.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		}
-		return lblAñadirSocio;
+		return lblAÃ±adirSocio;
 	}
 	private JPanel getPanel_1_7() {
 		if (pnID == null) {

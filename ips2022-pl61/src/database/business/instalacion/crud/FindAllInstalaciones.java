@@ -1,7 +1,7 @@
 /**
  * 
  */
-package database.business.socio.crud;
+package database.business.instalacion.crud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,20 +11,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.business.socio.SocioService.SocioBLDto;
+import database.business.instalacion.InstalacionService.InstalacionBLDto;
 
 /**
  * @author UO285176
  *
  */
-public class FindAllSocios {
-	private static final String SQL = "select * from Socio";
+public class FindAllInstalaciones {
+
+	private static final String SQL = "select * from Instalacion";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	public List<SocioBLDto> execute() {
-		List<SocioBLDto> socios = new ArrayList<>();
+	public List<InstalacionBLDto> execute() {
+		List<InstalacionBLDto> instalaciones = new ArrayList<>();
 
 		Connection c = null;
 		PreparedStatement pst = null;
@@ -37,13 +38,10 @@ public class FindAllSocios {
 
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				SocioBLDto socio = new SocioBLDto();
-				socio.id = rs.getString("id_s");
-				socio.nombre = rs.getString("nombre_s");
-				socio.apellidos = rs.getString("apellidos_s");
-				socio.correo = rs.getString("correo_s");
-				socio.contraseña = rs.getString("contraseña_s");
-				socios.add(socio);
+				InstalacionBLDto instalacion = new InstalacionBLDto();
+				instalacion.nombre = rs.getString("nombre_i");
+				instalacion.plazas = rs.getInt("plazas");
+				instalaciones.add(instalacion);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -64,6 +62,7 @@ public class FindAllSocios {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return socios;
+		return instalaciones;
 	}
+
 }

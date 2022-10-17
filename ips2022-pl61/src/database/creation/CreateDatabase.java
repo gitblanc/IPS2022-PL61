@@ -49,16 +49,19 @@ public class CreateDatabase {
 
 	private static void createQueries() {
 		String crearSocios = "create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null"
-				+ ", apellidos_s varchar(50) not null, correo_s varchar(50) not null)";
+				+ ", apellidos_s varchar(50) not null, correo_s varchar(50) not null, contraseña_s varchar(50) not null)";
 		String crearMonitor = "create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null"
 				+ ", apellidos_m varchar(50) not null, correo_m varchar(50) not null )";
 		String crearNoSocio = "create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null"
 				+ ", apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)";
-		String crearRecurso = "create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0))";
-		String crearInstalacion = "create table instalacion(nombre_i varchar(20) not null, plazas int not null)";
+		String crearRecurso = "create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0)"
+				+ ", nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
+		String crearInstalacion = "create table instalacion(nombre_i varchar(20) primary key, plazas int not null)";
 		String crearActividad = "create table actividad(id_a varchar(10) primary key, nombre_a varchar(20) not null"
 				+ ", intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
-				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), horario varchar(6)  not null)";
+				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,"
+				+ "hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),"
+				+ "fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))";
 		String crearCursillo = "create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, "
 				+ "duracion varchar(20) not null, horario date not null)";
 		String crearListaEspera = "create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)";
@@ -68,21 +71,17 @@ public class CreateDatabase {
 				+ ",nombre_r varchar(20) foreign key references Recurso(nombre_r))";
 
 		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
-		//
 
-
-//     
-//		String dropSocios = "drop table socio";
-//		String dropMonitor = "drop table monitor";
-//		String dropNoSocio = "drop table no_socio";
-//		String dropInstalacion = "drop table instalacion";
-//		String dropRecurso = "drop table recurso";
+		String dropSocios = "drop table socio";
+		String dropMonitor = "drop table monitor";
+		String dropNoSocio = "drop table no_socio";
+		String dropInstalacion = "drop table instalacion";
+		String dropRecurso = "drop table recurso";
 		String dropActividad = "drop table actividad";
-//		String dropCursillo = "drop table cursillo";
-//		String dropListaEspera = "drop table lista_espera";
-//		String dropAdministracion = "drop table administracion";
-//		String dropRecursosActividad = "drop table recursosactividad";
-
+		String dropCursillo = "drop table cursillo";
+		String dropListaEspera = "drop table lista_espera";
+		String dropAdministracion = "drop table administracion";
+		String dropRecursosActividad = "drop table recursosactividad";
 
 		createQueries.add(crearSocios);
 		createQueries.add(crearMonitor);
@@ -91,21 +90,20 @@ public class CreateDatabase {
 		createQueries.add(crearRecurso);
 		createQueries.add(crearSinRecursos);
 		createQueries.add(crearActividad);
-//		createQueries.add(crearCursillo);
-//		createQueries.add(crearListaEspera);
-//		createQueries.add(crearAdministracion);
-//		createQueries.add(crearRecursosActividad);
+		createQueries.add(crearCursillo);
+		createQueries.add(crearListaEspera);
+		createQueries.add(crearAdministracion);
+		createQueries.add(crearRecursosActividad);
 
-//		dropTables.add(dropSocios);
-//		dropTables.add(dropMonitor);
-//		dropTables.add(dropNoSocio);
-//		dropTables.add(dropInstalacion);
-//		dropTables.add(dropRecursosActividad);
-//		dropTables.add(dropRecurso);
-//		dropTables.add(dropActividad);
-//		dropTables.add(dropCursillo);
-//		dropTables.add(dropListaEspera);
-//		dropTables.add(dropAdministracion);
-		
-			}
+		dropTables.add(dropSocios);
+		dropTables.add(dropMonitor);
+		dropTables.add(dropNoSocio);
+		dropTables.add(dropRecursosActividad);
+		dropTables.add(dropCursillo);
+		dropTables.add(dropListaEspera);
+		dropTables.add(dropAdministracion);
+		dropTables.add(dropActividad);
+		dropTables.add(dropRecurso);
+		dropTables.add(dropInstalacion);
+	}
 }

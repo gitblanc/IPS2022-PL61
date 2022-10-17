@@ -23,7 +23,12 @@ public class UpdateActividadAction implements Action {
 		actividad.nombre = Console.readString("Nombre");
 		actividad.intensidad = Console.readString("Intensidad");
 		actividad.acceso = Console.readString("Acceso por");
-		actividad.horario = Console.readString("Horario");
+		actividad.hora_inicio = Console.readString("Hora de inicio");
+		actividad.hora_fin = Console.readString("Hora de finalización");
+		actividad.instalacion = Console.readString("Instalación");
+		actividad.fecha = Console.readString("Día");
+		actividad.plazas = Console.readInt("Plazas");
+
 		ActividadService as = BusinessFactory.forActividadService();
 		as.updateActividad(actividad);
 		Console.println("¡Actividad actualizada!");

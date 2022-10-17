@@ -3,75 +3,65 @@ package logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Socio {
+import database.business.BusinessFactory;
+import database.business.socio.SocioService;
+import database.business.socio.SocioService.SocioBLDto;
 
-	//Atributos de la clase
-	private String idSocio;
-	private String nombreSocio;
-	private String apellidosSocio;
-	private String correoSocio;
+public class Socio {
+	
+	private static SocioService ss = BusinessFactory.forSocioService();
 	
 	//Cada socio tiene una lista de actividades a la que está inscrito
-	private List<Actividad> actividadesApuntas = new ArrayList<Actividad>();
+	private List<Actividad> actividadesApuntadas = new ArrayList<Actividad>();
 	
-	/*
-	 * Constructor de la clase Socio
-	 */
-	public Socio(String idSocio, String nombreSocio, String apellidoSocio, String correoSocio) {
-		setIdSocio(idSocio);
-		setNombreSocio(nombreSocio);
-		setApellidosSocio(apellidoSocio);
-		setCorreoSocio(correoSocio);
-		
+	public String socioCorrecto(String correo, String contraseña) {
+		String correcto = null;
+		if (!validarParametros(correo, contraseña))
+			correcto = null;
+		List<SocioBLDto> lista = ss.findAllSocios();
+		for(int i = 0; i < lista.size(); i++) {
+			if(lista.get(i).correo.equals(correo)) {
+				if(lista.get(i).contraseña.equals(contraseña)) {
+					correcto = lista.get(i).nombre;
+				} else {
+					correcto = null;
+				}
+			} else {
+				correcto = null;
+			}
+		}
+		return correcto;		
 	}
 
-	public String getIdSocio() {
-		return idSocio;
+	private boolean validarParametros(String correo, String contraseña) {
+		if(correo == null || contraseña == null ) {
+			return false;
+		}
+		return true;
 	}
-
-	private void setIdSocio(String idSocio) {
-		this.idSocio = idSocio;
-	}
-
-	public String getNombreSocio() {
-		return nombreSocio;
-	}
-
-	private void setNombreSocio(String nombreSocio) {
-		this.nombreSocio = nombreSocio;
-	}
-
-	public String getApellidosSocio() {
-		return apellidosSocio;
-	}
-
-	private void setApellidosSocio(String apellidosSocio) {
-		this.apellidosSocio = apellidosSocio;
-	}
-
-	public String getCorreoSocio() {
-		return correoSocio;
-	}
-
-	private void setCorreoSocio(String correoSocio) {
-		this.correoSocio = correoSocio;
-	}
+	
+	
+	//------------------------------------------------------------
+	
 	
 	/**
 	 * Mçetodo que añade una actividad al sociio
 	 * @param actividad de tipo Actividad
 	 */
 	public void addActividad(Actividad actividad) {
-		actividadesApuntas.add(actividad);
+		actividadesApuntadas.add(actividad);
 	}
 
 	/**
 	 * Método que devuelve todas las actividades apuntadas por el socio
 	 * @return
 	 */
-	public List<Actividad> listarActividadesApuntadas() {
-		return actividadesApuntas;
+	public  List<Actividad> listarActividadesApuntadas() {
+		return actividadesApuntadas;
 	}
+	
+	
+	
 	
 	
 }

@@ -63,7 +63,7 @@ public class MenuSocio {
 		Integer opt;
 
 		do {
-			Console.print("Opción:");
+			Console.print("OpciÃ³n:");
 			opt = Console.readInt();
 
 		} while (opt == null || opt < EXIT);
@@ -73,8 +73,8 @@ public class MenuSocio {
 
 	private static void showMenu() {
 		Console.println("");
-		Console.println("Selecciona una opción: ");
-		Console.println("1. Añadir un socio");
+		Console.println("Selecciona una opciï¿½n: ");
+		Console.println("1. AÃ±adir un socio");
 		Console.println("2. Eliminar un socio");
 		Console.println("3. Actualizar un socio");
 		Console.println("4. Listar socios");

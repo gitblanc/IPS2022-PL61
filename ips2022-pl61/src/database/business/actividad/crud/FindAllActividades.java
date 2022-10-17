@@ -42,7 +42,11 @@ public class FindAllActividades {
 				actividad.nombre = rs.getString("nombre_a");
 				actividad.intensidad = rs.getString("intensidad");
 				actividad.acceso = rs.getString("acceso");
-				actividad.horario = rs.getString("horario");
+				actividad.hora_inicio = rs.getString("hora_inicio");
+				actividad.hora_fin = rs.getString("hora_fin");
+				actividad.instalacion = rs.getString("nombre_i");
+				actividad.fecha = rs.getString("fecha");
+				actividad.plazas = rs.getInt("plazas_a");
 				actividades.add(actividad);
 			}
 		} catch (SQLException e) {

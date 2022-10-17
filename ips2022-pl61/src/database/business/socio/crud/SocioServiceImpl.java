@@ -42,4 +42,5 @@ public class SocioServiceImpl implements SocioService {
 		return new FindAllSocios().execute();
 	}
 
+
 }

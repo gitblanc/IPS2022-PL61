@@ -5,11 +5,12 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import database.business.BusinessFactory;
 import database.business.actividad.ActividadService;
 import database.business.actividad.ActividadService.ActividadBLDto;
+import database.business.instalacion.InstalacionService;
+import database.business.instalacion.InstalacionService.InstalacionBLDto;
 import database.business.recursosActividad.RecursosActividadService;
 import database.business.recursosActividad.RecursosActividadService.RecursosActividadBLDto;
 
@@ -18,20 +19,22 @@ import database.business.recursosActividad.RecursosActividadService.RecursosActi
  *
  */
 public class Actividad {
-	
 
 	// factoría de actividades
 
-	private ActividadService as = BusinessFactory.forActividadService();
+	private static ActividadService as = BusinessFactory.forActividadService();
 	// factoría de recursos por actividad
 	private RecursosActividadService ras = BusinessFactory.forRecursosActividadService();
 
+	// factoría de instalaciones
+	private static InstalacionService is = BusinessFactory.forInstalacionService();
+
 	/**
-	 * M�todo que lista todas las actividades existentes
+	 * Método que lista todas las actividades existentes
 	 * 
 	 * @return
 	 */
-	public List<ActividadBLDto> listarActividades() {
+	public static List<ActividadBLDto> listarActividadesBLDto() {
 		return as.findAllActividades();
 	}
 
@@ -42,9 +45,14 @@ public class Actividad {
 	 * @param nombre
 	 * @param intensidad
 	 * @param recurso
+	 * @param instalacion
+	 * @param hora_fin
+	 * @param plazas
+	 * @param dia
 	 */
-	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso) {
-		if (!validarParametros(id, nombre, intensidad, recurso))
+	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso,
+			String hora_inicio, String hora_fin, String instalacion, String fecha, int plazas) {
+		if (!validarParametros(id, nombre, intensidad, recurso, fecha, plazas, hora_inicio, hora_fin, instalacion))
 			return false;
 		if (acceso == "libre acceso")
 			acceso = "libre";
@@ -54,6 +62,11 @@ public class Actividad {
 		actividad.nombre = nombre;
 		actividad.intensidad = intensidad;
 		actividad.acceso = acceso;
+		actividad.hora_inicio = hora_inicio;
+		actividad.hora_fin = hora_fin;
+		actividad.instalacion = instalacion;
+		actividad.fecha= fecha;
+		actividad.plazas = plazas;
 		as.addActividad(actividad);
 		addRecursosActividad(id, recurso);
 		return true;
@@ -76,45 +89,95 @@ public class Actividad {
 	}
 
 	/**
-	 * M�todo que comprueba que no pasemos null, espacios en blanco o nada a la base
+	 * Método que comprueba que no pasemos null, espacios en blanco o nada a la base
 	 * de datos
 	 * 
 	 * @param id
 	 * @param nombre
 	 * @param intensidad
 	 * @param recurso
+	 * @param plazas
+	 * @param dia
+	 * @param hora_fin
+	 * @param hora_inicio
+	 * @param instalacion
 	 * @return
 	 */
-	private boolean validarParametros(String id, String nombre, String intensidad, String[] recurso) {
+	private boolean validarParametros(String id, String nombre, String intensidad, String[] recursos, String dia,
+			int plazas, String hora_inicio, String hora_fin, String instalacion) {
 		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
 				|| intensidad.isBlank())
-
+			return false;
+		if (plazas < -1 || plazas == 0)
+			return false;
+		if (Integer.parseInt(hora_inicio.split(":")[0].toString().split("@")[0]) >= Integer
+				.parseInt(hora_fin.split(":")[0].toString().split("@")[0]))
+			return false;
+		if (!existeRecursoEnInstalacion(recursos, instalacion))
 			return false;
 		return true;
 	}
 
-	public List<ActividadBLDto> actividadesReserva() {
-		List<ActividadBLDto> listaReserva = new ArrayList<ActividadBLDto>();
-		for(ActividadBLDto a: listarActividades()) {
-			if(a.acceso.equals("reserva") || a.acceso.equals("RESERVA") || a.acceso.equals("Reserva")) {
-				listaReserva.add(a);
-			}
+	private boolean existeRecursoEnInstalacion(String[] recursos, String instalacion) {
+		if(recursos[0].isBlank())
+			return true;
+		for (int i = 0; i < recursos.length; i++) {
+			if (!buscarRecurso(recursos[i], instalacion))
+				return false;
 		}
-		return listaReserva;
+		return true;
 	}
-	
-	public List<ActividadBLDto> actividadesLibre() {
-		List<ActividadBLDto> listaLibre = new ArrayList<ActividadBLDto>();
-		for(ActividadBLDto a: listarActividades()) {
-			if(a.acceso.equals("libre") || a.acceso.equals("LIBRE") || a.acceso.equals("Libre")) {
-				listaLibre.add(a);
-			}
-		}
-		return listaLibre;
 
+	private boolean buscarRecurso(String recurso, String instalacion) {
+		String[] recursosInstalacion = Recurso.listarRecursosPorInstalacion(instalacion);
+		for (int i = 0; i < recursosInstalacion.length; i++) {
+			if (recursosInstalacion[i].equals(recurso))
+				return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * Método que devuelve las instalaciones existentes
+	 * 
+	 * @return
+	 */
+	public static String[] listarInstalaciones() {
+		List<InstalacionBLDto> instalaciones = is.findAllInstalaciones();
+		String[] result = new String[instalaciones.size()];
+		for (int i = 0; i < instalaciones.size(); i++) {
+			result[i] = instalaciones.get(i).nombre;
+		}
+		return result;
+	}
+	
+	public static List<String> listarActividades(String dia) {
+		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<String> result = new ArrayList<String>();
+		for(int i = 0; i < actividades.size(); i++) {
+			if(actividades.get(i).fecha.equals(dia)) {
+				String a = actividades.get(i).nombre + " ------ " + actividades.get(i).hora_inicio + " - " + 
+						actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
+						result.add(a);
+			}
+		}
+		return result;
 	}
 	
 	
+	public static List<String> listarActividades() {
+		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<String> result = new ArrayList<String>();
+		for(int i = 0; i < actividades.size(); i++) {
+			String a = actividades.get(i).nombre + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
+					actividades.get(i).hora_fin + " ------ " + "Instalación: " + actividades.get(i).instalacion + " ------ Acceso por: " + actividades.get(i).acceso.toUpperCase();
+					result.add(a);
+			}
+		
+		return result;
+	}
+
 	
-	
+
 }

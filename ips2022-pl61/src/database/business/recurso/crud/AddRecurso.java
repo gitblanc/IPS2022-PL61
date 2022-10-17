@@ -17,7 +17,7 @@ import database.business.recurso.RecursoService.RecursoBLDto;
 public class AddRecurso {
 
 	//Conexiones
-	private static String SQL = "insert into Recurso(nombre_r, cantidad_r) values (?, ?)";
+	private static String SQL = "insert into Recurso(nombre_r, cantidad_r, nombre_i) values (?, ?, ?)";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
@@ -49,6 +49,7 @@ public class AddRecurso {
 			pst = c.prepareStatement(SQL);
 			pst.setString(1, recurso.nombre);
 			pst.setInt(2, recurso.cantidad);
+			pst.setString(3, recurso.instalacion);
 
 			pst.executeUpdate();
 
