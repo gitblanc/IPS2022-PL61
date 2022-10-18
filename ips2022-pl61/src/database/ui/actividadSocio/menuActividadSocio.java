@@ -1,8 +1,8 @@
 package database.ui.actividadSocio;
 
 import console.Console;
-import database.ui.recursosActividad.AddRecursosActividadAction;
-import database.ui.recursosActividad.FindAllRecursosActividadesAction;
+import database.ui.actividadSocio.action.AddActividadSocioAction;
+import database.ui.actividadSocio.action.FindAllActividadSocioAction;
 
 public class menuActividadSocio {
 	private static final int EXIT = 0;
@@ -35,10 +35,10 @@ public class menuActividadSocio {
 		case EXIT:
 			return;
 		case 1:
-			new AddRecursosActividadAction().execute();
+			new AddActividadSocioAction().execute();
 			break;
 		case 2:
-			new FindAllRecursosActividadesAction().execute();
+			new FindAllActividadSocioAction().execute();
 			break;
 		}
 
