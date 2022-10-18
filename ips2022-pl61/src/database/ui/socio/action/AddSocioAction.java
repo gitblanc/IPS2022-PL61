@@ -23,7 +23,7 @@ public class AddSocioAction implements Action{
 		socio.nombre = Console.readString("Nombre");
 		socio.apellidos = Console.readString("Apellidos");
 		socio.correo = Console.readString("Correo");
-		socio.contraseÃ±a = Console.readString("Socio");
+		socio.contraseña = Console.readString("Socio");
 		
 		SocioService ss = BusinessFactory.forSocioService();
 		socio = ss.addSocio(socio);

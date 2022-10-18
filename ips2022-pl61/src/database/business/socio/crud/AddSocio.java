@@ -43,7 +43,7 @@ public class AddSocio {
 			pst.setString(2, socio.nombre);
 			pst.setString(3, socio.apellidos);
 			pst.setString(4, socio.correo);
-			pst.setString(5, socio.contraseÃ±a);
+			pst.setString(5, socio.contraseña);
 
 			pst.executeUpdate();
 

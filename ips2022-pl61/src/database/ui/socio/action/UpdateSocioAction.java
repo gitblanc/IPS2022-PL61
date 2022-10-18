@@ -23,7 +23,7 @@ public class UpdateSocioAction implements Action{
 		socio.nombre = Console.readString("Nombre");
 		socio.apellidos = Console.readString("Apellidos");
 		socio.correo = Console.readString("Correo");
-		socio.contraseña = Console.readString("Contraseña");
+		socio.contrase�a = Console.readString("Contraseña");
 		SocioService ss = BusinessFactory.forSocioService();
 		ss.updateSocio(socio);
 		Console.println("¡Socio actualizado!");
