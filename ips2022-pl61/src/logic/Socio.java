@@ -17,9 +17,6 @@ public class Socio {
 	private static ActividadSocioService ass = BusinessFactory.forActividadSocioService();
 	private static ActividadService as = BusinessFactory.forActividadService();
 	
-	//Cada socio tiene una lista de actividades a la que está inscrito
-	private List<ActividadSocioBLDto> actividadesApuntadas = ass.findAllActividadSocio();
-	private List<ActividadBLDto> actividades = as.findAllActividades();
 	
 	public String socioCorrecto(String correo, String contraseña) {
 		String correcto = null;
@@ -39,6 +36,10 @@ public class Socio {
 		}
 		return correcto;		
 	}
+	
+	public String devolverCorreo(String correo) {
+		return correo;
+	}
 
 	private boolean validarParametros(String correo, String contraseña) {
 		if(correo == null || contraseña == null ) {
@@ -47,6 +48,13 @@ public class Socio {
 		return true;
 	}
 	
+	public static List<ActividadSocioBLDto> listarActividadSocio() {
+		return ass.findAllActividadSocio();
+	}
+	
+	public static List<ActividadBLDto> listarTodasLAsActividades() {
+		return as.findAllActividades();
+	}
 	
 	//------------------------------------------------------------
 	
@@ -54,6 +62,8 @@ public class Socio {
 	 * Método que encuentra las actividades de cada socio
 	 */
 	public List<String> findActivitiesBySocio(String correo) {
+		List<ActividadSocioBLDto> actividadesApuntadas = listarActividadSocio();
+		List<ActividadBLDto> actividades = listarTodasLAsActividades();
 		List<String> lista = new ArrayList<String>();
 		for(int i = 0; i < actividadesApuntadas.size(); i++) {
 			if(actividadesApuntadas.get(i).correo_socio.equals(correo)) {
@@ -71,7 +81,9 @@ public class Socio {
 		return lista;
 	}
 	
+
 	
+
 	
 	
 }
