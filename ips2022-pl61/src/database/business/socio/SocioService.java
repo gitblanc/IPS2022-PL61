@@ -33,7 +33,7 @@ public interface SocioService {
 		public String nombre;
 		public String apellidos;
 		public String correo;
-		public String contraseÃ±a;
+		public String contraseña;
 
 	}
 }

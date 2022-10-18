@@ -5,7 +5,6 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import database.business.BusinessFactory;
 import database.business.actividad.ActividadService;
 import database.business.actividad.ActividadService.ActividadBLDto;
@@ -13,6 +12,7 @@ import database.business.instalacion.InstalacionService;
 import database.business.instalacion.InstalacionService.InstalacionBLDto;
 import database.business.recursosActividad.RecursosActividadService;
 import database.business.recursosActividad.RecursosActividadService.RecursosActividadBLDto;
+import database.business.socio.SocioService.SocioBLDto;
 
 /**
  * @author UO285176 UO276967
@@ -152,32 +152,17 @@ public class Actividad {
 		return result;
 	}
 	
-	public static List<String> listarActividades(String dia) {
-		List<ActividadBLDto>actividades = listarActividadesBLDto();
-		List<String> result = new ArrayList<String>();
-		for(int i = 0; i < actividades.size(); i++) {
-			if(actividades.get(i).fecha.equals(dia)) {
-				String a = actividades.get(i).nombre + " ------ " + actividades.get(i).hora_inicio + " - " + 
-						actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
-						result.add(a);
-			}
+	/**
+	 * Método que devuelve una lista de los id y nombres de todas las actividades existentes
+	 */
+	public List<String> listarActividades() {
+		List<ActividadBLDto> actividadesBLDto = listarActividadesBLDto();
+		List<String> actividades = new ArrayList<String>();
+		for(int i=0; i<actividadesBLDto.size(); i++) {
+			String s = actividadesBLDto.get(i).id+"---" +actividadesBLDto.get(i).nombre;
+			actividades.add(s);
 		}
-		return result;
+		return actividades;
 	}
 	
-	
-	public static List<String> listarActividades() {
-		List<ActividadBLDto>actividades = listarActividadesBLDto();
-		List<String> result = new ArrayList<String>();
-		for(int i = 0; i < actividades.size(); i++) {
-			String a = actividades.get(i).nombre + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
-					actividades.get(i).hora_fin + " ------ " + "InstalaciÃ³n: " + actividades.get(i).instalacion + " ------ Acceso por: " + actividades.get(i).acceso.toUpperCase();
-					result.add(a);
-			}
-		
-		return result;
-	}
-
-	
-
 }
