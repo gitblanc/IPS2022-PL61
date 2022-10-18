@@ -5,6 +5,8 @@ package database.business;
 
 import database.business.actividad.ActividadService;
 import database.business.actividad.crud.ActividadServiceImpl;
+import database.business.actividadSocio.ActividadSocioService;
+import database.business.actividadSocio.crud.ActividadSocioServiceImpl;
 import database.business.administracion.AdministracionService;
 import database.business.administracion.crud.AdministracionServiceImpl;
 import database.business.instalacion.InstalacionService;
@@ -50,4 +52,9 @@ public class BusinessFactory {
 	public static InstalacionService forInstalacionService() {
 		return new InstalacionServiceImpl();
 	}
+	
+	public static ActividadSocioService forActividadSocioService() {
+		return new ActividadSocioServiceImpl();
+	}
+	
 }

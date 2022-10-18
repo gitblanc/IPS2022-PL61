@@ -49,7 +49,7 @@ public class CreateDatabase {
 
 	private static void createQueries() {
 		String crearSocios = "create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null"
-				+ ", apellidos_s varchar(50) not null, correo_s varchar(50) not null, contraseña_s varchar(50) not null)";
+				+ ", apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contraseña_s varchar(50) not null)";
 		String crearMonitor = "create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null"
 				+ ", apellidos_m varchar(50) not null, correo_m varchar(50) not null )";
 		String crearNoSocio = "create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null"
@@ -69,8 +69,11 @@ public class CreateDatabase {
 				+ ", apellidos_a varchar(50) not null, correo_a varchar(50) not null)";
 		String crearRecursosActividad = "create table RecursosActividad(id_a varchar(10) foreign key references Actividad(id_a)"
 				+ ",nombre_r varchar(20) foreign key references Recurso(nombre_r))";
-
+		String crearActividadSocio = "create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),"
+				+ "id_a varchar(10) foreign key references Actividad(id_a))";
+		
 		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
+		
 
 		String dropSocios = "drop table socio";
 		String dropMonitor = "drop table monitor";
@@ -82,6 +85,7 @@ public class CreateDatabase {
 		String dropListaEspera = "drop table lista_espera";
 		String dropAdministracion = "drop table administracion";
 		String dropRecursosActividad = "drop table recursosactividad";
+		String dropActividadSocio = "drop table actividadsocio";
 
 		createQueries.add(crearSocios);
 		createQueries.add(crearMonitor);
@@ -94,6 +98,7 @@ public class CreateDatabase {
 		createQueries.add(crearListaEspera);
 		createQueries.add(crearAdministracion);
 		createQueries.add(crearRecursosActividad);
+		createQueries.add(crearActividadSocio);
 
 		dropTables.add(dropSocios);
 		dropTables.add(dropMonitor);
@@ -105,5 +110,6 @@ public class CreateDatabase {
 		dropTables.add(dropActividad);
 		dropTables.add(dropRecurso);
 		dropTables.add(dropInstalacion);
+		dropTables.add(dropActividadSocio);
 	}
 }
