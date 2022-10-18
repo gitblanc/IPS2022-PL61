@@ -327,7 +327,6 @@ public class VentanaAdministrador extends JFrame {
 			getLblValidacionCampos().setEnabled(true);
 			getLblValidacionCampos().setForeground(Color.GREEN);
 			getLblValidacionCampos().setText("¡Actividad creada!");
-			vaciarCampos();
 		} else {
 			fecha = getTextFieldDia().getText();
 		}

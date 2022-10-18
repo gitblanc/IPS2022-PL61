@@ -2,8 +2,6 @@ package database.business.actividadSocio;
 
 import java.util.List;
 
-import database.business.recursosActividad.RecursosActividadService.RecursosActividadBLDto;
-
 public interface ActividadSocioService {
 
 	ActividadSocioBLDto addActividadSocio(ActividadSocioBLDto actividadSocio);
