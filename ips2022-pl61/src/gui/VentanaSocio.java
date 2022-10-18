@@ -69,11 +69,12 @@ public class VentanaSocio extends JFrame {
 	private JPanel panel_relleno2;
 	private JPanel panel_relleno3;
 	private JLabel lbl_Correo;
-	private JTextField txf_Correo;
+	private JTextField txf_Correo = new JTextField();
 	private JLabel lbl_Contraseña;
 	private JPasswordField pw_contraseña;
 	private JPanel pn_Tus_Actividades;
-	private JList<String> list;
+	private JList<String> listMisActividades;
+	private DefaultListModel<String> modelMisActividades;
 	private JScrollPane scrollPane;
 	private Socio s = new Socio();
 	private JPanel pn_añadir_eliminar;
@@ -518,11 +519,11 @@ public class VentanaSocio extends JFrame {
 		return lbl_Correo;
 	}
 	private JTextField getTxf_Correo() {
-		if (txf_Correo == null) {
-			txf_Correo = new JTextField();
+
 			txf_Correo.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			txf_Correo.setColumns(10);
-		}
+
+		
 		return txf_Correo;
 	}
 	private JLabel getLbl_Contraseña() {
@@ -548,18 +549,33 @@ public class VentanaSocio extends JFrame {
 			pn_Tus_Actividades.setBorder(new LineBorder(new Color(0, 0, 0)));
 			pn_Tus_Actividades.setBackground(new Color(255, 255, 255));
 			pn_Tus_Actividades.setLayout(new BorderLayout(0, 0));
-			pn_Tus_Actividades.add(getList(), BorderLayout.NORTH);
+			pn_Tus_Actividades.add(getListMisActividades(), BorderLayout.NORTH);
 			pn_Tus_Actividades.add(getPn_añadir_eliminar(), BorderLayout.EAST);
 		}
 		return pn_Tus_Actividades;
 	}
-	private JList<String> getList() {
-		if (list == null) {
-			list = new JList();
-			list.setBackground(new Color(255, 255, 255));
+	private JList<String> getListMisActividades() {
+		if (listMisActividades == null) {
+			listMisActividades = new JList<String>();
+			listMisActividades.setBackground(new Color(255, 255, 255));
+			listMisActividades.setBorder(new LineBorder(new Color(0, 0, 0)));
+			modelMisActividades = new DefaultListModel<String>();
+			listMisActividades.setModel(modelMisActividades);
+			listMisActividades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			actualizarListaMisActividades();
+			
 		}
-		return list;
+		return listMisActividades;
 	}
+	private void actualizarListaMisActividades() {
+		List<String> listaMisActividades = s.findActivitiesBySocio(txf_Correo.getText());
+		for(int i = 0; i < listaMisActividades.size(); i++) {
+			((DefaultListModel<String>) modelMisActividades).addElement(listaMisActividades.get(i));
+			
+		}
+		
+	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -609,7 +625,7 @@ public class VentanaSocio extends JFrame {
 	}
 	private void eliminarActividad() {
 		// TODO Auto-generated method stub
-		List<String> elegidoEliminar = getList().getSelectedValuesList();
+		List<String> elegidoEliminar = getListMisActividades().getSelectedValuesList();
 		for(int i = 0; i < elegidoEliminar.size(); i++) {
 			//modelCesta.removeElement(laEntrega.get(i));
 		}
