@@ -89,6 +89,7 @@ public class VentanaSocio extends JFrame {
 	private JPanel pn_boton_añadir;
 	private JButton bt_Añadir_4;
 	private JButton bt_Atras_3;
+	private JLabel lblAdicionalCorreo;
 	
 
 
@@ -152,7 +153,7 @@ public class VentanaSocio extends JFrame {
 	}
 	
 	private String fecha() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         return dtf.format(LocalDateTime.now());
 	}
 	
@@ -434,6 +435,9 @@ public class VentanaSocio extends JFrame {
 					if(inicioCorrecto() != null) {
 						mostrarInicioSesionCorrecto();
 						getLblNombreUsuario().setText(inicioCorrecto());
+						getLblAdicionalCorreo().setText(getTxf_Correo().getText());
+						actualizarListaMisActividades();
+						limpiarValores();
 					} else {
 						mostrarMensajeError();
 						limpiarValores();
@@ -501,6 +505,7 @@ public class VentanaSocio extends JFrame {
 		if (panel_relleno2 == null) {
 			panel_relleno2 = new JPanel();
 			panel_relleno2.setBackground(new Color(255, 255, 255));
+			panel_relleno2.add(getLblAdicionalCorreo());
 		}
 		return panel_relleno2;
 	}
@@ -549,11 +554,12 @@ public class VentanaSocio extends JFrame {
 			pn_Tus_Actividades.setBorder(new LineBorder(new Color(0, 0, 0)));
 			pn_Tus_Actividades.setBackground(new Color(255, 255, 255));
 			pn_Tus_Actividades.setLayout(new BorderLayout(0, 0));
-			pn_Tus_Actividades.add(getListMisActividades(), BorderLayout.NORTH);
+			pn_Tus_Actividades.add(getListMisActividades(), BorderLayout.CENTER);
 			pn_Tus_Actividades.add(getPn_añadir_eliminar(), BorderLayout.EAST);
 		}
 		return pn_Tus_Actividades;
 	}
+	
 	private JList<String> getListMisActividades() {
 		if (listMisActividades == null) {
 			listMisActividades = new JList<String>();
@@ -562,13 +568,15 @@ public class VentanaSocio extends JFrame {
 			modelMisActividades = new DefaultListModel<String>();
 			listMisActividades.setModel(modelMisActividades);
 			listMisActividades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			actualizarListaMisActividades();
+			
 			
 		}
+
 		return listMisActividades;
 	}
 	private void actualizarListaMisActividades() {
-		List<String> listaMisActividades = s.findActivitiesBySocio(txf_Correo.getText());
+		List<String> listaMisActividades = s.findActivitiesBySocio(getLblAdicionalCorreo().getText());
+		((DefaultListModel<String>) modelHorario).removeAllElements();
 		for(int i = 0; i < listaMisActividades.size(); i++) {
 			((DefaultListModel<String>) modelMisActividades).addElement(listaMisActividades.get(i));
 			
@@ -594,7 +602,7 @@ public class VentanaSocio extends JFrame {
 	}
 	private JButton getBtAñadir() {
 		if (btAñadir == null) {
-			btAñadir = new JButton("Añadir más actividades");
+			btAñadir = new JButton("Apuntarse a más actividades");
 			btAñadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					mostrarNuevaVentanaCOnHorario();
@@ -627,9 +635,9 @@ public class VentanaSocio extends JFrame {
 		// TODO Auto-generated method stub
 		List<String> elegidoEliminar = getListMisActividades().getSelectedValuesList();
 		for(int i = 0; i < elegidoEliminar.size(); i++) {
-			//modelCesta.removeElement(laEntrega.get(i));
+			modelMisActividades.removeElement(elegidoEliminar.get(i));
 		}
-		// getListaCesta().setModel(modelCesta);
+		getListMisActividades().setModel(modelMisActividades);
 		
 	}
 
@@ -697,16 +705,26 @@ public class VentanaSocio extends JFrame {
 	}
 	private JButton getBt_añadir() {
 		if (bt_Añadir_4 == null) {
-			bt_Añadir_4 = new JButton("Añadir");
+			bt_Añadir_4 = new JButton("Apuntarse");
 			bt_Añadir_4.setForeground(new Color(255, 255, 255));
 			bt_Añadir_4.setBackground(new Color(0, 128, 0));
 			bt_Añadir_4.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					añadirActividadAUsuario();
 				}
 			});
 		}
 		return bt_Añadir_4;
 	}
+	private void añadirActividadAUsuario() {
+		// TODO Auto-generated method stub
+		List<String> elegidoAñadir = getLista_actividades().getSelectedValuesList();
+		for(int i = 0; i < elegidoAñadir.size(); i++) {
+			modelMisActividades.addElement(elegidoAñadir.get(i));
+		}
+		
+	}
+
 	private JButton getBt_Atras_3() {
 		if (bt_Atras_3 == null) {
 			bt_Atras_3 = new JButton("Atrás");
@@ -726,5 +744,12 @@ public class VentanaSocio extends JFrame {
 		contentPane.getRootPane().setDefaultButton(bt_Atras_3);
 		
 		
+	}
+	private JLabel getLblAdicionalCorreo() {
+		if (lblAdicionalCorreo == null) {
+			lblAdicionalCorreo = new JLabel("");
+			lblAdicionalCorreo.setVisible(false);
+		}
+		return lblAdicionalCorreo;
 	}
 }
