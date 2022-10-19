@@ -6,58 +6,58 @@ import java.util.List;
 public class MonitorBase {
 	
 	/**
-	 * Clase que simula la utilización de la base de datos. Consta de toda la información necesaria para hacer las historias.
+	 * Clase que simula la utilizaciï¿½n de la base de datos. Consta de toda la informaciï¿½n necesaria para hacer las historias.
 	 * @return
 	 */
 	
 	public String[] getListaActividades() {
-		String[] actividades = {"Baloncesto","Zumba","Natación","Ciclismo", "Pádel", "Clase abdominales" };
+		String[] actividades = {"Baloncesto","Zumba","Natacion","Ciclismo", "Padel", "Clase abdominales" };
 		return actividades;
 	}
 	
 	
 	public List<String> getSocios() {
-		List<String> socios = new ArrayList<String> () {{add("Marcos González"); add("Marta Colemar");add( "Julia Mendez"); 
-		add("Xavi García"); add("Pedro Suárez"); add("Lucía Iglesias");add( "Carolina Piedra");add( "Hugo Blanco");}};
+		List<String> socios = new ArrayList<String> () {{add("Marcos Gonzalez"); add("Marta Colemar");add( "Julia Mendez"); 
+		add("Xavi Garcia"); add("Pedro Suarez"); add("Lucia Iglesias");add( "Carolina Piedra");add( "Hugo Blanco");}};
 		return socios;
 	}
 	
 	public List<String> getActividades() {
-		List<String> actividades = new ArrayList<String> () {{add("Natación"); add("Baloncesto");add( "Pádel"); 
+		List<String> actividades = new ArrayList<String> () {{add("Natacion"); add("Baloncesto");add( "Padel"); 
 		add("Zumba"); add("Ciclismo");}};
 		return actividades;
 	}
 	public String[] getActividadesArray() {
-		String[] a = {"","Natación","Baloncesto","Pádel","Zumba","Ciclismo"};
+		String[] a = {"","Natacion","Baloncesto","Padel","Zumba","Ciclismo"};
 		return a;
 	}
 	
 	public List<String> getNatacionSocios() {
-		List<String> sociosN = new ArrayList<String> () {{add("Marcos González");add( "Julia Mendez"); 
-		add("Xavi García"); add("Pedro Suárez");add( "Carolina Piedra");}};
+		List<String> sociosN = new ArrayList<String> () {{add("Marcos Gonzalez");add( "Julia Mendez"); 
+		add("Xavi Garcia"); add("Pedro Suarez");add( "Carolina Piedra");}};
 		return sociosN;
 	}
 	
 	public List<String> getBaloncestoSocios() {
 		List<String> sociosB = new ArrayList<String> () {{add("Marta Colemar");add( "Julia Mendez"); 
-		 add("Lucía Iglesias");add( "Hugo Blanco");}};
+		 add("Lucia Iglesias");add( "Hugo Blanco");}};
 		return sociosB;
 	}
 	
 	public List<String> getPadelSocios() {
-		List<String> sociosP = new ArrayList<String> () {{add("Marcos González"); add("Marta Colemar");add( "Julia Mendez");}};
+		List<String> sociosP = new ArrayList<String> () {{add("Marcos Gonzalez"); add("Marta Colemar");add( "Julia Mendez");}};
 		return sociosP;
 	}
 	
 	public List<String> getZumbaSocios() {
-		List<String> sociosZ = new ArrayList<String> () {{add( "Julia Mendez"); add("Xavi García"); add("Pedro Suárez"); add("Lucía Iglesias");
+		List<String> sociosZ = new ArrayList<String> () {{add( "Julia Mendez"); add("Xavi Garcia"); add("Pedro Suarez"); add("Lucia Iglesias");
 		add( "Hugo Blanco");}};
 		return sociosZ;
 	}
 	
 	public List<String> getCiclismoSocios() {
-		List<String> sociosC = new ArrayList<String> () {{add( "Julia Mendez");add("Xavi García"); add("Pedro Suárez"); 
-		add("Lucía Iglesias");add( "Carolina Piedra");add( "Hugo Blanco");}};
+		List<String> sociosC = new ArrayList<String> () {{add( "Julia Mendez");add("Xavi Garcia"); add("Pedro Suarez"); 
+		add("Lucia Iglesias");add( "Carolina Piedra");add( "Hugo Blanco");}};
 		return sociosC;
 	}
 	
@@ -81,16 +81,16 @@ public class MonitorBase {
 		return 6;
 	}
 	/**
-	 * Método que devuelve una lista de los socios apuntados en la actividad que interesa
+	 * Mï¿½todo que devuelve una lista de los socios apuntados en la actividad que interesa
 	 * @param actividad
 	 * @return lista socios
 	 */
 	public List<String> getSocios(String actividad) {
-		if (actividad.equals("Natación")) {
+		if (actividad.equals("Natacion")) {
 			return getNatacionSocios();
 		}else if(actividad.equals("Baloncesto")) {
 			return getBaloncestoSocios();
-		}else if (actividad.equals("Pádel")) {
+		}else if (actividad.equals("Padel")) {
 			return getPadelSocios();
 		}else if(actividad.equals("Ciclismo")) {
 			return getCiclismoSocios();
@@ -102,12 +102,12 @@ public class MonitorBase {
 	}
 	
 	/**
-	 * Método que devuelve el número de plazas en cada actividad
+	 * Mï¿½todo que devuelve el nï¿½mero de plazas en cada actividad
 	 * @param actividad
 	 * @return
 	 */
 	public int getPlazas(String actividad) {
-		if (actividad.equals("Natación")) {
+		if (actividad.equals("Natacion")) {
 			return plazasNatacion();
 		}else if(actividad.equals("Baloncesto")) {
 			return plazasBaloncesto();

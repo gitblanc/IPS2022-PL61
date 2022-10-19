@@ -18,14 +18,14 @@ public class Socio {
 	private static ActividadService as = BusinessFactory.forActividadService();
 	
 	
-	public String socioCorrecto(String correo, String contrase�a) {
+	public String socioCorrecto(String correo, String contraseña) {
 		String correcto = null;
-		if (!validarParametros(correo, contrase�a))
+		if (!validarParametros(correo, contraseña))
 			correcto = null;
 		List<SocioBLDto> lista = ss.findAllSocios();
 		for(int i = 0; i < lista.size(); i++) {
 			if(lista.get(i).correo.equals(correo)) {
-				if(lista.get(i).contrase�a.equals(contraseña)) {
+				if(lista.get(i).contraseña.equals(contraseña)) {
 					correcto = lista.get(i).nombre;
 				} else {
 					correcto = null;
