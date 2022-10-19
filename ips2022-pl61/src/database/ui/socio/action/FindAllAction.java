@@ -20,7 +20,7 @@ public class FindAllAction implements Action {
 		Console.println("--- Lista de socios ---");
 		SocioService ss = BusinessFactory.forSocioService();
 		for (SocioBLDto s : ss.findAllSocios())
-			Console.println(s.id + " - " + s.nombre + " - " + s.apellidos + " - " + s.correo + " - " + s.contraseña);
+			Console.println(s.id + " - " + s.nombre + " - " + s.apellidos + " - " + s.correo + " - " + s.contraseÃ±a);
 	}
 
 }

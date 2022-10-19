@@ -42,7 +42,7 @@ public class UpdateSocio {
 			pst.setString(1, socio.nombre);
 			pst.setString(2, socio.apellidos);
 			pst.setString(3, socio.correo);
-			pst.setString(4, socio.contraseña);
+			pst.setString(4, socio.contraseÃ±a);
 			pst.setString(5, socio.id);
 
 			pst.executeUpdate();
