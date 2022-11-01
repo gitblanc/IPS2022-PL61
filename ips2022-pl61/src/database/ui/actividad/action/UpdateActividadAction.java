@@ -20,7 +20,7 @@ public class UpdateActividadAction implements Action {
 		ActividadBLDto actividad = new ActividadBLDto();
 		Console.println("Escribe los nuevos datos de la actividad que quieras:");
 		actividad.id = Console.readString("Id");
-		actividad.nombre = Console.readString("Nombre");
+		actividad.tipo = Console.readString("Tipo");
 		actividad.intensidad = Console.readString("Intensidad");
 		actividad.acceso = Console.readString("Acceso por");
 		actividad.hora_inicio = Console.readString("Hora de inicio");

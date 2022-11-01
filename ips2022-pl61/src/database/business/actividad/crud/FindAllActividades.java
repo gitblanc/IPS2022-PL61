@@ -39,7 +39,7 @@ public class FindAllActividades {
 			while (rs.next()) {
 				ActividadBLDto actividad = new ActividadBLDto();
 				actividad.id = rs.getString("id_a");
-				actividad.nombre = rs.getString("nombre_a");
+				actividad.tipo = rs.getString("tipo");
 				actividad.intensidad = rs.getString("intensidad");
 				actividad.acceso = rs.getString("acceso");
 				actividad.hora_inicio = rs.getString("hora_inicio");

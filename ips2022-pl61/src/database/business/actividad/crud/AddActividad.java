@@ -42,7 +42,7 @@ public class AddActividad {
 
 			pst = c.prepareStatement(SQL);
 			pst.setString(1, actividad.id);
-			pst.setString(2, actividad.nombre);
+			pst.setString(2, actividad.tipo);
 			pst.setString(3, actividad.intensidad);
 			pst.setString(4, actividad.acceso);
 			pst.setString(5, actividad.hora_inicio);
