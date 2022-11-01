@@ -59,7 +59,7 @@ public class Actividad {
 		acceso = "reserva";
 		ActividadBLDto actividad = new ActividadBLDto();
 		actividad.id = id;
-		actividad.nombre = nombre;
+		actividad.tipo = nombre;
 		actividad.intensidad = intensidad;
 		actividad.acceso = acceso;
 		actividad.hora_inicio = hora_inicio;
@@ -157,7 +157,7 @@ public class Actividad {
 		List<String> result = new ArrayList<String>();
 		for(int i = 0; i < actividades.size(); i++) {
 			if(actividades.get(i).fecha.equals(dia)) {
-				String a = actividades.get(i).nombre + " ------ " + actividades.get(i).hora_inicio + " - " + 
+				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).hora_inicio + " - " + 
 						actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
 						result.add(a);
 			}
@@ -170,14 +170,26 @@ public class Actividad {
 		List<ActividadBLDto>actividades = listarActividadesBLDto();
 		List<String> result = new ArrayList<String>();
 		for(int i = 0; i < actividades.size(); i++) {
-			String a = actividades.get(i).nombre + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
+			String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
 					actividades.get(i).hora_fin + " ------ " + "Instalación: " + actividades.get(i).instalacion + " ------ Acceso por: " + actividades.get(i).acceso.toUpperCase();
 					result.add(a);
 			}
 		
 		return result;
 	}
-
-	
-
+//
+//	
+//	/**
+//	 * M�todo que devuelve una lista de los id y nombres de todas las actividades existentes
+//	 */
+//	public List<String> listarActividades() {
+//		List<ActividadBLDto> actividadesBLDto = listarActividadesBLDto();
+//		List<String> actividades = new ArrayList<String>();
+//		for(int i=0; i<actividadesBLDto.size(); i++) {
+//			String s = actividadesBLDto.get(i).id+"---" +actividadesBLDto.get(i).nombre;
+//			actividades.add(s);
+//		}
+//		return actividades;
+//	}
+//	
 }

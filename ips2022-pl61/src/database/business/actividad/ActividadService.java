@@ -29,7 +29,7 @@ public interface ActividadService {
 	public class ActividadBLDto {
 
 		public String id;
-		public String nombre;
+		public String tipo;
 		public String intensidad;
 		public String acceso;
 		public String monitor;
