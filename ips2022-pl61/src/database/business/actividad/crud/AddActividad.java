@@ -18,7 +18,7 @@ import database.business.actividad.ActividadService.ActividadBLDto;
  */
 public class AddActividad {
 
-	private static String SQL = "insert into Actividad(id_a, nombre_a, intensidad, acceso, hora_inicio, hora_fin, nombre_i, fecha, plazas_a) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static String SQL = "insert into TipoActividad(id_a, tipo, intensidad, acceso, hora_inicio, hora_fin, nombre_i, fecha, plazas_a) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
