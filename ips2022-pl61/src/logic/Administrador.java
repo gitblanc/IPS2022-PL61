@@ -51,4 +51,9 @@ public class Administrador {
 		return actividad.getPlazasInstalacion(instalacion);
 	}
 
+	public String[] getAllTiposActividad() {
+		Actividad a = new Actividad();
+		return a.findAllTiposActividad();
+	}
+
 }

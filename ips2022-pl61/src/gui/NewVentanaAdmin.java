@@ -9,8 +9,10 @@ import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.swing.DefaultComboBoxModel;
@@ -28,6 +30,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import com.toedter.calendar.JDateChooser;
 
 import logic.Administrador;
 
@@ -86,6 +90,17 @@ public class NewVentanaAdmin extends JFrame {
 	private JComboBox<String> comboBoxAcceso;
 	private JSpinner spinner;
 	private JLabel lblParametrosCorrectosTipoA;
+	private JPanel panelPlanificacionActividad;
+	private JPanel panelTipoActividad;
+	private JPanel panelFecha;
+	private JLabel lblTipoActividad;
+	private JComboBox<String> comboBoxTiposActividad;
+	private JPanel panelSeleccionFecha;
+	private JPanel panelBotonesAtrasPlanificar;
+	private JButton btnAtrasPlanificarTipo;
+	private JButton btnPlanificarTipo;
+
+	private JDateChooser jDateChooser;
 
 	/**
 	 * Create the frame.
@@ -95,6 +110,7 @@ public class NewVentanaAdmin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1091, 698);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -146,9 +162,11 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelAcciones() {
 		if (panelAcciones == null) {
 			panelAcciones = new JPanel();
+			panelAcciones.setBackground(Color.WHITE);
 			panelAcciones.setLayout(new CardLayout(0, 0));
 			panelAcciones.add(getPanelBotones(), "panelBotones");
 			panelAcciones.add(getPanelCrearActividad(), "panelCrearActividad");
+			panelAcciones.add(getPanelPlanificacionActividad(), "panelPlanificacionActividad");
 		}
 		return panelAcciones;
 	}
@@ -207,6 +225,11 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton getBtnPlanificarActividad() {
 		if (btnPlanificarActividad == null) {
 			btnPlanificarActividad = new JButton("Planificar actividad");
+			btnPlanificarActividad.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPanelAcciones("panelPlanificacionActividad");
+				}
+			});
 			btnPlanificarActividad.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return btnPlanificarActividad;
@@ -253,6 +276,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelCrearActividad() {
 		if (panelCrearActividad == null) {
 			panelCrearActividad = new JPanel();
+			panelCrearActividad.setBackground(Color.WHITE);
 			panelCrearActividad.setLayout(new GridLayout(5, 0, 0, 0));
 			panelCrearActividad.add(getPanelTipo());
 			panelCrearActividad.add(getPanelInstalacion());
@@ -652,5 +676,108 @@ public class NewVentanaAdmin extends JFrame {
 			lblParametrosCorrectosTipoA.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lblParametrosCorrectosTipoA;
+	}
+	private JPanel getPanelPlanificacionActividad() {
+		if (panelPlanificacionActividad == null) {
+			panelPlanificacionActividad = new JPanel();
+			panelPlanificacionActividad.setBackground(Color.WHITE);
+			panelPlanificacionActividad.setLayout(new GridLayout(2, 1, 0, 0));
+			panelPlanificacionActividad.add(getPanelTipoActividad());
+			panelPlanificacionActividad.add(getPanelFecha());
+		}
+		return panelPlanificacionActividad;
+	}
+	private JPanel getPanelTipoActividad() {
+		if (panelTipoActividad == null) {
+			panelTipoActividad = new JPanel();
+			panelTipoActividad.setBackground(Color.WHITE);
+			FlowLayout flowLayout = (FlowLayout) panelTipoActividad.getLayout();
+			flowLayout.setVgap(130);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelTipoActividad.add(getLblTipoActividad());
+			panelTipoActividad.add(getComboBoxTiposActividad());
+		}
+		return panelTipoActividad;
+	}
+	private JPanel getPanelFecha() {
+		if (panelFecha == null) {
+			panelFecha = new JPanel();
+			panelFecha.setBackground(Color.WHITE);
+			panelFecha.setLayout(new GridLayout(2, 0, 0, 0));
+			panelFecha.add(getPanelSeleccionFecha());
+			panelFecha.add(getPanelBotonesAtrasPlanificar());
+		}
+		return panelFecha;
+	}
+	private JLabel getLblTipoActividad() {
+		if (lblTipoActividad == null) {
+			lblTipoActividad = new JLabel("Tipo: ");
+			lblTipoActividad.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblTipoActividad.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblTipoActividad;
+	}
+	private JComboBox<String> getComboBoxTiposActividad() {
+		if (comboBoxTiposActividad == null) {
+			comboBoxTiposActividad = new JComboBox<String>();
+			comboBoxTiposActividad.setModel(new DefaultComboBoxModel<String>(admin.getAllTiposActividad()));
+			comboBoxTiposActividad.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxTiposActividad;
+	}
+	private JPanel getPanelSeleccionFecha() {
+		if (panelSeleccionFecha == null) {
+			panelSeleccionFecha = new JPanel();
+			getJdateChooser();
+			panelSeleccionFecha.setBackground(Color.WHITE);
+		}
+		return panelSeleccionFecha;
+	}
+	private JPanel getPanelBotonesAtrasPlanificar() {
+		if (panelBotonesAtrasPlanificar == null) {
+			panelBotonesAtrasPlanificar = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelBotonesAtrasPlanificar.getLayout();
+			flowLayout.setVgap(120);
+			flowLayout.setHgap(15);
+			flowLayout.setAlignment(FlowLayout.RIGHT);
+			panelBotonesAtrasPlanificar.setBackground(Color.WHITE);
+			panelBotonesAtrasPlanificar.add(getBtnAtrasTipo_1_1());
+			panelBotonesAtrasPlanificar.add(getBtnCrearTipo_1_1());
+		}
+		return panelBotonesAtrasPlanificar;
+	}
+	private JButton getBtnAtrasTipo_1_1() {
+		if (btnAtrasPlanificarTipo == null) {
+			btnAtrasPlanificarTipo = new JButton("Atrás");
+			btnAtrasPlanificarTipo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPanelAcciones("panelBotones");
+				}
+			});
+			btnAtrasPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
+			btnAtrasPlanificarTipo.setHorizontalAlignment(SwingConstants.RIGHT);
+			btnAtrasPlanificarTipo.setForeground(Color.WHITE);
+			btnAtrasPlanificarTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnAtrasPlanificarTipo.setBackground(new Color(165, 42, 42));
+		}
+		return btnAtrasPlanificarTipo;
+	}
+	private JButton getBtnCrearTipo_1_1() {
+		if (btnPlanificarTipo == null) {
+			btnPlanificarTipo = new JButton("Crear");
+			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
+			btnPlanificarTipo.setHorizontalAlignment(SwingConstants.RIGHT);
+			btnPlanificarTipo.setForeground(Color.WHITE);
+			btnPlanificarTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnPlanificarTipo.setBackground(new Color(0, 250, 154));
+		}
+		return btnPlanificarTipo;
+	}
+	 
+	private JDateChooser getJdateChooser() {
+		if(jDateChooser == null) {
+			jDateChooser = new JDateChooser();
+		}
+		return jDateChooser;
 	}
 }

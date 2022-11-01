@@ -215,4 +215,15 @@ public class Actividad {
 		}
 		return -1;
 	}
+
+	public String[] findAllTiposActividad() {
+		List<ActividadBLDto> actividades = as.findAllActividades();
+		String[] res = new String[actividades.size()];
+		int i = 0;
+		for (ActividadBLDto a : actividades) {
+			res[i] = a.tipo;
+			i++;
+		}
+		return res;
+	}
 }
