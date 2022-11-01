@@ -12,6 +12,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -38,9 +39,6 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel panelCrearActividad;
 	private JLabel lblAdministrador2;
 	private JPanel panelTextoActividad;
-	private JPanel panelId;
-	private JLabel lblIdActividad;
-	private JTextField textFieldId;
 	private JPanel panelNombreActividad;
 	private JLabel lblNombreActividad;
 	private JTextField textFieldNombre;
@@ -149,8 +147,7 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel getPanelTextoActividad() {
 		if (panelTextoActividad == null) {
 			panelTextoActividad = new JPanel();
-			panelTextoActividad.setLayout(new GridLayout(9, 1, 0, 0));
-			panelTextoActividad.add(getPanelId());
+			panelTextoActividad.setLayout(new GridLayout(8, 1, 0, 0));
 			panelTextoActividad.add(getPanelNombreActividad());
 			panelTextoActividad.add(getPanelIntensidadActividad());
 			panelTextoActividad.add(getPanelAccesoActividad());
@@ -161,36 +158,6 @@ public class VentanaAdministrador extends JFrame {
 			panelTextoActividad.add(getPanelBotonCrear());
 		}
 		return panelTextoActividad;
-	}
-
-	private JPanel getPanelId() {
-		if (panelId == null) {
-			panelId = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) panelId.getLayout();
-			flowLayout.setHgap(10);
-			flowLayout.setVgap(30);
-			flowLayout.setAlignment(FlowLayout.LEFT);
-			panelId.add(getLblIdActividad());
-			panelId.add(getTextFieldId());
-		}
-		return panelId;
-	}
-
-	private JLabel getLblIdActividad() {
-		if (lblIdActividad == null) {
-			lblIdActividad = new JLabel("Id de la actividad:");
-			lblIdActividad.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		}
-		return lblIdActividad;
-	}
-
-	private JTextField getTextFieldId() {
-		if (textFieldId == null) {
-			textFieldId = new JTextField();
-			textFieldId.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			textFieldId.setColumns(30);
-		}
-		return textFieldId;
 	}
 
 	private JPanel getPanelNombreActividad() {
@@ -208,7 +175,7 @@ public class VentanaAdministrador extends JFrame {
 
 	private JLabel getLblNombreActividad() {
 		if (lblNombreActividad == null) {
-			lblNombreActividad = new JLabel("Nombre de la actividad:");
+			lblNombreActividad = new JLabel("Tipo de la actividad:");
 			lblNombreActividad.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lblNombreActividad;
@@ -314,7 +281,7 @@ public class VentanaAdministrador extends JFrame {
 	}
 
 	protected void crearActividad() {
-		String id = getTextFieldId().getText();
+		String id = UUID.randomUUID().toString();
 		String nombre = getTextFieldNombre().getText();
 		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String[] recurso = getTextFieldRecurso().getText().split(",");
@@ -351,7 +318,6 @@ public class VentanaAdministrador extends JFrame {
 	}
 
 	private void vaciarCampos() {
-		getTextFieldId().setText("");
 		getTextFieldNombre().setText("");
 		getTextFieldRecurso().setText("");
 		getComboBoxIntensidad().setSelectedIndex(0);

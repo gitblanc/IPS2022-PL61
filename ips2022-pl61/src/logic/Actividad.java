@@ -50,39 +50,39 @@ public class Actividad {
 	 * @param plazas
 	 * @param dia
 	 */
-	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso,
-			String hora_inicio, String hora_fin, String instalacion, String fecha, int plazas) {
-		if (!validarParametros(id, nombre, intensidad, recurso, fecha, plazas, hora_inicio, hora_fin, instalacion))
-			return false;
-		if (acceso == "libre acceso")
-			acceso = "libre";
-		acceso = "reserva";
-		ActividadBLDto actividad = new ActividadBLDto();
-		actividad.id = id;
-		actividad.tipo = nombre;
-		actividad.intensidad = intensidad;
-		actividad.acceso = acceso;
-		actividad.hora_inicio = hora_inicio;
-		actividad.hora_fin = hora_fin;
-		actividad.instalacion = instalacion;
-		actividad.fecha= fecha;
-		actividad.plazas = plazas;
-		as.addActividad(actividad);
-		addRecursosActividad(id, recurso);
-		return true;
-	}
+//	protected boolean crearActividad(String id, String nombre, String intensidad, String[] recurso, String acceso,
+//			String hora_inicio, String hora_fin, String instalacion, String fecha, int plazas) {
+//		if (!validarParametros(id, nombre, intensidad, recurso, fecha, plazas, hora_inicio, hora_fin, instalacion))
+//			return false;
+//		if (acceso == "libre acceso")
+//			acceso = "libre";
+//		acceso = "reserva";
+//		ActividadBLDto actividad = new ActividadBLDto();
+//		actividad.id = id;
+//		actividad.tipo = nombre;
+//		actividad.intensidad = intensidad;
+//		actividad.acceso = acceso;
+//		actividad.hora_inicio = hora_inicio;
+//		actividad.hora_fin = hora_fin;
+//		actividad.instalacion = instalacion;
+//		actividad.fecha = fecha;
+//		actividad.plazas = plazas;
+//		as.addActividad(actividad);
+//		addRecursosActividad(id, recurso);
+//		return true;
+//	}
 
-	private void addRecursosActividad(String id, String[] recurso) {
+	private void addRecursosActividad(String id, List<String> recursos) {
 		RecursosActividadBLDto ra = new RecursosActividadBLDto();
 		ra.actividad = id;
 		// Una actividad sin recursos
-		if (recurso[0].isBlank()) {
+		if (recursos.isEmpty()) {
 			ra.recurso = "sin recursos";
 			ras.addRecursosActividad(ra);
 		} // Una actividad con recursos
 		else {
-			for (int i = 0; i < recurso.length; i++) {
-				ra.recurso = recurso[i];
+			for (String r : recursos) {
+				ra.recurso = r;
 				ras.addRecursosActividad(ra);
 			}
 		}
@@ -119,7 +119,7 @@ public class Actividad {
 	}
 
 	private boolean existeRecursoEnInstalacion(String[] recursos, String instalacion) {
-		if(recursos[0].isBlank())
+		if (recursos[0].isBlank())
 			return true;
 		for (int i = 0; i < recursos.length; i++) {
 			if (!buscarRecurso(recursos[i], instalacion))
@@ -137,7 +137,6 @@ public class Actividad {
 		return false;
 	}
 
-
 	/**
 	 * Método que devuelve las instalaciones existentes
 	 * 
@@ -151,30 +150,32 @@ public class Actividad {
 		}
 		return result;
 	}
-	
+
 	public static List<String> listarActividades(String dia) {
-		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<ActividadBLDto> actividades = listarActividadesBLDto();
 		List<String> result = new ArrayList<String>();
-		for(int i = 0; i < actividades.size(); i++) {
-			if(actividades.get(i).fecha.equals(dia)) {
-				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).hora_inicio + " - " + 
-						actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
-						result.add(a);
+		for (int i = 0; i < actividades.size(); i++) {
+			if (actividades.get(i).fecha.equals(dia)) {
+				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).hora_inicio + " - "
+						+ actividades.get(i).hora_fin + " ------  Acceso por: "
+						+ actividades.get(i).acceso.toUpperCase();
+				result.add(a);
 			}
 		}
 		return result;
 	}
-	
-	
+
 	public static List<String> listarActividades() {
-		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<ActividadBLDto> actividades = listarActividadesBLDto();
 		List<String> result = new ArrayList<String>();
-		for(int i = 0; i < actividades.size(); i++) {
-			String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
-					actividades.get(i).hora_fin + " ------ " + "Instalación: " + actividades.get(i).instalacion + " ------ Acceso por: " + actividades.get(i).acceso.toUpperCase();
-					result.add(a);
-			}
-		
+		for (int i = 0; i < actividades.size(); i++) {
+			String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ "
+					+ actividades.get(i).hora_inicio + " - " + actividades.get(i).hora_fin + " ------ "
+					+ "Instalación: " + actividades.get(i).instalacion + " ------ Acceso por: "
+					+ actividades.get(i).acceso.toUpperCase();
+			result.add(a);
+		}
+
 		return result;
 	}
 //
@@ -192,4 +193,17 @@ public class Actividad {
 //		return actividades;
 //	}
 //	
+
+	public void crearActividad(String id, String tipo, String intensidad, String instalacion, List<String> recursos,
+			String acceso, int plazas) {
+		ActividadBLDto actividad = new ActividadBLDto();
+		actividad.id = id;
+		actividad.tipo = tipo;
+		actividad.intensidad = intensidad;
+		actividad.instalacion = instalacion;
+		actividad.acceso = acceso;
+		actividad.plazas = plazas;
+		as.addActividad(actividad);
+		addRecursosActividad(id, recursos);
+	}
 }
