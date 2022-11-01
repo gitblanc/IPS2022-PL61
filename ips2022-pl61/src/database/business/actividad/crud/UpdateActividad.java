@@ -38,7 +38,7 @@ public class UpdateActividad {
 		try {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 			pst = c.prepareStatement(SQL);
-			pst.setString(1, actividad.nombre);
+			pst.setString(1, actividad.tipo);
 			pst.setString(2, actividad.intensidad);
 			pst.setString(3, actividad.id);
 			pst.setString(4, actividad.acceso);
