@@ -1,5 +1,6 @@
 package logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,10 +69,14 @@ public class Socio {
 			if (actividadesApuntadas.get(i).correo_socio.equals(correo)) {
 				for (int j = 0; j < actividades.size(); j++) {
 					if (actividadesApuntadas.get(i).id_actividad.equals(actividades.get(j).id)) {
-						String a = "Actividad: " + actividades.get(j).tipo + " ----- Fecha: " + actividades.get(j).fecha
-								+ " ----- Hora: " + actividades.get(j).hora_inicio + " - " + actividades.get(j).hora_fin
-								+ " ----- Instalación: " + actividades.get(j).instalacion;
-						lista.add(a);
+						//solo se muestran mis actividades más proximaas
+						if(fechaMasProxima(LocalDate.now(), actividades.get(j).fecha)) {
+							String a = "Actividad: " + actividades.get(j).tipo + " ----- Fecha: " + actividades.get(j).fecha
+									+ " ----- Hora: " + actividades.get(j).hora_inicio + " - " + actividades.get(j).hora_fin
+									+ " ----- Instalación: " + actividades.get(j).instalacion;
+							lista.add(a);
+						}
+						
 					}
 				}
 			}
@@ -79,5 +84,20 @@ public class Socio {
 
 		return lista;
 	}
+	
+	private boolean fechaMasProxima(LocalDate l, String fechaActividad) { 
+		String[] date = fechaActividad.split("/");
+		int day = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);
+		int year = Integer.parseInt(date[2]);
+		LocalDate ac = LocalDate.of(year, month, day);
+		
+		l = LocalDate.now();
+		
+		return l.isBefore(ac);
+		
+		
+	}
+	
 
 }
