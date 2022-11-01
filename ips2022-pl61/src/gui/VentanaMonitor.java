@@ -8,28 +8,22 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import logic.Actividad;
-import logic.Aplicacion;
-import logic.Monitor;
 import logic.MonitorBase;
-import logic.Socio;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
 
 public class VentanaMonitor extends JFrame {
 
@@ -304,7 +298,7 @@ public class VentanaMonitor extends JFrame {
 	}
 
 	/**
-	 * Método que devuelve la lista de socios dependiendo de la actividad seleccionada
+	 * Mï¿½todo que devuelve la lista de socios dependiendo de la actividad seleccionada
 	 * @return lista socios
 	 */
 	private List<String> getListaSociosLista() {
