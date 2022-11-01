@@ -46,4 +46,9 @@ public class Administrador {
 		actividad.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, plazas);
 	}
 
+	public int getPlazasPorInstalacion(String instalacion) {
+		Actividad actividad = new Actividad();
+		return actividad.getPlazasInstalacion(instalacion);
+	}
+
 }

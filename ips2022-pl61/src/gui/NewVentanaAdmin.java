@@ -131,6 +131,8 @@ public class NewVentanaAdmin extends JFrame {
 		getComboBoxIntensidad().setSelectedIndex(0);
 		textFieldTipo.setBorder(LineBorder.createGrayLineBorder());
 		getLblParametrosCorrectosTipoA().setVisible(false);
+		int max = admin.getPlazasPorInstalacion(getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
+		spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 	}
 
 	private JPanel getPanelCalendario() {
@@ -356,6 +358,8 @@ public class NewVentanaAdmin extends JFrame {
 					listSeleccionados.removeAllElements();
 					listarRecursosDisponibles(
 							getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
+					int max = admin.getPlazasPorInstalacion(getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
+					spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 				}
 			});
 			comboBoxInstalaciones.setModel(new DefaultComboBoxModel<String>(admin.getInstalaciones()));
@@ -635,7 +639,8 @@ public class NewVentanaAdmin extends JFrame {
 		if (spinner == null) {
 			spinner = new JSpinner();
 			spinner.setEnabled(false);
-			spinner.setModel(new SpinnerNumberModel(1, 1, 100, 1));
+			int max = admin.getPlazasPorInstalacion(getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
+			spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 		}
 		return spinner;
 	}

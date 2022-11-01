@@ -206,4 +206,13 @@ public class Actividad {
 		as.addActividad(actividad);
 		addRecursosActividad(id, recursos);
 	}
+
+	public int getPlazasInstalacion(String instalacion) {
+		List<InstalacionBLDto> instalaciones = is.findAllInstalaciones();
+		for (InstalacionBLDto i : instalaciones) {
+			if (i.nombre.equals(instalacion))
+				return i.plazas;
+		}
+		return -1;
+	}
 }
