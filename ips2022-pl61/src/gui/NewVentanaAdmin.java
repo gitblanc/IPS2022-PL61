@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,6 +85,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel lblAcceso;
 	private JComboBox<String> comboBoxAcceso;
 	private JSpinner spinner;
+	private JLabel lblParametrosCorrectosTipoA;
 
 	/**
 	 * Create the frame.
@@ -128,6 +130,7 @@ public class NewVentanaAdmin extends JFrame {
 		getComboBoxAcceso().setSelectedIndex(0);
 		getComboBoxIntensidad().setSelectedIndex(0);
 		textFieldTipo.setBorder(LineBorder.createGrayLineBorder());
+		getLblParametrosCorrectosTipoA().setVisible(false);
 	}
 
 	private JPanel getPanelCalendario() {
@@ -510,6 +513,7 @@ public class NewVentanaAdmin extends JFrame {
 			flowLayout.setVgap(30);
 			flowLayout.setAlignment(FlowLayout.RIGHT);
 			panelBotonesCrearYAtrasTipo.setBackground(Color.WHITE);
+			panelBotonesCrearYAtrasTipo.add(getLblParametrosCorrectosTipoA());
 			panelBotonesCrearYAtrasTipo.add(getBtnAtrasTipo_1());
 			panelBotonesCrearYAtrasTipo.add(getBtnCrearTipo_1());
 		}
@@ -553,9 +557,11 @@ public class NewVentanaAdmin extends JFrame {
 
 	protected boolean comprobacionesPreviasCreacion() {
 		if (getTextFieldTipo().getText() == null || getTextFieldTipo().getText().isEmpty()) {
+			getLblParametrosCorrectosTipoA().setVisible(false);
 			textFieldTipo.setBorder(new LineBorder(Color.RED));
 			return false;
 		}
+		textFieldTipo.setBorder(LineBorder.createGrayLineBorder());
 		return true;
 	}
 
@@ -563,7 +569,7 @@ public class NewVentanaAdmin extends JFrame {
 		String id = UUID.randomUUID().toString();
 		String tipo = getTextFieldTipo().getText();
 		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
-		List<String> recursos = getListRecursosSeleccionados().getSelectedValuesList();
+		List<String> recursos = getRecursosSeleccionados();
 		String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String instalacion = getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase();
 		if (acceso.equals("con reserva")) {
@@ -573,6 +579,15 @@ public class NewVentanaAdmin extends JFrame {
 			admin.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, -1);// el -1 es pq conlleva plazas
 																							// ilimitadas
 		}
+		getLblParametrosCorrectosTipoA().setVisible(true);
+	}
+
+	private List<String> getRecursosSeleccionados() {
+		List<String> recursos = new ArrayList<>();
+		for (int i = 0; i < listSeleccionados.getSize(); i++) {
+			recursos.add(listSeleccionados.elementAt(i));
+		}
+		return recursos;
 	}
 
 	private JPanel getPanelSeleccionAcceso() {
@@ -603,14 +618,14 @@ public class NewVentanaAdmin extends JFrame {
 			comboBoxAcceso.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase()
-							.equals("con reserva")) {
+							.equals("reserva")) {
 						getSpinner().setEnabled(true);
 					} else {
 						getSpinner().setEnabled(false);
 					}
 				}
 			});
-			comboBoxAcceso.setModel(new DefaultComboBoxModel<String>(new String[] { "libre", "con reserva" }));
+			comboBoxAcceso.setModel(new DefaultComboBoxModel<String>(new String[] { "libre", "reserva" }));
 			comboBoxAcceso.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return comboBoxAcceso;
@@ -623,5 +638,14 @@ public class NewVentanaAdmin extends JFrame {
 			spinner.setModel(new SpinnerNumberModel(1, 1, 100, 1));
 		}
 		return spinner;
+	}
+	private JLabel getLblParametrosCorrectosTipoA() {
+		if (lblParametrosCorrectosTipoA == null) {
+			lblParametrosCorrectosTipoA = new JLabel("¡Tipo creado!");
+			lblParametrosCorrectosTipoA.setVisible(false);
+			lblParametrosCorrectosTipoA.setForeground(new Color(50, 205, 50));
+			lblParametrosCorrectosTipoA.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblParametrosCorrectosTipoA;
 	}
 }
