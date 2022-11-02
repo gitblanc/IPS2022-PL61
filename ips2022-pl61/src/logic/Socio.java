@@ -99,5 +99,16 @@ public class Socio {
 		
 	}
 	
+	public static String[] listarSociosPorCorreo(){
+		List<SocioBLDto> socios = ss.findAllSocios();
+		String[] todosLosSocios = new String[socios.size()];
+		todosLosSocios[0] = "Seleccione uno";
+		for(int i = 1; i < socios.size(); i++) {
+			todosLosSocios[i] = socios.get(i).correo;
+		}
+		return todosLosSocios;
+		
+	}
+	
 
 }

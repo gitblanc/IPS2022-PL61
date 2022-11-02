@@ -1,474 +1,359 @@
+/*C4*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C5*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C6*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C8*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C9*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C10*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C11*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C12*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C13*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C14*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C15*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C16*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C17*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C18*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C19*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C21*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C22*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C23*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C24*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C25*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C26*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C27*/SET SCHEMA PUBLIC
+DISCONNECT
 /*C28*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table actividad
-drop table recurso
-drop table instalacion
 DISCONNECT
 /*C29*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C30*/SET SCHEMA PUBLIC
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
 DISCONNECT
 /*C31*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table socio
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
 DISCONNECT
 /*C32*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table cursillo
-drop table lista_espera
-drop table administracion
 DISCONNECT
 /*C33*/SET SCHEMA PUBLIC
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
-INSERT INTO INSTALACION VALUES('gimnasio',40)
-COMMIT
-INSERT INTO INSTALACION VALUES('piscina',30)
-COMMIT
-INSERT INTO INSTALACION VALUES('pista',60)
-COMMIT
 DISCONNECT
 /*C34*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
 DISCONNECT
 /*C35*/SET SCHEMA PUBLIC
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
 DISCONNECT
 /*C36*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C37*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C38*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
 DISCONNECT
 /*C39*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
-INSERT INTO INSTALACION VALUES('gimnasio',40)
-COMMIT
-INSERT INTO INSTALACION VALUES('piscina',30)
-COMMIT
-INSERT INTO INSTALACION VALUES('pista',60)
-COMMIT
 DISCONNECT
 /*C40*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C41*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
-INSERT INTO INSTALACION VALUES('gimnasio',40)
-COMMIT
-INSERT INTO INSTALACION VALUES('piscina',30)
-COMMIT
-INSERT INTO INSTALACION VALUES('pista',60)
-COMMIT
-INSERT INTO RECURSO VALUES('pesa 15kg',6,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('mancuerna 12kg',6,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('comba',3,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('manguito',12,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('tabla nataci\u00f3n',15,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('flotador',10,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('toalla',6,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('jabalina',8,'pista')
-COMMIT
-INSERT INTO RECURSO VALUES('barra ol\u00edmpica',10,'gimnasio')
-COMMIT
 DISCONNECT
 /*C42*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, tipo_a varchar(30) not null, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
-INSERT INTO INSTALACION VALUES('gimnasio',40)
-COMMIT
-INSERT INTO INSTALACION VALUES('piscina',30)
-COMMIT
-INSERT INTO INSTALACION VALUES('pista',60)
-COMMIT
-INSERT INTO RECURSO VALUES('pesa 15kg',6,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('mancuerna 12kg',6,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('comba',3,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('manguito',12,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('tabla nataci\u00f3n',15,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('flotador',10,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('toalla',6,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('jabalina',8,'pista')
-COMMIT
-INSERT INTO RECURSO VALUES('barra ol\u00edmpica',10,'gimnasio')
-COMMIT
 DISCONNECT
 /*C43*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, tipo_a varchar(30) not null, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
-INSERT INTO INSTALACION VALUES('gimnasio',40)
-COMMIT
-INSERT INTO INSTALACION VALUES('piscina',30)
-COMMIT
-INSERT INTO INSTALACION VALUES('pista',60)
-COMMIT
 DISCONNECT
 /*C44*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, tipo_a varchar(30) not null, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
 DISCONNECT
 /*C45*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, tipo_a varchar(30) not null, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
-INSERT INTO INSTALACION VALUES('gimnasio',40)
-COMMIT
-INSERT INTO INSTALACION VALUES('piscina',30)
-COMMIT
-INSERT INTO INSTALACION VALUES('pista',60)
-COMMIT
 DISCONNECT
 /*C46*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
-COMMIT
-create table TipoActividad(id_a varchar(10) primary key, tipo_a varchar(30) not null, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
-INSERT INTO INSTALACION VALUES('gimnasio',40)
-COMMIT
-INSERT INTO INSTALACION VALUES('piscina',30)
-COMMIT
-INSERT INTO INSTALACION VALUES('pista',60)
-COMMIT
 DISCONNECT
 /*C47*/SET SCHEMA PUBLIC
-drop table monitor
-drop table no_socio
-drop table recursosactividad
-drop table cursillo
-drop table lista_espera
-drop table administracion
-drop table actividadsocio
-drop table socio
-drop table TipoActividad
-drop table recurso
-drop table instalacion
-create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
-create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
-create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
-create table instalacion(nombre_i varchar(20) primary key, plazas int not null)
-create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
-INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
+DISCONNECT
+/*C48*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C49*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C50*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C20*/SET SCHEMA PUBLIC
+INSERT INTO ACTIVIDADSOCIO VALUES('imxiin@gmail.com','1')
 COMMIT
-create table TipoActividad(id_a varchar(10) primary key, tipo varchar(30) not null, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6) not null,hora_fin varchar(6) not null, nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int check(plazas_a = -1 or plazas_a > 0))
-create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
-create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
-create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
-create table RecursosActividad(id_a varchar(10) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
-create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(10) foreign key references TipoActividad(id_a))
-INSERT INTO INSTALACION VALUES('gimnasio',40)
-COMMIT
-INSERT INTO INSTALACION VALUES('piscina',30)
-COMMIT
-INSERT INTO INSTALACION VALUES('pista',60)
-COMMIT
-INSERT INTO TIPOACTIVIDAD VALUES('1','Nataci\u00f3n','alta','reserva','13:00','15:00','piscina','19/10/2022',12)
-COMMIT
-INSERT INTO TIPOACTIVIDAD VALUES('2','Sauna','baja','libre','13:00','15:00','piscina','19/10/2022',8)
-COMMIT
-INSERT INTO TIPOACTIVIDAD VALUES('3','Jacuzzi','baja','reserva','16:00','18:00','piscina','20/10/2022',4)
-COMMIT
-INSERT INTO TIPOACTIVIDAD VALUES('4','Peso muerto','alta','reserva','13:00','14:00','gimnasio','18/10/2022',15)
-COMMIT
-INSERT INTO TIPOACTIVIDAD VALUES('5','Biceps','moderada','libre','14:00','16:00','gimnasio','19/10/2022',8)
-COMMIT
-INSERT INTO TIPOACTIVIDAD VALUES('6','Calistenia','alta','libre','20:00','23:00','gimnasio','19/10/2022',5)
-COMMIT
-INSERT INTO TIPOACTIVIDAD VALUES('7','Carrera','alta','libre','13:00','17:00','pista','19/10/2022',-1)
-COMMIT
-INSERT INTO TIPOACTIVIDAD VALUES('8','Jabalina','moderada','reserva','13:00','16:00','pista','18/10/2022',7)
-COMMIT
-INSERT INTO RECURSO VALUES('pesa 15kg',6,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('mancuerna 12kg',6,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('comba',3,'gimnasio')
-COMMIT
-INSERT INTO RECURSO VALUES('manguito',12,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('tabla nataci\u00f3n',15,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('flotador',10,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('toalla',6,'piscina')
-COMMIT
-INSERT INTO RECURSO VALUES('jabalina',8,'pista')
-COMMIT
-INSERT INTO RECURSO VALUES('barra ol\u00edmpica',10,'gimnasio')
-COMMIT
-INSERT INTO RECURSOSACTIVIDAD VALUES('1','tabla nataci\u00f3n')
-COMMIT
-INSERT INTO RECURSOSACTIVIDAD VALUES('2','toalla')
-COMMIT
-INSERT INTO RECURSOSACTIVIDAD VALUES('4','barra ol\u00edmpica')
-COMMIT
-INSERT INTO RECURSOSACTIVIDAD VALUES('5','mancuerna 12kg')
-COMMIT
-INSERT INTO RECURSOSACTIVIDAD VALUES('8','jabalina')
-COMMIT
-INSERT INTO RECURSOSACTIVIDAD VALUES('5','pesa 15kg')
-COMMIT
-INSERT INTO SOCIO VALUES('1','Juan','P\u00e9rez Gald\u00f3s','juanperez@gmail.com','1234qwerty')
-COMMIT
-INSERT INTO SOCIO VALUES('2','Paula','Rom\u00e1n Arias','pauuleta@gmail.com','uwu27')
-COMMIT
-INSERT INTO SOCIO VALUES('3','Chen Xin','Pan Wang','imxiin@gmail.com','olaquetal')
-COMMIT
-INSERT INTO SOCIO VALUES('4','Benito','Gonz\u00e1lez Ahmed','bb345@gmail.com','hgft234')
-COMMIT
+/*C51*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C52*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C53*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C54*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C55*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C56*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C57*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C58*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C59*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C60*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C61*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C62*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C63*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C64*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C65*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C66*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C67*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C68*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C69*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C70*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C71*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C72*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C73*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C74*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C75*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C76*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C77*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C78*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C79*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C80*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C81*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C82*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C83*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C84*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C85*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C86*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C87*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C88*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C89*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C90*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C91*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C92*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C93*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C94*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C95*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C96*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C97*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C98*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C99*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C100*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C101*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C102*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C103*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C104*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C105*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C106*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C107*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C108*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C109*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C110*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C111*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C112*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C113*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C114*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C115*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C116*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C117*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C118*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C119*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C120*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C121*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C122*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C123*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C124*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C125*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C126*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C127*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C128*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C129*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C130*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C131*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C132*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C133*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C134*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C135*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C136*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C137*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C138*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C139*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C140*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C141*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C142*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C143*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C144*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C145*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C146*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C147*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C148*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C149*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C150*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C151*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C152*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C153*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C154*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C155*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C156*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C157*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C158*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C159*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C160*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C161*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C162*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C163*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C164*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C165*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C166*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C167*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C168*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C169*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C170*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C171*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C172*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C173*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C174*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C175*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C176*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C177*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C178*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C179*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C180*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C181*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C182*/SET SCHEMA PUBLIC
 DISCONNECT

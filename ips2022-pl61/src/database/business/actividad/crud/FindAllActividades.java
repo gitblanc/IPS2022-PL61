@@ -18,7 +18,7 @@ import database.business.actividad.ActividadService.ActividadBLDto;
  *
  */
 public class FindAllActividades {
-	private static final String SQL = "select * from Actividad";
+	private static final String SQL = "select * from TipoActividad";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";

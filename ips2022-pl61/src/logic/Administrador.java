@@ -39,5 +39,6 @@ public class Administrador {
 	public String[] getRecursosPorInstalacion(String instalacion) {
 		return Recurso.listarRecursosPorInstalacion(instalacion);
 	}
+	
 
 }
