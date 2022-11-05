@@ -23,4 +23,6 @@ public interface AlquilerService {
 	}
 
 	List<AlquilerBLDto> findAll();
+
+	void cancelarAlquiler(String socio, String instalacion, String fecha, String hora_inicio, String hora_fin);
 }

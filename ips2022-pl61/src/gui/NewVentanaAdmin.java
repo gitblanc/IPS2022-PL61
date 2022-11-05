@@ -145,6 +145,16 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton btnSemanaAnterior;
 	private JButton btnSemanaSiguiente;
 	private JComboBox<String> comboBoxIntalacionesCalendario;
+	private JPanel panelCancelacionAlquiler;
+	private JPanel panelSociosParaCancelar;
+	private JPanel panelAlquiler;
+	private JPanel panelAtrasCancelar;
+	private JLabel lblIdSocio;
+	private JComboBox<String> comboBoxSocios;
+	private JLabel lblAlquiler;
+	private JComboBox<String> comboBoxAlquileresDeSocio;
+	private JButton btnAtrasCancelarAlq;
+	private JButton btnCancelacionAlquiler;
 
 	/**
 	 * Create the frame.
@@ -219,6 +229,7 @@ public class NewVentanaAdmin extends JFrame {
 			panelAcciones.add(getPanelBotones(), "panelBotones");
 			panelAcciones.add(getPanelCrearActividad(), "panelCrearActividad");
 			panelAcciones.add(getPanelPlanificacionActividad(), "panelPlanificacionActividad");
+			panelAcciones.add(getPanelCancelacionAlquiler(), "panelCancelacionAlquiler");
 		}
 		return panelAcciones;
 	}
@@ -325,6 +336,11 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton getBtnCancelarAlquiler() {
 		if (btnCancelarAlquiler == null) {
 			btnCancelarAlquiler = new JButton("Cancelar alquiler");
+			btnCancelarAlquiler.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPanelAcciones("panelCancelacionAlquiler");
+				}
+			});
 			btnCancelarAlquiler.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return btnCancelarAlquiler;
@@ -2701,5 +2717,145 @@ public class NewVentanaAdmin extends JFrame {
 
 	public boolean getCambioDeMes() {
 		return cambioDeMes;
+	}
+
+	private JPanel getPanelCancelacionAlquiler() {
+		if (panelCancelacionAlquiler == null) {
+			panelCancelacionAlquiler = new JPanel();
+			panelCancelacionAlquiler.setBackground(Color.WHITE);
+			panelCancelacionAlquiler.setLayout(new GridLayout(3, 0, 0, 0));
+			panelCancelacionAlquiler.add(getPanelSociosParaCancelar());
+			panelCancelacionAlquiler.add(getPanelAlquiler());
+			panelCancelacionAlquiler.add(getPanelAtrasCancelar());
+		}
+		return panelCancelacionAlquiler;
+	}
+
+	private JPanel getPanelSociosParaCancelar() {
+		if (panelSociosParaCancelar == null) {
+			panelSociosParaCancelar = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelSociosParaCancelar.getLayout();
+			flowLayout.setVgap(80);
+			flowLayout.setHgap(10);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelSociosParaCancelar.setBackground(Color.WHITE);
+			panelSociosParaCancelar.add(getLblIdSocio());
+			panelSociosParaCancelar.add(getComboBoxSocios());
+		}
+		return panelSociosParaCancelar;
+	}
+
+	private JPanel getPanelAlquiler() {
+		if (panelAlquiler == null) {
+			panelAlquiler = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelAlquiler.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			flowLayout.setVgap(80);
+			flowLayout.setHgap(10);
+			panelAlquiler.setBackground(Color.WHITE);
+			panelAlquiler.add(getLblAlquiler());
+			panelAlquiler.add(getComboBoxAlquileresDeSocio());
+		}
+		return panelAlquiler;
+	}
+
+	private JPanel getPanelAtrasCancelar() {
+		if (panelAtrasCancelar == null) {
+			panelAtrasCancelar = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelAtrasCancelar.getLayout();
+			flowLayout.setAlignment(FlowLayout.RIGHT);
+			flowLayout.setVgap(180);
+			panelAtrasCancelar.setBackground(Color.WHITE);
+			panelAtrasCancelar.add(getBtnAtrasCancelarAlq());
+			panelAtrasCancelar.add(getBtnCancelacionAlquiler());
+		}
+		return panelAtrasCancelar;
+	}
+
+	private JLabel getLblIdSocio() {
+		if (lblIdSocio == null) {
+			lblIdSocio = new JLabel("Id socio: ");
+			lblIdSocio.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblIdSocio;
+	}
+
+	private JComboBox<String> getComboBoxSocios() {
+		if (comboBoxSocios == null) {
+			comboBoxSocios = new JComboBox<String>();
+			comboBoxSocios.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					getComboBoxAlquileresDeSocio().setModel(new DefaultComboBoxModel<String>(admin
+							.listarAlquileresPorSocio(getComboBoxSocios().getSelectedItem().toString().split("@")[0])));
+				}
+			});
+			comboBoxSocios.setModel(new DefaultComboBoxModel<String>(admin.listarSociosPorAlquileres()));
+			comboBoxSocios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxSocios;
+	}
+
+	private JLabel getLblAlquiler() {
+		if (lblAlquiler == null) {
+			lblAlquiler = new JLabel("Alquiler:");
+			lblAlquiler.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblAlquiler;
+	}
+
+	private JComboBox<String> getComboBoxAlquileresDeSocio() {
+		if (comboBoxAlquileresDeSocio == null) {
+			comboBoxAlquileresDeSocio = new JComboBox<String>();
+			comboBoxAlquileresDeSocio.setModel(new DefaultComboBoxModel<String>(
+					admin.listarAlquileresPorSocio(getComboBoxSocios().getSelectedItem().toString().split("@")[0])));
+			comboBoxAlquileresDeSocio.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		}
+		return comboBoxAlquileresDeSocio;
+	}
+
+	private JButton getBtnAtrasCancelarAlq() {
+		if (btnAtrasCancelarAlq == null) {
+			btnAtrasCancelarAlq = new JButton("Atrás");
+			btnAtrasCancelarAlq.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPanelAcciones("panelBotones");
+				}
+			});
+			btnAtrasCancelarAlq.setBackground(new Color(165, 42, 42));
+			btnAtrasCancelarAlq.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return btnAtrasCancelarAlq;
+	}
+
+	private JButton getBtnCancelacionAlquiler() {
+		if (btnCancelacionAlquiler == null) {
+			btnCancelacionAlquiler = new JButton("Cancelar alquiler");
+			btnCancelacionAlquiler.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cancelarAlquiler();
+					pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+				}
+			});
+			btnCancelacionAlquiler.setBackground(new Color(0, 250, 154));
+			btnCancelacionAlquiler.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return btnCancelacionAlquiler;
+	}
+
+	protected void cancelarAlquiler() {
+		String socio = getComboBoxSocios().getSelectedItem().toString().split("@")[0];
+		String instalacion = getComboBoxAlquileresDeSocio().getSelectedItem().toString().split("@")[0].split("-")[0];
+		String fecha = getComboBoxAlquileresDeSocio().getSelectedItem().toString().split("@")[0].split("-")[1];
+		String hora_inicio = getComboBoxAlquileresDeSocio().getSelectedItem().toString().split("@")[0].split("-")[2];
+		String hora_fin = getComboBoxAlquileresDeSocio().getSelectedItem().toString().split("@")[0].split("-")[3];
+		admin.cancelarAlquiler(socio, instalacion, fecha, hora_inicio, hora_fin);
+		String[] s = admin.listarAlquileresPorSocio(socio);
+		if (s == null || s.length == 0) {
+			getComboBoxSocios().setModel(new DefaultComboBoxModel<String>(admin.listarSociosPorAlquileres()));
+			getComboBoxAlquileresDeSocio().setModel(
+					new DefaultComboBoxModel<String>(admin.listarAlquileresPorSocio(getComboBoxSocios().getItemAt(0))));
+		} else {
+			getComboBoxAlquileresDeSocio().setModel(new DefaultComboBoxModel<String>(s));
+		}
 	}
 }

@@ -70,4 +70,16 @@ public class Administrador {
 		return new Alquiler().listarAlquileres(instalacion);
 	}
 
+	public String[] listarSociosPorAlquileres() {
+		return new Alquiler().listarSociosConAlquileres();
+	}
+
+	public String[] listarAlquileresPorSocio(String socio) {
+		return new Alquiler().listarAlquileresPorSocio(socio);
+	}
+
+	public void cancelarAlquiler(String socio, String instalacion, String fecha, String hora_inicio, String hora_fin) {
+		new Alquiler().cancelarAlquiler(socio, instalacion, fecha, hora_inicio, hora_fin);
+	}
+
 }
