@@ -672,7 +672,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return spinner;
 	}
-
+  
 	private JLabel getLblParametrosCorrectosTipoA() {
 		if (lblParametrosCorrectosTipoA == null) {
 			lblParametrosCorrectosTipoA = new JLabel("¡Tipo creado!");
