@@ -35,6 +35,7 @@ import javax.swing.border.LineBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import logic.Actividad;
 import logic.Administrador;
 
 public class NewVentanaAdmin extends JFrame {
@@ -45,6 +46,12 @@ public class NewVentanaAdmin extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private Administrador admin = new Administrador();
+
+	private int year = LocalDateTime.now().getYear();
+	private DayOfWeek diaSemana = LocalDateTime.now().getDayOfWeek();
+	private int day = LocalDateTime.now().getDayOfMonth();
+	private Month month = LocalDateTime.now().getMonth();
+	private boolean cambioDeMes = false;
 
 	private JPanel contentPane;
 	private JPanel panelPrincipal;
@@ -839,6 +846,8 @@ public class NewVentanaAdmin extends JFrame {
 			btnPlanificarTipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					planificarActividad();
+					pintarPanelesCalendario(
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
 				}
 			});
 			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1182,42 +1191,313 @@ public class NewVentanaAdmin extends JFrame {
 			panelSemana.add(getLblSemanaFechaCalendario());
 			panelSemana.add(getBtnSemanaSiguiente());
 			panelSemana.add(getComboBoxIntalacionesCalendario_1());
-			pintarPanelesCalendario();
+			pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getItemAt(0));
 		}
 		return panelSemana;
 	}
 
-	private void pintarPanelesCalendario() {
-		JPanel p;
+	private void pintarPanelesCalendario(String instalacion) {
+		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
+		JButton bot;
+		getPanelCeldasCalendario().removeAll();
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 7; j++) {
-				p = new JPanel();
-				p.setBackground(Color.WHITE);
-				p.setBorder(LineBorder.createGrayLineBorder());
-				asignarTexto(p, i, j);
-				getPanelCeldasCalendario().add(p);
+				bot = new JButton();
+				bot.setBackground(new Color(152, 251, 152));
+				asignarTexto(bot, i, j, actividades);
+				getPanelCeldasCalendario().add(bot);
 			}
 		}
 		validate();
 	}
 
-	private void asignarTexto(JPanel p, int i, int j) {
-		switch (j) {
-		// LUNES
-		case 0:
-			// MARTES
-		case 1:
-			// MIERCOLES
-		case 2:
-			// JUEVES
-		case 3:
-			// VIERNES
-		case 4:
-			// SABADO
-		case 5:
-			// DOMINGO
-		default:
+	private void asignarTexto(JButton p, int i, int j, List<Actividad> actividades) {
+		int lunes = Integer.parseInt(getLblLunes().getText().split(" - ")[1]);
+		int martes = Integer.parseInt(getLblMartes().getText().split(" - ")[1]);
+		int miercoles = Integer.parseInt(getLblMiercoles().getText().split(" - ")[1]);
+		int jueves = Integer.parseInt(getLblJueves().getText().split(" - ")[1]);
+		int viernes = Integer.parseInt(getLblViernes().getText().split(" - ")[1]);
+		int sabado = Integer.parseInt(getLblSabado().getText().split(" - ")[1]);
+		int domingo = Integer.parseInt(getLblDomingo().getText().split(" - ")[1]);
 
+		for (Actividad a : actividades) {
+			String fecha = a.getFecha();
+			if (fecha != null) {
+				int dia = Integer.parseInt(fecha.split("/")[0]);
+				int month = Integer.parseInt(fecha.split("/")[1]);
+				String horainicio = a.getHoraInicio();
+				String horafin = a.getHoraFin();
+				if (horainicio != null && horafin != null) {
+					if (month == this.month.getValue()) {
+						if (dia == lunes) {
+							if (j == 0) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == martes) {
+							if (j == 1) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == miercoles) {
+							if (j == 2) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == jueves) {
+							if (j == 3) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == viernes) {
+							if (j == 4) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == sabado) {
+							if (j == 5) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == domingo) {
+							if (j == 6) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void pintarActividad(int i, String horainicio, String horafin, JButton bot, Actividad a) {
+		int fin = Integer.parseInt(horafin.split(":")[0]);
+		int inicio = Integer.parseInt(horainicio.split(":")[0]);
+		int diferencia = fin - inicio;
+		switch (i) {
+		// 9:00
+		case 0:
+			if (horainicio.equals("9:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("9:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 9 && 9 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 10:00
+		case 1:
+			if (horainicio.equals("10:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio == 10) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("10:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 10 && 10 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 11:00
+		case 2:
+			if (horainicio.equals("11:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio == 11) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("11:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 11 && 11 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 12:00
+		case 3:
+			if (horainicio.equals("12:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("12:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 12 && 12 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 13:00
+		case 4:
+			if (horainicio.equals("13:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("13:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 13 && 13 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 14:00
+		case 5:
+			if (horainicio.equals("14:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("14:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 14 && 14 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 15:00
+		case 6:
+			if (horainicio.equals("15:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("15:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 15 && 15 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 16:00
+		case 7:
+			if (horainicio.equals("16:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("16:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 16 && 16 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 17:00
+		case 8:
+			if (horainicio.equals("17:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("17:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 17 && 17 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 18:00
+		case 9:
+			if (horainicio.equals("18:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("18:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 18 && 18 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 19:00
+		case 10:
+			if (horainicio.equals("19:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("19:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 19 && 19 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 20:00
+		case 11:
+			if (horainicio.equals("20:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("20:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 20 && 20 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 21:00
+		case 12:
+			if (horainicio.equals("21:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("21:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 21 && 21 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 22:00
+		case 13:
+			if (horainicio.equals("22:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("22:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 22 && 22 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 23:00
+		default:
+			if (horainicio.equals("23:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("23:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
 		}
 	}
 
@@ -1225,19 +1505,16 @@ public class NewVentanaAdmin extends JFrame {
 		if (lblSemanaFechaCalendario == null) {
 			lblSemanaFechaCalendario = new JLabel("");
 			lblSemanaFechaCalendario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			int mes = LocalDateTime.now().getMonthValue();
-			int year = LocalDateTime.now().getYear();
-			lblSemanaFechaCalendario.setText(mes + "/" + year);
-			asignarDias();
+			if (day > 0 && day < 7) {
+				asignarNuevoMes(month.getValue() - 1);
+			}
+			lblSemanaFechaCalendario.setText(month.getValue() + "/" + year);
+			asignarDias(diaSemana, day, month, year);
 		}
 		return lblSemanaFechaCalendario;
 	}
 
-	private void asignarDias() {
-		DayOfWeek diaSemana = LocalDateTime.now().getDayOfWeek();
-		int dia = LocalDateTime.now().getDayOfMonth();
-		Month month = LocalDateTime.now().getMonth();
-		int year = LocalDateTime.now().getYear();
+	private void asignarDias(DayOfWeek diaSemana, int dia, Month month, int year) {
 		boolean meses31dias = month == Month.JANUARY || month == Month.MARCH || month == Month.MAY
 				|| month == Month.JULY || month == Month.AUGUST || month == Month.OCTOBER || month == Month.DECEMBER;
 		boolean meses30dias = month == Month.APRIL || month == Month.JUNE || month == Month.SEPTEMBER
@@ -1245,13 +1522,7 @@ public class NewVentanaAdmin extends JFrame {
 		boolean bisiesto = (year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0);
 		switch (diaSemana) {
 		case MONDAY:
-			getLblLunes().setText("Lun - " + (dia));
-			getLblMartes().setText("Mar - " + (dia + 1));
-			getLblMiercoles().setText("Mier - " + (dia + 2));
-			getLblJueves().setText("Jue - " + (dia + 3));
-			getLblViernes().setText("Vier - " + (dia + 4));
-			getLblSabado().setText("Sab - " + (dia + 5));
-			getLblDomingo().setText("Dom - " + (dia + 6));
+			asignarValoresEtiquetas(dia, dia + 1, dia + 2, dia + 3, dia + 4, dia + 5, dia + 6);
 			break;
 		case TUESDAY:
 			if (dia == 1) {
@@ -1797,6 +2068,9 @@ public class NewVentanaAdmin extends JFrame {
 			btnSemanaAnterior.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					mostrarSemanaAnterior();
+					getLblSemanaFechaCalendario().setText(month.getValue() + "/" + year);
+					pintarPanelesCalendario(
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
 				}
 			});
 			btnSemanaAnterior.setForeground(SystemColor.text);
@@ -1807,12 +2081,195 @@ public class NewVentanaAdmin extends JFrame {
 	}
 
 	protected void mostrarSemanaAnterior() {
-		getLblSemanaFechaCalendario().setText("");
+		int previousMonth = month.getValue() - 1;
+
+		boolean meses31dias = previousMonth == 1 || previousMonth == 3 || previousMonth == 5 || previousMonth == 7
+				|| previousMonth == 8 || previousMonth == 10 || previousMonth == 12;
+		boolean meses30dias = previousMonth == 4 || previousMonth == 6 || previousMonth == 9 || previousMonth == 11;
+		boolean bisiesto = (year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0);
+
+		int lastDay = Integer.parseInt(getLblLunes().getText().split(" - ")[1].toString());
+
+		if (lastDay == 1) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 31);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 30);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
+					asignarNuevoMes(previousMonth);
+				} else {
+					asignarValoresEtiquetas(22, 23, 24, 25, 26, 27, 28);
+				}
+			}
+		} else if (lastDay == 2) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
+				} else {
+					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
+				}
+			}
+		} else if (lastDay == 3) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
+				} else {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
+				}
+			}
+		} else if (lastDay == 4) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
+				} else {
+					asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
+				}
+			}
+		} else if (lastDay == 5) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
+				} else {
+					asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
+				}
+			}
+		} else if (lastDay == 6) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
+				} else {
+					asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
+				}
+			}
+		} else if (lastDay == 7) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
+				} else {
+					asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
+				}
+			}
+		} else {
+			asignarValoresEtiquetas(lastDay - 7, lastDay - 6, lastDay - 5, lastDay - 4, lastDay - 3, lastDay - 2,
+					lastDay - 1);
+			cambioDeMes = false;
+		}
+	}
+
+	private void asignarNuevoMes(int month) {
+		switch (month) {
+		case 1:
+			this.month = Month.JANUARY;
+			break;
+		case 2:
+			this.month = Month.FEBRUARY;
+			break;
+		case 3:
+			this.month = Month.MARCH;
+			break;
+		case 4:
+			this.month = Month.APRIL;
+			break;
+		case 5:
+			this.month = Month.MAY;
+			break;
+		case 6:
+			this.month = Month.JUNE;
+			break;
+		case 7:
+			this.month = Month.JULY;
+			break;
+		case 8:
+			this.month = Month.AUGUST;
+			break;
+		case 9:
+			this.month = Month.SEPTEMBER;
+			break;
+		case 10:
+			this.month = Month.OCTOBER;
+			break;
+		case 11:
+			this.month = Month.NOVEMBER;
+			break;
+		default:
+			this.month = Month.DECEMBER;
+			break;
+		}
+		cambioDeMes = true;
 	}
 
 	private JButton getBtnSemanaSiguiente() {
 		if (btnSemanaSiguiente == null) {
 			btnSemanaSiguiente = new JButton("-->");
+			btnSemanaSiguiente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarSemanaSiguiente();
+					getLblSemanaFechaCalendario().setText(month.getValue() + "/" + year);
+					pintarPanelesCalendario(
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+				}
+			});
 			btnSemanaSiguiente.setForeground(SystemColor.text);
 			btnSemanaSiguiente.setBackground(SystemColor.textInactiveText);
 			btnSemanaSiguiente.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -1820,12 +2277,147 @@ public class NewVentanaAdmin extends JFrame {
 		return btnSemanaSiguiente;
 	}
 
+	protected void mostrarSemanaSiguiente() {
+		int actualMonth = month.getValue();
+		int nextMonth = actualMonth + 1;
+		int actualYear = Integer.parseInt(getLblSemanaFechaCalendario().getText().split("/")[1].toString());
+		boolean actualMes31dias = actualMonth == 1 || actualMonth == 3 || actualMonth == 5 || actualMonth == 7
+				|| actualMonth == 8 || actualMonth == 10 || actualMonth == 12;
+		boolean actualMes30dias = actualMonth == 4 || actualMonth == 6 || actualMonth == 9 || actualMonth == 11;
+
+		boolean bisiesto = (actualYear % 4 == 0 && actualYear % 100 != 0)
+				|| (actualYear % 100 == 0 && actualYear % 400 == 0);
+
+		int lastDay = Integer.parseInt(getLblDomingo().getText().split(" - ")[1].toString());
+
+		if (lastDay < Integer.parseInt(getLblLunes().getText().split(" - ")[1].toString())) {
+			if (actualMonth == 12) {
+				asignarNuevoMes(1);
+				this.year += 1;
+			} else
+				asignarNuevoMes(nextMonth);
+		}
+
+		// Si el mes tiene 31 dias
+		if (actualMes31dias) {
+			if (lastDay == 31) {
+				asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+			} else if (lastDay == 30) {
+				asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
+			} else if (lastDay == 29) {
+				asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
+			} else if (lastDay == 28) {
+				asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
+			} else if (lastDay == 27) {
+				asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
+			} else if (lastDay == 26) {
+				asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
+			} else if (lastDay == 25) {
+				asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
+			} else {
+				asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5, lastDay + 6,
+						lastDay + 7);
+				cambioDeMes = false;
+			}
+		}
+		// Si el mes tiene 30 dias
+		else if (actualMes30dias) {
+			if (lastDay == 30) {
+				asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+			} else if (lastDay == 29) {
+				asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
+			} else if (lastDay == 28) {
+				asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
+			} else if (lastDay == 27) {
+				asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
+			} else if (lastDay == 26) {
+				asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
+			} else if (lastDay == 25) {
+				asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
+			} else if (lastDay == 24) {
+				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
+			} else {
+				asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5, lastDay + 6,
+						lastDay + 7);
+				cambioDeMes = false;
+			}
+		}
+		// Si es febrero
+		else if (month.getValue() == 2) {
+			// si es un año bisiesto
+			if (bisiesto) {
+				if (lastDay == 29) {
+					asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+				} else if (lastDay == 28) {
+					asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
+				} else if (lastDay == 27) {
+					asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
+				} else if (lastDay == 26) {
+					asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
+				} else if (lastDay == 25) {
+					asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
+				} else if (lastDay == 24) {
+					asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
+				} else if (lastDay == 23) {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
+				} else {
+					asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5,
+							lastDay + 6, lastDay + 7);
+					cambioDeMes = false;
+				}
+			} else {
+				if (lastDay == 28) {
+					asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+				} else if (lastDay == 27) {
+					asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
+				} else if (lastDay == 26) {
+					asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
+				} else if (lastDay == 25) {
+					asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
+				} else if (lastDay == 24) {
+					asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
+				} else if (lastDay == 23) {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
+				} else if (lastDay == 22) {
+					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 1);
+				} else {
+					asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5,
+							lastDay + 6, lastDay + 7);
+					cambioDeMes = false;
+				}
+			}
+			getLblSemanaFechaCalendario().setText(actualMonth + "/" + actualYear);
+		}
+
+	}
+
+	private void asignarValoresEtiquetas(int lunes, int martes, int miercoles, int jueves, int viernes, int sabado,
+			int domingo) {
+		getLblLunes().setText("Lun - " + (lunes));
+		getLblMartes().setText("Mar - " + (martes));
+		getLblMiercoles().setText("Mier - " + (miercoles));
+		getLblJueves().setText("Jue - " + (jueves));
+		getLblViernes().setText("Vier - " + (viernes));
+		getLblSabado().setText("Sab - " + (sabado));
+		getLblDomingo().setText("Dom - " + (domingo));
+		cambioDeMes = true;
+	}
+
 	private JComboBox<String> getComboBoxIntalacionesCalendario_1() {
 		if (comboBoxIntalacionesCalendario == null) {
 			comboBoxIntalacionesCalendario = new JComboBox<String>();
+			comboBoxIntalacionesCalendario.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					pintarPanelesCalendario(comboBoxIntalacionesCalendario.getSelectedItem().toString().split("@")[0]);
+				}
+			});
 			comboBoxIntalacionesCalendario.setModel(new DefaultComboBoxModel<String>(admin.getInstalaciones()));
 			comboBoxIntalacionesCalendario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return comboBoxIntalacionesCalendario;
+	}
+
+	public boolean getCambioDeMes() {
+		return cambioDeMes;
 	}
 }

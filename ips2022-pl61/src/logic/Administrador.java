@@ -61,4 +61,9 @@ public class Administrador {
 		
 	}
 
+	public List<Actividad> listarActividadesPorInstalacion(String instalacion) {
+		return new Actividad().listarActividadesPorInstalacion(instalacion);
+		
+	}
+
 }
