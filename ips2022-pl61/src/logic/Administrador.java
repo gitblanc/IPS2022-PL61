@@ -56,4 +56,9 @@ public class Administrador {
 		return a.findAllTiposActividad();
 	}
 
+	public void planificarActividad(String tipo, String fecha) {
+		new Actividad().planificarActividad(tipo,fecha);
+		
+	}
+
 }

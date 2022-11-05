@@ -9,10 +9,8 @@ import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 import javax.swing.DefaultComboBoxModel;
@@ -101,6 +99,8 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton btnPlanificarTipo;
 
 	private JDateChooser jDateChooser;
+	private JLabel lblFechaPlanificar;
+	private JTextField textFieldFechaPlanificacion;
 
 	/**
 	 * Create the frame.
@@ -147,8 +147,10 @@ public class NewVentanaAdmin extends JFrame {
 		getComboBoxIntensidad().setSelectedIndex(0);
 		textFieldTipo.setBorder(LineBorder.createGrayLineBorder());
 		getLblParametrosCorrectosTipoA().setVisible(false);
-		int max = admin.getPlazasPorInstalacion(getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
+		int max = admin.getPlazasPorInstalacion(
+				getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
 		spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
+		getTextFieldFechaPlanificacion().setText("");
 	}
 
 	private JPanel getPanelCalendario() {
@@ -382,7 +384,8 @@ public class NewVentanaAdmin extends JFrame {
 					listSeleccionados.removeAllElements();
 					listarRecursosDisponibles(
 							getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
-					int max = admin.getPlazasPorInstalacion(getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
+					int max = admin.getPlazasPorInstalacion(
+							getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
 					spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 				}
 			});
@@ -663,11 +666,13 @@ public class NewVentanaAdmin extends JFrame {
 		if (spinner == null) {
 			spinner = new JSpinner();
 			spinner.setEnabled(false);
-			int max = admin.getPlazasPorInstalacion(getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
+			int max = admin.getPlazasPorInstalacion(
+					getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
 			spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 		}
 		return spinner;
 	}
+
 	private JLabel getLblParametrosCorrectosTipoA() {
 		if (lblParametrosCorrectosTipoA == null) {
 			lblParametrosCorrectosTipoA = new JLabel("¡Tipo creado!");
@@ -677,6 +682,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lblParametrosCorrectosTipoA;
 	}
+
 	private JPanel getPanelPlanificacionActividad() {
 		if (panelPlanificacionActividad == null) {
 			panelPlanificacionActividad = new JPanel();
@@ -687,6 +693,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panelPlanificacionActividad;
 	}
+
 	private JPanel getPanelTipoActividad() {
 		if (panelTipoActividad == null) {
 			panelTipoActividad = new JPanel();
@@ -699,6 +706,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panelTipoActividad;
 	}
+
 	private JPanel getPanelFecha() {
 		if (panelFecha == null) {
 			panelFecha = new JPanel();
@@ -709,6 +717,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panelFecha;
 	}
+
 	private JLabel getLblTipoActividad() {
 		if (lblTipoActividad == null) {
 			lblTipoActividad = new JLabel("Tipo: ");
@@ -717,6 +726,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lblTipoActividad;
 	}
+
 	private JComboBox<String> getComboBoxTiposActividad() {
 		if (comboBoxTiposActividad == null) {
 			comboBoxTiposActividad = new JComboBox<String>();
@@ -725,14 +735,21 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return comboBoxTiposActividad;
 	}
+
 	private JPanel getPanelSeleccionFecha() {
 		if (panelSeleccionFecha == null) {
 			panelSeleccionFecha = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelSeleccionFecha.getLayout();
+			flowLayout.setVgap(60);
+			flowLayout.setAlignment(FlowLayout.LEFT);
 			getJdateChooser();
 			panelSeleccionFecha.setBackground(Color.WHITE);
+			panelSeleccionFecha.add(getLblFechaPlanificar());
+			panelSeleccionFecha.add(getTextFieldFechaPlanificacion());
 		}
 		return panelSeleccionFecha;
 	}
+
 	private JPanel getPanelBotonesAtrasPlanificar() {
 		if (panelBotonesAtrasPlanificar == null) {
 			panelBotonesAtrasPlanificar = new JPanel();
@@ -746,6 +763,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panelBotonesAtrasPlanificar;
 	}
+
 	private JButton getBtnAtrasTipo_1_1() {
 		if (btnAtrasPlanificarTipo == null) {
 			btnAtrasPlanificarTipo = new JButton("Atrás");
@@ -762,9 +780,15 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return btnAtrasPlanificarTipo;
 	}
+
 	private JButton getBtnCrearTipo_1_1() {
 		if (btnPlanificarTipo == null) {
-			btnPlanificarTipo = new JButton("Crear");
+			btnPlanificarTipo = new JButton("Planificar");
+			btnPlanificarTipo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					planificarActividad();
+				}
+			});
 			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
 			btnPlanificarTipo.setHorizontalAlignment(SwingConstants.RIGHT);
 			btnPlanificarTipo.setForeground(Color.WHITE);
@@ -773,11 +797,34 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return btnPlanificarTipo;
 	}
-	 
+
+	protected void planificarActividad() {
+		String tipo = getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0].toLowerCase();
+		String fecha = getTextFieldFechaPlanificacion().getText();
+		admin.planificarActividad(tipo, fecha);
+	}
+
 	private JDateChooser getJdateChooser() {
-		if(jDateChooser == null) {
+		if (jDateChooser == null) {
 			jDateChooser = new JDateChooser();
 		}
 		return jDateChooser;
+	}
+
+	private JLabel getLblFechaPlanificar() {
+		if (lblFechaPlanificar == null) {
+			lblFechaPlanificar = new JLabel("Fecha:");
+			lblFechaPlanificar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblFechaPlanificar;
+	}
+
+	private JTextField getTextFieldFechaPlanificacion() {
+		if (textFieldFechaPlanificacion == null) {
+			textFieldFechaPlanificacion = new JTextField();
+			textFieldFechaPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			textFieldFechaPlanificacion.setColumns(10);
+		}
+		return textFieldFechaPlanificacion;
 	}
 }

@@ -226,4 +226,9 @@ public class Actividad {
 		}
 		return res;
 	}
+
+	public void planificarActividad(String tipo, String fecha) {
+		as.planificarActividad(tipo, fecha);
+		
+	}
 }
