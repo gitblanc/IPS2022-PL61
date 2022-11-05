@@ -37,6 +37,7 @@ import com.toedter.calendar.JDateChooser;
 
 import logic.Actividad;
 import logic.Administrador;
+import logic.Alquiler;
 
 public class NewVentanaAdmin extends JFrame {
 
@@ -1198,20 +1199,21 @@ public class NewVentanaAdmin extends JFrame {
 
 	private void pintarPanelesCalendario(String instalacion) {
 		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
+		List<Alquiler> alquileres = admin.listarAlquileres(instalacion);
 		JButton bot;
 		getPanelCeldasCalendario().removeAll();
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 7; j++) {
 				bot = new JButton();
 				bot.setBackground(new Color(152, 251, 152));
-				asignarTexto(bot, i, j, actividades);
+				asignarTexto(bot, i, j, actividades, alquileres);
 				getPanelCeldasCalendario().add(bot);
 			}
 		}
 		validate();
 	}
 
-	private void asignarTexto(JButton p, int i, int j, List<Actividad> actividades) {
+	private void asignarTexto(JButton p, int i, int j, List<Actividad> actividades, List<Alquiler> alquileres) {
 		int lunes = Integer.parseInt(getLblLunes().getText().split(" - ")[1]);
 		int martes = Integer.parseInt(getLblMartes().getText().split(" - ")[1]);
 		int miercoles = Integer.parseInt(getLblMiercoles().getText().split(" - ")[1]);
@@ -1262,6 +1264,286 @@ public class NewVentanaAdmin extends JFrame {
 				}
 			}
 		}
+		for (Alquiler a : alquileres) {
+			String fecha = a.getFecha();
+			if (fecha != null) {
+				int dia = Integer.parseInt(fecha.split("/")[0]);
+				int month = Integer.parseInt(fecha.split("/")[1]);
+				String horainicio = a.getHora_inicio();
+				String horafin = a.getHora_fin();
+				if (horainicio != null && horafin != null) {
+					if (month == this.month.getValue()) {
+						if (dia == lunes) {
+							if (j == 0) {
+								pintarAlquiler(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == martes) {
+							if (j == 1) {
+								pintarAlquiler(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == miercoles) {
+							if (j == 2) {
+								pintarAlquiler(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == jueves) {
+							if (j == 3) {
+								pintarAlquiler(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == viernes) {
+							if (j == 4) {
+								pintarAlquiler(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == sabado) {
+							if (j == 5) {
+								pintarAlquiler(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == domingo) {
+							if (j == 6) {
+								pintarAlquiler(i, horainicio, horafin, p, a);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void pintarAlquiler(int i, String horainicio, String horafin, JButton bot, Alquiler a) {
+		int fin = Integer.parseInt(horafin.split(":")[0]);
+		int inicio = Integer.parseInt(horainicio.split(":")[0]);
+		int diferencia = fin - inicio;
+		switch (i) {
+		// 9:00
+		case 0:
+			if (horainicio.equals("9:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("9:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 9 && 9 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 10:00
+		case 1:
+			if (horainicio.equals("10:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio == 10) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("10:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 10 && 10 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 11:00
+		case 2:
+			if (horainicio.equals("11:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio == 11) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("11:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 11 && 11 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 12:00
+		case 3:
+			if (horainicio.equals("12:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("12:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 12 && 12 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 13:00
+		case 4:
+			if (horainicio.equals("13:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("13:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 13 && 13 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 14:00
+		case 5:
+			if (horainicio.equals("14:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("14:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 14 && 14 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 15:00
+		case 6:
+			if (horainicio.equals("15:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("15:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 15 && 15 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 16:00
+		case 7:
+			if (horainicio.equals("16:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("16:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 16 && 16 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 17:00
+		case 8:
+			if (horainicio.equals("17:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("17:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 17 && 17 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 18:00
+		case 9:
+			if (horainicio.equals("18:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("18:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 18 && 18 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 19:00
+		case 10:
+			if (horainicio.equals("19:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("19:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 19 && 19 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 20:00
+		case 11:
+			if (horainicio.equals("20:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("20:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 20 && 20 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 21:00
+		case 12:
+			if (horainicio.equals("21:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("21:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 21 && 21 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 22:00
+		case 13:
+			if (horainicio.equals("22:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("22:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (diferencia > 1 && inicio < 22 && 22 < fin) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		// 23:00
+		default:
+			if (horainicio.equals("23:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			if (horafin.equals("23:00")) {
+				bot.setText(a.getId_socio());
+				bot.setBackground(new Color(100, 149, 237));
+			}
+			break;
+		}
+
 	}
 
 	private void pintarActividad(int i, String horainicio, String horafin, JButton bot, Actividad a) {

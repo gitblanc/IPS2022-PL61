@@ -72,6 +72,8 @@ public class CreateDatabase {
 				+ ",nombre_r varchar(20) foreign key references Recurso(nombre_r))";
 		String crearActividadSocio = "create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),"
 				+ "id_a varchar(150) foreign key references TipoActividad(id_a))";
+		String crearAlquileres = "create table Alquileres(id_a varchar(100) primary key, nombre_i varchar(20) foreign key references instalacion(nombre_i),"
+				+ " id_socio varchar(10) foreign key references socio(id_s), fecha varchar(20), hora_inicio varchar(6), hora_fin varchar(6))";
 
 		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
 
@@ -86,6 +88,7 @@ public class CreateDatabase {
 		String dropAdministracion = "drop table administracion";
 		String dropRecursosActividad = "drop table recursosactividad";
 		String dropActividadSocio = "drop table actividadsocio";
+		String dropAlquileres = "drop table alquileres";
 
 		dropTables.add(dropMonitor);
 		dropTables.add(dropNoSocio);
@@ -94,6 +97,7 @@ public class CreateDatabase {
 		dropTables.add(dropListaEspera);
 		dropTables.add(dropAdministracion);
 		dropTables.add(dropActividadSocio);
+		dropTables.add(dropAlquileres);
 		dropTables.add(dropSocios);
 		dropTables.add(dropTipoActividad);
 		dropTables.add(dropRecurso);
@@ -111,6 +115,7 @@ public class CreateDatabase {
 		createQueries.add(crearAdministracion);
 		createQueries.add(crearRecursosActividad);
 		createQueries.add(crearActividadSocio);
+		createQueries.add(crearAlquileres);
 
 		// Inserción de datos
 		// ACTIVIDADES
@@ -191,6 +196,24 @@ public class CreateDatabase {
 				+ "( \"ID_S\", \"NOMBRE_S\", \"APELLIDOS_S\", \"CORREO_S\", \"CONTRASEÑA_S\" )\r\n"
 				+ "VALUES ( '4', 'Benito', 'González Ahmed', 'bb345@gmail.com', 'hgft234')";
 
+		// ALQUILERES
+		String alquiler1 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+				+ " values ('1', 'gimnasio','1','30/10/2022', '9:00', '11:00')";
+		String alquiler2 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+				+ " values ('2', 'gimnasio','2','30/10/2022', '11:00', '13:00')";
+		String alquiler3 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+				+ " values ('3', 'piscina','3','30/10/2022', '11:00', '13:00')";
+		String alquiler4 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+				+ " values ('4', 'piscina','3','30/10/2022', '15:00', '17:00')";
+		String alquiler5 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+				+ " values ('5', 'gimnasio','1','29/10/2022', '9:00', '11:00')";
+		String alquiler6 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+				+ " values ('6', 'gimnasio','2','29/10/2022', '11:00', '13:00')";
+		String alquiler7 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+				+ " values ('7', 'piscina','3','29/10/2022', '11:00', '13:00')";
+		String alquiler8 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+				+ " values ('8', 'piscina','3','29/10/2022', '15:00', '17:00')";
+
 		createQueries.add(instalacion1);
 		createQueries.add(instalacion2);
 		createQueries.add(instalacion3);
@@ -225,5 +248,14 @@ public class CreateDatabase {
 		createQueries.add(socio2);
 		createQueries.add(socio3);
 		createQueries.add(socio4);
+
+		createQueries.add(alquiler1);
+		createQueries.add(alquiler2);
+		createQueries.add(alquiler3);
+		createQueries.add(alquiler4);
+		createQueries.add(alquiler5);
+		createQueries.add(alquiler6);
+		createQueries.add(alquiler7);
+		createQueries.add(alquiler8);
 	}
 }

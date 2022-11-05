@@ -66,4 +66,8 @@ public class Administrador {
 		
 	}
 
+	public List<Alquiler> listarAlquileres(String instalacion) {
+		return new Alquiler().listarAlquileres(instalacion);
+	}
+
 }

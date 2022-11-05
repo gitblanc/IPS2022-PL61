@@ -88,7 +88,7 @@ public class VentanaPrincipal extends JFrame {
 			btAdministrador = new JButton("Administrador");
 			btAdministrador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					VentanaAdministrador va = new VentanaAdministrador();
+					NewVentanaAdmin va = new NewVentanaAdmin();
 					abrirVentana(va);
 				}
 			});

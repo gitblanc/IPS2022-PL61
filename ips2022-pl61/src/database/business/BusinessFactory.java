@@ -9,6 +9,8 @@ import database.business.actividadSocio.ActividadSocioService;
 import database.business.actividadSocio.crud.ActividadSocioServiceImpl;
 import database.business.administracion.AdministracionService;
 import database.business.administracion.crud.AdministracionServiceImpl;
+import database.business.alquiler.AlquilerService;
+import database.business.alquiler.crud.AlquilerServiceImpl;
 import database.business.instalacion.InstalacionService;
 import database.business.instalacion.crud.InstalacionServiceImpl;
 import database.business.monitor.MonitorService;
@@ -55,6 +57,10 @@ public class BusinessFactory {
 	
 	public static ActividadSocioService forActividadSocioService() {
 		return new ActividadSocioServiceImpl();
+	}
+	
+	public static AlquilerService forAlquilerService() {
+		return new AlquilerServiceImpl();
 	}
 	
 }
