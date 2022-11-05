@@ -72,4 +72,56 @@ public class Alquiler {
 		}
 		return alquileres;
 	}
+
+	public String[] listarSociosConAlquileres() {
+		String[] socios = new String[al.findAll().size()];
+		int i = 0;
+		for (AlquilerBLDto a : al.findAll()) {
+			if (socios[0] == null) {
+				socios[i] = a.id_socio;
+				i++;
+			} else if (!socioRepeated(a.id_socio, socios, i)) {
+				socios[i] = a.id_socio;
+				i++;
+			}
+		}
+		return eliminarNull(socios);
+	}
+
+	private String[] eliminarNull(String[] socios) {
+		ArrayList<String> removedNull = new ArrayList<String>();
+		for (String str : socios)
+			if (str != null)
+				removedNull.add(str);
+		return removedNull.toArray(new String[0]);
+	}
+
+	private boolean socioRepeated(String id_socio, String[] socios, int limit) {
+		for (int i = 0; i < limit; i++) {
+			if (socios[i].equals(id_socio))
+				return true;
+		}
+		return false;
+	}
+
+	public String[] listarAlquileresPorSocio(String socio) {
+		String[] alquileres = new String[al.findAll().size()];
+		int i = 0;
+		for (AlquilerBLDto a : al.findAll()) {
+			if (a.id_socio.equals(socio)) {
+				if (alquileres[0] == null) {
+					alquileres[i] = a.instalacion + "-" + a.fecha + "-" + a.hora_inicio + "-" + a.hora_fin;
+					i++;
+				} else if (!socioRepeated(a.id_socio, alquileres, i)) {
+					alquileres[i] = a.instalacion + "-" + a.fecha + "-" + a.hora_inicio + "-" + a.hora_fin;
+					i++;
+				}
+			}
+		}
+		return eliminarNull(alquileres);
+	}
+
+	public void cancelarAlquiler(String socio, String instalacion, String fecha, String hora_inicio, String hora_fin) {
+		al.cancelarAlquiler(socio, instalacion, fecha, hora_inicio, hora_fin);
+	}
 }
