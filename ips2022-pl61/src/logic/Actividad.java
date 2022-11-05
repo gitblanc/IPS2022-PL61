@@ -206,4 +206,29 @@ public class Actividad {
 		as.addActividad(actividad);
 		addRecursosActividad(id, recursos);
 	}
+
+	public int getPlazasInstalacion(String instalacion) {
+		List<InstalacionBLDto> instalaciones = is.findAllInstalaciones();
+		for (InstalacionBLDto i : instalaciones) {
+			if (i.nombre.equals(instalacion))
+				return i.plazas;
+		}
+		return -1;
+	}
+
+	public String[] findAllTiposActividad() {
+		List<ActividadBLDto> actividades = as.findAllActividades();
+		String[] res = new String[actividades.size()];
+		int i = 0;
+		for (ActividadBLDto a : actividades) {
+			res[i] = a.tipo;
+			i++;
+		}
+		return res;
+	}
+
+	public void planificarActividad(String tipo, String fecha) {
+		as.planificarActividad(tipo, fecha);
+		
+	}
 }

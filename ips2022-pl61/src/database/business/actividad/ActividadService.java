@@ -41,4 +41,6 @@ public interface ActividadService {
 
 
 	}
+
+	void planificarActividad(String tipo, String fecha);
 }
