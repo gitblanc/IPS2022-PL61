@@ -9,6 +9,9 @@ import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,10 +30,12 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import logic.Actividad;
 import logic.Administrador;
 
 public class NewVentanaAdmin extends JFrame {
@@ -41,6 +46,12 @@ public class NewVentanaAdmin extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private Administrador admin = new Administrador();
+
+	private int year = LocalDateTime.now().getYear();
+	private DayOfWeek diaSemana = LocalDateTime.now().getDayOfWeek();
+	private int day = LocalDateTime.now().getDayOfMonth();
+	private Month month = LocalDateTime.now().getMonth();
+	private boolean cambioDeMes = false;
 
 	private JPanel contentPane;
 	private JPanel panelPrincipal;
@@ -101,6 +112,38 @@ public class NewVentanaAdmin extends JFrame {
 	private JDateChooser jDateChooser;
 	private JLabel lblFechaPlanificar;
 	private JTextField textFieldFechaPlanificacion;
+	private JLabel lblPlanificaciónCorrecta;
+	private JPanel panelPanelDiasSemana;
+	private JLabel lblLunes;
+	private JLabel lblMartes;
+	private JLabel lblMiercoles;
+	private JLabel lblJueves;
+	private JLabel lblViernes;
+	private JLabel lblSabado;
+	private JLabel lblDomingo;
+	private JPanel panelHoras;
+	private JLabel lblHoras;
+	private JLabel lblHora9;
+	private JLabel lblHora10;
+	private JLabel lblHora11;
+	private JLabel lblHora12;
+	private JLabel lblHora13;
+	private JLabel lblHora14;
+	private JLabel lblHora15;
+	private JLabel lblHora16;
+	private JLabel lblHora17;
+	private JLabel lblHora18;
+	private JLabel lblHora19;
+	private JLabel lblHora20;
+	private JLabel lblHora21;
+	private JLabel lblHora22;
+	private JLabel lblHora23;
+	private JPanel panelCeldasCalendario;
+	private JPanel panelSemana;
+	private JLabel lblSemanaFechaCalendario;
+	private JButton btnSemanaAnterior;
+	private JButton btnSemanaSiguiente;
+	private JComboBox<String> comboBoxIntalacionesCalendario;
 
 	/**
 	 * Create the frame.
@@ -151,12 +194,18 @@ public class NewVentanaAdmin extends JFrame {
 				getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
 		spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 		getTextFieldFechaPlanificacion().setText("");
+		getLblPlanificaciónCorrecta().setText("");
 	}
 
 	private JPanel getPanelCalendario() {
 		if (panelCalendario == null) {
 			panelCalendario = new JPanel();
 			panelCalendario.setBackground(SystemColor.activeCaption);
+			panelCalendario.setLayout(new BorderLayout(0, 0));
+			panelCalendario.add(getPanelPanelDiasSemana(), BorderLayout.NORTH);
+			panelCalendario.add(getPanelHoras(), BorderLayout.WEST);
+			panelCalendario.add(getPanelCeldasCalendario(), BorderLayout.CENTER);
+			panelCalendario.add(getPanelSemana(), BorderLayout.SOUTH);
 		}
 		return panelCalendario;
 	}
@@ -176,7 +225,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelBotones() {
 		if (panelBotones == null) {
 			panelBotones = new JPanel();
-			panelBotones.setBackground(Color.PINK);
+			panelBotones.setBackground(new Color(255, 255, 255));
 			panelBotones.setLayout(new GridLayout(4, 0, 0, 0));
 			panelBotones.add(getPanelCrearTipoActividad());
 			panelBotones.add(getPanelPlanificarActividad());
@@ -189,6 +238,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelCrearTipoActividad() {
 		if (panelCrearTipoActividad == null) {
 			panelCrearTipoActividad = new JPanel();
+			panelCrearTipoActividad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			FlowLayout fl_panelCrearTipoActividad = (FlowLayout) panelCrearTipoActividad.getLayout();
 			fl_panelCrearTipoActividad.setVgap(60);
 			panelCrearTipoActividad.setBackground(Color.WHITE);
@@ -202,6 +252,7 @@ public class NewVentanaAdmin extends JFrame {
 			btnCrearTipoActividad = new JButton("Crear tipo actividad");
 			btnCrearTipoActividad.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					// getPanelCalendario().setVisible(false);
 					mostrarPanelAcciones("panelCrearActividad");
 					String instalacion = getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0]
 							.toLowerCase();
@@ -216,6 +267,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelPlanificarActividad() {
 		if (panelPlanificarActividad == null) {
 			panelPlanificarActividad = new JPanel();
+			panelPlanificarActividad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			FlowLayout fl_panelPlanificarActividad = (FlowLayout) panelPlanificarActividad.getLayout();
 			fl_panelPlanificarActividad.setVgap(60);
 			panelPlanificarActividad.setBackground(Color.WHITE);
@@ -240,6 +292,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelAlquilarASocio() {
 		if (panelAlquilarASocio == null) {
 			panelAlquilarASocio = new JPanel();
+			panelAlquilarASocio.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			FlowLayout fl_panelAlquilarASocio = (FlowLayout) panelAlquilarASocio.getLayout();
 			fl_panelAlquilarASocio.setVgap(60);
 			panelAlquilarASocio.setBackground(Color.WHITE);
@@ -259,6 +312,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelCancelarAlquiler() {
 		if (panelCancelarAlquiler == null) {
 			panelCancelarAlquiler = new JPanel();
+			panelCancelarAlquiler.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			FlowLayout fl_panelCancelarAlquiler = (FlowLayout) panelCancelarAlquiler.getLayout();
 			fl_panelCancelarAlquiler.setVgap(60);
 			panelCancelarAlquiler.setBackground(Color.WHITE);
@@ -278,6 +332,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelCrearActividad() {
 		if (panelCrearActividad == null) {
 			panelCrearActividad = new JPanel();
+			panelCrearActividad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			panelCrearActividad.setBackground(Color.WHITE);
 			panelCrearActividad.setLayout(new GridLayout(5, 0, 0, 0));
 			panelCrearActividad.add(getPanelTipo());
@@ -556,6 +611,7 @@ public class NewVentanaAdmin extends JFrame {
 			btnAtrasTipo = new JButton("Atrás");
 			btnAtrasTipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					getPanelCalendario().setVisible(true);
 					mostrarPanelAcciones("panelBotones");
 				}
 			});
@@ -603,7 +659,7 @@ public class NewVentanaAdmin extends JFrame {
 		List<String> recursos = getRecursosSeleccionados();
 		String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String instalacion = getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase();
-		if (acceso.equals("con reserva")) {
+		if (acceso.equals("reserva")) {
 			int plazas = Integer.parseInt(getSpinner().getValue().toString());
 			admin.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, plazas);
 		} else {
@@ -611,6 +667,7 @@ public class NewVentanaAdmin extends JFrame {
 																							// ilimitadas
 		}
 		getLblParametrosCorrectosTipoA().setVisible(true);
+		getComboBoxTiposActividad().setModel(new DefaultComboBoxModel<String>(admin.getAllTiposActividad()));
 	}
 
 	private List<String> getRecursosSeleccionados() {
@@ -672,7 +729,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return spinner;
 	}
-  
+
 	private JLabel getLblParametrosCorrectosTipoA() {
 		if (lblParametrosCorrectosTipoA == null) {
 			lblParametrosCorrectosTipoA = new JLabel("¡Tipo creado!");
@@ -686,6 +743,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelPlanificacionActividad() {
 		if (panelPlanificacionActividad == null) {
 			panelPlanificacionActividad = new JPanel();
+			panelPlanificacionActividad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			panelPlanificacionActividad.setBackground(Color.WHITE);
 			panelPlanificacionActividad.setLayout(new GridLayout(2, 1, 0, 0));
 			panelPlanificacionActividad.add(getPanelTipoActividad());
@@ -758,6 +816,7 @@ public class NewVentanaAdmin extends JFrame {
 			flowLayout.setHgap(15);
 			flowLayout.setAlignment(FlowLayout.RIGHT);
 			panelBotonesAtrasPlanificar.setBackground(Color.WHITE);
+			panelBotonesAtrasPlanificar.add(getLblPlanificaciónCorrecta());
 			panelBotonesAtrasPlanificar.add(getBtnAtrasTipo_1_1());
 			panelBotonesAtrasPlanificar.add(getBtnCrearTipo_1_1());
 		}
@@ -787,6 +846,8 @@ public class NewVentanaAdmin extends JFrame {
 			btnPlanificarTipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					planificarActividad();
+					pintarPanelesCalendario(
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
 				}
 			});
 			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -801,7 +862,15 @@ public class NewVentanaAdmin extends JFrame {
 	protected void planificarActividad() {
 		String tipo = getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String fecha = getTextFieldFechaPlanificacion().getText();
-		admin.planificarActividad(tipo, fecha);
+		if (fecha != null && !fecha.isEmpty()) {
+			admin.planificarActividad(tipo, fecha);
+			getLblPlanificaciónCorrecta().setForeground(Color.GREEN);
+			getLblPlanificaciónCorrecta().setText("¡Hecho!");
+			getTextFieldFechaPlanificacion().setBorder(LineBorder.createGrayLineBorder());
+		} else {
+			getTextFieldFechaPlanificacion().setBorder(new LineBorder(Color.RED));
+		}
+
 	}
 
 	private JDateChooser getJdateChooser() {
@@ -826,5 +895,1529 @@ public class NewVentanaAdmin extends JFrame {
 			textFieldFechaPlanificacion.setColumns(10);
 		}
 		return textFieldFechaPlanificacion;
+	}
+
+	private JLabel getLblPlanificaciónCorrecta() {
+		if (lblPlanificaciónCorrecta == null) {
+			lblPlanificaciónCorrecta = new JLabel("");
+			lblPlanificaciónCorrecta.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblPlanificaciónCorrecta;
+	}
+
+	private JPanel getPanelPanelDiasSemana() {
+		if (panelPanelDiasSemana == null) {
+			panelPanelDiasSemana = new JPanel();
+			panelPanelDiasSemana.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+			panelPanelDiasSemana.setBackground(new Color(255, 255, 255));
+			panelPanelDiasSemana.setLayout(new GridLayout(0, 8, 0, 10));
+			panelPanelDiasSemana.add(getLblHoras());
+			panelPanelDiasSemana.add(getLblLunes());
+			panelPanelDiasSemana.add(getLblMartes());
+			panelPanelDiasSemana.add(getLblMiercoles());
+			panelPanelDiasSemana.add(getLblJueves());
+			panelPanelDiasSemana.add(getLblViernes());
+			panelPanelDiasSemana.add(getLblSabado());
+			panelPanelDiasSemana.add(getLblDomingo());
+		}
+		return panelPanelDiasSemana;
+	}
+
+	private JLabel getLblLunes() {
+		if (lblLunes == null) {
+			lblLunes = new JLabel("LUNES");
+			lblLunes.setBackground(new Color(32, 178, 170));
+			lblLunes.setHorizontalAlignment(SwingConstants.CENTER);
+			lblLunes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblLunes;
+	}
+
+	private JLabel getLblMartes() {
+		if (lblMartes == null) {
+			lblMartes = new JLabel("MARTES");
+			lblMartes.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMartes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblMartes;
+	}
+
+	private JLabel getLblMiercoles() {
+		if (lblMiercoles == null) {
+			lblMiercoles = new JLabel("MIÉRCOLES");
+			lblMiercoles.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMiercoles.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblMiercoles;
+	}
+
+	private JLabel getLblJueves() {
+		if (lblJueves == null) {
+			lblJueves = new JLabel("JUEVES");
+			lblJueves.setHorizontalAlignment(SwingConstants.CENTER);
+			lblJueves.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblJueves;
+	}
+
+	private JLabel getLblViernes() {
+		if (lblViernes == null) {
+			lblViernes = new JLabel("VIERNES");
+			lblViernes.setHorizontalAlignment(SwingConstants.CENTER);
+			lblViernes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblViernes;
+	}
+
+	private JLabel getLblSabado() {
+		if (lblSabado == null) {
+			lblSabado = new JLabel("SÁBADO");
+			lblSabado.setForeground(new Color(30, 144, 255));
+			lblSabado.setHorizontalAlignment(SwingConstants.CENTER);
+			lblSabado.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblSabado;
+	}
+
+	private JLabel getLblDomingo() {
+		if (lblDomingo == null) {
+			lblDomingo = new JLabel("DOMINGO");
+			lblDomingo.setForeground(new Color(30, 144, 255));
+			lblDomingo.setHorizontalAlignment(SwingConstants.CENTER);
+			lblDomingo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblDomingo;
+	}
+
+	private JPanel getPanelHoras() {
+		if (panelHoras == null) {
+			panelHoras = new JPanel();
+			panelHoras.setBackground(Color.WHITE);
+			panelHoras.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+			panelHoras.setLayout(new GridLayout(15, 2, 0, 0));
+			panelHoras.add(getLblHora9());
+			panelHoras.add(getLblHora10());
+			panelHoras.add(getLblHora11());
+			panelHoras.add(getLblHora12());
+			panelHoras.add(getLblHora13());
+			panelHoras.add(getLblHora14());
+			panelHoras.add(getLblHora15());
+			panelHoras.add(getLblHora16());
+			panelHoras.add(getLblHora17());
+			panelHoras.add(getLblHora18());
+			panelHoras.add(getLblHora19());
+			panelHoras.add(getLblHora20());
+			panelHoras.add(getLblHora21());
+			panelHoras.add(getLblHora22());
+			panelHoras.add(getLblHora23());
+		}
+		return panelHoras;
+	}
+
+	private JLabel getLblHoras() {
+		if (lblHoras == null) {
+			lblHoras = new JLabel("HORAS");
+			lblHoras.setHorizontalAlignment(SwingConstants.CENTER);
+			lblHoras.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblHoras;
+	}
+
+	private JLabel getLblHora9() {
+		if (lblHora9 == null) {
+			lblHora9 = new JLabel("       9:00         ");
+			lblHora9.setBackground(Color.WHITE);
+			lblHora9.setHorizontalAlignment(SwingConstants.CENTER);
+			lblHora9.setFont(new Font("Dialog", Font.PLAIN, 14));
+		}
+		return lblHora9;
+	}
+
+	private JLabel getLblHora10() {
+		if (lblHora10 == null) {
+			lblHora10 = new JLabel("10:00");
+			lblHora10.setBackground(Color.WHITE);
+			lblHora10.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora10.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora10;
+	}
+
+	private JLabel getLblHora11() {
+		if (lblHora11 == null) {
+			lblHora11 = new JLabel("11:00");
+			lblHora11.setBackground(Color.WHITE);
+			lblHora11.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora11.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora11;
+	}
+
+	private JLabel getLblHora12() {
+		if (lblHora12 == null) {
+			lblHora12 = new JLabel("12:00");
+			lblHora12.setBackground(Color.WHITE);
+			lblHora12.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora12.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora12;
+	}
+
+	private JLabel getLblHora13() {
+		if (lblHora13 == null) {
+			lblHora13 = new JLabel("13:00");
+			lblHora13.setBackground(Color.WHITE);
+			lblHora13.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora13.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora13;
+	}
+
+	private JLabel getLblHora14() {
+		if (lblHora14 == null) {
+			lblHora14 = new JLabel("14:00");
+			lblHora14.setBackground(Color.WHITE);
+			lblHora14.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora14.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora14;
+	}
+
+	private JLabel getLblHora15() {
+		if (lblHora15 == null) {
+			lblHora15 = new JLabel("15:00");
+			lblHora15.setBackground(Color.WHITE);
+			lblHora15.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora15.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora15;
+	}
+
+	private JLabel getLblHora16() {
+		if (lblHora16 == null) {
+			lblHora16 = new JLabel("16:00");
+			lblHora16.setBackground(Color.WHITE);
+			lblHora16.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora16.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora16;
+	}
+
+	private JLabel getLblHora17() {
+		if (lblHora17 == null) {
+			lblHora17 = new JLabel("17:00");
+			lblHora17.setBackground(Color.WHITE);
+			lblHora17.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora17.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora17;
+	}
+
+	private JLabel getLblHora18() {
+		if (lblHora18 == null) {
+			lblHora18 = new JLabel("18:00");
+			lblHora18.setBackground(Color.WHITE);
+			lblHora18.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora18.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora18;
+	}
+
+	private JLabel getLblHora19() {
+		if (lblHora19 == null) {
+			lblHora19 = new JLabel("19:00");
+			lblHora19.setBackground(Color.WHITE);
+			lblHora19.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora19.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora19;
+	}
+
+	private JLabel getLblHora20() {
+		if (lblHora20 == null) {
+			lblHora20 = new JLabel("20:00");
+			lblHora20.setBackground(Color.WHITE);
+			lblHora20.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora20.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora20;
+	}
+
+	private JLabel getLblHora21() {
+		if (lblHora21 == null) {
+			lblHora21 = new JLabel("21:00");
+			lblHora21.setBackground(Color.WHITE);
+			lblHora21.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora21.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora21;
+	}
+
+	private JLabel getLblHora22() {
+		if (lblHora22 == null) {
+			lblHora22 = new JLabel("22:00");
+			lblHora22.setBackground(Color.WHITE);
+			lblHora22.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora22.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora22;
+	}
+
+	private JLabel getLblHora23() {
+		if (lblHora23 == null) {
+			lblHora23 = new JLabel("23:00");
+			lblHora23.setBackground(Color.WHITE);
+			lblHora23.setFont(new Font("Dialog", Font.PLAIN, 14));
+			lblHora23.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblHora23;
+	}
+
+	private JPanel getPanelCeldasCalendario() {
+		if (panelCeldasCalendario == null) {
+			panelCeldasCalendario = new JPanel();
+			panelCeldasCalendario.setBackground(Color.WHITE);
+			panelCeldasCalendario.setLayout(new GridLayout(15, 7, 0, 0));
+		}
+		return panelCeldasCalendario;
+	}
+
+	private JPanel getPanelSemana() {
+		if (panelSemana == null) {
+			panelSemana = new JPanel();
+			panelSemana.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+			panelSemana.setBackground(SystemColor.inactiveCaption);
+			panelSemana.add(getBtnSemanaAnterior());
+			panelSemana.add(getLblSemanaFechaCalendario());
+			panelSemana.add(getBtnSemanaSiguiente());
+			panelSemana.add(getComboBoxIntalacionesCalendario_1());
+			pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getItemAt(0));
+		}
+		return panelSemana;
+	}
+
+	private void pintarPanelesCalendario(String instalacion) {
+		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
+		JButton bot;
+		getPanelCeldasCalendario().removeAll();
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 7; j++) {
+				bot = new JButton();
+				bot.setBackground(new Color(152, 251, 152));
+				asignarTexto(bot, i, j, actividades);
+				getPanelCeldasCalendario().add(bot);
+			}
+		}
+		validate();
+	}
+
+	private void asignarTexto(JButton p, int i, int j, List<Actividad> actividades) {
+		int lunes = Integer.parseInt(getLblLunes().getText().split(" - ")[1]);
+		int martes = Integer.parseInt(getLblMartes().getText().split(" - ")[1]);
+		int miercoles = Integer.parseInt(getLblMiercoles().getText().split(" - ")[1]);
+		int jueves = Integer.parseInt(getLblJueves().getText().split(" - ")[1]);
+		int viernes = Integer.parseInt(getLblViernes().getText().split(" - ")[1]);
+		int sabado = Integer.parseInt(getLblSabado().getText().split(" - ")[1]);
+		int domingo = Integer.parseInt(getLblDomingo().getText().split(" - ")[1]);
+
+		for (Actividad a : actividades) {
+			String fecha = a.getFecha();
+			if (fecha != null) {
+				int dia = Integer.parseInt(fecha.split("/")[0]);
+				int month = Integer.parseInt(fecha.split("/")[1]);
+				String horainicio = a.getHoraInicio();
+				String horafin = a.getHoraFin();
+				if (horainicio != null && horafin != null) {
+					if (month == this.month.getValue()) {
+						if (dia == lunes) {
+							if (j == 0) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == martes) {
+							if (j == 1) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == miercoles) {
+							if (j == 2) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == jueves) {
+							if (j == 3) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == viernes) {
+							if (j == 4) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == sabado) {
+							if (j == 5) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == domingo) {
+							if (j == 6) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void pintarActividad(int i, String horainicio, String horafin, JButton bot, Actividad a) {
+		int fin = Integer.parseInt(horafin.split(":")[0]);
+		int inicio = Integer.parseInt(horainicio.split(":")[0]);
+		int diferencia = fin - inicio;
+		switch (i) {
+		// 9:00
+		case 0:
+			if (horainicio.equals("9:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("9:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 9 && 9 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 10:00
+		case 1:
+			if (horainicio.equals("10:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio == 10) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("10:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 10 && 10 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 11:00
+		case 2:
+			if (horainicio.equals("11:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio == 11) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("11:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 11 && 11 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 12:00
+		case 3:
+			if (horainicio.equals("12:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("12:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 12 && 12 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 13:00
+		case 4:
+			if (horainicio.equals("13:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("13:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 13 && 13 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 14:00
+		case 5:
+			if (horainicio.equals("14:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("14:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 14 && 14 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 15:00
+		case 6:
+			if (horainicio.equals("15:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("15:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 15 && 15 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 16:00
+		case 7:
+			if (horainicio.equals("16:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("16:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 16 && 16 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 17:00
+		case 8:
+			if (horainicio.equals("17:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("17:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 17 && 17 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 18:00
+		case 9:
+			if (horainicio.equals("18:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("18:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 18 && 18 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 19:00
+		case 10:
+			if (horainicio.equals("19:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("19:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 19 && 19 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 20:00
+		case 11:
+			if (horainicio.equals("20:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("20:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 20 && 20 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 21:00
+		case 12:
+			if (horainicio.equals("21:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("21:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 21 && 21 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 22:00
+		case 13:
+			if (horainicio.equals("22:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("22:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (diferencia > 1 && inicio < 22 && 22 < fin) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		// 23:00
+		default:
+			if (horainicio.equals("23:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			if (horafin.equals("23:00")) {
+				bot.setText(a.getTipo());
+				bot.setBackground(Color.ORANGE);
+			}
+			break;
+		}
+	}
+
+	private JLabel getLblSemanaFechaCalendario() {
+		if (lblSemanaFechaCalendario == null) {
+			lblSemanaFechaCalendario = new JLabel("");
+			lblSemanaFechaCalendario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			if (day > 0 && day < 7) {
+				asignarNuevoMes(month.getValue() - 1);
+			}
+			lblSemanaFechaCalendario.setText(month.getValue() + "/" + year);
+			asignarDias(diaSemana, day, month, year);
+		}
+		return lblSemanaFechaCalendario;
+	}
+
+	private void asignarDias(DayOfWeek diaSemana, int dia, Month month, int year) {
+		boolean meses31dias = month == Month.JANUARY || month == Month.MARCH || month == Month.MAY
+				|| month == Month.JULY || month == Month.AUGUST || month == Month.OCTOBER || month == Month.DECEMBER;
+		boolean meses30dias = month == Month.APRIL || month == Month.JUNE || month == Month.SEPTEMBER
+				|| month == Month.NOVEMBER;
+		boolean bisiesto = (year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0);
+		switch (diaSemana) {
+		case MONDAY:
+			asignarValoresEtiquetas(dia, dia + 1, dia + 2, dia + 3, dia + 4, dia + 5, dia + 6);
+			break;
+		case TUESDAY:
+			if (dia == 1) {
+				// meses de 31 días
+				if (meses31dias) {
+					getLblLunes().setText("Lun - " + (31));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblLunes().setText("Lun - " + (30));
+				} else {
+					if (bisiesto) {
+						getLblLunes().setText("Lun - " + (29));
+					} else {
+						getLblLunes().setText("Lun - " + (28));
+					}
+				}
+			} else {
+				getLblLunes().setText("Lun - " + (dia - 1));
+			}
+			getLblMiercoles().setText("Mier - " + (dia + 1));
+			getLblJueves().setText("Jue - " + (dia + 2));
+			getLblViernes().setText("Vier - " + (dia + 3));
+			getLblSabado().setText("Sab - " + (dia + 4));
+			getLblDomingo().setText("Dom - " + (dia + 5));
+			getLblMartes().setText("Mar - " + (dia));
+			break;
+		case WEDNESDAY:
+			if (dia == 1) {
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMartes().setText("Mar - " + (31));
+					getLblLunes().setText("Lun - " + (30));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} else {
+					if (bisiesto) {
+						getLblMartes().setText("Mar - " + (29));
+						getLblLunes().setText("Lun - " + (28));
+					} else {
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					}
+				}
+			} else if (dia == 2) {
+				getLblMartes().setText("Mar - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblLunes().setText("Lun - " + (31));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblLunes().setText("Lun - " + (30));
+				} else {
+					if (bisiesto) {
+						getLblLunes().setText("Lun - " + (29));
+					} else {
+						getLblLunes().setText("Lun - " + (28));
+					}
+				}
+			} else {
+				getLblLunes().setText("Lun - " + (dia - 2));
+				getLblMartes().setText("Mar - " + (dia - 1));
+			}
+			getLblJueves().setText("Jue - " + (dia + 1));
+			getLblViernes().setText("Vier - " + (dia + 2));
+			getLblSabado().setText("Sab - " + (dia + 3));
+			getLblDomingo().setText("Dom - " + (dia + 4));
+			getLblMiercoles().setText("Mier - " + (dia));
+			break;
+		case THURSDAY:
+			if (dia == 1) {
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMiercoles().setText("Mier - " + (31));
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMiercoles().setText("Mier - " + (30));
+					getLblMartes().setText("Mar - " + (29));
+					getLblLunes().setText("Lun - " + (28));
+				} else {
+					if (bisiesto) {
+						getLblMiercoles().setText("Mier - " + (29));
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					} else {
+						getLblMiercoles().setText("Mier - " + (28));
+						getLblMartes().setText("Mar - " + (27));
+						getLblLunes().setText("Lun - " + (26));
+					}
+				}
+			} else if (dia == 2) {
+				getLblMiercoles().setText("Mier - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMartes().setText("Mar - " + (31));
+					getLblLunes().setText("Lun - " + (30));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} else {
+					if (bisiesto) {
+						getLblMartes().setText("Mar - " + (29));
+						getLblLunes().setText("Lun - " + (28));
+					} else {
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					}
+				}
+			} else if (dia == 3) {
+				getLblMiercoles().setText("Mier - " + (2));
+				getLblMartes().setText("Mar - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblLunes().setText("Lun - " + (31));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblLunes().setText("Lun - " + (30));
+				} else {
+					if (bisiesto) {
+						getLblLunes().setText("Lun - " + (29));
+					} else {
+						getLblLunes().setText("Lun - " + (28));
+					}
+				}
+			} else {
+				getLblLunes().setText("Lun - " + (dia - 3));
+				getLblMartes().setText("Mar - " + (dia - 2));
+				getLblMiercoles().setText("Mier - " + (dia - 1));
+			}
+			getLblViernes().setText("Vier - " + (dia + 1));
+			getLblSabado().setText("Sab - " + (dia + 2));
+			getLblDomingo().setText("Dom - " + (dia + 3));
+			getLblJueves().setText("Jue - " + (dia));
+			break;
+		case FRIDAY:
+			if (dia == 1) {
+				// meses de 31 días
+				if (meses31dias) {
+					getLblJueves().setText("Jue - " + (31));
+					getLblMiercoles().setText("Mier - " + (30));
+					getLblMartes().setText("Mar - " + (29));
+					getLblLunes().setText("Lun - " + (28));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblJueves().setText("Jue - " + (30));
+					getLblMiercoles().setText("Mier - " + (29));
+					getLblMartes().setText("Mar - " + (28));
+					getLblLunes().setText("Lun - " + (27));
+				} else {
+					if (bisiesto) {
+						getLblJueves().setText("Jue - " + (29));
+						getLblMiercoles().setText("Mier - " + (28));
+						getLblMartes().setText("Mar - " + (27));
+						getLblLunes().setText("Lun - " + (26));
+					} else {
+						getLblJueves().setText("Jue - " + (28));
+						getLblMiercoles().setText("Mier - " + (27));
+						getLblMartes().setText("Mar - " + (26));
+						getLblLunes().setText("Lun - " + (25));
+					}
+				}
+			} else if (dia == 2) {
+				getLblJueves().setText("Jue - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMiercoles().setText("Mier - " + (31));
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMiercoles().setText("Mier - " + (30));
+					getLblMartes().setText("Mar - " + (29));
+					getLblLunes().setText("Lun - " + (28));
+				} else {
+					if (bisiesto) {
+						getLblMiercoles().setText("Mier - " + (29));
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					} else {
+						getLblMiercoles().setText("Mier - " + (28));
+						getLblMartes().setText("Mar - " + (27));
+						getLblLunes().setText("Lun - " + (26));
+					}
+				}
+			} else if (dia == 3) {
+				getLblJueves().setText("Jue - " + (2));
+				getLblMiercoles().setText("Mier - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMartes().setText("Mar - " + (31));
+					getLblLunes().setText("Lun - " + (30));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} else {
+					if (bisiesto) {
+						getLblMartes().setText("Mar - " + (29));
+						getLblLunes().setText("Lun - " + (28));
+					} else {
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					}
+				}
+			} else if (dia == 4) {
+				getLblJueves().setText("Jue - " + (3));
+				getLblMiercoles().setText("Mier - " + (2));
+				getLblMartes().setText("Mar - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblLunes().setText("Lun - " + (31));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblLunes().setText("Lun - " + (30));
+				} else {
+					if (bisiesto) {
+						getLblLunes().setText("Lun - " + (29));
+					} else {
+						getLblLunes().setText("Lun - " + (28));
+					}
+				}
+			} else {
+				getLblLunes().setText("Lun - " + (dia - 4));
+				getLblMartes().setText("Mar - " + (dia - 3));
+				getLblMiercoles().setText("Mier - " + (dia - 2));
+				getLblJueves().setText("Jue - " + (dia - 1));
+			}
+			getLblViernes().setText("Vier - " + (dia));
+			getLblSabado().setText("Sab - " + (dia + 1));
+			getLblDomingo().setText("Dom - " + (dia + 2));
+			break;
+		case SATURDAY:
+			if (dia == 1) {
+				// meses de 31 días
+				if (meses31dias) {
+					getLblViernes().setText("Vier - " + (31));
+					getLblJueves().setText("Jue - " + (30));
+					getLblMiercoles().setText("Mier - " + (29));
+					getLblMartes().setText("Mar - " + (28));
+					getLblLunes().setText("Lun - " + (27));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblViernes().setText("Vier - " + (30));
+					getLblJueves().setText("Jue - " + (29));
+					getLblMiercoles().setText("Mier - " + (28));
+					getLblMartes().setText("Mar - " + (27));
+					getLblLunes().setText("Lun - " + (26));
+				} else {
+					if (bisiesto) {
+						getLblViernes().setText("Vier - " + (29));
+						getLblJueves().setText("Jue - " + (28));
+						getLblMiercoles().setText("Mier - " + (27));
+						getLblMartes().setText("Mar - " + (26));
+						getLblLunes().setText("Lun - " + (25));
+					} else {
+						getLblViernes().setText("Vier - " + (28));
+						getLblJueves().setText("Jue - " + (27));
+						getLblMiercoles().setText("Mier - " + (26));
+						getLblMartes().setText("Mar - " + (25));
+						getLblLunes().setText("Lun - " + (24));
+					}
+				}
+			} else if (dia == 2) {
+				getLblViernes().setText("Vier - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblJueves().setText("Jue - " + (31));
+					getLblMiercoles().setText("Mier - " + (30));
+					getLblMartes().setText("Mar - " + (29));
+					getLblLunes().setText("Lun - " + (28));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblJueves().setText("Jue - " + (30));
+					getLblMiercoles().setText("Mier - " + (29));
+					getLblMartes().setText("Mar - " + (28));
+					getLblLunes().setText("Lun - " + (27));
+				} else {
+					if (bisiesto) {
+						getLblJueves().setText("Jue - " + (29));
+						getLblMiercoles().setText("Mier - " + (28));
+						getLblMartes().setText("Mar - " + (27));
+						getLblLunes().setText("Lun - " + (26));
+					} else {
+						getLblJueves().setText("Jue - " + (28));
+						getLblMiercoles().setText("Mier - " + (27));
+						getLblMartes().setText("Mar - " + (26));
+						getLblLunes().setText("Lun - " + (25));
+					}
+				}
+			} else if (dia == 3) {
+				getLblViernes().setText("Vier - " + (2));
+				getLblJueves().setText("Jue - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMiercoles().setText("Mier - " + (31));
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMiercoles().setText("Mier - " + (30));
+					getLblMartes().setText("Mar - " + (29));
+					getLblLunes().setText("Lun - " + (28));
+				} else {
+					if (bisiesto) {
+						getLblMiercoles().setText("Mier - " + (29));
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					} else {
+						getLblMiercoles().setText("Mier - " + (28));
+						getLblMartes().setText("Mar - " + (27));
+						getLblLunes().setText("Lun - " + (26));
+					}
+				}
+			} else if (dia == 4) {
+				getLblViernes().setText("Vier - " + (3));
+				getLblJueves().setText("Jue - " + (2));
+				getLblMiercoles().setText("Mier - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMartes().setText("Mar - " + (31));
+					getLblLunes().setText("Lun - " + (30));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} else {
+					if (bisiesto) {
+						getLblMartes().setText("Mar - " + (29));
+						getLblLunes().setText("Lun - " + (28));
+					} else {
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					}
+				}
+			} else if (dia == 5) {
+				getLblViernes().setText("Vier - " + (4));
+				getLblJueves().setText("Jue - " + (3));
+				getLblMiercoles().setText("Mier - " + (2));
+				getLblMartes().setText("Mar - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblLunes().setText("Lun - " + (31));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblLunes().setText("Lun - " + (30));
+				} else {
+					if (bisiesto) {
+						getLblLunes().setText("Lun - " + (29));
+					} else {
+						getLblLunes().setText("Lun - " + (28));
+					}
+				}
+			} else {
+				getLblLunes().setText("Lun - " + (dia - 5));
+				getLblMartes().setText("Mar - " + (dia - 4));
+				getLblMiercoles().setText("Mier - " + (dia - 3));
+				getLblJueves().setText("Jue - " + (dia - 2));
+				getLblViernes().setText("Vier - " + (dia - 1));
+			}
+			getLblSabado().setText("Sab - " + (dia));
+			getLblDomingo().setText("Dom - " + (dia + 1));
+			break;
+		default:// domingo
+			if (dia == 1) {
+				// meses de 31 días
+				if (meses31dias) {
+					getLblSabado().setText("Sab - " + (31));
+					getLblViernes().setText("Vier - " + (30));
+					getLblJueves().setText("Jue - " + (29));
+					getLblMiercoles().setText("Mier - " + (28));
+					getLblMartes().setText("Mar - " + (27));
+					getLblLunes().setText("Lun - " + (26));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblSabado().setText("Sab - " + (30));
+					getLblViernes().setText("Vier - " + (29));
+					getLblJueves().setText("Jue - " + (28));
+					getLblMiercoles().setText("Mier - " + (27));
+					getLblMartes().setText("Mar - " + (26));
+					getLblLunes().setText("Lun - " + (25));
+				} else {
+					if (bisiesto) {
+						getLblSabado().setText("Sab - " + (29));
+						getLblViernes().setText("Vier - " + (28));
+						getLblJueves().setText("Jue - " + (27));
+						getLblMiercoles().setText("Mier - " + (26));
+						getLblMartes().setText("Mar - " + (25));
+						getLblLunes().setText("Lun - " + (24));
+					} else {
+						getLblSabado().setText("Sab - " + (28));
+						getLblViernes().setText("Vier - " + (27));
+						getLblJueves().setText("Jue - " + (26));
+						getLblMiercoles().setText("Mier - " + (25));
+						getLblMartes().setText("Mar - " + (24));
+						getLblLunes().setText("Lun - " + (23));
+					}
+				}
+			} else if (dia == 2) {
+				getLblSabado().setText("Sab - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblViernes().setText("Vier - " + (31));
+					getLblJueves().setText("Jue - " + (30));
+					getLblMiercoles().setText("Mier - " + (29));
+					getLblMartes().setText("Mar - " + (28));
+					getLblLunes().setText("Lun - " + (27));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblViernes().setText("Vier - " + (30));
+					getLblJueves().setText("Jue - " + (29));
+					getLblMiercoles().setText("Mier - " + (28));
+					getLblMartes().setText("Mar - " + (27));
+					getLblLunes().setText("Lun - " + (26));
+				} else {
+					if (bisiesto) {
+						getLblViernes().setText("Vier - " + (29));
+						getLblJueves().setText("Jue - " + (28));
+						getLblMiercoles().setText("Mier - " + (27));
+						getLblMartes().setText("Mar - " + (26));
+						getLblLunes().setText("Lun - " + (25));
+					} else {
+						getLblViernes().setText("Vier - " + (28));
+						getLblJueves().setText("Jue - " + (27));
+						getLblMiercoles().setText("Mier - " + (26));
+						getLblMartes().setText("Mar - " + (25));
+						getLblLunes().setText("Lun - " + (24));
+					}
+				}
+			} else if (dia == 3) {
+				getLblSabado().setText("Sab - " + (2));
+				getLblViernes().setText("Vier - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblJueves().setText("Jue - " + (31));
+					getLblMiercoles().setText("Mier - " + (30));
+					getLblMartes().setText("Mar - " + (29));
+					getLblLunes().setText("Lun - " + (28));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblJueves().setText("Jue - " + (30));
+					getLblMiercoles().setText("Mier - " + (29));
+					getLblMartes().setText("Mar - " + (28));
+					getLblLunes().setText("Lun - " + (27));
+				} else {
+					if (bisiesto) {
+						getLblJueves().setText("Jue - " + (29));
+						getLblMiercoles().setText("Mier - " + (28));
+						getLblMartes().setText("Mar - " + (27));
+						getLblLunes().setText("Lun - " + (26));
+					} else {
+						getLblJueves().setText("Jue - " + (28));
+						getLblMiercoles().setText("Mier - " + (27));
+						getLblMartes().setText("Mar - " + (26));
+						getLblLunes().setText("Lun - " + (25));
+					}
+				}
+			} else if (dia == 4) {
+				getLblSabado().setText("Sab - " + (3));
+				getLblViernes().setText("Vier - " + (2));
+				getLblJueves().setText("Jue - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMiercoles().setText("Mier - " + (31));
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMiercoles().setText("Mier - " + (30));
+					getLblMartes().setText("Mar - " + (29));
+					getLblLunes().setText("Lun - " + (28));
+				} else {
+					if (bisiesto) {
+						getLblMiercoles().setText("Mier - " + (29));
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					} else {
+						getLblMiercoles().setText("Mier - " + (28));
+						getLblMartes().setText("Mar - " + (27));
+						getLblLunes().setText("Lun - " + (26));
+					}
+				}
+			} else if (dia == 5) {
+				getLblSabado().setText("Sab - " + (4));
+				getLblViernes().setText("Vier - " + (3));
+				getLblJueves().setText("Jue - " + (2));
+				getLblMiercoles().setText("Mier - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblMartes().setText("Mar - " + (31));
+					getLblLunes().setText("Lun - " + (30));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblMartes().setText("Mar - " + (30));
+					getLblLunes().setText("Lun - " + (29));
+				} else {
+					if (bisiesto) {
+						getLblMartes().setText("Mar - " + (29));
+						getLblLunes().setText("Lun - " + (28));
+					} else {
+						getLblMartes().setText("Mar - " + (28));
+						getLblLunes().setText("Lun - " + (27));
+					}
+				}
+			} else if (dia == 6) {
+				getLblSabado().setText("Sab - " + (5));
+				getLblViernes().setText("Vier - " + (4));
+				getLblJueves().setText("Jue - " + (3));
+				getLblMiercoles().setText("Mier - " + (2));
+				getLblMartes().setText("Mar - " + (1));
+				// meses de 31 días
+				if (meses31dias) {
+					getLblLunes().setText("Lun - " + (31));
+				} // meses de 30 días
+				else if (meses30dias) {
+					getLblLunes().setText("Lun - " + (30));
+				} else {
+					if (bisiesto) {
+						getLblLunes().setText("Lun - " + (29));
+					} else {
+						getLblLunes().setText("Lun - " + (28));
+					}
+				}
+			} else {
+				getLblLunes().setText("Lun - " + (dia - 6));
+				getLblMartes().setText("Mar - " + (dia - 5));
+				getLblMiercoles().setText("Mier - " + (dia - 4));
+				getLblJueves().setText("Jue - " + (dia - 3));
+				getLblViernes().setText("Vier - " + (dia - 2));
+				getLblSabado().setText("Sab - " + (dia - 1));
+			}
+			getLblDomingo().setText("Dom - " + (dia));
+			break;
+		}
+	}
+
+	private JButton getBtnSemanaAnterior() {
+		if (btnSemanaAnterior == null) {
+			btnSemanaAnterior = new JButton("<--");
+			btnSemanaAnterior.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarSemanaAnterior();
+					getLblSemanaFechaCalendario().setText(month.getValue() + "/" + year);
+					pintarPanelesCalendario(
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+				}
+			});
+			btnSemanaAnterior.setForeground(SystemColor.text);
+			btnSemanaAnterior.setBackground(SystemColor.textInactiveText);
+			btnSemanaAnterior.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return btnSemanaAnterior;
+	}
+
+	protected void mostrarSemanaAnterior() {
+		int previousMonth = month.getValue() - 1;
+
+		boolean meses31dias = previousMonth == 1 || previousMonth == 3 || previousMonth == 5 || previousMonth == 7
+				|| previousMonth == 8 || previousMonth == 10 || previousMonth == 12;
+		boolean meses30dias = previousMonth == 4 || previousMonth == 6 || previousMonth == 9 || previousMonth == 11;
+		boolean bisiesto = (year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0);
+
+		int lastDay = Integer.parseInt(getLblLunes().getText().split(" - ")[1].toString());
+
+		if (lastDay == 1) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 31);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 30);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
+					asignarNuevoMes(previousMonth);
+				} else {
+					asignarValoresEtiquetas(22, 23, 24, 25, 26, 27, 28);
+				}
+			}
+		} else if (lastDay == 2) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
+				} else {
+					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
+				}
+			}
+		} else if (lastDay == 3) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
+				} else {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
+				}
+			}
+		} else if (lastDay == 4) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
+				} else {
+					asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
+				}
+			}
+		} else if (lastDay == 5) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
+				} else {
+					asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
+				}
+			}
+		} else if (lastDay == 6) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
+				} else {
+					asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
+				}
+			}
+		} else if (lastDay == 7) {
+			if (month == Month.JANUARY) {
+				asignarNuevoMes(12);
+				this.year--;
+			} else
+				asignarNuevoMes(previousMonth);
+			if (meses31dias) {
+				asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
+			} else if (meses30dias) {
+				asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
+			} else {
+				if (bisiesto) {
+					asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
+				} else {
+					asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
+				}
+			}
+		} else {
+			asignarValoresEtiquetas(lastDay - 7, lastDay - 6, lastDay - 5, lastDay - 4, lastDay - 3, lastDay - 2,
+					lastDay - 1);
+			cambioDeMes = false;
+		}
+	}
+
+	private void asignarNuevoMes(int month) {
+		switch (month) {
+		case 1:
+			this.month = Month.JANUARY;
+			break;
+		case 2:
+			this.month = Month.FEBRUARY;
+			break;
+		case 3:
+			this.month = Month.MARCH;
+			break;
+		case 4:
+			this.month = Month.APRIL;
+			break;
+		case 5:
+			this.month = Month.MAY;
+			break;
+		case 6:
+			this.month = Month.JUNE;
+			break;
+		case 7:
+			this.month = Month.JULY;
+			break;
+		case 8:
+			this.month = Month.AUGUST;
+			break;
+		case 9:
+			this.month = Month.SEPTEMBER;
+			break;
+		case 10:
+			this.month = Month.OCTOBER;
+			break;
+		case 11:
+			this.month = Month.NOVEMBER;
+			break;
+		default:
+			this.month = Month.DECEMBER;
+			break;
+		}
+		cambioDeMes = true;
+	}
+
+	private JButton getBtnSemanaSiguiente() {
+		if (btnSemanaSiguiente == null) {
+			btnSemanaSiguiente = new JButton("-->");
+			btnSemanaSiguiente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarSemanaSiguiente();
+					getLblSemanaFechaCalendario().setText(month.getValue() + "/" + year);
+					pintarPanelesCalendario(
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+				}
+			});
+			btnSemanaSiguiente.setForeground(SystemColor.text);
+			btnSemanaSiguiente.setBackground(SystemColor.textInactiveText);
+			btnSemanaSiguiente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return btnSemanaSiguiente;
+	}
+
+	protected void mostrarSemanaSiguiente() {
+		int actualMonth = month.getValue();
+		int nextMonth = actualMonth + 1;
+		int actualYear = Integer.parseInt(getLblSemanaFechaCalendario().getText().split("/")[1].toString());
+		boolean actualMes31dias = actualMonth == 1 || actualMonth == 3 || actualMonth == 5 || actualMonth == 7
+				|| actualMonth == 8 || actualMonth == 10 || actualMonth == 12;
+		boolean actualMes30dias = actualMonth == 4 || actualMonth == 6 || actualMonth == 9 || actualMonth == 11;
+
+		boolean bisiesto = (actualYear % 4 == 0 && actualYear % 100 != 0)
+				|| (actualYear % 100 == 0 && actualYear % 400 == 0);
+
+		int lastDay = Integer.parseInt(getLblDomingo().getText().split(" - ")[1].toString());
+
+		if (lastDay < Integer.parseInt(getLblLunes().getText().split(" - ")[1].toString())) {
+			if (actualMonth == 12) {
+				asignarNuevoMes(1);
+				this.year += 1;
+			} else
+				asignarNuevoMes(nextMonth);
+		}
+
+		// Si el mes tiene 31 dias
+		if (actualMes31dias) {
+			if (lastDay == 31) {
+				asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+			} else if (lastDay == 30) {
+				asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
+			} else if (lastDay == 29) {
+				asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
+			} else if (lastDay == 28) {
+				asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
+			} else if (lastDay == 27) {
+				asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
+			} else if (lastDay == 26) {
+				asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
+			} else if (lastDay == 25) {
+				asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
+			} else {
+				asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5, lastDay + 6,
+						lastDay + 7);
+				cambioDeMes = false;
+			}
+		}
+		// Si el mes tiene 30 dias
+		else if (actualMes30dias) {
+			if (lastDay == 30) {
+				asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+			} else if (lastDay == 29) {
+				asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
+			} else if (lastDay == 28) {
+				asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
+			} else if (lastDay == 27) {
+				asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
+			} else if (lastDay == 26) {
+				asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
+			} else if (lastDay == 25) {
+				asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
+			} else if (lastDay == 24) {
+				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
+			} else {
+				asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5, lastDay + 6,
+						lastDay + 7);
+				cambioDeMes = false;
+			}
+		}
+		// Si es febrero
+		else if (month.getValue() == 2) {
+			// si es un año bisiesto
+			if (bisiesto) {
+				if (lastDay == 29) {
+					asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+				} else if (lastDay == 28) {
+					asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
+				} else if (lastDay == 27) {
+					asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
+				} else if (lastDay == 26) {
+					asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
+				} else if (lastDay == 25) {
+					asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
+				} else if (lastDay == 24) {
+					asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
+				} else if (lastDay == 23) {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
+				} else {
+					asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5,
+							lastDay + 6, lastDay + 7);
+					cambioDeMes = false;
+				}
+			} else {
+				if (lastDay == 28) {
+					asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+				} else if (lastDay == 27) {
+					asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
+				} else if (lastDay == 26) {
+					asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
+				} else if (lastDay == 25) {
+					asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
+				} else if (lastDay == 24) {
+					asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
+				} else if (lastDay == 23) {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
+				} else if (lastDay == 22) {
+					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 1);
+				} else {
+					asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5,
+							lastDay + 6, lastDay + 7);
+					cambioDeMes = false;
+				}
+			}
+			getLblSemanaFechaCalendario().setText(actualMonth + "/" + actualYear);
+		}
+
+	}
+
+	private void asignarValoresEtiquetas(int lunes, int martes, int miercoles, int jueves, int viernes, int sabado,
+			int domingo) {
+		getLblLunes().setText("Lun - " + (lunes));
+		getLblMartes().setText("Mar - " + (martes));
+		getLblMiercoles().setText("Mier - " + (miercoles));
+		getLblJueves().setText("Jue - " + (jueves));
+		getLblViernes().setText("Vier - " + (viernes));
+		getLblSabado().setText("Sab - " + (sabado));
+		getLblDomingo().setText("Dom - " + (domingo));
+		cambioDeMes = true;
+	}
+
+	private JComboBox<String> getComboBoxIntalacionesCalendario_1() {
+		if (comboBoxIntalacionesCalendario == null) {
+			comboBoxIntalacionesCalendario = new JComboBox<String>();
+			comboBoxIntalacionesCalendario.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					pintarPanelesCalendario(comboBoxIntalacionesCalendario.getSelectedItem().toString().split("@")[0]);
+				}
+			});
+			comboBoxIntalacionesCalendario.setModel(new DefaultComboBoxModel<String>(admin.getInstalaciones()));
+			comboBoxIntalacionesCalendario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxIntalacionesCalendario;
+	}
+
+	public boolean getCambioDeMes() {
+		return cambioDeMes;
 	}
 }

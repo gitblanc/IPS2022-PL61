@@ -18,9 +18,72 @@ import database.business.recursosActividad.RecursosActividadService.RecursosActi
  * @author UO285176 UO276967
  *
  */
-public class Actividad {
 
+public class Actividad {
+	private String id;
+	private String tipo;
+	private String intensidad;
+	private String acceso;
+	private String monitor;
+	private String horaInicio;
+	private String horaFin;
+	private String instalacion;
+	private String fecha;
+	private int plazas;
 	// factoría de actividades
+	public Actividad() {}
+	
+	public String getId() {
+		return id;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public String getIntensidad() {
+		return intensidad;
+	}
+
+	public String getAcceso() {
+		return acceso;
+	}
+
+	public String getMonitor() {
+		return monitor;
+	}
+
+	public String getHoraInicio() {
+		return horaInicio;
+	}
+
+	public String getHoraFin() {
+		return horaFin;
+	}
+
+	public String getInstalacion() {
+		return instalacion;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public int getPlazas() {
+		return plazas;
+	}
+
+	public static ActividadService getAs() {
+		return as;
+	}
+
+	public RecursosActividadService getRas() {
+		return ras;
+	}
+
+	public static InstalacionService getIs() {
+		return is;
+	}
 
 	private static ActividadService as = BusinessFactory.forActividadService();
 	// factoría de recursos por actividad
@@ -36,6 +99,20 @@ public class Actividad {
 	 */
 	public static List<ActividadBLDto> listarActividadesBLDto() {
 		return as.findAllActividades();
+	}
+
+	public Actividad(String id, String tipo, String intensidad, String acceso, String monitor, String hora_inicio,
+			String hora_fin, String instalacion, String fecha, int plazas) {
+		this.id = id;
+		this.tipo = tipo;
+		this.intensidad = intensidad;
+		this.acceso = acceso;
+		this.monitor = monitor;
+		this.horaInicio = hora_inicio;
+		this.horaFin = hora_fin;
+		this.instalacion = instalacion;
+		this.fecha = fecha;
+		this.plazas = plazas;
 	}
 
 	/**
@@ -229,6 +306,16 @@ public class Actividad {
 
 	public void planificarActividad(String tipo, String fecha) {
 		as.planificarActividad(tipo, fecha);
-		
+	}
+
+	public List<Actividad> listarActividadesPorInstalacion(String instalacion) {
+		List<Actividad> actividades = new ArrayList<>();
+		for (ActividadBLDto a : as.findAllActividades()) {
+			if (a.instalacion.equals(instalacion)) {
+				actividades.add(new Actividad(a.id, a.tipo, a.intensidad, a.acceso, a.monitor, a.hora_inicio,
+						a.hora_fin, a.instalacion, a.fecha, a.plazas));
+			}
+		}
+		return actividades;
 	}
 }
