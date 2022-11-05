@@ -3,6 +3,7 @@
  */
 package logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,12 +171,42 @@ public class Actividad {
 		List<ActividadBLDto>actividades = listarActividadesBLDto();
 		List<String> result = new ArrayList<String>();
 		for(int i = 0; i < actividades.size(); i++) {
-			String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
-					actividades.get(i).hora_fin + " ------ " + "Instalación: " + actividades.get(i).instalacion + " ------ Acceso por: " + actividades.get(i).acceso.toUpperCase();
-					result.add(a);
+			if(!actividades.get(i).acceso.toUpperCase().equals("LIBRE") &&
+					fechaMasProxima(LocalDate.now(), actividades.get(i).fecha)) {
+				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
+						actividades.get(i).hora_fin + " ------ " + "Instalación: " + actividades.get(i).instalacion;
+						result.add(a);
 			}
+			
+		}
 		
 		return result;
+	}
+	
+	public static String[] rellenarArrayConIds() {
+		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		String[] ids = new String[actividades.size()];
+		for(int i = 0; i < actividades.size(); i++) {
+			if(!actividades.get(i).acceso.toUpperCase().equals("LIBRE") &&
+					fechaMasProxima(LocalDate.now(), actividades.get(i).fecha)) {
+				ids[i] = actividades.get(i).id;
+			}
+		}
+		return ids;
+	}
+	
+	private static boolean fechaMasProxima(LocalDate l, String fechaActividad) { 
+		String[] date = fechaActividad.split("/");
+		int day = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);
+		int year = Integer.parseInt(date[2]);
+		LocalDate ac = LocalDate.of(year, month, day);
+		
+		l = LocalDate.now();
+		
+		return l.isBefore(ac);
+		
+		
 	}
 //
 //	

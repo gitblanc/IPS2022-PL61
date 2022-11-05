@@ -184,10 +184,29 @@ public class NewVentanaSocio extends JFrame {
 	private JButton getBt_Eliminar() {
 		if (bt_Eliminar == null) {
 			bt_Eliminar = new JButton("Eliminar");
+			bt_Eliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					eliminarActividad();
+					actualizarBD();
+				}
+			});
 			bt_Eliminar.setForeground(new Color(255, 255, 255));
 			bt_Eliminar.setBackground(new Color(255, 0, 0));
 		}
 		return bt_Eliminar;
+	}
+	
+	private void eliminarActividad() {
+		List<String> elegidoEliminar = getList_mis_actividades().getSelectedValuesList();
+		for(int i = 0; i < elegidoEliminar.size(); i++) {
+			modelMisActividades.removeElement(elegidoEliminar.get(i));
+		}
+		getList_mis_actividades().setModel(modelMisActividades);
+		
+	}
+	
+	private void actualizarBD() {
+		//TODO
 	}
 	private JPanel getPn_fecha_hoy() {
 		if (pn_fecha_hoy == null) {
@@ -307,6 +326,7 @@ public class NewVentanaSocio extends JFrame {
 			modelMisActividades = new DefaultListModel<String>();
 			list_mis_actividades.setModel(modelMisActividades);
 			list_mis_actividades.setBorder(new LineBorder(new Color(0, 0, 0)));
+			actualizarHorarioPrincipio();
 			actualizarListaMisActividades();
 		}
 		return list_mis_actividades;
@@ -386,6 +406,7 @@ public class NewVentanaSocio extends JFrame {
 			bt_dia_anterior.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					getLbl_Dia().setText(un_dia_menos());
+					getLbl_Hoy().setVisible(false);
 				}
 			});
 		}
@@ -397,6 +418,7 @@ public class NewVentanaSocio extends JFrame {
 			bt_dia_siguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					getLbl_Dia().setText(un_dia_mas());
+					getLbl_Hoy().setVisible(false);
 				}
 			});
 		}
@@ -414,10 +436,24 @@ public class NewVentanaSocio extends JFrame {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("Añadir");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					añadirActividadAUsuario();
+					actualizarListaMisActividades();
+				}
+			});
 			btnNewButton.setForeground(new Color(255, 255, 255));
 			btnNewButton.setBackground(new Color(0, 128, 0));
 		}
 		return btnNewButton;
+	}
+	protected void añadirActividadASocio() {
+		String correo_persona = getCb_usuarios().getSelectedItem().toString();
+		int actividad_seleccionada_numero = getListActividadesCentro().getSelectedIndex();
+		String[] actividad_seleccionada_id = Actividad.rellenarArrayConIds();
+		String id = actividad_seleccionada_id[actividad_seleccionada_numero];
+		socio.añadirActividadASocio(correo_persona, id);
+		
 	}
 	private JList<String> getListActividadesCentro() {
 		if (listActividadesCentro == null) {
@@ -426,13 +462,12 @@ public class NewVentanaSocio extends JFrame {
 			modelHorario = new DefaultListModel<String>();
 			listActividadesCentro.setModel(modelHorario);
 			listActividadesCentro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			actualizarHorario();
 		}
 		return listActividadesCentro;
 	}
 	
 	private void actualizarHorario() {
-		List<String> listaActividades = Actividad.listarActividades(getLbl_Dia().getText());
+		List<String> listaActividades = Actividad.listarActividades();
 		((DefaultListModel<String>) modelHorario).removeAllElements();
 		for(int i = 0; i < listaActividades.size(); i++) {
 			((DefaultListModel<String>) modelHorario).addElement(listaActividades.get(i));
@@ -440,15 +475,22 @@ public class NewVentanaSocio extends JFrame {
 		}
 	}
 	
-//	
-//	private void añadirActividadAUsuario() {
-//		// TODO Auto-generated method stub
-//		List<String> elegidoAñadir = getLista_actividades().getSelectedValuesList();
-//		for(int i = 0; i < elegidoAñadir.size(); i++) {
-//			modelMisActividades.addElement(elegidoAñadir.get(i));
-//		}
-//		
-//	}
+	private void actualizarHorarioPrincipio() {
+		List<String> listaActividades = Actividad.listarActividades();
+		for(int i = 0; i < listaActividades.size(); i++) {
+			((DefaultListModel<String>) modelHorario).addElement(listaActividades.get(i));
+			
+		}
+	}
+	
+	
+	private void añadirActividadAUsuario() {
+		List<String> elegidoAñadir = getListActividadesCentro().getSelectedValuesList();
+		for(int i = 0; i < elegidoAñadir.size(); i++) {
+			modelMisActividades.addElement(elegidoAñadir.get(i));
+		}
+		
+	}
 	private JPanel getPn_elegir_que_centro() {
 		if (pn_elegir_que_centro == null) {
 			pn_elegir_que_centro = new JPanel();
