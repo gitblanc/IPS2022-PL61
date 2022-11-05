@@ -42,4 +42,9 @@ public class ActividadServiceImpl implements ActividadService {
 		return new FindAllActividades().execute();
 	}
 
+	@Override
+	public void planificarActividad(String tipo, String fecha) {
+	new PlanificarActividad(tipo,fecha).execute();
+	}
+
 }
