@@ -447,14 +447,14 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return btnNewButton;
 	}
-	protected void añadirActividadASocio() {
-		String correo_persona = getCb_usuarios().getSelectedItem().toString();
-		int actividad_seleccionada_numero = getListActividadesCentro().getSelectedIndex();
-		String[] actividad_seleccionada_id = Actividad.rellenarArrayConIds();
-		String id = actividad_seleccionada_id[actividad_seleccionada_numero];
-		socio.añadirActividadASocio(correo_persona, id);
-		
-	}
+//	protected void añadirActividadASocio() {
+//		String correo_persona = getCb_usuarios().getSelectedItem().toString();
+//		int actividad_seleccionada_numero = getListActividadesCentro().getSelectedIndex();
+//		String[] actividad_seleccionada_id = Actividad.rellenarArrayConIds();
+//		String id = actividad_seleccionada_id[actividad_seleccionada_numero];
+//		socio.añadirActividadASocio(correo_persona, id);
+//		
+//	}
 	private JList<String> getListActividadesCentro() {
 		if (listActividadesCentro == null) {
 			listActividadesCentro = new JList<String>();
