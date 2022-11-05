@@ -101,6 +101,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JDateChooser jDateChooser;
 	private JLabel lblFechaPlanificar;
 	private JTextField textFieldFechaPlanificacion;
+	private JLabel lblPlanificaciónCorrecta;
 
 	/**
 	 * Create the frame.
@@ -151,6 +152,7 @@ public class NewVentanaAdmin extends JFrame {
 				getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
 		spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 		getTextFieldFechaPlanificacion().setText("");
+		getLblPlanificaciónCorrecta().setText("");
 	}
 
 	private JPanel getPanelCalendario() {
@@ -603,7 +605,7 @@ public class NewVentanaAdmin extends JFrame {
 		List<String> recursos = getRecursosSeleccionados();
 		String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String instalacion = getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase();
-		if (acceso.equals("con reserva")) {
+		if (acceso.equals("reserva")) {
 			int plazas = Integer.parseInt(getSpinner().getValue().toString());
 			admin.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, plazas);
 		} else {
@@ -611,6 +613,7 @@ public class NewVentanaAdmin extends JFrame {
 																							// ilimitadas
 		}
 		getLblParametrosCorrectosTipoA().setVisible(true);
+		getComboBoxTiposActividad().setModel(new DefaultComboBoxModel<String>(admin.getAllTiposActividad()));
 	}
 
 	private List<String> getRecursosSeleccionados() {
@@ -672,7 +675,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return spinner;
 	}
-  
+
 	private JLabel getLblParametrosCorrectosTipoA() {
 		if (lblParametrosCorrectosTipoA == null) {
 			lblParametrosCorrectosTipoA = new JLabel("¡Tipo creado!");
@@ -758,6 +761,7 @@ public class NewVentanaAdmin extends JFrame {
 			flowLayout.setHgap(15);
 			flowLayout.setAlignment(FlowLayout.RIGHT);
 			panelBotonesAtrasPlanificar.setBackground(Color.WHITE);
+			panelBotonesAtrasPlanificar.add(getLblPlanificaciónCorrecta());
 			panelBotonesAtrasPlanificar.add(getBtnAtrasTipo_1_1());
 			panelBotonesAtrasPlanificar.add(getBtnCrearTipo_1_1());
 		}
@@ -801,7 +805,15 @@ public class NewVentanaAdmin extends JFrame {
 	protected void planificarActividad() {
 		String tipo = getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String fecha = getTextFieldFechaPlanificacion().getText();
-		admin.planificarActividad(tipo, fecha);
+		if (fecha != null && !fecha.isEmpty()) {
+			admin.planificarActividad(tipo, fecha);
+			getLblPlanificaciónCorrecta().setForeground(Color.GREEN);
+			getLblPlanificaciónCorrecta().setText("¡Hecho!");
+			getTextFieldFechaPlanificacion().setBorder(LineBorder.createGrayLineBorder());
+		} else {
+			getTextFieldFechaPlanificacion().setBorder(new LineBorder(Color.RED));
+		}
+
 	}
 
 	private JDateChooser getJdateChooser() {
@@ -826,5 +838,13 @@ public class NewVentanaAdmin extends JFrame {
 			textFieldFechaPlanificacion.setColumns(10);
 		}
 		return textFieldFechaPlanificacion;
+	}
+
+	private JLabel getLblPlanificaciónCorrecta() {
+		if (lblPlanificaciónCorrecta == null) {
+			lblPlanificaciónCorrecta = new JLabel("");
+			lblPlanificaciónCorrecta.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblPlanificaciónCorrecta;
 	}
 }
