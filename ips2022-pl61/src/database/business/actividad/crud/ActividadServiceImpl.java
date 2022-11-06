@@ -32,9 +32,8 @@ public class ActividadServiceImpl implements ActividadService {
 	}
 
 	@Override
-	public Optional<ActividadBLDto> findActividadById(String idActividad) {
-		// TODO Auto-generated method stub
-		return null;
+	public ActividadBLDto findActividadById(String idActividad) {
+		return new FindById(idActividad).execute();
 	}
 
 	@Override

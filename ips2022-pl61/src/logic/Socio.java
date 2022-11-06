@@ -1,6 +1,7 @@
 package logic;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Socio {
 
 	private static SocioService ss = BusinessFactory.forSocioService();
 	private static ActividadSocioService ass = BusinessFactory.forActividadSocioService();
-	private static ActividadService as = BusinessFactory.forActividadService();
+	private static ActividadService aser = BusinessFactory.forActividadService();
 
 	public String socioCorrecto(String correo, String contraseña) {
 		String correcto = null;
@@ -53,7 +54,7 @@ public class Socio {
 	}
 
 	public static List<ActividadBLDto> listarTodasLAsActividades() {
-		return as.findAllActividades();
+		return aser.findAllActividades();
 	}
 
 	// ------------------------------------------------------------
@@ -70,9 +71,9 @@ public class Socio {
 				for (int j = 0; j < actividades.size(); j++) {
 					if (actividadesApuntadas.get(i).id_actividad != null && actividadesApuntadas.get(i).id_actividad.equals(actividades.get(j).id)) {
 						if(fechaMasProxima(LocalDate.now(), actividades.get(j).fecha)) {
-							String a = actividades.get(j).id + " ----- " + "Actividad: " + actividades.get(j).tipo + " ----- Fecha: " + actividades.get(j).fecha
-									+ " ----- Hora: " + actividades.get(j).hora_inicio + " - " + actividades.get(j).hora_fin
-									+ " ----- Instalación: " + actividades.get(j).instalacion;
+							String a = actividades.get(j).id + " ------ " + actividades.get(j).tipo + " ------ " + actividades.get(j).fecha
+									+ " ------ " + actividades.get(j).hora_inicio + " - " + actividades.get(j).hora_fin
+									+ " ------ " + actividades.get(j).instalacion;
 							lista.add(a);
 						}
 						
@@ -108,18 +109,34 @@ public class Socio {
 		
 	}
 	
-	public static void añadirActividadASocio(String correo, String id_actividad) {
+	public static boolean añadirActividadASocio(String correo, String id_actividad) {
 		ActividadSocioBLDto as = new ActividadSocioBLDto();
-		as.correo_socio = correo;
-		as.id_actividad = id_actividad;
-		ass.addActividadSocio(as);
+//		ActividadBLDto a = aser.findActividadById(id_actividad);
+//		LocalDate hoy = LocalDate.now();
+//		LocalTime hora = LocalTime.now();
+//		String fecha_A = a.fecha;
+//		String[] date = fecha_A.split("/");
+//		int day = Integer.parseInt(date[0]);
+//		int month = Integer.parseInt(date[1]);
+//		int year = Integer.parseInt(date[2]);
+//		LocalDate ac = LocalDate.of(year, month, day);
+//		
+//		String hora_a = a.hora_inicio;
+//		String[] valores = hora_a.split(":");
+//		int v = Integer.parseInt(valores[0]);
+//		int hora_ahora = hora.getHour();
+//		if(ac.isBefore(hoy) && hora_ahora - v >= 1) {
+			as.correo_socio = correo;
+			as.id_actividad = id_actividad;
+			ass.addActividadSocio(as);
+			return true;
+//		}
+//		return false;
+		
 	}
 	
 	public static void eliminarActividadSocio(String correo, String id_actividad) {
-		ActividadSocioBLDto as = new ActividadSocioBLDto();
-		as.correo_socio = correo;
-		as.id_actividad = id_actividad;
-		ass.deleteActividadSocio(as);
+		ass.deleteActividadSocio(id_actividad, correo);
 	}
 
 }

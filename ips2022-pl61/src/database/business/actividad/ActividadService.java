@@ -21,7 +21,7 @@ public interface ActividadService {
 	void updateActividad(ActividadBLDto actividad);
 
 	// Le pasamos el id de la actividad que queremos buscar
-	Optional<ActividadBLDto> findActividadById(String idActividad);
+	ActividadBLDto findActividadById(String idActividad);
 
 	// Devuelve una lista con todos las actividades
 	List<ActividadBLDto> findAllActividades();

@@ -1,4 +1,4 @@
-package database.business.actividadSocio.crud;
+ package database.business.actividadSocio.crud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import assertion.Argument;
-import database.business.actividadSocio.ActividadSocioService.ActividadSocioBLDto;
 
 public class DeleteActividadSocio {
 
@@ -16,13 +15,14 @@ public class DeleteActividadSocio {
 		private static final String USER = "sa";
 		private static final String PASSWORD = "";
 
-		private ActividadSocioBLDto actividad = new ActividadSocioBLDto();
+		private String id;
+		private String correo;
 
 		public DeleteActividadSocio(String idActividad, String correo) {
 			Argument.isNotNull(idActividad);
 			Argument.isNotNull(correo);
-			this.actividad.id_actividad = idActividad;
-			this.actividad.correo_socio = correo;
+			this.id = idActividad;
+			this.correo = correo;
 		}
 
 		public void execute() {
@@ -34,8 +34,8 @@ public class DeleteActividadSocio {
 				c = DriverManager.getConnection(URL, USER, PASSWORD);
 
 				pst = c.prepareStatement(SQL);
-				pst.setString(1, actividad.id_actividad);
-				pst.setString(2, actividad.correo_socio);
+				pst.setString(1, this.id);
+				pst.setString(2, this.correo);
 
 				pst.executeUpdate();
 
