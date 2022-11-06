@@ -41,7 +41,8 @@ public class Administrador {
 		return Recurso.listarRecursosPorInstalacion(instalacion);
 	}
 
-	public void crearActividad(String id, String tipo, String intensidad, String instalacion, List<String> recursos, String acceso, int plazas) {
+	public void crearActividad(String id, String tipo, String intensidad, String instalacion, List<String> recursos,
+			String acceso, int plazas) {
 		Actividad actividad = new Actividad();
 		actividad.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, plazas);
 	}
@@ -57,13 +58,13 @@ public class Administrador {
 	}
 
 	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
-		new Actividad().planificarActividad(tipo,fecha, hora_inicio, hora_fin);
-		
+		new Actividad().planificarActividad(tipo, fecha, hora_inicio, hora_fin);
+
 	}
 
 	public List<Actividad> listarActividadesPorInstalacion(String instalacion) {
 		return new Actividad().listarActividadesPorInstalacion(instalacion);
-		
+
 	}
 
 	public List<Alquiler> listarAlquileres(String instalacion) {
@@ -80,6 +81,10 @@ public class Administrador {
 
 	public void cancelarAlquiler(String socio, String instalacion, String fecha, String hora_inicio, String hora_fin) {
 		new Alquiler().cancelarAlquiler(socio, instalacion, fecha, hora_inicio, hora_fin);
+	}
+
+	public String[] listarSocios() {
+		return new Socio().listarSocios();
 	}
 
 }
