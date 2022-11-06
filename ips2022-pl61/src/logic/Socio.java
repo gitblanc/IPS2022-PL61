@@ -9,6 +9,8 @@ import database.business.actividad.ActividadService;
 import database.business.actividad.ActividadService.ActividadBLDto;
 import database.business.actividadSocio.ActividadSocioService;
 import database.business.actividadSocio.ActividadSocioService.ActividadSocioBLDto;
+import database.business.alquiler.AlquilerService;
+import database.business.alquiler.AlquilerService.AlquilerBLDto;
 import database.business.socio.SocioService;
 import database.business.socio.SocioService.SocioBLDto;
 
@@ -17,6 +19,7 @@ public class Socio {
 	private static SocioService ss = BusinessFactory.forSocioService();
 	private static ActividadSocioService ass = BusinessFactory.forActividadSocioService();
 	private static ActividadService aser = BusinessFactory.forActividadService();
+	private static AlquilerService als = BusinessFactory.forAlquilerService();
 
 	public String socioCorrecto(String correo, String contraseña) {
 		String correcto = null;
@@ -55,6 +58,10 @@ public class Socio {
 	public static List<ActividadBLDto> listarTodasLAsActividades() {
 		return aser.findAllActividades();
 	}
+	
+	public static List<AlquilerBLDto> listarTodosAlquileres() {
+		return als.findAll();
+	}
 
 	// ------------------------------------------------------------
 
@@ -85,6 +92,28 @@ public class Socio {
 		return lista;
 	}
 
+	/**
+	 * Método que encuentra las instalaciones de cada socio
+	 */
+	public List<String> findAlquilersBySocio(String correo) {
+		List<AlquilerBLDto> alquileres = listarTodosAlquileres();
+		List<String> lista = new ArrayList<String>();
+		SocioBLDto socio = ss.findByCorreo(correo);
+		String id = socio.id;
+		for (int i = 0; i < alquileres.size(); i++) {
+			if(alquileres.get(i).id_socio.equals(id)) {
+				//if (fechaMasProxima(LocalDate.now(), alquileres.get(i).fecha)) {
+					String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ " +
+							alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - " + 
+							alquileres.get(i).hora_fin;
+					lista.add(a);
+				//}
+			}
+		}
+
+		return lista;
+	}
+	
 	private boolean fechaMasProxima(LocalDate l, String fechaActividad) {
 		String[] date = fechaActividad.split("/");
 		int day = Integer.parseInt(date[0]);
@@ -146,5 +175,7 @@ public class Socio {
 		}
 		return todosLosSocios;
 	}
+	
+	
 
 }
