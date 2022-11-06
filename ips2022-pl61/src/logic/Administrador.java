@@ -87,4 +87,8 @@ public class Administrador {
 		return new Socio().listarSocios();
 	}
 
+	public void crearAlquiler(String id_socio, String instalacion, String hora_inicio, String hora_fin, String fecha) {
+		new Alquiler().crearAlquiler(id_socio, instalacion, hora_inicio, hora_fin, fecha);
+	}
+
 }

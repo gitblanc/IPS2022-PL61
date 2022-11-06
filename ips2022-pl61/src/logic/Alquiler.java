@@ -124,4 +124,8 @@ public class Alquiler {
 	public void cancelarAlquiler(String socio, String instalacion, String fecha, String hora_inicio, String hora_fin) {
 		al.cancelarAlquiler(socio, instalacion, fecha, hora_inicio, hora_fin);
 	}
+
+	public void crearAlquiler(String id_socio, String instalacion, String hora_inicio, String hora_fin, String fecha) {
+		al.crearAlquiler(id_socio, instalacion, hora_inicio, hora_fin, fecha);
+	}
 }

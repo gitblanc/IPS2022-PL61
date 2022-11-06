@@ -28,4 +28,9 @@ public class AlquilerServiceImpl implements AlquilerService {
 		new CancelarAlquiler(socio, instalacion, fecha, hora_inicio, hora_fin).execute();
 	}
 
+	@Override
+	public void crearAlquiler(String id_socio, String instalacion, String hora_inicio, String hora_fin, String fecha) {
+		new CreateAlquiler(id_socio, instalacion, hora_inicio, hora_fin, fecha).execute();
+	}
+
 }
