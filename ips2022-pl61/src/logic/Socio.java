@@ -68,10 +68,9 @@ public class Socio {
 		for (int i = 0; i < actividadesApuntadas.size(); i++) {
 			if (actividadesApuntadas.get(i).correo_socio.equals(correo)) {
 				for (int j = 0; j < actividades.size(); j++) {
-					if (actividadesApuntadas.get(i).id_actividad.equals(actividades.get(j).id)) {
-						//solo se muestran mis actividades más proximaas
+					if (actividadesApuntadas.get(i).id_actividad != null && actividadesApuntadas.get(i).id_actividad.equals(actividades.get(j).id)) {
 						if(fechaMasProxima(LocalDate.now(), actividades.get(j).fecha)) {
-							String a = "Actividad: " + actividades.get(j).tipo + " ----- Fecha: " + actividades.get(j).fecha
+							String a = actividades.get(j).id + " ----- " + "Actividad: " + actividades.get(j).tipo + " ----- Fecha: " + actividades.get(j).fecha
 									+ " ----- Hora: " + actividades.get(j).hora_inicio + " - " + actividades.get(j).hora_fin
 									+ " ----- Instalación: " + actividades.get(j).instalacion;
 							lista.add(a);
@@ -99,5 +98,28 @@ public class Socio {
 		
 	}
 	
+	public static String[] listarSociosPorCorreo(){
+		List<SocioBLDto> socios = ss.findAllSocios();
+		String[] todosLosSocios = new String[socios.size()];
+		for(int i = 0; i < socios.size(); i++) {
+			todosLosSocios[i] = socios.get(i).correo;
+		}
+		return todosLosSocios;
+		
+	}
+	
+	public static void añadirActividadASocio(String correo, String id_actividad) {
+		ActividadSocioBLDto as = new ActividadSocioBLDto();
+		as.correo_socio = correo;
+		as.id_actividad = id_actividad;
+		ass.addActividadSocio(as);
+	}
+	
+	public static void eliminarActividadSocio(String correo, String id_actividad) {
+		ActividadSocioBLDto as = new ActividadSocioBLDto();
+		as.correo_socio = correo;
+		as.id_actividad = id_actividad;
+		ass.deleteActividadSocio(as);
+	}
 
 }

@@ -1,7 +1,5 @@
 package logic;
 
-import java.util.List;
-
 public class Monitor {
 	private int id;  //Identificador de monitor
 	private String nombre;  //Nombre del monitor

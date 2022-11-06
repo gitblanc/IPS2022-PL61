@@ -75,7 +75,7 @@ public class VentanaPrincipal extends JFrame {
 			btSocio = new JButton("Socio");
 			btSocio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					VentanaSocio vs = new VentanaSocio();
+					NewVentanaSocio vs = new NewVentanaSocio();
 					abrirVentana(vs);
 				}
 			});

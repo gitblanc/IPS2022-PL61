@@ -17,13 +17,23 @@ public class MonitorBase {
 	
 	
 	public List<String> getSocios() {
-		List<String> socios = new ArrayList<String> () {{add("Marcos Gonzalez"); add("Marta Colemar");add( "Julia Mendez"); 
+		List<String> socios = new ArrayList<String> () {/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5246445676629402358L;
+
+		{add("Marcos Gonzalez"); add("Marta Colemar");add( "Julia Mendez"); 
 		add("Xavi Garcia"); add("Pedro Suarez"); add("Lucia Iglesias");add( "Carolina Piedra");add( "Hugo Blanco");}};
 		return socios;
 	}
 	
 	public List<String> getActividades() {
-		List<String> actividades = new ArrayList<String> () {{add("Natacion"); add("Baloncesto");add( "Padel"); 
+		List<String> actividades = new ArrayList<String> () {/**
+			 * 
+			 */
+			private static final long serialVersionUID = 493775570416269694L;
+
+		{add("Natacion"); add("Baloncesto");add( "Padel"); 
 		add("Zumba"); add("Ciclismo");}};
 		return actividades;
 	}
@@ -33,30 +43,55 @@ public class MonitorBase {
 	}
 	
 	public List<String> getNatacionSocios() {
-		List<String> sociosN = new ArrayList<String> () {{add("Marcos Gonzalez");add( "Julia Mendez"); 
+		List<String> sociosN = new ArrayList<String> () {/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4542165352510169064L;
+
+		{add("Marcos Gonzalez");add( "Julia Mendez"); 
 		add("Xavi Garcia"); add("Pedro Suarez");add( "Carolina Piedra");}};
 		return sociosN;
 	}
 	
 	public List<String> getBaloncestoSocios() {
-		List<String> sociosB = new ArrayList<String> () {{add("Marta Colemar");add( "Julia Mendez"); 
+		List<String> sociosB = new ArrayList<String> () {/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+		{add("Marta Colemar");add( "Julia Mendez"); 
 		 add("Lucia Iglesias");add( "Hugo Blanco");}};
 		return sociosB;
 	}
 	
 	public List<String> getPadelSocios() {
-		List<String> sociosP = new ArrayList<String> () {{add("Marcos Gonzalez"); add("Marta Colemar");add( "Julia Mendez");}};
+		List<String> sociosP = new ArrayList<String> () {/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+		{add("Marcos Gonzalez"); add("Marta Colemar");add( "Julia Mendez");}};
 		return sociosP;
 	}
 	
 	public List<String> getZumbaSocios() {
-		List<String> sociosZ = new ArrayList<String> () {{add( "Julia Mendez"); add("Xavi Garcia"); add("Pedro Suarez"); add("Lucia Iglesias");
+		List<String> sociosZ = new ArrayList<String> () {/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+		{add( "Julia Mendez"); add("Xavi Garcia"); add("Pedro Suarez"); add("Lucia Iglesias");
 		add( "Hugo Blanco");}};
 		return sociosZ;
 	}
 	
 	public List<String> getCiclismoSocios() {
-		List<String> sociosC = new ArrayList<String> () {{add( "Julia Mendez");add("Xavi Garcia"); add("Pedro Suarez"); 
+		List<String> sociosC = new ArrayList<String> () {/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1174688355115753051L;
+
+		{add( "Julia Mendez");add("Xavi Garcia"); add("Pedro Suarez"); 
 		add("Lucia Iglesias");add( "Carolina Piedra");add( "Hugo Blanco");}};
 		return sociosC;
 	}
