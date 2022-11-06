@@ -304,8 +304,8 @@ public class Actividad {
 		return res;
 	}
 
-	public void planificarActividad(String tipo, String fecha) {
-		as.planificarActividad(tipo, fecha);
+	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
+		as.planificarActividad(tipo, fecha, hora_inicio, hora_fin);
 	}
 
 	public List<Actividad> listarActividadesPorInstalacion(String instalacion) {
