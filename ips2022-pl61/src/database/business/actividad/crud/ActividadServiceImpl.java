@@ -42,8 +42,8 @@ public class ActividadServiceImpl implements ActividadService {
 	}
 
 	@Override
-	public void planificarActividad(String tipo, String fecha) {
-	new PlanificarActividad(tipo,fecha).execute();
+	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
+		new PlanificarActividad(tipo,fecha, hora_inicio, hora_fin).execute();
 	}
 
 }

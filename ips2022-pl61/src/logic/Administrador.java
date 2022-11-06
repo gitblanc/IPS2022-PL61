@@ -56,8 +56,8 @@ public class Administrador {
 		return a.findAllTiposActividad();
 	}
 
-	public void planificarActividad(String tipo, String fecha) {
-		new Actividad().planificarActividad(tipo,fecha);
+	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
+		new Actividad().planificarActividad(tipo,fecha, hora_inicio, hora_fin);
 		
 	}
 
