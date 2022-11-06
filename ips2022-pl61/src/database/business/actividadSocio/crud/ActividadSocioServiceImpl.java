@@ -17,7 +17,7 @@ public class ActividadSocioServiceImpl implements ActividadSocioService {
 	}
 
 	@Override
-	public void deleteActividadSocio(ActividadSocioBLDto actividadSocio) {
-		new DeleteActividadSocio(actividadSocio.id_actividad, actividadSocio.correo_socio).execute();
+	public void deleteActividadSocio(String id, String correo) {
+		new DeleteActividadSocio(id, correo).execute();
 	}
 }

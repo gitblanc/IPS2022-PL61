@@ -15,5 +15,5 @@ public interface ActividadSocioService {
 
 	}
 
-	void deleteActividadSocio(ActividadSocioBLDto actividadSocio);
+	void deleteActividadSocio(String id, String correo);
 }
