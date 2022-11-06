@@ -3,6 +3,7 @@
  */
 package logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,6 +181,7 @@ public class Actividad {
 	 * @param instalacion
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private boolean validarParametros(String id, String nombre, String intensidad, String[] recursos, String dia,
 			int plazas, String hora_inicio, String hora_fin, String instalacion) {
 		if (id == null || nombre == null || intensidad == null || id.isBlank() || nombre.isBlank()
@@ -228,33 +230,33 @@ public class Actividad {
 		return result;
 	}
 
-	public static List<String> listarActividades(String dia) {
-		List<ActividadBLDto> actividades = listarActividadesBLDto();
-		List<String> result = new ArrayList<String>();
-		for (int i = 0; i < actividades.size(); i++) {
-			if (actividades.get(i).fecha.equals(dia)) {
-				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).hora_inicio + " - "
-						+ actividades.get(i).hora_fin + " ------  Acceso por: "
-						+ actividades.get(i).acceso.toUpperCase();
-				result.add(a);
-			}
-		}
-		return result;
-	}
-
-	public static List<String> listarActividades() {
-		List<ActividadBLDto> actividades = listarActividadesBLDto();
-		List<String> result = new ArrayList<String>();
-		for (int i = 0; i < actividades.size(); i++) {
-			String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ "
-					+ actividades.get(i).hora_inicio + " - " + actividades.get(i).hora_fin + " ------ "
-					+ "Instalación: " + actividades.get(i).instalacion + " ------ Acceso por: "
-					+ actividades.get(i).acceso.toUpperCase();
-			result.add(a);
-		}
-
-		return result;
-	}
+//	public static List<String> listarActividades(String dia) {
+//		List<ActividadBLDto> actividades = listarActividadesBLDto();
+//		List<String> result = new ArrayList<String>();
+//		for (int i = 0; i < actividades.size(); i++) {
+//			if (actividades.get(i).fecha.equals(dia)) {
+//				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).hora_inicio + " - "
+//						+ actividades.get(i).hora_fin + " ------  Acceso por: "
+//						+ actividades.get(i).acceso.toUpperCase();
+//				result.add(a);
+//			}
+//		}
+//		return result;
+//	}
+//
+//	public static List<String> listarActividades() {
+//		List<ActividadBLDto> actividades = listarActividadesBLDto();
+//		List<String> result = new ArrayList<String>();
+//		for (int i = 0; i < actividades.size(); i++) {
+//			String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ "
+//					+ actividades.get(i).hora_inicio + " - " + actividades.get(i).hora_fin + " ------ "
+//					+ "Instalación: " + actividades.get(i).instalacion + " ------ Acceso por: "
+//					+ actividades.get(i).acceso.toUpperCase();
+//			result.add(a);
+//		}
+//
+//		return result;
+//	}
 //
 //	
 //	/**
@@ -318,4 +320,76 @@ public class Actividad {
 		}
 		return actividades;
 	}
+	
+	public static List<String> listarActividades(String dia) {
+		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<String> result = new ArrayList<String>();
+		for(int i = 0; i < actividades.size(); i++) {
+			if(actividades.get(i).fecha.equals(dia)) {
+				String a = actividades.get(i).id + " ------ " + actividades.get(i).tipo + " ------ " + actividades.get(i).hora_inicio + " - " + 
+						actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
+						result.add(a);
+			}
+		}
+		return result;
+	}
+	
+	
+	public static List<String> listarActividades() {
+		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<String> result = new ArrayList<String>();
+		for(int i = 0; i < actividades.size(); i++) {
+			if(!actividades.get(i).acceso.toUpperCase().equals("LIBRE") &&
+					fechaMasProxima(LocalDate.now(), actividades.get(i).fecha)) {
+				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
+						actividades.get(i).hora_fin + " ------ " + "Instalación: " + actividades.get(i).instalacion;
+						result.add(a);
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	public static String[] rellenarArrayConIds() {
+		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		String[] ids = new String[actividades.size()];
+		for(int i = 0; i < actividades.size(); i++) {
+			if(!actividades.get(i).acceso.toUpperCase().equals("LIBRE") &&
+					fechaMasProxima(LocalDate.now(), actividades.get(i).fecha)) {
+				ids[i] = actividades.get(i).id;
+			}
+		}
+		return ids;
+	}
+	
+	private static boolean fechaMasProxima(LocalDate l, String fechaActividad) { 
+		String[] date = fechaActividad.split("/");
+		int day = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);
+		int year = Integer.parseInt(date[2]);
+		LocalDate ac = LocalDate.of(year, month, day);
+		
+		l = LocalDate.now();
+		
+		return l.isBefore(ac);
+		
+		
+	}
+//
+//	
+//	/**
+//	 * M todo que devuelve una lista de los id y nombres de todas las actividades existentes
+//	 */
+//	public List<String> listarActividades() {
+//		List<ActividadBLDto> actividadesBLDto = listarActividadesBLDto();
+//		List<String> actividades = new ArrayList<String>();
+//		for(int i=0; i<actividadesBLDto.size(); i++) {
+//			String s = actividadesBLDto.get(i).id+"---" +actividadesBLDto.get(i).nombre;
+//			actividades.add(s);
+//		}
+//		return actividades;
+//	}
+//	
+
 }

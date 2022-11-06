@@ -16,4 +16,8 @@ public class ActividadSocioServiceImpl implements ActividadSocioService {
 		return new FindAllActividadSocio().execute();
 	}
 
+	@Override
+	public void deleteActividadSocio(String id, String correo) {
+		new DeleteActividadSocio(id, correo).execute();
+	}
 }
