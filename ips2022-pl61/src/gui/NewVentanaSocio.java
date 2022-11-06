@@ -19,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
@@ -475,7 +476,12 @@ public class NewVentanaSocio extends JFrame {
 		}
 		getList_misActividades().setModel(modelMisActividades);
 		
-		Socio.añadirActividadASocio(correo, id_actividad);
+		if(!Socio.añadirActividadASocio(correo, id_actividad)) {
+			JOptionPane.showMessageDialog(this, "Error: No se puede añadir la actividad", "Error añadir actividad", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this, "Añadido correcto");
+		}
+		
 	}
 	
 	
