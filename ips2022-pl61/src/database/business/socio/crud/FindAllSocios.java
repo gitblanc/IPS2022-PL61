@@ -18,7 +18,7 @@ import database.business.socio.SocioService.SocioBLDto;
  *
  */
 public class FindAllSocios {
-	private static final String SQL = "select * from Socio";
+	private static final String SQL = "select distinct(*) from Socio";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";

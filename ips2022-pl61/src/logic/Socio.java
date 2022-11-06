@@ -1,7 +1,6 @@
 package logic;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,14 +68,15 @@ public class Socio {
 		for (int i = 0; i < actividadesApuntadas.size(); i++) {
 			if (actividadesApuntadas.get(i).correo_socio.equals(correo)) {
 				for (int j = 0; j < actividades.size(); j++) {
-					if (actividadesApuntadas.get(i).id_actividad != null && actividadesApuntadas.get(i).id_actividad.equals(actividades.get(j).id)) {
-						if(fechaMasProxima(LocalDate.now(), actividades.get(j).fecha)) {
-							String a = actividades.get(j).id + " ------ " + actividades.get(j).tipo + " ------ " + actividades.get(j).fecha
-									+ " ------ " + actividades.get(j).hora_inicio + " - " + actividades.get(j).hora_fin
-									+ " ------ " + actividades.get(j).instalacion;
+					if (actividadesApuntadas.get(i).id_actividad != null
+							&& actividadesApuntadas.get(i).id_actividad.equals(actividades.get(j).id)) {
+						if (fechaMasProxima(LocalDate.now(), actividades.get(j).fecha)) {
+							String a = actividades.get(j).id + " ------ " + actividades.get(j).tipo + " ------ "
+									+ actividades.get(j).fecha + " ------ " + actividades.get(j).hora_inicio + " - "
+									+ actividades.get(j).hora_fin + " ------ " + actividades.get(j).instalacion;
 							lista.add(a);
 						}
-						
+
 					}
 				}
 			}
@@ -84,31 +84,30 @@ public class Socio {
 
 		return lista;
 	}
-	
-	private boolean fechaMasProxima(LocalDate l, String fechaActividad) { 
+
+	private boolean fechaMasProxima(LocalDate l, String fechaActividad) {
 		String[] date = fechaActividad.split("/");
 		int day = Integer.parseInt(date[0]);
 		int month = Integer.parseInt(date[1]);
 		int year = Integer.parseInt(date[2]);
 		LocalDate ac = LocalDate.of(year, month, day);
-		
+
 		l = LocalDate.now();
-		
+
 		return l.isBefore(ac);
-		
-		
+
 	}
-	
-	public static String[] listarSociosPorCorreo(){
+
+	public static String[] listarSociosPorCorreo() {
 		List<SocioBLDto> socios = ss.findAllSocios();
 		String[] todosLosSocios = new String[socios.size()];
-		for(int i = 0; i < socios.size(); i++) {
+		for (int i = 0; i < socios.size(); i++) {
 			todosLosSocios[i] = socios.get(i).correo;
 		}
 		return todosLosSocios;
-		
+
 	}
-	
+
 	public static boolean añadirActividadASocio(String correo, String id_actividad) {
 		ActividadSocioBLDto as = new ActividadSocioBLDto();
 //		ActividadBLDto a = aser.findActividadById(id_actividad);
@@ -126,17 +125,26 @@ public class Socio {
 //		int v = Integer.parseInt(valores[0]);
 //		int hora_ahora = hora.getHour();
 //		if(ac.isBefore(hoy) && hora_ahora - v >= 1) {
-			as.correo_socio = correo;
-			as.id_actividad = id_actividad;
-			ass.addActividadSocio(as);
-			return true;
+		as.correo_socio = correo;
+		as.id_actividad = id_actividad;
+		ass.addActividadSocio(as);
+		return true;
 //		}
 //		return false;
-		
+
 	}
-	
+
 	public static void eliminarActividadSocio(String correo, String id_actividad) {
 		ass.deleteActividadSocio(id_actividad, correo);
+	}
+
+	public String[] listarSocios() {
+		List<SocioBLDto> socios = ss.findAllSocios();
+		String[] todosLosSocios = new String[socios.size()];
+		for (int i = 0; i < socios.size(); i++) {
+			todosLosSocios[i] = socios.get(i).id;
+		}
+		return todosLosSocios;
 	}
 
 }

@@ -216,15 +216,15 @@ public class CreateDatabase {
 		String alquiler3 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
 				+ " values ('3', 'piscina','3','30/10/2022', '11:00', '13:00')";
 		String alquiler4 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-				+ " values ('4', 'piscina','3','30/10/2022', '15:00', '17:00')";
+				+ " values ('4', 'gimnasio','3','30/10/2022', '15:00', '17:00')";
 		String alquiler5 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
 				+ " values ('5', 'gimnasio','1','29/10/2022', '9:00', '11:00')";
 		String alquiler6 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
 				+ " values ('6', 'gimnasio','2','29/10/2022', '11:00', '13:00')";
 		String alquiler7 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-				+ " values ('7', 'piscina','3','29/10/2022', '11:00', '13:00')";
+				+ " values ('7', 'piscina','1','29/10/2022', '11:00', '13:00')";
 		String alquiler8 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-				+ " values ('8', 'piscina','3','29/10/2022', '15:00', '17:00')";
+				+ " values ('8', 'gimnasio','3','29/10/2022', '15:00', '17:00')";
 		
 		//activiades a socios
 		String actividadSocio1 = "insert into actividadSocio(correo_s, id_a) values ('imxiin@gmail.com', '9')";
