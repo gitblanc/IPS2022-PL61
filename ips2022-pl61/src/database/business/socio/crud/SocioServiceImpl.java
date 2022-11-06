@@ -42,5 +42,9 @@ public class SocioServiceImpl implements SocioService {
 		return new FindAllSocios().execute();
 	}
 
-
+	@Override
+	public SocioBLDto findByCorreo(String correo)
+	{
+		return new FindByCorreo(correo).execute();
+	}
 }

@@ -50,7 +50,7 @@ public class NewVentanaSocio extends JFrame {
 	private JPanel pn_actividades;
 	private JPanel pn_filtrar;
 	private JLabel lbl_Elegir_que_filtrar;
-	private JButton btActividades;
+	private JButton btRefrescar;
 	private JPanel pn_actividades_centro;
 	private JPanel pn_todo_centro_FRASE;
 	private JLabel lbl_todo_centro;
@@ -59,16 +59,34 @@ public class NewVentanaSocio extends JFrame {
 	private JPanel pn_Añadir_Centro;
 	private JButton btnNewButton;
 	private JButton bt_Cancelar;
-	private JList<String> list_misActividades;
 	private JPanel pn_lista_con_botones;
 	private JPanel pn_dia_anterior_siguiente;
 	private JButton bt_anterior;
 	private JButton bt_siguiente;
 	private JLabel lbl_Hoy;
 	private JLabel lbl_Fecha;
-	private JList<String> lista_Todas_Las_Actividades_Centro;
 	private DefaultListModel<String> modelMisActividades = new DefaultListModel<String>();
+	private DefaultListModel<String> modelMisAlquileres = new DefaultListModel<String>();
 	private DefaultListModel<String> modelTodasLasActividadesCentro = new DefaultListModel<String>();
+	private JPanel pn_listas;
+	private DefaultListModel<String> modelTodasLasInstalacionesCentro = new DefaultListModel<String>();
+	private JPanel pn_miis_listas;
+	private JPanel pn_lista_mis_actividades;
+	private JPanel pn_lista_mis_instalaciones;
+	private JPanel pn_infor_Actividades;
+	private JList<String> list_misActividades;
+	private JPanel pn_infor_instalaciones;
+	private JLabel lbl_actividades;
+	private JLabel lbl_instlaciones;
+	private JList<String> list_MisInstalaciones;
+	private JPanel pn_Todas_Las_Actividades;
+	private JPanel pn_Tods_Las_Instalaciones;
+	private JList<String> lista_Todas_Las_Instalaciones_Centro;
+	private JList<String> lista_Todas_Las_Actividades_Centro;
+	private JPanel pn_Nombre_1;
+	private JPanel pn_Nombre_2;
+	private JLabel lbl_actividades_1;
+	private JLabel lbl_Instalaciones;
 
 	/**
 	 * Create the frame.
@@ -139,7 +157,6 @@ public class NewVentanaSocio extends JFrame {
 		if (cb_usuarios == null) {
 			cb_usuarios = new JComboBox<String>();
 			cb_usuarios.setModel(new DefaultComboBoxModel<String>(Socio.listarSociosPorCorreo()));
-			actualizarListaMisActividades();
 		}
 		return cb_usuarios;
 	}
@@ -243,7 +260,7 @@ public class NewVentanaSocio extends JFrame {
 			pn_actividades.setBackground(new Color(255, 255, 255));
 			pn_actividades.setLayout(new BorderLayout(0, 0));
 			pn_actividades.add(getPn_filtrar(), BorderLayout.NORTH);
-			pn_actividades.add(getList_misActividades(), BorderLayout.CENTER);
+			pn_actividades.add(getPn_miis_listas(), BorderLayout.CENTER);
 		}
 		return pn_actividades;
 	}
@@ -253,38 +270,29 @@ public class NewVentanaSocio extends JFrame {
 			pn_filtrar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 			pn_filtrar.setBackground(new Color(152, 251, 152));
 			pn_filtrar.add(getLabel_1());
-			pn_filtrar.add(getBtActividades());
+			pn_filtrar.add(getBtRefrescar());
 		}
 		return pn_filtrar;
 	}
 	private JLabel getLabel_1() {
 		if (lbl_Elegir_que_filtrar == null) {
-			lbl_Elegir_que_filtrar = new JLabel("Escoja que quiere mirar: ");
+			lbl_Elegir_que_filtrar = new JLabel("Pulse para refrescar:");
 		}
 		return lbl_Elegir_que_filtrar;
 	}
-	private JButton getBtActividades() {
-		if (btActividades == null) {
-			btActividades = new JButton("Actividades");
-			btActividades.addActionListener(new ActionListener() {
+	private JButton getBtRefrescar() {
+		if (btRefrescar == null) {
+			btRefrescar = new JButton("Refrescar");
+			btRefrescar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					actualizarListaMisActividades();
+					actualizarListaMisInstalaciones();
 				}
 			});
 		}
-		return btActividades;
+		return btRefrescar;
 	}
 	
-	private void actualizarListaMisActividades() {
-		String correo = cb_usuarios.getSelectedItem().toString();
-		List<String> listaMisActividades = socio.findActivitiesBySocio(correo);
-		((DefaultListModel<String>) modelMisActividades).removeAllElements();
-		for(int i = 0; i < listaMisActividades.size(); i++) {
-			((DefaultListModel<String>) modelMisActividades).addElement(listaMisActividades.get(i));
-			
-		}
-		
-	}
 	
 	
 	private JPanel getPn_actividades_centro() {
@@ -375,24 +383,13 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return bt_Cancelar;
 	}
-	private JList<String> getList_misActividades() {
-		if (list_misActividades == null) {
-			list_misActividades = new JList<String>();
-			list_misActividades.setBackground(new Color(255, 255, 255));
-			list_misActividades.setBorder(new LineBorder(new Color(0, 0, 0)));
-			modelMisActividades = new DefaultListModel<String>();
-			list_misActividades.setModel(modelMisActividades);
-			list_misActividades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		}
-		return list_misActividades;
-	}
 	private JPanel getPanel_1() {
 		if (pn_lista_con_botones == null) {
 			pn_lista_con_botones = new JPanel();
 			pn_lista_con_botones.setBackground(new Color(255, 255, 255));
 			pn_lista_con_botones.setLayout(new BorderLayout(0, 0));
 			pn_lista_con_botones.add(getPanel_2(), BorderLayout.SOUTH);
-			pn_lista_con_botones.add(getLista_Todas_Las_Actividades_Centro(), BorderLayout.CENTER);
+			pn_lista_con_botones.add(getPn_listas(), BorderLayout.CENTER);
 		}
 		return pn_lista_con_botones;
 	}
@@ -448,17 +445,6 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return lbl_Fecha;
 	}
-	private JList<String> getLista_Todas_Las_Actividades_Centro() {
-		if (lista_Todas_Las_Actividades_Centro == null) {
-			lista_Todas_Las_Actividades_Centro = new JList<String>();
-			lista_Todas_Las_Actividades_Centro.setBackground(new Color(255, 255, 255));
-			lista_Todas_Las_Actividades_Centro.setBorder(new LineBorder(new Color(0, 0, 0)));
-			modelTodasLasActividadesCentro = new DefaultListModel<String>();
-			lista_Todas_Las_Actividades_Centro.setModel(modelTodasLasActividadesCentro);
-			lista_Todas_Las_Actividades_Centro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		}
-		return lista_Todas_Las_Actividades_Centro;
-	}
 	
 	private void mostrarHorarioCentro() {
 		List<String> listaActividades = Actividad.listarActividades(getLbl_Fecha().getText());
@@ -470,7 +456,7 @@ public class NewVentanaSocio extends JFrame {
 	}
 	
 	private void añadirNuevaActividadASocio(String correo, String id_actividad) {
-		List<String> elegidoAñadir = getLista_Todas_Las_Actividades_Centro().getSelectedValuesList();
+		List<String> elegidoAñadir = getLista_Todas_Las_Actividades_Centro_1().getSelectedValuesList();
 		for(int i = 0; i < elegidoAñadir.size(); i++) {
 			modelMisActividades.addElement(elegidoAñadir.get(i));
 		}
@@ -498,5 +484,184 @@ public class NewVentanaSocio extends JFrame {
 	private String getIdActividad(String cadena) {
 		String[] valores = cadena.split(" ------ ");
 		return valores[0];
+	}
+	private JPanel getPn_listas() {
+		if (pn_listas == null) {
+			pn_listas = new JPanel();
+			pn_listas.setBackground(new Color(255, 255, 255));
+			pn_listas.setLayout(new GridLayout(2, 1, 0, 0));
+			pn_listas.add(getPn_Todas_Las_Actividades());
+			pn_listas.add(getPanel_1_2());
+		}
+		return pn_listas;
+	}
+	
+	private void actualizarListaMisActividades() {
+		String correo = cb_usuarios.getSelectedItem().toString();
+		List<String> listaMisActividades = socio.findActivitiesBySocio(correo);
+		((DefaultListModel<String>) modelMisActividades).removeAllElements();
+		for(int i = 0; i < listaMisActividades.size(); i++) {
+			((DefaultListModel<String>) modelMisActividades).addElement(listaMisActividades.get(i));
+			
+		}
+		
+	}
+	
+	private void actualizarListaMisInstalaciones() {
+		String correo = cb_usuarios.getSelectedItem().toString();
+		List<String> listaMisAlquileres = socio.findAlquilersBySocio(correo);
+		((DefaultListModel<String>) modelMisAlquileres).removeAllElements();
+		for(int i = 0; i < listaMisAlquileres.size(); i++) {
+			((DefaultListModel<String>) modelMisAlquileres).addElement(listaMisAlquileres.get(i));
+			
+		}
+		
+	}
+	private JPanel getPn_miis_listas() {
+		if (pn_miis_listas == null) {
+			pn_miis_listas = new JPanel();
+			pn_miis_listas.setBackground(new Color(255, 255, 255));
+			pn_miis_listas.setLayout(new GridLayout(2, 0, 0, 0));
+			pn_miis_listas.add(getPn_lista_mis_actividades());
+			pn_miis_listas.add(getPanel_1_1());
+		}
+		return pn_miis_listas;
+	}
+	private JPanel getPn_lista_mis_actividades() {
+		if (pn_lista_mis_actividades == null) {
+			pn_lista_mis_actividades = new JPanel();
+			pn_lista_mis_actividades.setBackground(new Color(255, 255, 255));
+			pn_lista_mis_actividades.setLayout(new BorderLayout(0, 0));
+			pn_lista_mis_actividades.add(getPanel_3(), BorderLayout.NORTH);
+			pn_lista_mis_actividades.add(getList_misActividades(), BorderLayout.CENTER);
+		}
+		return pn_lista_mis_actividades;
+	}
+	private JPanel getPanel_1_1() {
+		if (pn_lista_mis_instalaciones == null) {
+			pn_lista_mis_instalaciones = new JPanel();
+			pn_lista_mis_instalaciones.setBackground(new Color(255, 255, 255));
+			pn_lista_mis_instalaciones.setLayout(new BorderLayout(0, 0));
+			pn_lista_mis_instalaciones.add(getPanel_4(), BorderLayout.NORTH);
+			pn_lista_mis_instalaciones.add(getList_MisInstalaciones(), BorderLayout.CENTER);
+		}
+		return pn_lista_mis_instalaciones;
+	}
+	private JPanel getPanel_3() {
+		if (pn_infor_Actividades == null) {
+			pn_infor_Actividades = new JPanel();
+			pn_infor_Actividades.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pn_infor_Actividades.setBackground(new Color(255, 255, 255));
+			pn_infor_Actividades.add(getLbl_actividades());
+		}
+		return pn_infor_Actividades;
+	}
+	private JList<String> getList_misActividades() {
+		if (list_misActividades == null) {
+			list_misActividades = new JList<String>();
+			list_misActividades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			list_misActividades.setBorder(new LineBorder(new Color(0, 0, 0)));
+			list_misActividades.setBackground(Color.WHITE);
+			list_misActividades.setModel(modelMisActividades);
+		}
+		return list_misActividades;
+	}
+	private JPanel getPanel_4() {
+		if (pn_infor_instalaciones == null) {
+			pn_infor_instalaciones = new JPanel();
+			pn_infor_instalaciones.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pn_infor_instalaciones.setBackground(new Color(255, 255, 255));
+			pn_infor_instalaciones.add(getLbl_instlaciones());
+		}
+		return pn_infor_instalaciones;
+	}
+	private JLabel getLbl_actividades() {
+		if (lbl_actividades == null) {
+			lbl_actividades = new JLabel("Actividades");
+		}
+		return lbl_actividades;
+	}
+	private JLabel getLbl_instlaciones() {
+		if (lbl_instlaciones == null) {
+			lbl_instlaciones = new JLabel("Alquileres");
+		}
+		return lbl_instlaciones;
+	}
+	private JList<String> getList_MisInstalaciones() {
+		if (list_MisInstalaciones == null) {
+			list_MisInstalaciones = new JList<String>();
+			list_MisInstalaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			list_MisInstalaciones.setBorder(new LineBorder(new Color(0, 0, 0)));
+			list_MisInstalaciones.setModel(modelMisAlquileres);
+		}
+		return list_MisInstalaciones;
+	}
+	private JPanel getPn_Todas_Las_Actividades() {
+		if (pn_Todas_Las_Actividades == null) {
+			pn_Todas_Las_Actividades = new JPanel();
+			pn_Todas_Las_Actividades.setBackground(new Color(255, 255, 255));
+			pn_Todas_Las_Actividades.setLayout(new BorderLayout(0, 0));
+			pn_Todas_Las_Actividades.add(getLista_Todas_Las_Actividades_Centro_1());
+			pn_Todas_Las_Actividades.add(getPn_Nombre_1(), BorderLayout.NORTH);
+		}
+		return pn_Todas_Las_Actividades;
+	}
+	private JPanel getPanel_1_2() {
+		if (pn_Tods_Las_Instalaciones == null) {
+			pn_Tods_Las_Instalaciones = new JPanel();
+			pn_Tods_Las_Instalaciones.setBackground(new Color(255, 255, 255));
+			pn_Tods_Las_Instalaciones.setLayout(new BorderLayout(0, 0));
+			pn_Tods_Las_Instalaciones.add(getLista_Todas_Las_Instalaciones_Centro_1());
+			pn_Tods_Las_Instalaciones.add(getPanel_1_3(), BorderLayout.NORTH);
+		}
+		return pn_Tods_Las_Instalaciones;
+	}
+	private JList<String> getLista_Todas_Las_Instalaciones_Centro_1() {
+		if (lista_Todas_Las_Instalaciones_Centro == null) {
+			lista_Todas_Las_Instalaciones_Centro = new JList<String>();
+			lista_Todas_Las_Instalaciones_Centro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			lista_Todas_Las_Instalaciones_Centro.setForeground(new Color(255, 255, 153));
+			lista_Todas_Las_Instalaciones_Centro.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lista_Todas_Las_Instalaciones_Centro.setModel(modelTodasLasInstalacionesCentro);
+		}
+		return lista_Todas_Las_Instalaciones_Centro;
+	}
+	private JList<String> getLista_Todas_Las_Actividades_Centro_1() {
+		if (lista_Todas_Las_Actividades_Centro == null) {
+			lista_Todas_Las_Actividades_Centro = new JList<String>();
+			lista_Todas_Las_Actividades_Centro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			lista_Todas_Las_Actividades_Centro.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lista_Todas_Las_Actividades_Centro.setBackground(Color.WHITE);
+			lista_Todas_Las_Actividades_Centro.setModel(modelTodasLasActividadesCentro);
+		}
+		return lista_Todas_Las_Actividades_Centro;
+	}
+	private JPanel getPn_Nombre_1() {
+		if (pn_Nombre_1 == null) {
+			pn_Nombre_1 = new JPanel();
+			pn_Nombre_1.setBackground(new Color(255, 255, 255));
+			pn_Nombre_1.add(getLbl_actividades_1());
+		}
+		return pn_Nombre_1;
+	}
+	private JPanel getPanel_1_3() {
+		if (pn_Nombre_2 == null) {
+			pn_Nombre_2 = new JPanel();
+			pn_Nombre_2.setBackground(new Color(255, 255, 255));
+			pn_Nombre_2.add(getLbl_Instalaciones());
+		}
+		return pn_Nombre_2;
+	}
+	private JLabel getLbl_actividades_1() {
+		if (lbl_actividades_1 == null) {
+			lbl_actividades_1 = new JLabel("Actividades");
+		}
+		return lbl_actividades_1;
+	}
+	private JLabel getLbl_Instalaciones() {
+		if (lbl_Instalaciones == null) {
+			lbl_Instalaciones = new JLabel("Instalaciones");
+		}
+		return lbl_Instalaciones;
 	}
 }

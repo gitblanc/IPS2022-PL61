@@ -36,4 +36,7 @@ public interface SocioService {
 		public String contraseña;
 
 	}
+
+
+	SocioBLDto findByCorreo(String correo);
 }
