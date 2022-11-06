@@ -155,6 +155,12 @@ public class NewVentanaAdmin extends JFrame {
 	private JComboBox<String> comboBoxAlquileresDeSocio;
 	private JButton btnAtrasCancelarAlq;
 	private JButton btnCancelacionAlquiler;
+	private JPanel panelTipoActividadSelector;
+	private JLabel lblspace;
+	private JPanel panelHorario;
+	private JLabel lblHorario;
+	private JComboBox<String> comboBoxHoraInicio;
+	private JComboBox<String> comboBoxHoraFin;
 
 	/**
 	 * Create the frame.
@@ -773,11 +779,9 @@ public class NewVentanaAdmin extends JFrame {
 		if (panelTipoActividad == null) {
 			panelTipoActividad = new JPanel();
 			panelTipoActividad.setBackground(Color.WHITE);
-			FlowLayout flowLayout = (FlowLayout) panelTipoActividad.getLayout();
-			flowLayout.setVgap(130);
-			flowLayout.setAlignment(FlowLayout.LEFT);
-			panelTipoActividad.add(getLblTipoActividad());
-			panelTipoActividad.add(getComboBoxTiposActividad());
+			panelTipoActividad.setLayout(new GridLayout(2, 1, 0, 0));
+			panelTipoActividad.add(getPanelTipoActividadSelector());
+			panelTipoActividad.add(getPanelHorario());
 		}
 		return panelTipoActividad;
 	}
@@ -830,12 +834,13 @@ public class NewVentanaAdmin extends JFrame {
 			panelBotonesAtrasPlanificar = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) panelBotonesAtrasPlanificar.getLayout();
 			flowLayout.setVgap(120);
-			flowLayout.setHgap(15);
+			flowLayout.setHgap(10);
 			flowLayout.setAlignment(FlowLayout.RIGHT);
 			panelBotonesAtrasPlanificar.setBackground(Color.WHITE);
 			panelBotonesAtrasPlanificar.add(getLblPlanificaciónCorrecta());
 			panelBotonesAtrasPlanificar.add(getBtnAtrasTipo_1_1());
 			panelBotonesAtrasPlanificar.add(getBtnCrearTipo_1_1());
+			panelBotonesAtrasPlanificar.add(getLblspace());
 		}
 		return panelBotonesAtrasPlanificar;
 	}
@@ -877,10 +882,13 @@ public class NewVentanaAdmin extends JFrame {
 	}
 
 	protected void planificarActividad() {
-		String tipo = getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0].toLowerCase();
+		String tipo = getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0];
 		String fecha = getTextFieldFechaPlanificacion().getText();
+		String hora_inicio = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0].toLowerCase();
+		String hora_fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0].toLowerCase();
+		
 		if (fecha != null && !fecha.isEmpty()) {
-			admin.planificarActividad(tipo, fecha);
+			admin.planificarActividad(tipo, fecha, hora_inicio, hora_fin);
 			getLblPlanificaciónCorrecta().setForeground(Color.GREEN);
 			getLblPlanificaciónCorrecta().setText("¡Hecho!");
 			getTextFieldFechaPlanificacion().setBorder(LineBorder.createGrayLineBorder());
@@ -1042,7 +1050,7 @@ public class NewVentanaAdmin extends JFrame {
 
 	private JLabel getLblHora9() {
 		if (lblHora9 == null) {
-			lblHora9 = new JLabel("       9:00         ");
+			lblHora9 = new JLabel("         9:00       ");
 			lblHora9.setBackground(Color.WHITE);
 			lblHora9.setHorizontalAlignment(SwingConstants.CENTER);
 			lblHora9.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -2816,6 +2824,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton getBtnAtrasCancelarAlq() {
 		if (btnAtrasCancelarAlq == null) {
 			btnAtrasCancelarAlq = new JButton("Atrás");
+			btnAtrasCancelarAlq.setForeground(Color.WHITE);
 			btnAtrasCancelarAlq.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					mostrarPanelAcciones("panelBotones");
@@ -2830,10 +2839,12 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton getBtnCancelacionAlquiler() {
 		if (btnCancelacionAlquiler == null) {
 			btnCancelacionAlquiler = new JButton("Cancelar alquiler");
+			btnCancelacionAlquiler.setForeground(Color.WHITE);
 			btnCancelacionAlquiler.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cancelarAlquiler();
-					pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+					pintarPanelesCalendario(
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
 				}
 			});
 			btnCancelacionAlquiler.setBackground(new Color(0, 250, 154));
@@ -2857,5 +2868,140 @@ public class NewVentanaAdmin extends JFrame {
 		} else {
 			getComboBoxAlquileresDeSocio().setModel(new DefaultComboBoxModel<String>(s));
 		}
+	}
+
+	private JPanel getPanelTipoActividadSelector() {
+		if (panelTipoActividadSelector == null) {
+			panelTipoActividadSelector = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelTipoActividadSelector.getLayout();
+			flowLayout.setVgap(60);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelTipoActividadSelector.setBackground(Color.WHITE);
+			panelTipoActividadSelector.add(getLblTipoActividad());
+			panelTipoActividadSelector.add(getComboBoxTiposActividad());
+		}
+		return panelTipoActividadSelector;
+	}
+
+	private JLabel getLblspace() {
+		if (lblspace == null) {
+			lblspace = new JLabel("");
+		}
+		return lblspace;
+	}
+
+	private JPanel getPanelHorario() {
+		if (panelHorario == null) {
+			panelHorario = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelHorario.getLayout();
+			flowLayout.setVgap(60);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelHorario.setBackground(Color.WHITE);
+			panelHorario.add(getLblHorario());
+			panelHorario.add(getComboBoxHoraInicio());
+			panelHorario.add(getComboBoxHoraFin());
+		}
+		return panelHorario;
+	}
+
+	private JLabel getLblHorario() {
+		if (lblHorario == null) {
+			lblHorario = new JLabel("Horario:");
+			lblHorario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblHorario;
+	}
+
+	private JComboBox<String> getComboBoxHoraInicio() {
+		if (comboBoxHoraInicio == null) {
+			comboBoxHoraInicio = new JComboBox<String>();
+			comboBoxHoraInicio.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String[] model = obtenerModelo(getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0]);
+					getComboBoxHoraFin().setModel(new DefaultComboBoxModel<String>(model));
+				}
+			});
+			comboBoxHoraInicio.setModel(
+					new DefaultComboBoxModel<String>(new String[] { "9:00", "10:00", "11:00", "12:00", "13:00", "14:00",
+							"15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00" }));
+			comboBoxHoraInicio.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxHoraInicio;
+	}
+
+	protected String[] obtenerModelo(String inicio) {
+		String[] modelo = new String[2];
+		switch (inicio) {
+		case "9:00":
+			modelo[0] = "10:00";
+			modelo[1] = "11:00";
+			break;
+		case "10:00":
+			modelo[0] = "11:00";
+			modelo[1] = "12:00";
+			break;
+		case "11:00":
+			modelo[0] = "12:00";
+			modelo[1] = "13:00";
+			break;
+		case "12:00":
+			modelo[0] = "13:00";
+			modelo[1] = "14:00";
+			break;
+		case "13:00":
+			modelo[0] = "14:00";
+			modelo[1] = "15:00";
+			break;
+		case "14:00":
+			modelo[0] = "15:00";
+			modelo[1] = "16:00";
+			break;
+		case "15:00":
+			modelo[0] = "16:00";
+			modelo[1] = "17:00";
+			break;
+		case "16:00":
+			modelo[0] = "17:00";
+			modelo[1] = "18:00";
+			break;
+		case "17:00":
+			modelo[0] = "18:00";
+			modelo[1] = "19:00";
+			break;
+		case "18:00":
+			modelo[0] = "19:00";
+			modelo[1] = "20:00";
+			break;
+		case "19:00":
+			modelo[0] = "20:00";
+			modelo[1] = "21:00";
+			break;
+		case "20:00":
+			modelo[0] = "21:00";
+			modelo[1] = "22:00";
+			break;
+		case "21:00":
+			modelo[0] = "22:00";
+			modelo[1] = "23:00";
+			break;
+		default:
+			modelo[0] = "23:00";
+			modelo[1] = null;
+			ArrayList<String> removedNull = new ArrayList<String>();
+			for (String str : modelo)
+				if (str != null)
+					removedNull.add(str);
+			return removedNull.toArray(new String[0]);
+		}
+		return modelo;
+	}
+
+	private JComboBox<String> getComboBoxHoraFin() {
+		if (comboBoxHoraFin == null) {
+			comboBoxHoraFin = new JComboBox<String>();
+			comboBoxHoraFin.setModel(new DefaultComboBoxModel<String>(new String[] { "10:00", "11:00" }));
+			comboBoxHoraFin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxHoraFin;
 	}
 }
