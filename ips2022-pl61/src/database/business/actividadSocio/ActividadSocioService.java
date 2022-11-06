@@ -14,4 +14,6 @@ public interface ActividadSocioService {
 		public String correo_socio;
 
 	}
+
+	void deleteActividadSocio(ActividadSocioBLDto actividadSocio);
 }
