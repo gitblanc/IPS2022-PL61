@@ -3,6 +3,7 @@
  */
 package logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,4 +129,31 @@ public class Alquiler {
 	public void crearAlquiler(String id_socio, String instalacion, String hora_inicio, String hora_fin, String fecha) {
 		al.crearAlquiler(id_socio, instalacion, hora_inicio, hora_fin, fecha);
 	}
+
+	public static boolean comprobarRequisitosAlquilerCorrecto(LocalDate now, String fecha2) {
+		String[] date = fecha2.split("/");
+		int day = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);
+		int year = Integer.parseInt(date[2]);
+		LocalDate ac = LocalDate.of(year, month, day);
+		LocalDate result = ac.minusDays(7);
+		if(now.isBefore(result) || now.isEqual(result)) {
+			return true;
+		}
+		return false;
+		
+	}
+
+	public static boolean comprobarHoras(String inicio, String fin) {
+		int inicio_hora = Integer.parseInt(inicio);
+		int fin_hora = Integer.parseInt(fin);
+		if(Math.abs(fin_hora - inicio_hora) <= 2) {
+			return true;
+		}
+		return false;
+	}
+
+//	public static boolean comprobarRequisitoNoTieneMasAlquileres(String id_socio2, String fecha2, String inicio, String fin) {
+//		
+//	}
 }
