@@ -176,6 +176,11 @@ public class Socio {
 		return todosLosSocios;
 	}
 	
+	public static String getIdSocio(String correo) {
+		SocioBLDto socio = ss.findByCorreo(correo);
+		return socio.id;
+	}
+	
 	
 
 }
