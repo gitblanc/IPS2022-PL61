@@ -180,7 +180,33 @@ public class Socio {
 		SocioBLDto socio = ss.findByCorreo(correo);
 		return socio.id;
 	}
+
+	public static boolean comprobarNotieneActividades(String id_socio, String fecha, String inicio, String fin) {
+		SocioBLDto socio = ss.findSocioById(id_socio);
+		String correoObtenido = socio.correo;
+		List<ActividadSocioBLDto> actividadSocio = ass.findByCorreoSocio(correoObtenido);
+		if(actividadSocio != null && actividadSocio.size() != 0) {
+			for(ActividadSocioBLDto as: actividadSocio) {
+				String id_actividad = as.id_actividad;
+				ActividadBLDto actividad = aser.findActividadById(id_actividad);
+				if(!actividad.fecha.equals(fecha) && !actividad.hora_inicio.equals(inicio) && !comprobarHoras(actividad.hora_inicio, inicio, fin)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
+	private static boolean comprobarHoras(String horaRan, String inicio, String fin) {
+		int hora1 = Integer.parseInt(horaRan);
+		int hora_inicio = Integer.parseInt(inicio);
+		int hora_fin = Integer.parseInt(fin);
+		
+		if(hora1 > hora_inicio && hora1 < hora_fin) {
+			return false;
+		}
+		return true;
+	}
 	
 
 }

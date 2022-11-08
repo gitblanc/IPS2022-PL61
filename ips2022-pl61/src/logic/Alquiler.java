@@ -6,6 +6,7 @@ package logic;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import database.business.BusinessFactory;
 import database.business.alquiler.AlquilerService;
@@ -16,7 +17,7 @@ import database.business.alquiler.AlquilerService.AlquilerBLDto;
  *
  */
 public class Alquiler {
-	AlquilerService al = BusinessFactory.forAlquilerService();
+	public static AlquilerService al = BusinessFactory.forAlquilerService();
 	private String id;
 	private String instalacion;
 	private String id_socio;
@@ -153,7 +154,27 @@ public class Alquiler {
 		return false;
 	}
 
-//	public static boolean comprobarRequisitoNoTieneMasAlquileres(String id_socio2, String fecha2, String inicio, String fin) {
-//		
-//	}
+	public static boolean comprobarRequisitoNoTieneMasAlquileres(String id_socio2, String fecha2, String inicio, String fin) {
+		List<AlquilerBLDto> alquileres = al.findByIdSocio(id_socio2);
+		if(alquileres != null && alquileres.size() != 0) {
+			for(AlquilerBLDto a: alquileres) {
+				if(!a.fecha.equals(fecha2) && !a.hora_inicio.equals(inicio) && !comprobarHoras(a.hora_inicio, inicio, fin)) {
+					return true;
+				}
+			}
+			
+		}
+		return false;
+	}
+	
+	private static boolean comprobarHoras(String horaRan, String inicio, String fin) {
+		int hora1 = Integer.parseInt(horaRan);
+		int hora_inicio = Integer.parseInt(inicio);
+		int hora_fin = Integer.parseInt(fin);
+		
+		if(hora1 > hora_inicio && hora1 < hora_fin) {
+			return false;
+		}
+		return true;
+	}
 }

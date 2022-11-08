@@ -4,7 +4,6 @@
 package database.business.socio.crud;
 
 import java.util.List;
-import java.util.Optional;
 
 import database.business.socio.SocioService;
 
@@ -32,9 +31,8 @@ public class SocioServiceImpl implements SocioService {
 	}
 
 	@Override
-	public Optional<SocioBLDto> findSocioById(String idSocio) {
-		// TODO Auto-generated method stub
-		return null;
+	public SocioBLDto findSocioById(String idSocio) {
+		return new FindById(idSocio).execute();
 	}
 
 	@Override

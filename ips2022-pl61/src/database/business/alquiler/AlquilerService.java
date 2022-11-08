@@ -4,6 +4,7 @@
 package database.business.alquiler;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author UO285176
@@ -27,4 +28,6 @@ public interface AlquilerService {
 	void cancelarAlquiler(String socio, String instalacion, String fecha, String hora_inicio, String hora_fin);
 
 	void crearAlquiler(String id_socio, String instalacion, String hora_inicio, String hora_fin, String fecha);
+	
+	List<AlquilerBLDto> findByIdSocio(String id_socio);
 }
