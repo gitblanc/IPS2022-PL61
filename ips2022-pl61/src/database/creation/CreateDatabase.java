@@ -229,6 +229,24 @@ public class CreateDatabase {
 				String actividad36 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 						+ "VALUES ( '36', 'Danza', 'moderada', 'reserva', '16:00', '17:00', 'pista', '08/10/2022', 10)";
+				String actividad37 = "INSERT INTO TipoActividad\r\n"
+						+ "( \"ID_A\", \"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+						+ "VALUES ( '37', 'Carrera', 'alta', 'libre', '13:00', '15:00', 'pista', '14/11/2022', -1)";
+				String actividad38 = "INSERT INTO TipoActividad\r\n"
+						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+						+ "VALUES ( '38', 'Jabalina', 'moderada', 'reserva', '17:00', '19:00', 'pista', '14/11/2022', 7)";
+				String actividad39 = "INSERT INTO TipoActividad\r\n"
+						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+						+ "VALUES ( '39', 'Jabalina', 'moderada', 'reserva', '09:00', '11:00', 'pista', '14/11/2022', 7)";
+				String actividad40 = "INSERT INTO TipoActividad\r\n"
+						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+						+ "VALUES ( '40', 'Yoga', 'moderada', 'reserva', '22:00', '23:00', 'gimnasio', '15/11/2022', 9)";
+				String actividad41 = "INSERT INTO TipoActividad\r\n"
+						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+						+ "VALUES ( '41', 'Danza', 'moderada', 'reserva', '20:00', '22:00', 'pista', '15/11/2022', 10)";
+				String actividad42 = "INSERT INTO TipoActividad\r\n"
+						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+						+ "VALUES ( '42', 'Danza', 'moderada', 'reserva', '16:00', '17:00', 'pista', '16/10/2022', 10)";
 				// INSTALACIONES
 				String instalacion1 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n" + "( \"NOMBRE_I\", \"PLAZAS\" )\r\n"
 						+ "VALUES ( 'gimnasio', 40)";
@@ -328,6 +346,14 @@ public class CreateDatabase {
 						+ " values ('15', 'piscina','1','11/11/2022', '11:00', '13:00')";
 				String alquiler16 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
 						+ " values ('16', 'gimnasio','3','11/11/2022', '15:00', '17:00')";
+				String alquiler17 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+						+ " values ('17', 'gimnasio','1','14/11/2022', '9:00', '11:00')";
+				String alquiler18 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+						+ " values ('18', 'gimnasio','2','15/11/2022', '11:00', '13:00')";
+				String alquiler19 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+						+ " values ('19', 'piscina','1','14/11/2022', '11:00', '13:00')";
+				String alquiler20 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
+						+ " values ('20', 'gimnasio','3','16/11/2022', '15:00', '17:00')";
 				
 				//activiades a socios
 				String actividadSocio1 = "insert into actividadSocio(correo_s, id_a) values ('imxiin@gmail.com', '9')";
@@ -377,6 +403,12 @@ public class CreateDatabase {
 		createQueries.add(actividad34);
 		createQueries.add(actividad35);
 		createQueries.add(actividad36);
+		createQueries.add(actividad37);
+		createQueries.add(actividad38);
+		createQueries.add(actividad39);
+		createQueries.add(actividad40);
+		createQueries.add(actividad41);
+		createQueries.add(actividad42);
 
 		createQueries.add(recurso1);
 		createQueries.add(recurso2);
@@ -422,6 +454,10 @@ public class CreateDatabase {
 		createQueries.add(alquiler14);
 		createQueries.add(alquiler15);
 		createQueries.add(alquiler16);
+		createQueries.add(alquiler17);
+		createQueries.add(alquiler18);
+		createQueries.add(alquiler19);
+		createQueries.add(alquiler20);
 		
 		createQueries.add(actividadSocio1);
 		createQueries.add(actividadSocio2);
