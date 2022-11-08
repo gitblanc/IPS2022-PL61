@@ -20,4 +20,9 @@ public class ActividadSocioServiceImpl implements ActividadSocioService {
 	public void deleteActividadSocio(String id, String correo) {
 		new DeleteActividadSocio(id, correo).execute();
 	}
+	
+	public List<ActividadSocioBLDto> findByCorreoSocio(String correo) {
+		return new FindByCorreoSocio(correo).execute();
+	}
+
 }

@@ -21,7 +21,7 @@ public interface SocioService {
 	void updateSocio(SocioBLDto socio);
 
 	// Le pasamos el id del socio que queremos buscar
-	Optional<SocioBLDto> findSocioById(String idSocio);
+	SocioBLDto findSocioById(String idSocio);
 
 	// Devuelve una lista con todos los socios
 	List<SocioBLDto> findAllSocios();

@@ -1,17 +1,19 @@
-package database.business.actividad.crud;
+package database.business.alquiler.crud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import assertion.Argument;
-import database.business.actividad.ActividadService.ActividadBLDto;
+import database.business.alquiler.AlquilerService.AlquilerBLDto;
 
-public class FindById {
+public class FindByIdSocio {
 
-	private static String SQL = "select * from TipoActividad where id_a = ?";
+	private static String SQL = "select * from Alquileres where id_socio = ?";
 
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
@@ -19,17 +21,17 @@ public class FindById {
 
 	private String id;
 
-	public FindById(String id) {
+	public FindByIdSocio(String idSocio) {
 		Argument.isNotNull(id);
-		this.id = id;
+		this.id = idSocio;
 	}
 
-	public ActividadBLDto execute() {
+	public List<AlquilerBLDto> execute() {
 		// Process
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		ActividadBLDto actividad = null;
+		List<AlquilerBLDto> alquiler = null;
 
 		try {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -39,7 +41,7 @@ public class FindById {
 
 
 			rs = pst.executeQuery();
-			actividad = getResult(rs);
+			alquiler = getResult(rs);
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -60,24 +62,28 @@ public class FindById {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return actividad;
+		return alquiler;
 	}
 	
-	private ActividadBLDto getResult(ResultSet r) throws SQLException {
-		ActividadBLDto a = new ActividadBLDto();
-		if(r.next()) {
+	private List<AlquilerBLDto> getResult(ResultSet r) throws SQLException {
+		List<AlquilerBLDto> res = new ArrayList<>();
+		while (r.next()) {
+			res.add(resultSet(r));
+		}
+		return res;
+	}
+
+	private AlquilerBLDto resultSet(ResultSet r) throws SQLException {
+		AlquilerBLDto a = new AlquilerBLDto();
 		a.id = r.getString("id_a");
-		a.acceso = r.getString("Acceso");
-		a.tipo = r.getString("Tipo");
-		a.intensidad = r.getString("Intensidad");
+		a.id_socio = r.getString("id_socio");
 		a.hora_inicio = r.getString("Hora_inicio");
 		a.hora_fin = r.getString("Hora_fin");
 		a.instalacion = r.getString("Nombre_i");
 		a.fecha = r.getString("fecha");
-		a.plazas = r.getInt("Plazas");
-		}
+
 		return a;
-		
-		
 	}
+		
+	
 }
