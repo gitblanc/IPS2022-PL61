@@ -1,6 +1,7 @@
 package logic;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,27 +140,41 @@ public class Socio {
 
 	public static boolean añadirActividadASocio(String correo, String id_actividad) {
 		ActividadSocioBLDto as = new ActividadSocioBLDto();
-//		ActividadBLDto a = aser.findActividadById(id_actividad);
-//		LocalDate hoy = LocalDate.now();
-//		LocalTime hora = LocalTime.now();
-//		String fecha_A = a.fecha;
-//		String[] date = fecha_A.split("/");
-//		int day = Integer.parseInt(date[0]);
-//		int month = Integer.parseInt(date[1]);
-//		int year = Integer.parseInt(date[2]);
-//		LocalDate ac = LocalDate.of(year, month, day);
-//		
-//		String hora_a = a.hora_inicio;
-//		String[] valores = hora_a.split(":");
-//		int v = Integer.parseInt(valores[0]);
-//		int hora_ahora = hora.getHour();
-//		if(ac.isBefore(hoy) && hora_ahora - v >= 1) {
-		as.correo_socio = correo;
-		as.id_actividad = id_actividad;
-		ass.addActividadSocio(as);
-		return true;
-//		}
-//		return false;
+		ActividadBLDto a = aser.findActividadById(id_actividad);
+		LocalDate hoy = LocalDate.now();
+		LocalTime hora = LocalTime.now();
+		String fecha_A = a.fecha;
+		String[] date = fecha_A.split("/");
+		int day = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);
+		int year = Integer.parseInt(date[2]);
+		LocalDate ac = LocalDate.of(year, month, day);
+		
+		String hora_a = a.hora_inicio;
+		String[] valores = hora_a.split(":");
+		int v = Integer.parseInt(valores[0]);
+		int hora_ahora = hora.getHour();
+		System.out.println(ac.isBefore(hoy));
+		boolean result = false;
+		if(hoy.isBefore(ac)) {
+			if(Math.abs(hora_ahora - v) >= 1) {
+				List<ActividadSocioBLDto> actividadesDelSocio = ass.findAllActividadSocio();
+				for(ActividadSocioBLDto acsocio: actividadesDelSocio) {
+					if(acsocio.correo_socio.equals(correo) && acsocio.id_actividad.equals(id_actividad)) {
+						result = false;
+					} else {
+						result = true;
+					}
+				}
+			}
+			
+		}
+		if(result == true) {
+			as.correo_socio = correo;
+			as.id_actividad = id_actividad;
+			ass.addActividadSocio(as);
+		}
+		return result;
 
 	}
 
