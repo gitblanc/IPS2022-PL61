@@ -38,6 +38,7 @@ import com.toedter.calendar.JDateChooser;
 import logic.Actividad;
 import logic.Administrador;
 import logic.Alquiler;
+import java.awt.Dimension;
 
 public class NewVentanaAdmin extends JFrame {
 
@@ -186,9 +187,10 @@ public class NewVentanaAdmin extends JFrame {
 	 * Create the frame.
 	 */
 	public NewVentanaAdmin() {
+		setMinimumSize(new Dimension(1096, 701));
 		setTitle("Aministrador");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1091, 698);
+		setBounds(100, 100, 1096, 697);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -1088,7 +1090,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel getLblSabado() {
 		if (lblSabado == null) {
 			lblSabado = new JLabel("SÁBADO");
-			lblSabado.setForeground(new Color(30, 144, 255));
+			lblSabado.setForeground(new Color(255, 0, 0));
 			lblSabado.setHorizontalAlignment(SwingConstants.CENTER);
 			lblSabado.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
@@ -1098,7 +1100,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel getLblDomingo() {
 		if (lblDomingo == null) {
 			lblDomingo = new JLabel("DOMINGO");
-			lblDomingo.setForeground(new Color(30, 144, 255));
+			lblDomingo.setForeground(new Color(255, 0, 0));
 			lblDomingo.setHorizontalAlignment(SwingConstants.CENTER);
 			lblDomingo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
@@ -2823,6 +2825,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelCancelacionAlquiler() {
 		if (panelCancelacionAlquiler == null) {
 			panelCancelacionAlquiler = new JPanel();
+			panelCancelacionAlquiler.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			panelCancelacionAlquiler.setBackground(Color.WHITE);
 			panelCancelacionAlquiler.setLayout(new GridLayout(3, 0, 0, 0));
 			panelCancelacionAlquiler.add(getPanelSociosParaCancelar());
@@ -3101,6 +3104,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelAlquilarInstalacionASocio() {
 		if (panelAlquilarInstalacionASocio == null) {
 			panelAlquilarInstalacionASocio = new JPanel();
+			panelAlquilarInstalacionASocio.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			panelAlquilarInstalacionASocio.setBackground(Color.WHITE);
 			panelAlquilarInstalacionASocio.setLayout(new GridLayout(5, 0, 0, 0));
 			panelAlquilarInstalacionASocio.add(getPanelIdSocioAlquilarInstalacion());
