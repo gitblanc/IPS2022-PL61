@@ -896,7 +896,7 @@ public class NewVentanaAdmin extends JFrame {
 			btnPlanificarTipo = new JButton("Planificar");
 			btnPlanificarTipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (!existsActividad()) {
+					if (!existsActividad() && !existsAlquiler()) {
 						getLblHorarioOcupado().setVisible(false);
 						planificarActividad();
 						pintarPanelesCalendario(
@@ -915,14 +915,40 @@ public class NewVentanaAdmin extends JFrame {
 		return btnPlanificarTipo;
 	}
 
+	protected boolean existsAlquiler() {
+		Actividad ac = admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0]);
+		String instalacion = ac.getInstalacion();
+		List<Alquiler> alquileres = admin.listarAlquileres(instalacion);
+		List<Alquiler> alquileresDia = new ArrayList<>();
+		for (Alquiler a : alquileres) {
+			if (a.getFecha().equals(getTextFieldFechaPlanificacion().getText()))
+				alquileresDia.add(a);
+		}
+		for (Alquiler a : alquileresDia) {
+			String inicioUsuario = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0];
+			int hInicio = Integer.parseInt(a.getHora_inicio().split(":")[0]) - 9;
+			int hFin = Integer.parseInt(a.getHora_fin().split(":")[0]) - 9;
+			int hIntermedia = (hFin - hInicio);
+			String intermedio = hIntermedia + ":00";
+			if (a.getHora_inicio().equals(inicioUsuario)) {// misma hora inicio
+				return true;
+			} else if (hIntermedia > 1 && intermedio.equals(inicioUsuario)) {// en el medio de otra actividad
+				return true;
+			}
+		}
+		return false;// al haber finalizado una actividad u otro caso
+	}
+
 	protected boolean existsActividad() {
 		Actividad ac = admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0]);
 		String instalacion = ac.getInstalacion();
 		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
 		List<Actividad> actividadesDia = new ArrayList<>();
 		for (Actividad a : actividades) {
-			if (a.getFecha().equals(getTextFieldFechaPlanificacion().getText()))
-				actividadesDia.add(a);
+			if (a.getFecha() != null) {
+				if (a.getFecha().equals(getTextFieldFechaPlanificacion().getText()))
+					actividadesDia.add(a);
+			}
 		}
 		for (Actividad a : actividadesDia) {
 			String inicioUsuario = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0];
