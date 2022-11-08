@@ -4,7 +4,6 @@
 package database.business.socio;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author UO285176

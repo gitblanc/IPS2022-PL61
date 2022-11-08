@@ -388,8 +388,10 @@ public class NewVentanaSocio extends JFrame {
 					
 					if(!AlquilerNoMasDeDosHoras(hora_inicio, hora_fin)) {
 						showMEssageDialog();
+					} else {
+						añadirAlquiler(correo, instalacion, fecha, hora_inicio, hora_fin);
 					}
-					añadirAlquiler(correo, instalacion, fecha, hora_inicio, hora_fin);
+					
 					
 				}
 			});
@@ -422,12 +424,15 @@ public class NewVentanaSocio extends JFrame {
 			if(!Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, inicio, fin) && !Socio.comprobarNotieneActividades(id_socio,fecha, inicio, fin)) {
 				admin.crearAlquiler(id_socio, instalacion, inicio, fin, fecha);
 				JOptionPane.showMessageDialog(this, "Añadido correcto");
+			} else {
+				JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
+				
 			}
-			JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
 			
 		}
-		
-		
+		else {
+			JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
+		}
 		
 	}
 	
@@ -480,16 +485,15 @@ public class NewVentanaSocio extends JFrame {
 	}
 	
 	private void añadirNuevaActividadASocio(String correo, String id_actividad) {
-		List<String> elegidoAñadir = getLista_Todas_Las_Actividades_Centro_1().getSelectedValuesList();
-		for(int i = 0; i < elegidoAñadir.size(); i++) {
-			modelMisActividades.addElement(elegidoAñadir.get(i));
-		}
-		getList_misActividades().setModel(modelMisActividades);
-		
 		if(!Socio.añadirActividadASocio(correo, id_actividad)) {
 			JOptionPane.showMessageDialog(this, "Error: No se puede añadir la actividad", "Error añadir actividad", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(this, "Añadido correcto");
+			List<String> elegidoAñadir = getLista_Todas_Las_Actividades_Centro_1().getSelectedValuesList();
+			for(int i = 0; i < elegidoAñadir.size(); i++) {
+				modelMisActividades.addElement(elegidoAñadir.get(i));
+			}
+			getList_misActividades().setModel(modelMisActividades);
 		}
 		
 	}

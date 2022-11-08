@@ -38,6 +38,7 @@ import com.toedter.calendar.JDateChooser;
 import logic.Actividad;
 import logic.Administrador;
 import logic.Alquiler;
+import java.awt.Dimension;
 
 public class NewVentanaAdmin extends JFrame {
 
@@ -179,14 +180,17 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton btnAtrasAlquilar;
 	private JButton btnAlquilar;
 	private JLabel lblspace_1;
+	private JLabel lblHorarioOcupado;
+	private JLabel lblHorarioOcupado1;
 
 	/**
 	 * Create the frame.
 	 */
 	public NewVentanaAdmin() {
+		setMinimumSize(new Dimension(1096, 701));
 		setTitle("Aministrador");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1091, 698);
+		setBounds(100, 100, 1096, 697);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -232,6 +236,8 @@ public class NewVentanaAdmin extends JFrame {
 		getLblPlanificaciónCorrecta().setText("");
 		getLblAlquilerCorrecto().setText("");
 		getTextFieldFechaAlqInst().setText("");
+		getLblHorarioOcupado().setVisible(false);
+		getLblHorarioOcupado1().setVisible(false);
 	}
 
 	private JPanel getPanelCalendario() {
@@ -540,7 +546,7 @@ public class NewVentanaAdmin extends JFrame {
 			listRecursosDisponibles = new JList<String>();
 			listRecursosDisponibles.setLayoutOrientation(JList.VERTICAL_WRAP);
 			listRecursosDisponibles.setModel(listDisponibles);
-			listRecursosDisponibles.setVisibleRowCount(7);
+			listRecursosDisponibles.setVisibleRowCount(Integer.MAX_VALUE);
 			listRecursosDisponibles.setValueIsAdjusting(true);
 			listRecursosDisponibles.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -560,7 +566,7 @@ public class NewVentanaAdmin extends JFrame {
 			listRecursosSeleccionados = new JList<String>();
 			listRecursosSeleccionados.setModel(listSeleccionados);
 			listRecursosSeleccionados.setLayoutOrientation(JList.VERTICAL_WRAP);
-			listRecursosSeleccionados.setVisibleRowCount(7);
+			listRecursosSeleccionados.setVisibleRowCount(Integer.MAX_VALUE);
 			listRecursosSeleccionados.setValueIsAdjusting(true);
 			listRecursosSeleccionados.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -864,6 +870,7 @@ public class NewVentanaAdmin extends JFrame {
 			flowLayout.setAlignment(FlowLayout.RIGHT);
 			panelBotonesAtrasPlanificar.setBackground(Color.WHITE);
 			panelBotonesAtrasPlanificar.add(getLblPlanificaciónCorrecta());
+			panelBotonesAtrasPlanificar.add(getLblHorarioOcupado());
 			panelBotonesAtrasPlanificar.add(getBtnAtrasTipo_1_1());
 			panelBotonesAtrasPlanificar.add(getBtnCrearTipo_1_1());
 			panelBotonesAtrasPlanificar.add(getLblspace());
@@ -893,9 +900,18 @@ public class NewVentanaAdmin extends JFrame {
 			btnPlanificarTipo = new JButton("Planificar");
 			btnPlanificarTipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					planificarActividad();
-					pintarPanelesCalendario(
-							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+					String fecha = getTextFieldFechaPlanificacion().getText();
+					String inicio = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0];
+					String fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0];
+					if (!existsActividad(fecha,inicio,fin) && !existsAlquiler(fecha,inicio,fin)) {
+						getLblHorarioOcupado().setVisible(false);
+						planificarActividad();
+						pintarPanelesCalendario(
+								getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+					} else {
+						getLblPlanificaciónCorrecta().setText("");
+						getLblHorarioOcupado().setVisible(true);
+					}
 				}
 			});
 			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -905,6 +921,57 @@ public class NewVentanaAdmin extends JFrame {
 			btnPlanificarTipo.setBackground(new Color(0, 250, 154));
 		}
 		return btnPlanificarTipo;
+	}
+
+	protected boolean existsAlquiler(String fecha, String inicio, String fin) {
+		Actividad ac = admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0]);
+		String instalacion = ac.getInstalacion();
+		List<Alquiler> alquileres = admin.listarAlquileres(instalacion);
+		List<Alquiler> alquileresDia = new ArrayList<>();
+		for (Alquiler a : alquileres) {
+			if (a.getFecha().equals(fecha))
+				alquileresDia.add(a);
+		}
+		for (Alquiler a : alquileresDia) {
+			String inicioUsuario = inicio;
+			int hInicio = Integer.parseInt(a.getHora_inicio().split(":")[0]) - 9;
+			int hFin = Integer.parseInt(a.getHora_fin().split(":")[0]) - 9;
+			int hIntermedia = (hFin - hInicio);
+			String intermedio = hIntermedia + ":00";
+			if (a.getHora_inicio().equals(inicioUsuario)) {// misma hora inicio
+				return true;
+			} else if (hIntermedia > 1 && intermedio.equals(inicioUsuario)) {// en el medio de otra actividad
+				return true;
+			}
+		}
+		return false;// al haber finalizado una actividad u otro caso
+	}
+
+	protected boolean existsActividad(String fecha, String inicio, String fin) {
+		Actividad ac = admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0]);
+		String instalacion = ac.getInstalacion();
+		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
+		List<Actividad> actividadesDia = new ArrayList<>();
+		for (Actividad a : actividades) {
+			if (a.getFecha() != null) {
+				if (a.getFecha().equals(fecha))
+					actividadesDia.add(a);
+			}
+		}
+		for (Actividad a : actividadesDia) {
+			String inicioUsuario = inicio;
+			int hInicio = Integer.parseInt(a.getHoraInicio().split(":")[0]) - 9;
+			int hFin = Integer.parseInt(a.getHoraFin().split(":")[0]) - 9;
+			int hIntermedia = (hFin - hInicio);
+			String intermedio = hIntermedia + ":00";
+			if (a.getHoraInicio().equals(inicioUsuario)) {// misma hora inicio
+				return true;
+			} else if (hIntermedia > 1 && intermedio.equals(inicioUsuario)) {// en el medio de otra actividad
+				return true;
+			}
+		}
+		return false;// al haber finalizado una actividad u otro caso
+
 	}
 
 	protected void planificarActividad() {
@@ -1023,7 +1090,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel getLblSabado() {
 		if (lblSabado == null) {
 			lblSabado = new JLabel("SÁBADO");
-			lblSabado.setForeground(new Color(30, 144, 255));
+			lblSabado.setForeground(new Color(255, 0, 0));
 			lblSabado.setHorizontalAlignment(SwingConstants.CENTER);
 			lblSabado.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
@@ -1033,7 +1100,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel getLblDomingo() {
 		if (lblDomingo == null) {
 			lblDomingo = new JLabel("DOMINGO");
-			lblDomingo.setForeground(new Color(30, 144, 255));
+			lblDomingo.setForeground(new Color(255, 0, 0));
 			lblDomingo.setHorizontalAlignment(SwingConstants.CENTER);
 			lblDomingo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
@@ -2758,6 +2825,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelCancelacionAlquiler() {
 		if (panelCancelacionAlquiler == null) {
 			panelCancelacionAlquiler = new JPanel();
+			panelCancelacionAlquiler.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			panelCancelacionAlquiler.setBackground(Color.WHITE);
 			panelCancelacionAlquiler.setLayout(new GridLayout(3, 0, 0, 0));
 			panelCancelacionAlquiler.add(getPanelSociosParaCancelar());
@@ -3036,6 +3104,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelAlquilarInstalacionASocio() {
 		if (panelAlquilarInstalacionASocio == null) {
 			panelAlquilarInstalacionASocio = new JPanel();
+			panelAlquilarInstalacionASocio.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			panelAlquilarInstalacionASocio.setBackground(Color.WHITE);
 			panelAlquilarInstalacionASocio.setLayout(new GridLayout(5, 0, 0, 0));
 			panelAlquilarInstalacionASocio.add(getPanelIdSocioAlquilarInstalacion());
@@ -3190,6 +3259,7 @@ public class NewVentanaAdmin extends JFrame {
 			flowLayout.setVgap(90);
 			paneBtnAtrasAlquilar.setBackground(Color.WHITE);
 			paneBtnAtrasAlquilar.add(getLblAlquilerCorrecto());
+			paneBtnAtrasAlquilar.add(getLblHorarioOcupado1());
 			paneBtnAtrasAlquilar.add(getBtnAtrasAlquilar());
 			paneBtnAtrasAlquilar.add(getBtnAlquilar());
 			paneBtnAtrasAlquilar.add(getLblspace_1());
@@ -3229,7 +3299,15 @@ public class NewVentanaAdmin extends JFrame {
 			btnAlquilar = new JButton("Alquilar");
 			btnAlquilar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					alquilarInstalacion();
+					String fecha = getTextFieldFechaAlqInst().getText();
+					String inicio = getComboBoxHoraInicioAlqInst().getSelectedItem().toString().split("@")[0];
+					String fin = getComboBoxHoraFinAlqInst().getSelectedItem().toString().split("@")[0];
+					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin)) {
+						getLblHorarioOcupado1().setVisible(false);
+						alquilarInstalacion();
+					} else {
+						getLblHorarioOcupado1().setVisible(true);
+					}
 				}
 			});
 			btnAlquilar.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -3262,5 +3340,23 @@ public class NewVentanaAdmin extends JFrame {
 			lblspace_1 = new JLabel("");
 		}
 		return lblspace_1;
+	}
+
+	private JLabel getLblHorarioOcupado() {
+		if (lblHorarioOcupado == null) {
+			lblHorarioOcupado = new JLabel("¡Horario ocupado!");
+			lblHorarioOcupado.setVisible(false);
+			lblHorarioOcupado.setForeground(new Color(255, 0, 0));
+		}
+		return lblHorarioOcupado;
+	}
+
+	private JLabel getLblHorarioOcupado1() {
+		if (lblHorarioOcupado1 == null) {
+			lblHorarioOcupado1 = new JLabel("¡Horario ocupado!");
+			lblHorarioOcupado1.setVisible(false);
+			lblHorarioOcupado1.setForeground(new Color(255, 0, 0));
+		}
+		return lblHorarioOcupado1;
 	}
 }
