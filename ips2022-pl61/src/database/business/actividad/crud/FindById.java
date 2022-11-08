@@ -74,7 +74,7 @@ public class FindById {
 		a.hora_fin = r.getString("Hora_fin");
 		a.instalacion = r.getString("Nombre_i");
 		a.fecha = r.getString("fecha");
-		a.plazas = r.getInt("Plazas");
+		a.plazas = r.getInt("Plazas_a");
 		}
 		return a;
 		

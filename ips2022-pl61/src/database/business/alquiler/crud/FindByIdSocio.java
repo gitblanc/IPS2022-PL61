@@ -22,7 +22,7 @@ public class FindByIdSocio {
 	private String id;
 
 	public FindByIdSocio(String idSocio) {
-		Argument.isNotNull(id);
+		Argument.isNotNull(idSocio);
 		this.id = idSocio;
 	}
 
