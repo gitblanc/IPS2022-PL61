@@ -13,7 +13,7 @@ import database.business.actividadSocio.ActividadSocioService.ActividadSocioBLDt
 
 public class FindByCorreoSocio {
 
-	private static String SQL = "select * from ActividadSocio where correo_socio = ?";
+	private static String SQL = "select * from ActividadSocio where correo_s = ?";
 
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
@@ -22,7 +22,7 @@ public class FindByCorreoSocio {
 	private String correo;
 
 	public FindByCorreoSocio(String correoSocio) {
-		Argument.isNotNull(correo);
+		Argument.isNotNull(correoSocio);
 		this.correo = correoSocio;
 	}
 

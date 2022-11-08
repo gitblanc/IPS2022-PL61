@@ -385,6 +385,10 @@ public class NewVentanaSocio extends JFrame {
 					String fecha = getTxtfield_fecha_instalacion().getText();
 					String hora_inicio = getComboBox_1().getSelectedItem().toString();
 					String hora_fin = getComboBox_2().getSelectedItem().toString();
+					
+					if(!AlquilerNoMasDeDosHoras(hora_inicio, hora_fin)) {
+						showMEssageDialog();
+					}
 					añadirAlquiler(correo, instalacion, fecha, hora_inicio, hora_fin);
 					
 				}
@@ -395,17 +399,34 @@ public class NewVentanaSocio extends JFrame {
 		return bt_AÑadir_Algo;
 	}
 	
+	private void showMEssageDialog() {
+		JOptionPane.showMessageDialog(this, "No se puede añadir una actividad de mas de dos horas");
+	}
+	
+	private boolean AlquilerNoMasDeDosHoras(String inicio, String final_hora) {
+		String[] i = inicio.split(":");
+		int value1 = Integer.parseInt(i[0]);
+		
+		String[] j = final_hora.split(":");
+		int value2 = Integer.parseInt(j[0]);
+		
+		if(Math.abs(value2 - value1) > 2) {
+			return false;
+		}
+		return true;
+	}
 	private void añadirAlquiler(String socio, String instalacion, String fecha, String inicio, String fin) {
 		String correo = getCb_usuarios().getSelectedItem().toString();
 		String id_socio = Socio.getIdSocio(correo);
 		if(Alquiler.comprobarRequisitosAlquilerCorrecto(LocalDate.now(), fecha) && Alquiler.comprobarHoras(inicio, fin)) {
-			if(Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, inicio, fin) && Socio.comprobarNotieneActividades(id_socio,fecha, inicio, fin)) {
+			if(!Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, inicio, fin) && !Socio.comprobarNotieneActividades(id_socio,fecha, inicio, fin)) {
 				admin.crearAlquiler(id_socio, instalacion, inicio, fin, fecha);
 				JOptionPane.showMessageDialog(this, "Añadido correcto");
 			}
+			JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
 			
 		}
-		JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir actividad", JOptionPane.INFORMATION_MESSAGE);
+		
 		
 		
 	}
@@ -584,7 +605,7 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return lbl_actividades;
 	}
-	private JLabel getLbl_instlaciones() {
+	private JLabel getLbl_instlaciones() { 
 		if (lbl_instlaciones == null) {
 			lbl_instlaciones = new JLabel("Alquileres");
 		}

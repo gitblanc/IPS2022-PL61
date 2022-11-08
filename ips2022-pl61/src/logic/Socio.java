@@ -198,9 +198,14 @@ public class Socio {
 	}
 	
 	private static boolean comprobarHoras(String horaRan, String inicio, String fin) {
-		int hora1 = Integer.parseInt(horaRan);
-		int hora_inicio = Integer.parseInt(inicio);
-		int hora_fin = Integer.parseInt(fin);
+		String[] i = inicio.split(":");
+		int hora_inicio = Integer.parseInt(i[0]);
+		
+		String[] j = fin.split(":");
+		int hora_fin = Integer.parseInt(j[0]);
+		
+		String[] r = horaRan.split(":");
+		int hora1 = Integer.parseInt(r[0]);
 		
 		if(hora1 > hora_inicio && hora1 < hora_fin) {
 			return false;
