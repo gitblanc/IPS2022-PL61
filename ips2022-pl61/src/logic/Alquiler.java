@@ -6,7 +6,6 @@ package logic;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import database.business.BusinessFactory;
 import database.business.alquiler.AlquilerService;
@@ -146,9 +145,12 @@ public class Alquiler {
 	}
 
 	public static boolean comprobarHoras(String inicio, String fin) {
-		int inicio_hora = Integer.parseInt(inicio);
-		int fin_hora = Integer.parseInt(fin);
-		if(Math.abs(fin_hora - inicio_hora) <= 2) {
+		String[] i = inicio.split(":");
+		int value1 = Integer.parseInt(i[0]);
+		
+		String[] j = fin.split(":");
+		int value2 = Integer.parseInt(j[0]);
+		if(Math.abs(value1 - value2) <= 2) {
 			return true;
 		}
 		return false;
