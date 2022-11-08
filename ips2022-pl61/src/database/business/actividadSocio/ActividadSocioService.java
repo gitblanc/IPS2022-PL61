@@ -16,4 +16,6 @@ public interface ActividadSocioService {
 	}
 
 	void deleteActividadSocio(String id, String correo);
+
+	List<ActividadSocioBLDto> findByCorreoSocio(String correo);
 }

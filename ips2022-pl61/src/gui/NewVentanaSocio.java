@@ -381,8 +381,12 @@ public class NewVentanaSocio extends JFrame {
 			bt_AÑadir_Algo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String correo = getCb_usuarios().getSelectedItem().toString();
-//					String actividad = getIdActividad(lista_Todas_Las_Actividades_Centro.getSelectedValue());
-//					añadirNuevaActividadASocio(correo, actividad);
+					String instalacion = getCb_Instalacion().getSelectedItem().toString();
+					String fecha = getTxtfield_fecha_instalacion().getText();
+					String hora_inicio = getComboBox_1().getSelectedItem().toString();
+					String hora_fin = getComboBox_2().getSelectedItem().toString();
+					añadirAlquiler(correo, instalacion, fecha, hora_inicio, hora_fin);
+					
 				}
 			});
 			bt_AÑadir_Algo.setForeground(new Color(255, 255, 255));
@@ -391,14 +395,18 @@ public class NewVentanaSocio extends JFrame {
 		return bt_AÑadir_Algo;
 	}
 	
-	private boolean añadirAlquiler(String socio, String instalacion, String fecha, String inicio, String fin) {
+	private void añadirAlquiler(String socio, String instalacion, String fecha, String inicio, String fin) {
 		String correo = getCb_usuarios().getSelectedItem().toString();
 		String id_socio = Socio.getIdSocio(correo);
 		if(Alquiler.comprobarRequisitosAlquilerCorrecto(LocalDate.now(), fecha) && Alquiler.comprobarHoras(inicio, fin)) {
-			//if(Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, inicio, fin) && Socio.comprobarNotieneActividades(id_socio,fecha, inicio, fin))
-			admin.crearAlquiler(id_socio, instalacion, inicio, fin, fecha);
+			if(Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, inicio, fin) && Socio.comprobarNotieneActividades(id_socio,fecha, inicio, fin)) {
+				admin.crearAlquiler(id_socio, instalacion, inicio, fin, fecha);
+				JOptionPane.showMessageDialog(this, "Añadido correcto");
+			}
+			
 		}
-		return true;
+		JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir actividad", JOptionPane.INFORMATION_MESSAGE);
+		
 		
 	}
 	

@@ -4,6 +4,7 @@
 package database.business.alquiler.crud;
 
 import java.util.List;
+import java.util.Optional;
 
 import database.business.alquiler.AlquilerService;
 
@@ -32,5 +33,10 @@ public class AlquilerServiceImpl implements AlquilerService {
 	public void crearAlquiler(String id_socio, String instalacion, String hora_inicio, String hora_fin, String fecha) {
 		new CreateAlquiler(id_socio, instalacion, hora_inicio, hora_fin, fecha).execute();
 	}
+	
+	public List<AlquilerBLDto> findByIdSocio(String idSocio) {
+		return new FindByIdSocio(idSocio).execute();
+	}
+
 
 }

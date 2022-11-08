@@ -1,4 +1,4 @@
-package database.business.actividad.crud;
+package database.business.socio.crud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import assertion.Argument;
-import database.business.actividad.ActividadService.ActividadBLDto;
+import database.business.socio.SocioService.SocioBLDto;
 
 public class FindById {
 
-	private static String SQL = "select * from TipoActividad where id_a = ?";
+	private static String SQL = "select * from Socio where id_s = ?";
 
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
@@ -24,12 +24,12 @@ public class FindById {
 		this.id = id;
 	}
 
-	public ActividadBLDto execute() {
+	public SocioBLDto execute() {
 		// Process
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		ActividadBLDto actividad = null;
+		SocioBLDto socio = null;
 
 		try {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -39,7 +39,7 @@ public class FindById {
 
 
 			rs = pst.executeQuery();
-			actividad = getResult(rs);
+			socio = getResult(rs);
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -60,24 +60,22 @@ public class FindById {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return actividad;
+		return socio;
 	}
 	
-	private ActividadBLDto getResult(ResultSet r) throws SQLException {
-		ActividadBLDto a = new ActividadBLDto();
+	private SocioBLDto getResult(ResultSet r) throws SQLException {
+		SocioBLDto s = new SocioBLDto();
 		if(r.next()) {
-		a.id = r.getString("id_a");
-		a.acceso = r.getString("Acceso");
-		a.tipo = r.getString("Tipo");
-		a.intensidad = r.getString("Intensidad");
-		a.hora_inicio = r.getString("Hora_inicio");
-		a.hora_fin = r.getString("Hora_fin");
-		a.instalacion = r.getString("Nombre_i");
-		a.fecha = r.getString("fecha");
-		a.plazas = r.getInt("Plazas");
+			s.id = r.getString("Id_s");
+			s.nombre = r.getString("Nombre_s");
+			s.apellidos = r.getString("Apellidos_s");
+			s.correo = r.getString("Correo_s");
+			s.contraseña = r.getString("Contraseña_s");
 		}
-		return a;
+		
+		return s;
 		
 		
 	}
+
 }
