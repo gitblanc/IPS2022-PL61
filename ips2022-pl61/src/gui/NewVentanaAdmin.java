@@ -179,6 +179,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton btnAtrasAlquilar;
 	private JButton btnAlquilar;
 	private JLabel lblspace_1;
+	private JLabel lblHorarioOcupado;
 
 	/**
 	 * Create the frame.
@@ -232,6 +233,7 @@ public class NewVentanaAdmin extends JFrame {
 		getLblPlanificaciónCorrecta().setText("");
 		getLblAlquilerCorrecto().setText("");
 		getTextFieldFechaAlqInst().setText("");
+		getLblHorarioOcupado().setVisible(false);
 	}
 
 	private JPanel getPanelCalendario() {
@@ -540,7 +542,7 @@ public class NewVentanaAdmin extends JFrame {
 			listRecursosDisponibles = new JList<String>();
 			listRecursosDisponibles.setLayoutOrientation(JList.VERTICAL_WRAP);
 			listRecursosDisponibles.setModel(listDisponibles);
-			listRecursosDisponibles.setVisibleRowCount(7);
+			listRecursosDisponibles.setVisibleRowCount(Integer.MAX_VALUE);
 			listRecursosDisponibles.setValueIsAdjusting(true);
 			listRecursosDisponibles.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -560,7 +562,7 @@ public class NewVentanaAdmin extends JFrame {
 			listRecursosSeleccionados = new JList<String>();
 			listRecursosSeleccionados.setModel(listSeleccionados);
 			listRecursosSeleccionados.setLayoutOrientation(JList.VERTICAL_WRAP);
-			listRecursosSeleccionados.setVisibleRowCount(7);
+			listRecursosSeleccionados.setVisibleRowCount(Integer.MAX_VALUE);
 			listRecursosSeleccionados.setValueIsAdjusting(true);
 			listRecursosSeleccionados.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -864,6 +866,7 @@ public class NewVentanaAdmin extends JFrame {
 			flowLayout.setAlignment(FlowLayout.RIGHT);
 			panelBotonesAtrasPlanificar.setBackground(Color.WHITE);
 			panelBotonesAtrasPlanificar.add(getLblPlanificaciónCorrecta());
+			panelBotonesAtrasPlanificar.add(getLblHorarioOcupado());
 			panelBotonesAtrasPlanificar.add(getBtnAtrasTipo_1_1());
 			panelBotonesAtrasPlanificar.add(getBtnCrearTipo_1_1());
 			panelBotonesAtrasPlanificar.add(getLblspace());
@@ -893,9 +896,14 @@ public class NewVentanaAdmin extends JFrame {
 			btnPlanificarTipo = new JButton("Planificar");
 			btnPlanificarTipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					planificarActividad();
-					pintarPanelesCalendario(
-							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+					if (!existsActividad()) {
+						getLblHorarioOcupado().setVisible(false);
+						planificarActividad();
+						pintarPanelesCalendario(
+								getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+					} else {
+						getLblHorarioOcupado().setVisible(true);
+					}
 				}
 			});
 			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -905,6 +913,31 @@ public class NewVentanaAdmin extends JFrame {
 			btnPlanificarTipo.setBackground(new Color(0, 250, 154));
 		}
 		return btnPlanificarTipo;
+	}
+
+	protected boolean existsActividad() {
+		Actividad ac = admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0]);
+		String instalacion = ac.getInstalacion();
+		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
+		List<Actividad> actividadesDia = new ArrayList<>();
+		for (Actividad a : actividades) {
+			if (a.getFecha().equals(getTextFieldFechaPlanificacion().getText()))
+				actividadesDia.add(a);
+		}
+		for (Actividad a : actividadesDia) {
+			String inicioUsuario = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0];
+			int hInicio = Integer.parseInt(a.getHoraInicio().split(":")[0]) - 9;
+			int hFin = Integer.parseInt(a.getHoraFin().split(":")[0]) - 9;
+			int hIntermedia = (hFin - hInicio);
+			String intermedio = hIntermedia + ":00";
+			if (a.getHoraInicio().equals(inicioUsuario)) {// misma hora inicio
+				return true;
+			} else if (hIntermedia > 1 && intermedio.equals(inicioUsuario)) {// en el medio de otra actividad
+				return true;
+			}
+		}
+		return false;// al haber finalizado una actividad u otro caso
+
 	}
 
 	protected void planificarActividad() {
@@ -3262,5 +3295,14 @@ public class NewVentanaAdmin extends JFrame {
 			lblspace_1 = new JLabel("");
 		}
 		return lblspace_1;
+	}
+
+	private JLabel getLblHorarioOcupado() {
+		if (lblHorarioOcupado == null) {
+			lblHorarioOcupado = new JLabel("¡Horario ocupado!");
+			lblHorarioOcupado.setVisible(false);
+			lblHorarioOcupado.setForeground(new Color(255, 0, 0));
+		}
+		return lblHorarioOcupado;
 	}
 }

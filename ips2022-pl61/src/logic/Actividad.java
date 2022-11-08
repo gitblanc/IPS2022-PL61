@@ -31,9 +31,11 @@ public class Actividad {
 	private String instalacion;
 	private String fecha;
 	private int plazas;
+
 	// factoría de actividades
-	public Actividad() {}
-	
+	public Actividad() {
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -320,61 +322,61 @@ public class Actividad {
 		}
 		return actividades;
 	}
-	
+
 	public static List<String> listarActividades(String dia) {
-		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<ActividadBLDto> actividades = listarActividadesBLDto();
 		List<String> result = new ArrayList<String>();
-		for(int i = 0; i < actividades.size(); i++) {
-			if(actividades.get(i).fecha.equals(dia)) {
-				String a = actividades.get(i).id + " ------ " + actividades.get(i).tipo + " ------ " + actividades.get(i).hora_inicio + " - " + 
-						actividades.get(i).hora_fin + " ------  Acceso por: " + actividades.get(i).acceso.toUpperCase();
-						result.add(a);
+		for (int i = 0; i < actividades.size(); i++) {
+			if (actividades.get(i).fecha.equals(dia)) {
+				String a = actividades.get(i).id + " ------ " + actividades.get(i).tipo + " ------ "
+						+ actividades.get(i).hora_inicio + " - " + actividades.get(i).hora_fin + " ------  Acceso por: "
+						+ actividades.get(i).acceso.toUpperCase();
+				result.add(a);
 			}
 		}
 		return result;
 	}
-	
-	
+
 	public static List<String> listarActividades() {
-		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<ActividadBLDto> actividades = listarActividadesBLDto();
 		List<String> result = new ArrayList<String>();
-		for(int i = 0; i < actividades.size(); i++) {
-			if(!actividades.get(i).acceso.toUpperCase().equals("LIBRE") &&
-					fechaMasProxima(LocalDate.now(), actividades.get(i).fecha)) {
-				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ " + actividades.get(i).hora_inicio + " - " + 
-						actividades.get(i).hora_fin + " ------ " + "Instalación: " + actividades.get(i).instalacion;
-						result.add(a);
+		for (int i = 0; i < actividades.size(); i++) {
+			if (!actividades.get(i).acceso.toUpperCase().equals("LIBRE")
+					&& fechaMasProxima(LocalDate.now(), actividades.get(i).fecha)) {
+				String a = actividades.get(i).tipo + " ------ " + actividades.get(i).fecha + " ------ "
+						+ actividades.get(i).hora_inicio + " - " + actividades.get(i).hora_fin + " ------ "
+						+ "Instalación: " + actividades.get(i).instalacion;
+				result.add(a);
 			}
-			
+
 		}
-		
+
 		return result;
 	}
-	
+
 	public static String[] rellenarArrayConIds() {
-		List<ActividadBLDto>actividades = listarActividadesBLDto();
+		List<ActividadBLDto> actividades = listarActividadesBLDto();
 		String[] ids = new String[actividades.size()];
-		for(int i = 0; i < actividades.size(); i++) {
-			if(!actividades.get(i).acceso.toUpperCase().equals("LIBRE") &&
-					fechaMasProxima(LocalDate.now(), actividades.get(i).fecha)) {
+		for (int i = 0; i < actividades.size(); i++) {
+			if (!actividades.get(i).acceso.toUpperCase().equals("LIBRE")
+					&& fechaMasProxima(LocalDate.now(), actividades.get(i).fecha)) {
 				ids[i] = actividades.get(i).id;
 			}
 		}
 		return ids;
 	}
-	
-	private static boolean fechaMasProxima(LocalDate l, String fechaActividad) { 
+
+	private static boolean fechaMasProxima(LocalDate l, String fechaActividad) {
 		String[] date = fechaActividad.split("/");
 		int day = Integer.parseInt(date[0]);
 		int month = Integer.parseInt(date[1]);
 		int year = Integer.parseInt(date[2]);
 		LocalDate ac = LocalDate.of(year, month, day);
-		
+
 		l = LocalDate.now();
-		
+
 		return l.isBefore(ac);
-		
-		
+
 	}
 //
 //	
@@ -391,5 +393,11 @@ public class Actividad {
 //		return actividades;
 //	}
 //	
+
+	public Actividad buscarActividad(String tipo) {
+		ActividadBLDto a = as.findByTipo(tipo);
+		return new Actividad(a.id, a.tipo, a.intensidad, a.acceso, a.monitor, a.hora_inicio, a.hora_fin, a.instalacion,
+				a.fecha, a.plazas);
+	}
 
 }
