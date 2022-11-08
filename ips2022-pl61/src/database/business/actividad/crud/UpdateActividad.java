@@ -17,7 +17,7 @@ import database.business.actividad.ActividadService.ActividadBLDto;
  *
  */
 public class UpdateActividad {
-	private static String SQL = "update Actividad set nombre_a = ?, intensidad = ?, acceso = ?, hora_inicio = ?, hora_fin = ?, nombre_i = ? where id_a = ?";
+	private static String SQL = "update TipoActividad set nombre_a = ?, intensidad = ?, acceso = ?, hora_inicio = ?, hora_fin = ?, nombre_i = ? where id_a = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
@@ -38,14 +38,14 @@ public class UpdateActividad {
 		try {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 			pst = c.prepareStatement(SQL);
-			pst.setString(1, actividad.nombre);
+			pst.setString(1, actividad.tipo);
 			pst.setString(2, actividad.intensidad);
 			pst.setString(3, actividad.id);
 			pst.setString(4, actividad.acceso);
 			pst.setString(5, actividad.hora_inicio);
 			pst.setString(6, actividad.hora_fin);
 			pst.setString(7, actividad.instalacion);
-			pst.setInt(8, actividad.dia);
+			pst.setString(8, actividad.fecha);
 			pst.setInt(9, actividad.plazas);
 
 			pst.executeUpdate();

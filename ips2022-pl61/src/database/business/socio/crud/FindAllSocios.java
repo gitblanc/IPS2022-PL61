@@ -18,7 +18,7 @@ import database.business.socio.SocioService.SocioBLDto;
  *
  */
 public class FindAllSocios {
-	private static final String SQL = "select * from Socio";
+	private static final String SQL = "select distinct(*) from Socio";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
@@ -42,6 +42,7 @@ public class FindAllSocios {
 				socio.nombre = rs.getString("nombre_s");
 				socio.apellidos = rs.getString("apellidos_s");
 				socio.correo = rs.getString("correo_s");
+				socio.contraseña = rs.getString("contraseña_s");
 				socios.add(socio);
 			}
 		} catch (SQLException e) {

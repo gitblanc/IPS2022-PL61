@@ -4,7 +4,6 @@
 package database.business.actividad.crud;
 
 import java.util.List;
-import java.util.Optional;
 
 import database.business.actividad.ActividadService;
 
@@ -32,14 +31,18 @@ public class ActividadServiceImpl implements ActividadService {
 	}
 
 	@Override
-	public Optional<ActividadBLDto> findActividadById(String idActividad) {
-		// TODO Auto-generated method stub
-		return null;
+	public ActividadBLDto findActividadById(String idActividad) {
+		return new FindById(idActividad).execute();
 	}
 
 	@Override
 	public List<ActividadBLDto> findAllActividades() {
 		return new FindAllActividades().execute();
+	}
+
+	@Override
+	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
+		new PlanificarActividad(tipo,fecha, hora_inicio, hora_fin).execute();
 	}
 
 }

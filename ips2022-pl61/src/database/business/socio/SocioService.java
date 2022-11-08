@@ -11,7 +11,7 @@ import java.util.Optional;
  *
  */
 public interface SocioService {
-	// Le pasamos el socio a añadir
+	// Le pasamos el socio a aï¿½adir
 	SocioBLDto addSocio(SocioBLDto socio);
 
 	// Le pasamos el identificador del socio a eliminar
@@ -21,10 +21,11 @@ public interface SocioService {
 	void updateSocio(SocioBLDto socio);
 
 	// Le pasamos el id del socio que queremos buscar
-	Optional<SocioBLDto> findSocioById(String idSocio);
+	SocioBLDto findSocioById(String idSocio);
 
 	// Devuelve una lista con todos los socios
 	List<SocioBLDto> findAllSocios();
+	
 
 	public class SocioBLDto {
 
@@ -32,6 +33,10 @@ public interface SocioService {
 		public String nombre;
 		public String apellidos;
 		public String correo;
+		public String contraseÃ±a;
 
 	}
+
+
+	SocioBLDto findByCorreo(String correo);
 }

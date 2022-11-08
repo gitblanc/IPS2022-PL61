@@ -1,7 +1,5 @@
 package logic;
 
-import java.util.List;
-
 public class Monitor {
 	private int id;  //Identificador de monitor
 	private String nombre;  //Nombre del monitor
@@ -44,13 +42,10 @@ public class Monitor {
 		return correo;
 	}
 	
-//	public List<Socio> getListaSociosMiActividad(Actividad actividad) throws Exception {
-//		if (actividad.getMonitor().getId() == this.getId()) {
-//			return actividad.getSociosApuntados();
-//		} else {
-//			throw new Exception();
-//		}	
+//	public List<Socio> getListaSociosMiActividad(Actividad actividad){
+//		
 //	}
+	
 	
 	 
 	
