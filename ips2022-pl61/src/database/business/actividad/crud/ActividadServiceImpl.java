@@ -45,4 +45,9 @@ public class ActividadServiceImpl implements ActividadService {
 		new PlanificarActividad(tipo,fecha, hora_inicio, hora_fin).execute();
 	}
 
+	@Override
+	public ActividadBLDto findByTipo(String tipo) {
+		return new FindByTipo(tipo).execute();
+	}
+
 }

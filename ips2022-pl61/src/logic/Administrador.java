@@ -91,4 +91,8 @@ public class Administrador {
 		new Alquiler().crearAlquiler(id_socio, instalacion, hora_inicio, hora_fin, fecha);
 	}
 
+	public Actividad buscarActividad(String tipo) {
+		return new Actividad().buscarActividad(tipo);
+	}
+
 }
