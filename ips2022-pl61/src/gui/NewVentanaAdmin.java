@@ -125,21 +125,6 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel lblDomingo;
 	private JPanel panelHoras;
 	private JLabel lblHoras;
-	private JLabel lblHora9;
-	private JLabel lblHora10;
-	private JLabel lblHora11;
-	private JLabel lblHora12;
-	private JLabel lblHora13;
-	private JLabel lblHora14;
-	private JLabel lblHora15;
-	private JLabel lblHora16;
-	private JLabel lblHora17;
-	private JLabel lblHora18;
-	private JLabel lblHora19;
-	private JLabel lblHora20;
-	private JLabel lblHora21;
-	private JLabel lblHora22;
-	private JLabel lblHora23;
 	private JPanel panelCeldasCalendario;
 	private JPanel panelSemana;
 	private JLabel lblSemanaFechaCalendario;
@@ -182,6 +167,36 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel lblspace_1;
 	private JLabel lblHorarioOcupado;
 	private JLabel lblHorarioOcupado1;
+	private JPanel panel9;
+	private JPanel panel10;
+	private JPanel panel11;
+	private JPanel panel12;
+	private JPanel panel13;
+	private JPanel panel14;
+	private JPanel panel15;
+	private JPanel panel16;
+	private JPanel panel17;
+	private JPanel panel18;
+	private JPanel panel19;
+	private JPanel panel20;
+	private JPanel panel21;
+	private JPanel panel22;
+	private JPanel panel23;
+	private JLabel lbl9;
+	private JLabel lbl10;
+	private JLabel lbl11;
+	private JLabel lbl12;
+	private JLabel lbl13;
+	private JLabel lbl14;
+	private JLabel lbl15;
+	private JLabel lbl16;
+	private JLabel lbl17;
+	private JLabel lbl18;
+	private JLabel lbl19;
+	private JLabel lbl20;
+	private JLabel lbl21;
+	private JLabel lbl22;
+	private JLabel lbl23;
 
 	/**
 	 * Create the frame.
@@ -903,7 +918,8 @@ public class NewVentanaAdmin extends JFrame {
 					String fecha = getTextFieldFechaPlanificacion().getText();
 					String inicio = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0];
 					String fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0];
-					if (!existsActividad(fecha,inicio,fin) && !existsAlquiler(fecha,inicio,fin)) {
+					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0];
+					if (!existsActividad(fecha,inicio,fin) && !existsAlquiler(fecha,inicio,fin,instalacion)) {
 						getLblHorarioOcupado().setVisible(false);
 						planificarActividad();
 						pintarPanelesCalendario(
@@ -923,9 +939,7 @@ public class NewVentanaAdmin extends JFrame {
 		return btnPlanificarTipo;
 	}
 
-	protected boolean existsAlquiler(String fecha, String inicio, String fin) {
-		Actividad ac = admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0]);
-		String instalacion = ac.getInstalacion();
+	protected boolean existsAlquiler(String fecha, String inicio, String fin, String instalacion) {
 		List<Alquiler> alquileres = admin.listarAlquileres(instalacion);
 		List<Alquiler> alquileresDia = new ArrayList<>();
 		for (Alquiler a : alquileres) {
@@ -1113,21 +1127,21 @@ public class NewVentanaAdmin extends JFrame {
 			panelHoras.setBackground(Color.WHITE);
 			panelHoras.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			panelHoras.setLayout(new GridLayout(15, 2, 0, 0));
-			panelHoras.add(getLblHora9());
-			panelHoras.add(getLblHora10());
-			panelHoras.add(getLblHora11());
-			panelHoras.add(getLblHora12());
-			panelHoras.add(getLblHora13());
-			panelHoras.add(getLblHora14());
-			panelHoras.add(getLblHora15());
-			panelHoras.add(getLblHora16());
-			panelHoras.add(getLblHora17());
-			panelHoras.add(getLblHora18());
-			panelHoras.add(getLblHora19());
-			panelHoras.add(getLblHora20());
-			panelHoras.add(getLblHora21());
-			panelHoras.add(getLblHora22());
-			panelHoras.add(getLblHora23());
+			panelHoras.add(getPanel9());
+			panelHoras.add(getPanel10());
+			panelHoras.add(getPanel11());
+			panelHoras.add(getPanel12());
+			panelHoras.add(getPanel13());
+			panelHoras.add(getPanel14());
+			panelHoras.add(getPanel15());
+			panelHoras.add(getPanel16());
+			panelHoras.add(getPanel17());
+			panelHoras.add(getPanel18());
+			panelHoras.add(getPanel19());
+			panelHoras.add(getPanel20());
+			panelHoras.add(getPanel21());
+			panelHoras.add(getPanel22());
+			panelHoras.add(getPanel23());
 		}
 		return panelHoras;
 	}
@@ -1139,156 +1153,6 @@ public class NewVentanaAdmin extends JFrame {
 			lblHoras.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lblHoras;
-	}
-
-	private JLabel getLblHora9() {
-		if (lblHora9 == null) {
-			lblHora9 = new JLabel("         9:00       ");
-			lblHora9.setBackground(Color.WHITE);
-			lblHora9.setHorizontalAlignment(SwingConstants.CENTER);
-			lblHora9.setFont(new Font("Dialog", Font.PLAIN, 14));
-		}
-		return lblHora9;
-	}
-
-	private JLabel getLblHora10() {
-		if (lblHora10 == null) {
-			lblHora10 = new JLabel("10:00");
-			lblHora10.setBackground(Color.WHITE);
-			lblHora10.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora10.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora10;
-	}
-
-	private JLabel getLblHora11() {
-		if (lblHora11 == null) {
-			lblHora11 = new JLabel("11:00");
-			lblHora11.setBackground(Color.WHITE);
-			lblHora11.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora11.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora11;
-	}
-
-	private JLabel getLblHora12() {
-		if (lblHora12 == null) {
-			lblHora12 = new JLabel("12:00");
-			lblHora12.setBackground(Color.WHITE);
-			lblHora12.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora12.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora12;
-	}
-
-	private JLabel getLblHora13() {
-		if (lblHora13 == null) {
-			lblHora13 = new JLabel("13:00");
-			lblHora13.setBackground(Color.WHITE);
-			lblHora13.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora13.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora13;
-	}
-
-	private JLabel getLblHora14() {
-		if (lblHora14 == null) {
-			lblHora14 = new JLabel("14:00");
-			lblHora14.setBackground(Color.WHITE);
-			lblHora14.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora14.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora14;
-	}
-
-	private JLabel getLblHora15() {
-		if (lblHora15 == null) {
-			lblHora15 = new JLabel("15:00");
-			lblHora15.setBackground(Color.WHITE);
-			lblHora15.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora15.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora15;
-	}
-
-	private JLabel getLblHora16() {
-		if (lblHora16 == null) {
-			lblHora16 = new JLabel("16:00");
-			lblHora16.setBackground(Color.WHITE);
-			lblHora16.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora16.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora16;
-	}
-
-	private JLabel getLblHora17() {
-		if (lblHora17 == null) {
-			lblHora17 = new JLabel("17:00");
-			lblHora17.setBackground(Color.WHITE);
-			lblHora17.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora17.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora17;
-	}
-
-	private JLabel getLblHora18() {
-		if (lblHora18 == null) {
-			lblHora18 = new JLabel("18:00");
-			lblHora18.setBackground(Color.WHITE);
-			lblHora18.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora18.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora18;
-	}
-
-	private JLabel getLblHora19() {
-		if (lblHora19 == null) {
-			lblHora19 = new JLabel("19:00");
-			lblHora19.setBackground(Color.WHITE);
-			lblHora19.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora19.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora19;
-	}
-
-	private JLabel getLblHora20() {
-		if (lblHora20 == null) {
-			lblHora20 = new JLabel("20:00");
-			lblHora20.setBackground(Color.WHITE);
-			lblHora20.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora20.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora20;
-	}
-
-	private JLabel getLblHora21() {
-		if (lblHora21 == null) {
-			lblHora21 = new JLabel("21:00");
-			lblHora21.setBackground(Color.WHITE);
-			lblHora21.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora21.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora21;
-	}
-
-	private JLabel getLblHora22() {
-		if (lblHora22 == null) {
-			lblHora22 = new JLabel("22:00");
-			lblHora22.setBackground(Color.WHITE);
-			lblHora22.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora22.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora22;
-	}
-
-	private JLabel getLblHora23() {
-		if (lblHora23 == null) {
-			lblHora23 = new JLabel("23:00");
-			lblHora23.setBackground(Color.WHITE);
-			lblHora23.setFont(new Font("Dialog", Font.PLAIN, 14));
-			lblHora23.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblHora23;
 	}
 
 	private JPanel getPanelCeldasCalendario() {
@@ -1319,7 +1183,7 @@ public class NewVentanaAdmin extends JFrame {
 		List<Alquiler> alquileres = admin.listarAlquileres(instalacion);
 		JButton bot;
 		getPanelCeldasCalendario().removeAll();
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 14; i++) {
 			for (int j = 0; j < 7; j++) {
 				bot = new JButton();
 				bot.setBackground(new Color(152, 251, 152));
@@ -1455,10 +1319,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("10:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("10:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 10 && 10 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1474,10 +1338,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("11:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("11:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 11 && 11 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1489,10 +1353,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("12:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("12:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 12 && 12 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1504,10 +1368,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("13:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("13:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 13 && 13 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1519,10 +1383,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("14:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("14:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 14 && 14 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1534,10 +1398,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("15:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("15:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 15 && 15 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1549,10 +1413,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("16:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("16:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 16 && 16 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1564,10 +1428,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("17:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("17:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 17 && 17 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1579,10 +1443,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("18:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("18:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 18 && 18 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1594,10 +1458,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("19:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("19:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 19 && 19 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1609,10 +1473,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("20:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("20:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 20 && 20 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1624,10 +1488,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("21:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("21:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 21 && 21 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1639,10 +1503,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-			if (horafin.equals("22:00")) {
-				bot.setText(a.getId_socio());
-				bot.setBackground(new Color(100, 149, 237));
-			}
+//			if (horafin.equals("22:00")) {
+//				bot.setText(a.getId_socio());
+//				bot.setBackground(new Color(100, 149, 237));
+//			}
 			if (diferencia > 1 && inicio < 22 && 22 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1674,10 +1538,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("9:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("9:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 9 && 9 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1693,10 +1557,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("10:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("10:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 10 && 10 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1712,10 +1576,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("11:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("11:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 11 && 11 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1742,10 +1606,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("13:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("13:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 13 && 13 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1757,10 +1621,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("14:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("14:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 14 && 14 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1772,10 +1636,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("15:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("15:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 15 && 15 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1787,10 +1651,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("16:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("16:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 16 && 16 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1802,10 +1666,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("17:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("17:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 17 && 17 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1817,10 +1681,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("18:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("18:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 18 && 18 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1832,10 +1696,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("19:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("19:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 19 && 19 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1847,10 +1711,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("20:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("20:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 20 && 20 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1862,10 +1726,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("21:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("21:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 21 && 21 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -1877,10 +1741,10 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
 			}
-			if (horafin.equals("22:00")) {
-				bot.setText(a.getTipo());
-				bot.setBackground(Color.ORANGE);
-			}
+//			if (horafin.equals("22:00")) {
+//				bot.setText(a.getTipo());
+//				bot.setBackground(Color.ORANGE);
+//			}
 			if (diferencia > 1 && inicio < 22 && 22 < fin) {
 				bot.setText(a.getTipo());
 				bot.setBackground(Color.ORANGE);
@@ -3302,7 +3166,8 @@ public class NewVentanaAdmin extends JFrame {
 					String fecha = getTextFieldFechaAlqInst().getText();
 					String inicio = getComboBoxHoraInicioAlqInst().getSelectedItem().toString().split("@")[0];
 					String fin = getComboBoxHoraFinAlqInst().getSelectedItem().toString().split("@")[0];
-					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin)) {
+					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0];
+					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
 						getLblHorarioOcupado1().setVisible(false);
 						alquilarInstalacion();
 					} else {
@@ -3358,5 +3223,259 @@ public class NewVentanaAdmin extends JFrame {
 			lblHorarioOcupado1.setForeground(new Color(255, 0, 0));
 		}
 		return lblHorarioOcupado1;
+	}
+	private JPanel getPanel9() {
+		if (panel9 == null) {
+			panel9 = new JPanel();
+			panel9.setBackground(Color.WHITE);
+			panel9.setLayout(new GridLayout(2, 1, 0, 0));
+			panel9.add(getLbl9());
+			panel9.add(getLbl10());
+		}
+		return panel9;
+	}
+	private JPanel getPanel10() {
+		if (panel10 == null) {
+			panel10 = new JPanel();
+			panel10.setBackground(Color.WHITE);
+			panel10.setLayout(new GridLayout(0, 1, 0, 0));
+			panel10.add(getLbl11());
+		}
+		return panel10;
+	}
+	private JPanel getPanel11() {
+		if (panel11 == null) {
+			panel11 = new JPanel();
+			panel11.setBackground(Color.WHITE);
+			panel11.setLayout(new GridLayout(1, 0, 0, 0));
+			panel11.add(getLbl12());
+		}
+		return panel11;
+	}
+	private JPanel getPanel12() {
+		if (panel12 == null) {
+			panel12 = new JPanel();
+			panel12.setBackground(Color.WHITE);
+			panel12.setLayout(new GridLayout(1, 0, 0, 0));
+			panel12.add(getLbl13());
+		}
+		return panel12;
+	}
+	private JPanel getPanel13() {
+		if (panel13 == null) {
+			panel13 = new JPanel();
+			panel13.setBackground(Color.WHITE);
+			panel13.setLayout(new GridLayout(1, 0, 0, 0));
+			panel13.add(getLbl14());
+		}
+		return panel13;
+	}
+	private JPanel getPanel14() {
+		if (panel14 == null) {
+			panel14 = new JPanel();
+			panel14.setBackground(Color.WHITE);
+			panel14.setLayout(new GridLayout(0, 1, 0, 0));
+			panel14.add(getLbl15());
+		}
+		return panel14;
+	}
+	private JPanel getPanel15() {
+		if (panel15 == null) {
+			panel15 = new JPanel();
+			panel15.setBackground(Color.WHITE);
+			panel15.setLayout(new GridLayout(1, 0, 0, 0));
+			panel15.add(getLbl16());
+		}
+		return panel15;
+	}
+	private JPanel getPanel16() {
+		if (panel16 == null) {
+			panel16 = new JPanel();
+			panel16.setBackground(Color.WHITE);
+			panel16.setLayout(new GridLayout(1, 0, 0, 0));
+			panel16.add(getLbl17());
+		}
+		return panel16;
+	}
+	private JPanel getPanel17() {
+		if (panel17 == null) {
+			panel17 = new JPanel();
+			panel17.setBackground(Color.WHITE);
+			panel17.setLayout(new GridLayout(1, 0, 0, 0));
+			panel17.add(getLbl18());
+		}
+		return panel17;
+	}
+	private JPanel getPanel18() {
+		if (panel18 == null) {
+			panel18 = new JPanel();
+			panel18.setBackground(Color.WHITE);
+			panel18.setLayout(new GridLayout(1, 0, 0, 0));
+			panel18.add(getLbl19());
+		}
+		return panel18;
+	}
+	private JPanel getPanel19() {
+		if (panel19 == null) {
+			panel19 = new JPanel();
+			panel19.setBackground(Color.WHITE);
+			panel19.setLayout(new GridLayout(1, 0, 0, 0));
+			panel19.add(getLbl20());
+		}
+		return panel19;
+	}
+	private JPanel getPanel20() {
+		if (panel20 == null) {
+			panel20 = new JPanel();
+			panel20.setBackground(Color.WHITE);
+			panel20.setLayout(new GridLayout(1, 0, 0, 0));
+			panel20.add(getLbl21());
+		}
+		return panel20;
+	}
+	private JPanel getPanel21() {
+		if (panel21 == null) {
+			panel21 = new JPanel();
+			panel21.setBackground(Color.WHITE);
+			panel21.setLayout(new GridLayout(1, 0, 0, 0));
+			panel21.add(getLbl22());
+		}
+		return panel21;
+	}
+	private JPanel getPanel22() {
+		if (panel22 == null) {
+			panel22 = new JPanel();
+			panel22.setBackground(Color.WHITE);
+			panel22.setLayout(new GridLayout(1, 0, 0, 0));
+			panel22.add(getLbl23());
+		}
+		return panel22;
+	}
+	private JPanel getPanel23() {
+		if (panel23 == null) {
+			panel23 = new JPanel();
+			panel23.setBackground(Color.WHITE);
+		}
+		return panel23;
+	}
+	private JLabel getLbl9() {
+		if (lbl9 == null) {
+			lbl9 = new JLabel("       9:00          ");
+			lbl9.setVerticalAlignment(SwingConstants.TOP);
+			lbl9.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl9;
+	}
+	private JLabel getLbl10() {
+		if (lbl10 == null) {
+			lbl10 = new JLabel("     10:00    ");
+			lbl10.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl10.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl10;
+	}
+	private JLabel getLbl11() {
+		if (lbl11 == null) {
+			lbl11 = new JLabel("     11:00    ");
+			lbl11.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl11.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl11;
+	}
+	private JLabel getLbl12() {
+		if (lbl12 == null) {
+			lbl12 = new JLabel("     12:00    ");
+			lbl12.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl12.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl12;
+	}
+	private JLabel getLbl13() {
+		if (lbl13 == null) {
+			lbl13 = new JLabel("     13:00    ");
+			lbl13.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl13.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl13;
+	}
+	private JLabel getLbl14() {
+		if (lbl14 == null) {
+			lbl14 = new JLabel("     14:00    ");
+			lbl14.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl14.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl14;
+	}
+	private JLabel getLbl15() {
+		if (lbl15 == null) {
+			lbl15 = new JLabel("     15:00    ");
+			lbl15.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl15.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl15;
+	}
+	private JLabel getLbl16() {
+		if (lbl16 == null) {
+			lbl16 = new JLabel("     16:00    ");
+			lbl16.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl16.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl16;
+	}
+	private JLabel getLbl17() {
+		if (lbl17 == null) {
+			lbl17 = new JLabel("     17:00    ");
+			lbl17.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl17.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl17;
+	}
+	private JLabel getLbl18() {
+		if (lbl18 == null) {
+			lbl18 = new JLabel("     18:00    ");
+			lbl18.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl18.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl18;
+	}
+	private JLabel getLbl19() {
+		if (lbl19 == null) {
+			lbl19 = new JLabel("     19:00    ");
+			lbl19.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl19.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl19;
+	}
+	private JLabel getLbl20() {
+		if (lbl20 == null) {
+			lbl20 = new JLabel("     20:00    ");
+			lbl20.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl20.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl20;
+	}
+	private JLabel getLbl21() {
+		if (lbl21 == null) {
+			lbl21 = new JLabel("     21:00    ");
+			lbl21.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl21.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl21;
+	}
+	private JLabel getLbl22() {
+		if (lbl22 == null) {
+			lbl22 = new JLabel("     22:00    ");
+			lbl22.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl22.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl22;
+	}
+	private JLabel getLbl23() {
+		if (lbl23 == null) {
+			lbl23 = new JLabel("     23:00    ");
+			lbl23.setVerticalAlignment(SwingConstants.BOTTOM);
+			lbl23.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lbl23;
 	}
 }
