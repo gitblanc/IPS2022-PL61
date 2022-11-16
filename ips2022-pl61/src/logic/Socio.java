@@ -59,7 +59,7 @@ public class Socio {
 	public static List<ActividadBLDto> listarTodasLAsActividades() {
 		return aser.findAllActividades();
 	}
-	
+
 	public static List<AlquilerBLDto> listarTodosAlquileres() {
 		return als.findAll();
 	}
@@ -102,19 +102,19 @@ public class Socio {
 		SocioBLDto socio = ss.findByCorreo(correo);
 		String id = socio.id;
 		for (int i = 0; i < alquileres.size(); i++) {
-			if(alquileres.get(i).id_socio.equals(id)) {
-				//if (fechaMasProxima(LocalDate.now(), alquileres.get(i).fecha)) {
-					String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ " +
-							alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - " + 
-							alquileres.get(i).hora_fin;
-					lista.add(a);
-				//}
+			if (alquileres.get(i).id_socio.equals(id)) {
+				// if (fechaMasProxima(LocalDate.now(), alquileres.get(i).fecha)) {
+				String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
+						+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
+						+ alquileres.get(i).hora_fin;
+				lista.add(a);
+				// }
 			}
 		}
 
 		return lista;
 	}
-	
+
 	private boolean fechaMasProxima(LocalDate l, String fechaActividad) {
 		String[] date = fechaActividad.split("/");
 		int day = Integer.parseInt(date[0]);
@@ -149,27 +149,30 @@ public class Socio {
 		int month = Integer.parseInt(date[1]);
 		int year = Integer.parseInt(date[2]);
 		LocalDate ac = LocalDate.of(year, month, day);
-		
+
 		String hora_a = a.hora_inicio;
 		String[] valores = hora_a.split(":");
 		int v = Integer.parseInt(valores[0]);
 		int hora_ahora = hora.getHour();
 		System.out.println(ac.isBefore(hoy));
 		boolean result = false;
-		if(hoy.isBefore(ac)) {
-			if(Math.abs(hora_ahora - v) >= 1) {
-				List<ActividadSocioBLDto> actividadesDelSocio = ass.findAllActividadSocio();
-				for(ActividadSocioBLDto acsocio: actividadesDelSocio) {
-					if(acsocio.correo_socio.equals(correo) && acsocio.id_actividad.equals(id_actividad)) {
-						result = false;
-					} else {
-						result = true;
+
+		if (!a.acceso.toUpperCase().equals("LIBRE")) {
+			if (hoy.isBefore(ac)) {
+				if (Math.abs(hora_ahora - v) >= 1) {
+					List<ActividadSocioBLDto> actividadesDelSocio = ass.findAllActividadSocio();
+					for (ActividadSocioBLDto acsocio : actividadesDelSocio) {
+						if (acsocio.correo_socio.equals(correo) && acsocio.id_actividad.equals(id_actividad)) {
+							result = false;
+						} else {
+							result = true;
+						}
 					}
 				}
+
 			}
-			
 		}
-		if(result == true) {
+		if (result == true) {
 			as.correo_socio = correo;
 			as.id_actividad = id_actividad;
 			ass.addActividadSocio(as);
@@ -190,7 +193,7 @@ public class Socio {
 		}
 		return todosLosSocios;
 	}
-	
+
 	public static String getIdSocio(String correo) {
 		SocioBLDto socio = ss.findByCorreo(correo);
 		return socio.id;
@@ -200,33 +203,33 @@ public class Socio {
 		SocioBLDto socio = ss.findSocioById(id_socio);
 		String correoObtenido = socio.correo;
 		List<ActividadSocioBLDto> actividadSocio = ass.findByCorreoSocio(correoObtenido);
-		if(actividadSocio != null && actividadSocio.size() != 0) {
-			for(ActividadSocioBLDto as: actividadSocio) {
+		if (actividadSocio != null && actividadSocio.size() != 0) {
+			for (ActividadSocioBLDto as : actividadSocio) {
 				String id_actividad = as.id_actividad;
 				ActividadBLDto actividad = aser.findActividadById(id_actividad);
-				if(!actividad.fecha.equals(fecha) && !actividad.hora_inicio.equals(inicio) && !comprobarHoras(actividad.hora_inicio, inicio, fin)) {
+				if (!actividad.fecha.equals(fecha) && !actividad.hora_inicio.equals(inicio)
+						&& !comprobarHoras(actividad.hora_inicio, inicio, fin)) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
+
 	private static boolean comprobarHoras(String horaRan, String inicio, String fin) {
 		String[] i = inicio.split(":");
 		int hora_inicio = Integer.parseInt(i[0]);
-		
+
 		String[] j = fin.split(":");
 		int hora_fin = Integer.parseInt(j[0]);
-		
+
 		String[] r = horaRan.split(":");
 		int hora1 = Integer.parseInt(r[0]);
-		
-		if(hora1 > hora_inicio && hora1 < hora_fin) {
+
+		if (hora1 > hora_inicio && hora1 < hora_fin) {
 			return false;
 		}
 		return true;
 	}
-	
 
 }
