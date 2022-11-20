@@ -510,6 +510,9 @@ public class NewVentanaSocio extends JFrame {
 	}
 	
 	private String getIdActividad(String cadena) {
+		if(cadena == null) {
+			throw new IllegalArgumentException("No se ha seleccionado item en lista");
+		}
 		String[] valores = cadena.split(" ------ ");
 		return valores[0];
 	}
