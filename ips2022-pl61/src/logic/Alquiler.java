@@ -136,8 +136,8 @@ public class Alquiler {
 		int month = Integer.parseInt(date[1]);
 		int year = Integer.parseInt(date[2]);
 		LocalDate ac = LocalDate.of(year, month, day);
-		LocalDate result = ac.minusDays(7);
-		if(now.isBefore(result) || now.isEqual(result)) {
+		LocalDate maximoDiaReserva = ac.plusDays(7);
+		if(now.isBefore(maximoDiaReserva) || now.isEqual(maximoDiaReserva) ) {
 			return true;
 		}
 		return false;
