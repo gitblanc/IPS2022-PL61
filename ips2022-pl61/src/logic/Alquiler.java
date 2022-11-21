@@ -136,8 +136,8 @@ public class Alquiler {
 		int month = Integer.parseInt(date[1]);
 		int year = Integer.parseInt(date[2]);
 		LocalDate ac = LocalDate.of(year, month, day);
-		LocalDate result = ac.minusDays(7);
-		if(now.isBefore(result) || now.isEqual(result)) {
+		LocalDate maximoDiaReserva = ac.plusDays(7);
+		if(now.isBefore(maximoDiaReserva) || now.isEqual(maximoDiaReserva) ) {
 			return true;
 		}
 		return false;
@@ -170,9 +170,12 @@ public class Alquiler {
 	}
 	
 	private static boolean comprobarHoras(String horaRan, String inicio, String fin) {
-		int hora1 = Integer.parseInt(horaRan);
-		int hora_inicio = Integer.parseInt(inicio);
-		int hora_fin = Integer.parseInt(fin);
+		String[] i = horaRan.split(":");
+		int hora1 = Integer.parseInt(i[0]);
+		String[] j = inicio.split(":");
+		int hora_inicio = Integer.parseInt(j[0]);
+		String[] f = fin.split(":");
+		int hora_fin = Integer.parseInt(f[0]);
 		
 		if(hora1 > hora_inicio && hora1 < hora_fin) {
 			return false;
