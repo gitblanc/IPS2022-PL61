@@ -26,4 +26,13 @@ public class Recurso {
 		return recursosInstalacion;
 	}
 
+	public static String[] listarTodosLosRecursos() {
+		List<RecursoBLDto> recursos = rs.findAllRecursos();
+		String[] recursosInstalacion = new String[recursos.size()];
+		for (int i = 0; i < recursos.size(); i++) {
+			recursosInstalacion[i] = recursos.get(i).nombre;
+		}
+		return recursosInstalacion;
+	}
+
 }
