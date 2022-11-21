@@ -95,4 +95,8 @@ public class Administrador {
 		return new Actividad().buscarActividad(tipo);
 	}
 
+	public String[] getAllRecursos() {
+		return Recurso.listarTodosLosRecursos();
+	}
+
 }

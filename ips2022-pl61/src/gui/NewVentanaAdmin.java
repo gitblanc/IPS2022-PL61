@@ -75,9 +75,6 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel lblTipo;
 	private JTextField textFieldTipo;
 	private JLabel lblRecursos;
-	private JPanel panelInstalacion;
-	private JLabel lblInstalacion;
-	private JComboBox<String> comboBoxInstalaciones;
 	private JLabel lblIntensidad;
 	private JComboBox<String> comboBoxIntensidad;
 	private JPanel panelAcceso;
@@ -205,7 +202,7 @@ public class NewVentanaAdmin extends JFrame {
 		setMinimumSize(new Dimension(1096, 701));
 		setTitle("Aministrador");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1096, 697);
+		setBounds(100, 100, 1095, 800);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -216,7 +213,7 @@ public class NewVentanaAdmin extends JFrame {
 	}
 
 	private void listarRecursosDisponibles(String instalacion) {
-		for (String v : admin.getRecursosPorInstalacion(instalacion)) {
+		for (String v : admin.getAllRecursos()) {
 			listDisponibles.addElement(v);
 		}
 	}
@@ -245,7 +242,7 @@ public class NewVentanaAdmin extends JFrame {
 		textFieldTipo.setBorder(LineBorder.createGrayLineBorder());
 		getLblParametrosCorrectosTipoA().setVisible(false);
 		int max = admin.getPlazasPorInstalacion(
-				getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
+				getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0].toLowerCase());
 		spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 		getTextFieldFechaPlanificacion().setText("");
 		getLblPlanificaciónCorrecta().setText("");
@@ -314,8 +311,8 @@ public class NewVentanaAdmin extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// getPanelCalendario().setVisible(false);
 					mostrarPanelAcciones("panelCrearActividad");
-					String instalacion = getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0]
-							.toLowerCase();
+					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString()
+							.split("@")[0].toLowerCase();
 					listarRecursosDisponibles(instalacion);
 				}
 			});
@@ -404,9 +401,8 @@ public class NewVentanaAdmin extends JFrame {
 			panelCrearActividad = new JPanel();
 			panelCrearActividad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			panelCrearActividad.setBackground(Color.WHITE);
-			panelCrearActividad.setLayout(new GridLayout(5, 0, 0, 0));
+			panelCrearActividad.setLayout(new GridLayout(4, 0, 0, 0));
 			panelCrearActividad.add(getPanelTipo());
-			panelCrearActividad.add(getPanelInstalacion());
 			panelCrearActividad.add(getPanelRecursos());
 			panelCrearActividad.add(getPanelIntensidad());
 			panelCrearActividad.add(getPanelAcceso());
@@ -477,47 +473,6 @@ public class NewVentanaAdmin extends JFrame {
 			lblRecursos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lblRecursos;
-	}
-
-	private JPanel getPanelInstalacion() {
-		if (panelInstalacion == null) {
-			panelInstalacion = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) panelInstalacion.getLayout();
-			flowLayout.setAlignment(FlowLayout.LEFT);
-			flowLayout.setVgap(60);
-			panelInstalacion.setBackground(Color.WHITE);
-			panelInstalacion.add(getLblInstalacion());
-			panelInstalacion.add(getComboBoxInstalaciones());
-		}
-		return panelInstalacion;
-	}
-
-	private JLabel getLblInstalacion() {
-		if (lblInstalacion == null) {
-			lblInstalacion = new JLabel("Instalación:");
-			lblInstalacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		}
-		return lblInstalacion;
-	}
-
-	private JComboBox<String> getComboBoxInstalaciones() {
-		if (comboBoxInstalaciones == null) {
-			comboBoxInstalaciones = new JComboBox<String>();
-			comboBoxInstalaciones.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					listDisponibles.removeAllElements();
-					listSeleccionados.removeAllElements();
-					listarRecursosDisponibles(
-							getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
-					int max = admin.getPlazasPorInstalacion(
-							getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
-					spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
-				}
-			});
-			comboBoxInstalaciones.setModel(new DefaultComboBoxModel<String>(admin.getInstalaciones()));
-			comboBoxInstalaciones.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		}
-		return comboBoxInstalaciones;
 	}
 
 	private JLabel getLblIntensidad() {
@@ -728,7 +683,8 @@ public class NewVentanaAdmin extends JFrame {
 		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
 		List<String> recursos = getRecursosSeleccionados();
 		String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
-		String instalacion = getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase();
+		String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]
+				.toLowerCase();
 		if (acceso.equals("reserva")) {
 			int plazas = Integer.parseInt(getSpinner().getValue().toString());
 			admin.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, plazas);
@@ -793,9 +749,7 @@ public class NewVentanaAdmin extends JFrame {
 		if (spinner == null) {
 			spinner = new JSpinner();
 			spinner.setEnabled(false);
-			int max = admin.getPlazasPorInstalacion(
-					getComboBoxInstalaciones().getSelectedItem().toString().split("@")[0].toLowerCase());
-			spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
+			spinner.setModel(new SpinnerNumberModel(10, 1, 10, 1));
 		}
 		return spinner;
 	}
@@ -918,8 +872,9 @@ public class NewVentanaAdmin extends JFrame {
 					String fecha = getTextFieldFechaPlanificacion().getText();
 					String inicio = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0];
 					String fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0];
-					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0];
-					if (!existsActividad(fecha,inicio,fin) && !existsAlquiler(fecha,inicio,fin,instalacion)) {
+					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString()
+							.split("@")[0];
+					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
 						getLblHorarioOcupado().setVisible(false);
 						planificarActividad();
 						pintarPanelesCalendario(
@@ -1188,10 +1143,19 @@ public class NewVentanaAdmin extends JFrame {
 				bot = new JButton();
 				bot.setBackground(new Color(152, 251, 152));
 				asignarTexto(bot, i, j, actividades, alquileres);
+//				bot.addActionListener(new ActionListener() { 
+//					  public void actionPerformed(ActionEvent e) { 
+//						  automatizarAccionesBoton();
+//					  } 
+//					} );
 				getPanelCeldasCalendario().add(bot);
 			}
 		}
 		validate();
+	}
+
+	protected void automatizarAccionesBoton(Actividad a, String horainicio, String horafin) {
+		getTextFieldFechaPlanificacion().setText(a.getFecha());
 	}
 
 	private void asignarTexto(JButton p, int i, int j, List<Actividad> actividades, List<Alquiler> alquileres) {
@@ -1762,6 +1726,11 @@ public class NewVentanaAdmin extends JFrame {
 			}
 			break;
 		}
+		bot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				automatizarAccionesBoton(a, horainicio, horafin);
+			}
+		});
 	}
 
 	private JLabel getLblSemanaFechaCalendario() {
@@ -2674,6 +2643,10 @@ public class NewVentanaAdmin extends JFrame {
 					pintarPanelesCalendario(comboBoxIntalacionesCalendario.getSelectedItem().toString().split("@")[0]);
 					getLblInstalacionAlqInst().setText("Instalación: "
 							+ getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+					int max = admin.getPlazasPorInstalacion(
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]
+									.toLowerCase());
+					spinner.setModel(new SpinnerNumberModel(max, 1, max, 1));
 				}
 			});
 			comboBoxIntalacionesCalendario.setModel(new DefaultComboBoxModel<String>(admin.getInstalaciones()));
@@ -3166,7 +3139,8 @@ public class NewVentanaAdmin extends JFrame {
 					String fecha = getTextFieldFechaAlqInst().getText();
 					String inicio = getComboBoxHoraInicioAlqInst().getSelectedItem().toString().split("@")[0];
 					String fin = getComboBoxHoraFinAlqInst().getSelectedItem().toString().split("@")[0];
-					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0];
+					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString()
+							.split("@")[0];
 					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
 						getLblHorarioOcupado1().setVisible(false);
 						alquilarInstalacion();
@@ -3224,6 +3198,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lblHorarioOcupado1;
 	}
+
 	private JPanel getPanel9() {
 		if (panel9 == null) {
 			panel9 = new JPanel();
@@ -3234,6 +3209,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel9;
 	}
+
 	private JPanel getPanel10() {
 		if (panel10 == null) {
 			panel10 = new JPanel();
@@ -3243,6 +3219,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel10;
 	}
+
 	private JPanel getPanel11() {
 		if (panel11 == null) {
 			panel11 = new JPanel();
@@ -3252,6 +3229,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel11;
 	}
+
 	private JPanel getPanel12() {
 		if (panel12 == null) {
 			panel12 = new JPanel();
@@ -3261,6 +3239,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel12;
 	}
+
 	private JPanel getPanel13() {
 		if (panel13 == null) {
 			panel13 = new JPanel();
@@ -3270,6 +3249,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel13;
 	}
+
 	private JPanel getPanel14() {
 		if (panel14 == null) {
 			panel14 = new JPanel();
@@ -3279,6 +3259,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel14;
 	}
+
 	private JPanel getPanel15() {
 		if (panel15 == null) {
 			panel15 = new JPanel();
@@ -3288,6 +3269,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel15;
 	}
+
 	private JPanel getPanel16() {
 		if (panel16 == null) {
 			panel16 = new JPanel();
@@ -3297,6 +3279,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel16;
 	}
+
 	private JPanel getPanel17() {
 		if (panel17 == null) {
 			panel17 = new JPanel();
@@ -3306,6 +3289,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel17;
 	}
+
 	private JPanel getPanel18() {
 		if (panel18 == null) {
 			panel18 = new JPanel();
@@ -3315,6 +3299,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel18;
 	}
+
 	private JPanel getPanel19() {
 		if (panel19 == null) {
 			panel19 = new JPanel();
@@ -3324,6 +3309,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel19;
 	}
+
 	private JPanel getPanel20() {
 		if (panel20 == null) {
 			panel20 = new JPanel();
@@ -3333,6 +3319,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel20;
 	}
+
 	private JPanel getPanel21() {
 		if (panel21 == null) {
 			panel21 = new JPanel();
@@ -3342,6 +3329,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel21;
 	}
+
 	private JPanel getPanel22() {
 		if (panel22 == null) {
 			panel22 = new JPanel();
@@ -3351,6 +3339,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel22;
 	}
+
 	private JPanel getPanel23() {
 		if (panel23 == null) {
 			panel23 = new JPanel();
@@ -3358,6 +3347,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return panel23;
 	}
+
 	private JLabel getLbl9() {
 		if (lbl9 == null) {
 			lbl9 = new JLabel("       9:00          ");
@@ -3366,6 +3356,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl9;
 	}
+
 	private JLabel getLbl10() {
 		if (lbl10 == null) {
 			lbl10 = new JLabel("     10:00    ");
@@ -3374,6 +3365,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl10;
 	}
+
 	private JLabel getLbl11() {
 		if (lbl11 == null) {
 			lbl11 = new JLabel("     11:00    ");
@@ -3382,6 +3374,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl11;
 	}
+
 	private JLabel getLbl12() {
 		if (lbl12 == null) {
 			lbl12 = new JLabel("     12:00    ");
@@ -3390,6 +3383,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl12;
 	}
+
 	private JLabel getLbl13() {
 		if (lbl13 == null) {
 			lbl13 = new JLabel("     13:00    ");
@@ -3398,6 +3392,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl13;
 	}
+
 	private JLabel getLbl14() {
 		if (lbl14 == null) {
 			lbl14 = new JLabel("     14:00    ");
@@ -3406,6 +3401,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl14;
 	}
+
 	private JLabel getLbl15() {
 		if (lbl15 == null) {
 			lbl15 = new JLabel("     15:00    ");
@@ -3414,6 +3410,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl15;
 	}
+
 	private JLabel getLbl16() {
 		if (lbl16 == null) {
 			lbl16 = new JLabel("     16:00    ");
@@ -3422,6 +3419,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl16;
 	}
+
 	private JLabel getLbl17() {
 		if (lbl17 == null) {
 			lbl17 = new JLabel("     17:00    ");
@@ -3430,6 +3428,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl17;
 	}
+
 	private JLabel getLbl18() {
 		if (lbl18 == null) {
 			lbl18 = new JLabel("     18:00    ");
@@ -3438,6 +3437,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl18;
 	}
+
 	private JLabel getLbl19() {
 		if (lbl19 == null) {
 			lbl19 = new JLabel("     19:00    ");
@@ -3446,6 +3446,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl19;
 	}
+
 	private JLabel getLbl20() {
 		if (lbl20 == null) {
 			lbl20 = new JLabel("     20:00    ");
@@ -3454,6 +3455,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl20;
 	}
+
 	private JLabel getLbl21() {
 		if (lbl21 == null) {
 			lbl21 = new JLabel("     21:00    ");
@@ -3462,6 +3464,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl21;
 	}
+
 	private JLabel getLbl22() {
 		if (lbl22 == null) {
 			lbl22 = new JLabel("     22:00    ");
@@ -3470,6 +3473,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return lbl22;
 	}
+
 	private JLabel getLbl23() {
 		if (lbl23 == null) {
 			lbl23 = new JLabel("     23:00    ");
