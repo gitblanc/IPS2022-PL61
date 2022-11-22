@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -24,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -38,7 +40,6 @@ import com.toedter.calendar.JDateChooser;
 import logic.Actividad;
 import logic.Administrador;
 import logic.Alquiler;
-import java.awt.Dimension;
 
 public class NewVentanaAdmin extends JFrame {
 
@@ -54,6 +55,8 @@ public class NewVentanaAdmin extends JFrame {
 	private int day = LocalDateTime.now().getDayOfMonth();
 	private Month month = LocalDateTime.now().getMonth();
 	private boolean cambioDeMes = false;
+	private int[] diasRestantes;
+	private List<Integer> mesesRestantes = new ArrayList<>();
 
 	private JPanel contentPane;
 	private JPanel panelPrincipal;
@@ -194,6 +197,7 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel lbl21;
 	private JLabel lbl22;
 	private JLabel lbl23;
+	private JRadioButton rdbtnRepetirActividadCadaDia;
 
 	/**
 	 * Create the frame.
@@ -250,6 +254,8 @@ public class NewVentanaAdmin extends JFrame {
 		getTextFieldFechaAlqInst().setText("");
 		getLblHorarioOcupado().setVisible(false);
 		getLblHorarioOcupado1().setVisible(false);
+		this.mesesRestantes = new ArrayList<>();
+		this.diasRestantes = null;
 	}
 
 	private JPanel getPanelCalendario() {
@@ -655,7 +661,7 @@ public class NewVentanaAdmin extends JFrame {
 			btnCrearTipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (comprobacionesPreviasCreacion())
-						crearActividad();
+						crearActividad(null, null, null, null);
 				}
 			});
 			btnCrearTipo.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -677,23 +683,31 @@ public class NewVentanaAdmin extends JFrame {
 		return true;
 	}
 
-	protected void crearActividad() {
-		String id = UUID.randomUUID().toString();
-		String tipo = getTextFieldTipo().getText();
-		String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
-		List<String> recursos = getRecursosSeleccionados();
-		String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
-		String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]
-				.toLowerCase();
-		if (acceso.equals("reserva")) {
-			int plazas = Integer.parseInt(getSpinner().getValue().toString());
-			admin.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, plazas);
+	protected void crearActividad(Actividad actividad, String date, String inicio, String fin) {
+		if (actividad == null) {
+			String id = UUID.randomUUID().toString();
+			String tipo = getTextFieldTipo().getText();
+			String intensidad = getComboBoxIntensidad().getSelectedItem().toString().split("@")[0].toLowerCase();
+			List<String> recursos = getRecursosSeleccionados();
+			String acceso = getComboBoxAcceso().getSelectedItem().toString().split("@")[0].toLowerCase();
+			String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]
+					.toLowerCase();
+			if (acceso.equals("reserva")) {
+				int plazas = Integer.parseInt(getSpinner().getValue().toString());
+				admin.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, plazas);
+			} else {
+				admin.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, -1);// el -1 es pq conlleva
+																								// plazas
+																								// ilimitadas
+			}
+			getLblParametrosCorrectosTipoA().setVisible(true);
+			getComboBoxTiposActividad().setModel(new DefaultComboBoxModel<String>(admin.getAllTiposActividad()));
 		} else {
-			admin.crearActividad(id, tipo, intensidad, instalacion, recursos, acceso, -1);// el -1 es pq conlleva plazas
-																							// ilimitadas
+			String id = UUID.randomUUID().toString();
+			admin.crearActividad(id, actividad.getTipo(), actividad.getIntensidad(), actividad.getInstalacion(),
+					actividad.getAllRecursos(actividad.getId()), actividad.getAcceso(), actividad.getPlazas());
+			admin.planificarActividad(actividad.getTipo(), date, inicio, fin, id);
 		}
-		getLblParametrosCorrectosTipoA().setVisible(true);
-		getComboBoxTiposActividad().setModel(new DefaultComboBoxModel<String>(admin.getAllTiposActividad()));
 	}
 
 	private List<String> getRecursosSeleccionados() {
@@ -826,6 +840,7 @@ public class NewVentanaAdmin extends JFrame {
 			panelSeleccionFecha.setBackground(Color.WHITE);
 			panelSeleccionFecha.add(getLblFechaPlanificar());
 			panelSeleccionFecha.add(getTextFieldFechaPlanificacion());
+			panelSeleccionFecha.add(getRdbtnRepetirActividadCadaDia_1());
 		}
 		return panelSeleccionFecha;
 	}
@@ -874,15 +889,35 @@ public class NewVentanaAdmin extends JFrame {
 					String fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0];
 					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString()
 							.split("@")[0];
-					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
-						getLblHorarioOcupado().setVisible(false);
-						planificarActividad();
-						pintarPanelesCalendario(
-								getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+					if (!getRdbtnRepetirActividadCadaDia_1().isSelected()) {
+						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
+							getLblHorarioOcupado().setVisible(false);
+							planificarActividad(null);
+							pintarPanelesCalendario(
+									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+						} else {
+							getLblPlanificaciónCorrecta().setText("");
+							getLblHorarioOcupado().setVisible(true);
+						}
 					} else {
-						getLblPlanificaciónCorrecta().setText("");
-						getLblHorarioOcupado().setVisible(true);
+						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)
+								&& !existsActividadOrAlquilerInAFutureDay(fecha, inicio, fin, instalacion)) {
+							planificarActividad(null);
+							for (int i = 0; i < diasRestantes.length; i++) {
+								String date = diasRestantes[i] + "/" + mesesRestantes.get(i) + "/"
+										+ fecha.split("/")[2];
+								crearActividad(admin.buscarActividad(
+										getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0], date,
+										inicio, fin), date, inicio, fin);
+							}
+							pintarPanelesCalendario(
+									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+						} else {
+							getLblPlanificaciónCorrecta().setText("");
+							getLblHorarioOcupado().setVisible(true);
+						}
 					}
+
 				}
 			});
 			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -892,6 +927,207 @@ public class NewVentanaAdmin extends JFrame {
 			btnPlanificarTipo.setBackground(new Color(0, 250, 154));
 		}
 		return btnPlanificarTipo;
+
+	}
+
+	protected boolean existsActividadOrAlquilerInAFutureDay(String fecha, String inicio, String fin,
+			String instalacion) {
+		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
+		String newDay = fecha.split("/")[0];
+		String newMonth = fecha.split("/")[1];
+		String dayOfTheWeek = getRdbtnRepetirActividadCadaDia_1().getText().split(" ")[2];// Lunes martes ...
+		diasRestantes = obtenerDiasRestantes(Integer.parseInt(newDay), Integer.parseInt(newMonth), dayOfTheWeek);
+		for (Actividad a : actividades) {
+			String acMonth = a.getFecha().split("/")[1];
+			if (a.getInstalacion().equals(instalacion)) {// si la actividad tiene la misma instalacion en la que se esta
+															// planificando
+				if (Integer.parseInt(acMonth) >= Integer.parseInt(newMonth)) {// si la actividad es posterior al día que
+																				// seleccionamos
+					String acDay = a.getFecha().split("/")[0];// dia actividad
+					if (findDay(diasRestantes, Integer.parseInt(acDay))) {// si ese día está ocupado
+						int dif = Integer.parseInt(a.getHoraFin().split(":")[0])
+								- Integer.parseInt(a.getHoraInicio().split(":")[0]);
+						if (a.getHoraInicio().equals(inicio))
+							return true;// devuelve true pq está ocupado el horario
+						else if (dif > 1)
+							if (Integer.parseInt(inicio.split(":")[0]) == obtenerHoraIntermedia(a.getHoraInicio(),
+									a.getHoraFin()))
+								return true;// si se coloca una actividad cuando hay una que estaría en curso devuelve
+											// true
+					}
+				}
+			}
+		}
+		List<Alquiler> alquileres = admin.listarAlquileres(instalacion);
+		for (Alquiler al : alquileres) {
+			if (al.getInstalacion().equals(instalacion)) {
+				int alMonth = Integer.parseInt(al.getFecha().split("/")[1]);
+				if (alMonth >= Integer.parseInt(newMonth)) { // si el alquiler es posterior al dia que seleccionamos
+					int alDay = Integer.parseInt(al.getFecha().split("/")[0]);
+					if (findDay(diasRestantes, alDay)) {// si en ese dia existe un alquiler
+						int dif = Integer.parseInt(al.getHora_fin().split(":")[0])
+								- Integer.parseInt(al.getHora_inicio().split(":")[0]);
+						if (al.getHora_inicio().equals(inicio)) {
+							return true;// ya está ocupado el horario
+						} else if (dif > 1) {
+							if (Integer.parseInt(inicio.split(":")[0]) == obtenerHoraIntermedia(al.getHora_inicio(),
+									al.getHora_fin())) {
+								return true; // si se coloca una actividad cuando hay un alquiler que estaría en curso
+												// devuelve true
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+
+	}
+
+	private int obtenerHoraIntermedia(String inicio, String fin) {
+		switch (inicio) {
+		case "09:00":
+			if (fin.equals("11:00"))
+				return 10;
+		case "10:00":
+			if (fin.equals("12:00"))
+				return 11;
+		case "11:00":
+			if (fin.equals("13:00"))
+				return 12;
+		case "12:00":
+			if (fin.equals("14:00"))
+				return 13;
+		case "13:00":
+			if (fin.equals("15:00"))
+				return 14;
+		case "14:00":
+			if (fin.equals("16:00"))
+				return 15;
+		case "15:00":
+			if (fin.equals("17:00"))
+				return 16;
+		case "16:00":
+			if (fin.equals("18:00"))
+				return 17;
+		case "17:00":
+			if (fin.equals("19:00"))
+				return 18;
+		case "18:00":
+			if (fin.equals("20:00"))
+				return 19;
+		case "19:00":
+			if (fin.equals("21:00"))
+				return 20;
+		case "20:00":
+			if (fin.equals("22:00"))
+				return 22;
+		case "21:00":
+			if (fin.equals("23:00"))
+				return 22;
+		default:
+			return 23;
+		}
+	}
+
+	private boolean findDay(int[] diasRestantes, int j) {
+		for (int i : diasRestantes) {
+			if (i == j)
+				return true;
+		}
+		return false;
+	}
+
+	private int[] obtenerDiasRestantes(int day, int month, String dayOfTheWeek) {
+		List<Integer> res = new ArrayList<Integer>();
+		boolean meses31dias = month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10;
+		boolean meses30dias = month == 4 || month == 6 || month == 9 || month == 11;
+		while (true) {
+			if (month < 12) {// si no es diciembre
+				if (meses31dias) {
+					if (day + 7 <= 31) {
+						day += 7;
+					} else {
+						if (day == 25) {
+							day = 1;
+						} else if (day == 26) {
+							day = 2;
+						} else if (day == 27) {
+							day = 3;
+						} else if (day == 28) {
+							day = 4;
+						} else if (day == 29) {
+							day = 5;
+						} else if (day == 30) {
+							day = 6;
+						} else if (day == 31) {
+							day = 7;
+						}
+						month++;
+					}
+				} else if (meses30dias) {
+					if (day + 7 <= 30) {
+						day += 7;
+					} else {
+						if (day == 24) {
+							day = 1;
+						} else if (day == 25) {
+							day = 2;
+						} else if (day == 26) {
+							day = 3;
+						} else if (day == 27) {
+							day = 4;
+						} else if (day == 28) {
+							day = 5;
+						} else if (day == 39) {
+							day = 6;
+						} else if (day == 30) {
+							day = 7;
+						}
+						month++;
+					}
+				} else {
+					if (day + 7 <= 28) {
+						day += 7;
+					} else {
+						if (day == 22) {
+							day = 1;
+						} else if (day == 23) {
+							day = 2;
+						} else if (day == 24) {
+							day = 3;
+						} else if (day == 25) {
+							day = 4;
+						} else if (day == 26) {
+							day = 5;
+						} else if (day == 27) {
+							day = 6;
+						} else if (day == 28) {
+							day = 7;
+						}
+						month++;
+					}
+				}
+				res.add(day);
+				mesesRestantes.add(month);
+			} else {// si es diciembre
+				if (day + 7 <= 31) {
+					day += 7;
+					res.add(day);
+					mesesRestantes.add(month);
+				} else {
+					break;
+				}
+			}
+		}
+		int[] result = new int[res.size()];
+		int k = 0;
+		for (int i : res) {
+			result[k] = i;
+			k++;
+		}
+		return result;
+
 	}
 
 	protected boolean existsAlquiler(String fecha, String inicio, String fin, String instalacion) {
@@ -917,7 +1153,8 @@ public class NewVentanaAdmin extends JFrame {
 	}
 
 	protected boolean existsActividad(String fecha, String inicio, String fin) {
-		Actividad ac = admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0]);
+		Actividad ac = admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0],
+				fecha, inicio, fin);
 		String instalacion = ac.getInstalacion();
 		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
 		List<Actividad> actividadesDia = new ArrayList<>();
@@ -943,14 +1180,20 @@ public class NewVentanaAdmin extends JFrame {
 
 	}
 
-	protected void planificarActividad() {
+	protected void planificarActividad(String newDate) {
+		String fecha;
 		String tipo = getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0];
-		String fecha = getTextFieldFechaPlanificacion().getText();
+		if (newDate == null) {
+			fecha = getTextFieldFechaPlanificacion().getText();
+		} else {
+			fecha = newDate;
+		}
 		String hora_inicio = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String hora_fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0].toLowerCase();
 
 		if (fecha != null && !fecha.isEmpty()) {
-			admin.planificarActividad(tipo, fecha, hora_inicio, hora_fin);
+			String id = admin.buscarActividad(tipo, fecha, hora_inicio, hora_fin).getId();
+			admin.planificarActividad(tipo, fecha, hora_inicio, hora_fin, id);
 			getLblPlanificaciónCorrecta().setForeground(Color.GREEN);
 			getLblPlanificaciónCorrecta().setText("¡Hecho!");
 			getTextFieldFechaPlanificacion().setBorder(LineBorder.createGrayLineBorder());
@@ -1143,15 +1386,59 @@ public class NewVentanaAdmin extends JFrame {
 				bot = new JButton();
 				bot.setBackground(new Color(152, 251, 152));
 				asignarTexto(bot, i, j, actividades, alquileres);
-//				bot.addActionListener(new ActionListener() { 
-//					  public void actionPerformed(ActionEvent e) { 
-//						  automatizarAccionesBoton();
-//					  } 
-//					} );
 				getPanelCeldasCalendario().add(bot);
 			}
 		}
 		validate();
+	}
+
+	private void automatizarAccionesBotonVacio(int i, int j) {
+		String fecha = "";
+		String dia = "";
+		String monthYear = getLblSemanaFechaCalendario().getText();
+		switch (j) {
+		case 0:
+			getRdbtnRepetirActividadCadaDia_1()
+					.setText("Repetir cada " + getLblLunes().getText().split(" - ")[0] + " (1 año)");
+			dia = getLblLunes().getText().split(" - ")[1];
+			break;
+		case 1:
+			getRdbtnRepetirActividadCadaDia_1()
+					.setText("Repetir cada " + getLblMartes().getText().split(" - ")[0] + " (1 año)");
+			dia = getLblMartes().getText().split(" - ")[1];
+			break;
+		case 2:
+			getRdbtnRepetirActividadCadaDia_1()
+					.setText("Repetir cada " + getLblMiercoles().getText().split(" - ")[0] + " (1 año)");
+			dia = getLblMiercoles().getText().split(" - ")[1];
+			break;
+		case 3:
+			getRdbtnRepetirActividadCadaDia_1()
+					.setText("Repetir cada " + getLblJueves().getText().split(" - ")[0] + " (1 año)");
+			dia = getLblJueves().getText().split(" - ")[1];
+			break;
+		case 4:
+			getRdbtnRepetirActividadCadaDia_1()
+					.setText("Repetir cada " + getLblViernes().getText().split(" - ")[0] + " (1 año)");
+			dia = getLblViernes().getText().split(" - ")[1];
+			break;
+		case 5:
+			getRdbtnRepetirActividadCadaDia_1()
+					.setText("Repetir cada " + getLblSabado().getText().split(" - ")[0] + " (1 año)");
+			dia = getLblSabado().getText().split(" - ")[1];
+			break;
+		case 6:
+			getRdbtnRepetirActividadCadaDia_1()
+					.setText("Repetir cada " + getLblDomingo().getText().split(" - ")[0] + " (1 año)");
+			dia = getLblDomingo().getText().split(" - ")[1];
+			break;
+		}
+		getComboBoxHoraInicioAlqInst().setSelectedIndex(i);
+		getComboBoxHoraInicio().setSelectedIndex(i);
+
+		fecha = dia + "/" + monthYear;
+		getTextFieldFechaPlanificacion().setText(fecha);
+		getTextFieldFechaAlqInst().setText(fecha);
 	}
 
 	protected void automatizarAccionesBoton(Actividad a, String horainicio, String horafin) {
@@ -1166,6 +1453,12 @@ public class NewVentanaAdmin extends JFrame {
 		int viernes = Integer.parseInt(getLblViernes().getText().split(" - ")[1]);
 		int sabado = Integer.parseInt(getLblSabado().getText().split(" - ")[1]);
 		int domingo = Integer.parseInt(getLblDomingo().getText().split(" - ")[1]);
+
+		p.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				automatizarAccionesBotonVacio(i, j);
+			}
+		});
 
 		for (Actividad a : actividades) {
 			String fecha = a.getFecha();
@@ -1488,7 +1781,15 @@ public class NewVentanaAdmin extends JFrame {
 			}
 			break;
 		}
+		bot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				automatizarAccionesBotonAlquiler(a, horainicio, horafin);
+			}
+		});
+	}
 
+	protected void automatizarAccionesBotonAlquiler(Alquiler a, String horainicio, String horafin) {
+		getTextFieldFechaAlqInst().setText(a.getFecha());
 	}
 
 	private void pintarActividad(int i, String horainicio, String horafin, JButton bot, Actividad a) {
@@ -3481,5 +3782,13 @@ public class NewVentanaAdmin extends JFrame {
 			lbl23.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lbl23;
+	}
+
+	private JRadioButton getRdbtnRepetirActividadCadaDia_1() {
+		if (rdbtnRepetirActividadCadaDia == null) {
+			rdbtnRepetirActividadCadaDia = new JRadioButton("Repetir cada día (1 año)");
+			rdbtnRepetirActividadCadaDia.setBackground(Color.WHITE);
+		}
+		return rdbtnRepetirActividadCadaDia;
 	}
 }

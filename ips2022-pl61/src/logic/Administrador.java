@@ -57,8 +57,8 @@ public class Administrador {
 		return a.findAllTiposActividad();
 	}
 
-	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
-		new Actividad().planificarActividad(tipo, fecha, hora_inicio, hora_fin);
+	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin, String id) {
+		new Actividad().planificarActividad(tipo, fecha, hora_inicio, hora_fin, id);
 
 	}
 
@@ -91,8 +91,8 @@ public class Administrador {
 		new Alquiler().crearAlquiler(id_socio, instalacion, hora_inicio, hora_fin, fecha);
 	}
 
-	public Actividad buscarActividad(String tipo) {
-		return new Actividad().buscarActividad(tipo);
+	public Actividad buscarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
+		return new Actividad().buscarActividad(tipo, fecha, hora_inicio, hora_fin);
 	}
 
 	public String[] getAllRecursos() {

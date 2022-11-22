@@ -308,8 +308,8 @@ public class Actividad {
 		return res;
 	}
 
-	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
-		as.planificarActividad(tipo, fecha, hora_inicio, hora_fin);
+	public void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin, String id) {
+		as.planificarActividad(tipo, fecha, hora_inicio, hora_fin, id);
 	}
 
 	public List<Actividad> listarActividadesPorInstalacion(String instalacion) {
@@ -394,10 +394,20 @@ public class Actividad {
 //	}
 //	
 
-	public Actividad buscarActividad(String tipo) {
+	public Actividad buscarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
 		ActividadBLDto a = as.findByTipo(tipo);
 		return new Actividad(a.id, a.tipo, a.intensidad, a.acceso, a.monitor, a.hora_inicio, a.hora_fin, a.instalacion,
 				a.fecha, a.plazas);
+	}
+
+	public List<String> getAllRecursos(String idA) {
+		List<String> res = new ArrayList<>();
+		List<RecursosActividadBLDto> recursosActividad = getRas().findAllRecursosActividades();
+		for (RecursosActividadBLDto r : recursosActividad) {
+			if (r.actividad.equals(idA))
+				res.add(r.recurso);
+		}
+		return res;
 	}
 
 }
