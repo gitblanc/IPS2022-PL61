@@ -41,7 +41,7 @@ public interface ActividadService {
 
 	}
 
-	void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin);
+	void planificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin, String id);
 
 	ActividadBLDto findByTipo(String tipo);
 }

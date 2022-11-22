@@ -19,15 +19,17 @@ public class PlanificarActividad {
 	String fecha = null;
 	String inicio = null;
 	String fin = null;
+	String id = null;
 
-	public PlanificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin) {
+	public PlanificarActividad(String tipo, String fecha, String hora_inicio, String hora_fin, String id) {
 		this.tipo = tipo;
 		this.fecha = fecha;
 		this.inicio = hora_inicio;
 		this.fin = hora_fin;
+		this.id = id;
 	}
 
-	private static String SQL = "UPDATE TIPOACTIVIDAD SET FECHA = ?, hora_inicio = ?, hora_fin = ? WHERE TIPO = ?";
+	private static String SQL = "UPDATE TIPOACTIVIDAD SET FECHA = ?, hora_inicio = ?, hora_fin = ?, TIPO = ? WHERE id_a = ?";
 
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
@@ -47,6 +49,7 @@ public class PlanificarActividad {
 			pst.setString(2, this.inicio);
 			pst.setString(3, this.fin);
 			pst.setString(4, this.tipo);
+			pst.setString(5, this.id);
 
 			pst.executeUpdate();
 
