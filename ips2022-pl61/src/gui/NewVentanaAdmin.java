@@ -1143,15 +1143,51 @@ public class NewVentanaAdmin extends JFrame {
 				bot = new JButton();
 				bot.setBackground(new Color(152, 251, 152));
 				asignarTexto(bot, i, j, actividades, alquileres);
-//				bot.addActionListener(new ActionListener() { 
-//					  public void actionPerformed(ActionEvent e) { 
-//						  automatizarAccionesBoton();
-//					  } 
-//					} );
+//				bot.addActionListener(new ActionListener() {
+//					public void actionPerformed(ActionEvent e) {
+//						automatizarAccionesBotonVacio(i, j);
+//					}
+//				});
 				getPanelCeldasCalendario().add(bot);
 			}
 		}
 		validate();
+	}
+
+	private void automatizarAccionesBotonVacio(int i, int j) {
+		String fecha = "";
+		String dia = "";
+		String monthYear = getLblSemanaFechaCalendario().getText();
+		switch (j) {
+		case 0:
+			dia = getLblLunes().getText().split(" - ")[1];
+			break;
+		case 1:
+			dia = getLblMartes().getText().split(" - ")[1];
+			break;
+		case 2:
+			dia = getLblMiercoles().getText().split(" - ")[1];
+			break;
+		case 3:
+			dia = getLblJueves().getText().split(" - ")[1];
+			break;
+		case 4:
+			dia = getLblViernes().getText().split(" - ")[1];
+			break;
+		case 5:
+			dia = getLblSabado().getText().split(" - ")[1];
+			break;
+		case 6:
+			dia = getLblDomingo().getText().split(" - ")[1];
+			break;
+		}
+		
+		getComboBoxHoraInicioAlqInst().setSelectedIndex(i);
+		getComboBoxHoraInicio().setSelectedIndex(i);
+		
+		fecha = dia + "/" + monthYear;
+		getTextFieldFechaPlanificacion().setText(fecha);
+		getTextFieldFechaAlqInst().setText(fecha);
 	}
 
 	protected void automatizarAccionesBoton(Actividad a, String horainicio, String horafin) {
@@ -1166,6 +1202,12 @@ public class NewVentanaAdmin extends JFrame {
 		int viernes = Integer.parseInt(getLblViernes().getText().split(" - ")[1]);
 		int sabado = Integer.parseInt(getLblSabado().getText().split(" - ")[1]);
 		int domingo = Integer.parseInt(getLblDomingo().getText().split(" - ")[1]);
+
+		p.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				automatizarAccionesBotonVacio(i, j);
+			}
+		});
 
 		for (Actividad a : actividades) {
 			String fecha = a.getFecha();
@@ -1488,7 +1530,15 @@ public class NewVentanaAdmin extends JFrame {
 			}
 			break;
 		}
+		bot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				automatizarAccionesBotonAlquiler(a, horainicio, horafin);
+			}
+		});
+	}
 
+	protected void automatizarAccionesBotonAlquiler(Alquiler a, String horainicio, String horafin) {
+		getTextFieldFechaAlqInst().setText(a.getFecha());
 	}
 
 	private void pintarActividad(int i, String horainicio, String horafin, JButton bot, Actividad a) {
