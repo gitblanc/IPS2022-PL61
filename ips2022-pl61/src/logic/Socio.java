@@ -3,6 +3,7 @@ package logic;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import database.business.BusinessFactory;
@@ -97,22 +98,79 @@ public class Socio {
 	 * Método que encuentra las instalaciones de cada socio
 	 */
 	public List<String> findAlquilersBySocio(String correo) {
-		List<AlquilerBLDto> alquileres = listarTodosAlquileres();
+		List<AlquilerBLDto> alquileres = devolverAlquileresDelSocioOrdenadoPorDias(correo);
 		List<String> lista = new ArrayList<String>();
-		SocioBLDto socio = ss.findByCorreo(correo);
-		String id = socio.id;
 		for (int i = 0; i < alquileres.size(); i++) {
-			if (alquileres.get(i).id_socio.equals(id)) {
-				// if (fechaMasProxima(LocalDate.now(), alquileres.get(i).fecha)) {
-				String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
-						+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
-						+ alquileres.get(i).hora_fin;
-				lista.add(a);
-				// }
-			}
+			String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
+					+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
+					+ alquileres.get(i).hora_fin;
+			lista.add(a);
+			
 		}
 
 		return lista;
+	}
+	
+	public List<AlquilerBLDto> devolverAlquileresDelSocio(String correo) {
+		List<AlquilerBLDto> todosLosAlquileres = listarTodosAlquileres();
+		List<AlquilerBLDto> result = new ArrayList<AlquilerBLDto>();
+		SocioBLDto socio = ss.findByCorreo(correo);
+		String id = socio.id;
+		for (int i = 0; i < todosLosAlquileres.size(); i++) {
+			if (todosLosAlquileres.get(i).id_socio.equals(id)) {
+				result.add(todosLosAlquileres.get(i));
+			}
+		}
+		return result;
+	}
+	
+	public List<AlquilerBLDto> devolverAlquileresDelSocioOrdenadoPorDias(String correo) {
+		List<AlquilerBLDto> lista = new ArrayList<AlquilerBLDto>(devolverAlquileresDelSocio(correo));
+		lista.sort(new OrderAlquileres());
+		return lista;
+	}
+	
+	public List<AlquilerBLDto> devolverAlquileresDelSocioOrdenadorPorHoras(String correo) {
+		List<AlquilerBLDto> lista = new ArrayList<AlquilerBLDto>(devolverAlquileresDelSocioOrdenadoPorDias(correo));
+		lista.sort(new OrderAlquileresPorHoras());
+		return lista;
+	}
+
+	class OrderAlquileres implements Comparator<AlquilerBLDto> {
+
+		@Override
+		public int compare(AlquilerBLDto o1, AlquilerBLDto o2) {
+			String[] date = o1.fecha.split("/");
+			int day = Integer.parseInt(date[0]);
+			int month = Integer.parseInt(date[1]);
+			int year = Integer.parseInt(date[2]);
+			LocalDate ac1 = LocalDate.of(year, month, day);
+			
+			String[] date2 = o2.fecha.split("/");
+			int day2 = Integer.parseInt(date2[0]);
+			int month2 = Integer.parseInt(date2[1]);
+			int year2 = Integer.parseInt(date2[2]);
+			LocalDate ac2 = LocalDate.of(year2, month2, day2);
+			
+			return ac1.compareTo(ac2);
+			
+			
+		}
+		
+	}
+	
+	class OrderAlquileresPorHoras implements Comparator<AlquilerBLDto>{
+
+		@Override
+		public int compare(AlquilerBLDto o1, AlquilerBLDto o2) {
+			String[] hora1 = o1.hora_inicio.split(":");
+			Integer hora_inicio_1 = Integer.parseInt(hora1[0]);
+			String[] hora2  = o2.hora_inicio.split(":");
+			Integer   hora_inicio_2 = Integer.parseInt(hora2[0]);
+			
+			return hora_inicio_1.compareTo(hora_inicio_2);
+		}
+		
 	}
 
 	private boolean fechaMasProxima(LocalDate l, String fechaActividad) {
