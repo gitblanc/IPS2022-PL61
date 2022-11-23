@@ -106,6 +106,10 @@ public class NewVentanaSocio extends JFrame {
 	private JButton bt_Añadido_actividad;
 	
 	private Administrador admin = new Administrador();
+	private JPanel pn_botones_1;
+	private JPanel pn_botones_2;
+	private JButton bt_eliminar_instalacion;
+	private JButton bt_Añadir_Instalacion;
 
 	/**
 	 * Create the frame.
@@ -192,14 +196,14 @@ public class NewVentanaSocio extends JFrame {
 		if (pn_botones_acciones == null) {
 			pn_botones_acciones = new JPanel();
 			pn_botones_acciones.setLayout(new GridLayout(0, 1, 0, 0));
-			pn_botones_acciones.add(getBt_Añadir());
-			pn_botones_acciones.add(getBt_Eliminar());
+			pn_botones_acciones.add(getPn_botones_1());
+			pn_botones_acciones.add(getPn_botones_2());
 		}
 		return pn_botones_acciones;
 	}
 	private JButton getBt_Añadir() {
 		if (bt_Añadir == null) {
-			bt_Añadir = new JButton("Añadir");
+			bt_Añadir = new JButton("Añadir actividad");
 			bt_Añadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					((CardLayout) getPn_contenidos().getLayout()).show(getPn_contenidos(), "panel_2");
@@ -214,7 +218,7 @@ public class NewVentanaSocio extends JFrame {
 	}
 	private JButton getBt_Eliminar() {
 		if (bt_Eliminar == null) {
-			bt_Eliminar = new JButton("Eliminar");
+			bt_Eliminar = new JButton("Eliminar actividad");
 			bt_Eliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String correo = getCb_usuarios().getSelectedItem().toString();
@@ -858,5 +862,49 @@ public class NewVentanaSocio extends JFrame {
 			bt_Añadido_actividad.setBackground(new Color(0, 128, 0));
 		}
 		return bt_Añadido_actividad;
+	}
+	private JPanel getPn_botones_1() {
+		if (pn_botones_1 == null) {
+			pn_botones_1 = new JPanel();
+			pn_botones_1.setBackground(new Color(255, 255, 255));
+			pn_botones_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pn_botones_1.setLayout(new GridLayout(0, 1, 0, 0));
+			pn_botones_1.add(getBt_Añadir());
+			pn_botones_1.add(getBt_Eliminar());
+		}
+		return pn_botones_1;
+	}
+	private JPanel getPn_botones_2() {
+		if (pn_botones_2 == null) {
+			pn_botones_2 = new JPanel();
+			pn_botones_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pn_botones_2.setBackground(new Color(255, 255, 255));
+			pn_botones_2.setLayout(new GridLayout(0, 1, 0, 0));
+			pn_botones_2.add(getBt_Añadir_Instalacion());
+			pn_botones_2.add(getBt_eliminar_instalacion());
+		}
+		return pn_botones_2;
+	}
+	private JButton getBt_eliminar_instalacion() {
+		if (bt_eliminar_instalacion == null) {
+			bt_eliminar_instalacion = new JButton("Eliminar alquiler");
+			bt_eliminar_instalacion.setForeground(new Color(255, 255, 255));
+			bt_eliminar_instalacion.setBackground(new Color(255, 0, 0));
+		}
+		return bt_eliminar_instalacion;
+	}
+	private JButton getBt_Añadir_Instalacion() {
+		if (bt_Añadir_Instalacion == null) {
+			bt_Añadir_Instalacion = new JButton("Añadir alquiler");
+			bt_Añadir_Instalacion.setForeground(new Color(255, 255, 255));
+			bt_Añadir_Instalacion.setBackground(new Color(0, 128, 0));
+			bt_Añadir_Instalacion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					((CardLayout) getPn_contenidos().getLayout()).show(getPn_contenidos(), "panel_2");
+					contentPane.getRootPane().setDefaultButton(getBt_Añadir_Instalacion());
+				}
+			});
+		}
+		return bt_Añadir_Instalacion;
 	}
 }
