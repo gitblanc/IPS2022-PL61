@@ -2626,121 +2626,135 @@ public class NewVentanaAdmin extends JFrame {
 		if (lastDay == 1) {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
-				this.year--;
-			} else
-				asignarNuevoMes(previousMonth);
-			if (meses31dias) {
 				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 31);
-			} else if (meses30dias) {
-				asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 30);
+				this.year--;
 			} else {
-				if (bisiesto) {
-					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
-					asignarNuevoMes(previousMonth);
+				asignarNuevoMes(previousMonth);
+				if (meses31dias) {
+					asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 31);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 30);
 				} else {
-					asignarValoresEtiquetas(22, 23, 24, 25, 26, 27, 28);
+					if (bisiesto) {
+						asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
+						asignarNuevoMes(previousMonth);
+					} else {
+						asignarValoresEtiquetas(22, 23, 24, 25, 26, 27, 28);
+					}
 				}
 			}
 		} else if (lastDay == 2) {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
-				this.year--;
-			} else
-				asignarNuevoMes(previousMonth);
-			if (meses31dias) {
 				asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
-			} else if (meses30dias) {
-				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
+				this.year--;
 			} else {
-				if (bisiesto) {
-					asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
+				asignarNuevoMes(previousMonth);
+				if (meses31dias) {
+					asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
 				} else {
-					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
+					if (bisiesto) {
+						asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
+					} else {
+						asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
+					}
 				}
 			}
 		} else if (lastDay == 3) {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
-				this.year--;
-			} else
-				asignarNuevoMes(previousMonth);
-			if (meses31dias) {
 				asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
-			} else if (meses30dias) {
-				asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
+				this.year--;
 			} else {
-				if (bisiesto) {
-					asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
+				asignarNuevoMes(previousMonth);
+				if (meses31dias) {
+					asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
 				} else {
-					asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
+					if (bisiesto) {
+						asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
+					} else {
+						asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
+					}
 				}
 			}
 		} else if (lastDay == 4) {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
-				this.year--;
-			} else
-				asignarNuevoMes(previousMonth);
-			if (meses31dias) {
 				asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
-			} else if (meses30dias) {
-				asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
+				this.year--;
 			} else {
-				if (bisiesto) {
-					asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
+				asignarNuevoMes(previousMonth);
+				if (meses31dias) {
+					asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
 				} else {
-					asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
+					if (bisiesto) {
+						asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
+					} else {
+						asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
+					}
 				}
 			}
 		} else if (lastDay == 5) {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
-				this.year--;
-			} else
-				asignarNuevoMes(previousMonth);
-			if (meses31dias) {
 				asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
-			} else if (meses30dias) {
-				asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
+				this.year--;
 			} else {
-				if (bisiesto) {
-					asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
+				asignarNuevoMes(previousMonth);
+				if (meses31dias) {
+					asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
 				} else {
-					asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
+					if (bisiesto) {
+						asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
+					} else {
+						asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
+					}
 				}
 			}
 		} else if (lastDay == 6) {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
-				this.year--;
-			} else
-				asignarNuevoMes(previousMonth);
-			if (meses31dias) {
 				asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
-			} else if (meses30dias) {
-				asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
+				this.year--;
 			} else {
-				if (bisiesto) {
-					asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
+				asignarNuevoMes(previousMonth);
+				if (meses31dias) {
+					asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
 				} else {
-					asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
+					if (bisiesto) {
+						asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
+					} else {
+						asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
+					}
 				}
 			}
 		} else if (lastDay == 7) {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
-				this.year--;
-			} else
-				asignarNuevoMes(previousMonth);
-			if (meses31dias) {
 				asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
-			} else if (meses30dias) {
-				asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
+				this.year--;
 			} else {
-				if (bisiesto) {
-					asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
+				asignarNuevoMes(previousMonth);
+				if (meses31dias) {
+					asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
 				} else {
-					asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
+					if (bisiesto) {
+						asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
+					} else {
+						asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
+					}
 				}
 			}
 		} else {
