@@ -67,33 +67,75 @@ public class Socio {
 
 	// ------------------------------------------------------------
 
-	/**
-	 * Método que encuentra las actividades de cada socio
-	 */
+	
+	
+	
+//	/**
+//	 * Método que encuentra las actividades de cada socio
+//	 */
+//	public List<String> findActivitiesBySocio(String correo) {
+//		List<ActividadSocioBLDto> actividadesApuntadas = listarActividadSocio();
+//		List<ActividadBLDto> actividades = listarTodasLAsActividades();
+//		List<String> lista = new ArrayList<String>();
+//		for (int i = 0; i < actividadesApuntadas.size(); i++) {
+//			if (actividadesApuntadas.get(i).correo_socio.equals(correo)) {
+//				for (int j = 0; j < actividades.size(); j++) {
+//					if (actividadesApuntadas.get(i).id_actividad != null
+//							&& actividadesApuntadas.get(i).id_actividad.equals(actividades.get(j).id)) {
+//						if (fechaMasProxima(LocalDate.now(), actividades.get(j).fecha)) {
+//							String a = actividades.get(j).id + " ------ " + actividades.get(j).tipo + " ------ "
+//									+ actividades.get(j).fecha + " ------ " + actividades.get(j).hora_inicio + " - "
+//									+ actividades.get(j).hora_fin + " ------ " + actividades.get(j).instalacion;
+//							lista.add(a);
+//						}
+//
+//					}
+//				}
+//			}
+//		}
+//
+//		return lista;
+//	}
+	
+	
 	public List<String> findActivitiesBySocio(String correo) {
+		List<ActividadBLDto> actividades =  listarActividadSocioOrdenadas(correo);
+		List<String> lista = new ArrayList<String>();
+		for(int j = 0; j < actividades.size(); j++) {
+			String a = actividades.get(j).id + " ------ " + actividades.get(j).tipo + " ------ "
+					+ actividades.get(j).fecha + " ------ " + actividades.get(j).hora_inicio + " - "
+					+ actividades.get(j).hora_fin + " ------ " + actividades.get(j).instalacion;
+			lista.add(a);
+			
+		}
+		return lista;
+	}
+	
+	public List<ActividadBLDto> findActividadesDelSocio(String correo) {
 		List<ActividadSocioBLDto> actividadesApuntadas = listarActividadSocio();
 		List<ActividadBLDto> actividades = listarTodasLAsActividades();
-		List<String> lista = new ArrayList<String>();
+		List<ActividadBLDto> resultado = new ArrayList<ActividadBLDto>();
 		for (int i = 0; i < actividadesApuntadas.size(); i++) {
 			if (actividadesApuntadas.get(i).correo_socio.equals(correo)) {
 				for (int j = 0; j < actividades.size(); j++) {
 					if (actividadesApuntadas.get(i).id_actividad != null
 							&& actividadesApuntadas.get(i).id_actividad.equals(actividades.get(j).id)) {
 						if (fechaMasProxima(LocalDate.now(), actividades.get(j).fecha)) {
-							String a = actividades.get(j).id + " ------ " + actividades.get(j).tipo + " ------ "
-									+ actividades.get(j).fecha + " ------ " + actividades.get(j).hora_inicio + " - "
-									+ actividades.get(j).hora_fin + " ------ " + actividades.get(j).instalacion;
-							lista.add(a);
+							resultado.add(actividades.get(j));
 						}
-
 					}
 				}
 			}
 		}
-
-		return lista;
+		return resultado;
 	}
-
+	
+	private List<ActividadBLDto> listarActividadSocioOrdenadas(String correo) {
+		List<ActividadBLDto> actividades = new ArrayList<ActividadBLDto>(findActividadesDelSocio(correo));
+		actividades.sort(new OrderActividades());
+		return actividades;
+	}
+	
 	/**
 	 * Método que encuentra las instalaciones de cada socio
 	 */
@@ -170,6 +212,30 @@ public class Socio {
 			
 			return hora_inicio_1.compareTo(hora_inicio_2);
 		}
+		
+	}
+	
+	class OrderActividades implements Comparator<ActividadBLDto> {
+
+		@Override
+		public int compare(ActividadBLDto o1, ActividadBLDto o2) {
+			String[] date = o1.fecha.split("/");
+			int day = Integer.parseInt(date[0]);
+			int month = Integer.parseInt(date[1]);
+			int year = Integer.parseInt(date[2]);
+			LocalDate ac1 = LocalDate.of(year, month, day);
+			
+			String[] date2 = o2.fecha.split("/");
+			int day2 = Integer.parseInt(date2[0]);
+			int month2 = Integer.parseInt(date2[1]);
+			int year2 = Integer.parseInt(date2[2]);
+			LocalDate ac2 = LocalDate.of(year2, month2, day2);
+			
+			return ac1.compareTo(ac2);
+		}
+
+
+		
 		
 	}
 
