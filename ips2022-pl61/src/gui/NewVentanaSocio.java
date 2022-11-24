@@ -395,7 +395,7 @@ public class NewVentanaSocio extends JFrame {
 					} else {
 						añadirAlquiler(correo, instalacion, fecha, hora_inicio, hora_fin);
 					}
-					actualizarListaMisInstalaciones();
+					
 					
 				}
 			});
@@ -499,7 +499,6 @@ public class NewVentanaSocio extends JFrame {
 			}
 			getList_misActividades().setModel(modelMisActividades);
 		}
-		actualizarListaMisActividades();
 		
 	}
 	
@@ -857,7 +856,6 @@ public class NewVentanaSocio extends JFrame {
 					String correo = getCb_usuarios().getSelectedItem().toString();
 					String actividad = getIdActividad(lista_Todas_Las_Actividades_Centro.getSelectedValue());
 					añadirNuevaActividadASocio(correo, actividad);
-					
 				}
 			});
 			bt_Añadido_actividad.setForeground(new Color(255, 250, 250));
@@ -890,11 +888,6 @@ public class NewVentanaSocio extends JFrame {
 	private JButton getBt_eliminar_instalacion() {
 		if (bt_eliminar_instalacion == null) {
 			bt_eliminar_instalacion = new JButton("Eliminar alquiler");
-			bt_eliminar_instalacion.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-				}
-			});
 			bt_eliminar_instalacion.setForeground(new Color(255, 255, 255));
 			bt_eliminar_instalacion.setBackground(new Color(255, 0, 0));
 		}
