@@ -18,10 +18,22 @@ import database.business.socio.SocioService.SocioBLDto;
 
 public class Socio {
 
+	private String id, nombre, apellidos, correo, passwd;
+
 	private static SocioService ss = BusinessFactory.forSocioService();
 	private static ActividadSocioService ass = BusinessFactory.forActividadSocioService();
 	private static ActividadService aser = BusinessFactory.forActividadService();
 	private static AlquilerService als = BusinessFactory.forAlquilerService();
+
+	public Socio(String id, String nombre, String apellidos, String pass) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.passwd = pass;
+	}
+
+	public Socio() {
+	}
 
 	public String socioCorrecto(String correo, String contraseña) {
 		String correcto = null;
@@ -63,6 +75,26 @@ public class Socio {
 
 	public static List<AlquilerBLDto> listarTodosAlquileres() {
 		return als.findAll();
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public String getPasswd() {
+		return passwd;
 	}
 
 	// ------------------------------------------------------------
@@ -145,6 +177,11 @@ public class Socio {
 						+ alquileres.get(i).hora_fin;
 				lista.add(a);
 			}
+			String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
+					+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
+					+ alquileres.get(i).hora_fin;
+			lista.add(a);
+
 
 		}
 
@@ -380,5 +417,11 @@ public class Socio {
 		}
 		return result;
 	}
+
+	public static Socio buscarSocio(String id_socio) {
+		SocioBLDto s = ss.findSocioById(id_socio);
+		return new Socio(s.id, s.nombre, s.apellidos, s.contraseña);
+	}
+
 
 }

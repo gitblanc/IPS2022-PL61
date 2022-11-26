@@ -23,17 +23,20 @@ public class Alquiler {
 	private String fecha;
 	private String hora_inicio;
 	private String hora_fin;
+	private int cancelado;
 
-	public Alquiler(String id, String instalacion, String id_socio, String fecha, String hora_inicio, String hora_fin) {
+	public Alquiler() {
+	}
+
+	public Alquiler(String id, String instalacion, String id_socio, String fecha, String hora_inicio, String hora_fin,
+			int cancelado) {
 		this.id = id;
 		this.instalacion = instalacion;
 		this.id_socio = id_socio;
 		this.fecha = fecha;
 		this.hora_inicio = hora_inicio;
 		this.hora_fin = hora_fin;
-	}
-
-	public Alquiler() {
+		this.cancelado = cancelado;
 	}
 
 	public AlquilerService getAl() {
@@ -68,7 +71,8 @@ public class Alquiler {
 		List<Alquiler> alquileres = new ArrayList<>();
 		for (AlquilerBLDto a : al.findAll()) {
 			if (a.instalacion.equals(instalacion)) {
-				alquileres.add(new Alquiler(a.id, a.instalacion, a.id_socio, a.fecha, a.hora_inicio, a.hora_fin));
+				alquileres.add(
+						new Alquiler(a.id, a.instalacion, a.id_socio, a.fecha, a.hora_inicio, a.hora_fin, a.cancelado));
 			}
 		}
 		return alquileres;
@@ -137,38 +141,40 @@ public class Alquiler {
 		int year = Integer.parseInt(date[2]);
 		LocalDate ac = LocalDate.of(year, month, day);
 		LocalDate maximoDiaReserva = ac.plusDays(7);
-		if(now.isBefore(maximoDiaReserva) || now.isEqual(maximoDiaReserva) ) {
+		if (now.isBefore(maximoDiaReserva) || now.isEqual(maximoDiaReserva)) {
 			return true;
 		}
 		return false;
-		
+
 	}
 
 	public static boolean comprobarHoras(String inicio, String fin) {
 		String[] i = inicio.split(":");
 		int value1 = Integer.parseInt(i[0]);
-		
+
 		String[] j = fin.split(":");
 		int value2 = Integer.parseInt(j[0]);
-		if(Math.abs(value1 - value2) <= 2) {
+		if (Math.abs(value1 - value2) <= 2) {
 			return true;
 		}
 		return false;
 	}
 
-	public static boolean comprobarRequisitoNoTieneMasAlquileres(String id_socio2, String fecha2, String inicio, String fin) {
+	public static boolean comprobarRequisitoNoTieneMasAlquileres(String id_socio2, String fecha2, String inicio,
+			String fin) {
 		List<AlquilerBLDto> alquileres = al.findByIdSocio(id_socio2);
-		if(alquileres != null && alquileres.size() != 0) {
-			for(AlquilerBLDto a: alquileres) {
-				if(!a.fecha.equals(fecha2) && !a.hora_inicio.equals(inicio) && !comprobarHoras(a.hora_inicio, inicio, fin)) {
+		if (alquileres != null && alquileres.size() != 0) {
+			for (AlquilerBLDto a : alquileres) {
+				if (!a.fecha.equals(fecha2) && !a.hora_inicio.equals(inicio)
+						&& !comprobarHoras(a.hora_inicio, inicio, fin)) {
 					return true;
 				}
 			}
-			
+
 		}
 		return false;
 	}
-	
+
 	private static boolean comprobarHoras(String horaRan, String inicio, String fin) {
 		String[] i = horaRan.split(":");
 		int hora1 = Integer.parseInt(i[0]);
@@ -176,8 +182,8 @@ public class Alquiler {
 		int hora_inicio = Integer.parseInt(j[0]);
 		String[] f = fin.split(":");
 		int hora_fin = Integer.parseInt(f[0]);
-		
-		if(hora1 > hora_inicio && hora1 < hora_fin) {
+
+		if (hora1 > hora_inicio && hora1 < hora_fin) {
 			return false;
 		}
 		return true;
@@ -193,5 +199,9 @@ public class Alquiler {
 		a.instalacion = alq.getInstalacion();
 		a.cancelado = 1;
 		al.updateAlquiler(a);
+	}
+
+	public boolean isCancelado() {
+		return cancelado == 1;
 	}
 }
