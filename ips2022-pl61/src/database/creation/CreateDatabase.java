@@ -59,7 +59,7 @@ public class CreateDatabase {
 				+ ", nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
 		String crearInstalacion = "create table instalacion(nombre_i varchar(20) primary key, plazas int not null)";
 		String crearTipoActividad = "create table TipoActividad(id_a varchar(150) primary key, tipo varchar(30) not null,"
-				+ " intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
+				+ " intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"  
 				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6),"
 				+ "hora_fin varchar(6), nombre_i varchar(20) foreign key references Instalacion(nombre_i),"
 				+ "fecha varchar(20), plazas_a int)";
