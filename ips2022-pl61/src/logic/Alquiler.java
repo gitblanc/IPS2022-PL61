@@ -182,4 +182,16 @@ public class Alquiler {
 		}
 		return true;
 	}
+
+	public void actualizarAlquilerACanceladoPorCierre(Alquiler alq) {
+		AlquilerBLDto a = new AlquilerBLDto();
+		a.id = alq.getId();
+		a.fecha = alq.getFecha();
+		a.hora_fin = alq.getHora_fin();
+		a.hora_inicio = alq.getHora_inicio();
+		a.id_socio = alq.getId_socio();
+		a.instalacion = alq.getInstalacion();
+		a.cancelado = 1;
+		al.updateAlquiler(a);
+	}
 }

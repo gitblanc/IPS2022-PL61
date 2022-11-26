@@ -20,6 +20,7 @@ public interface AlquilerService {
 		public String hora_inicio;
 		public String hora_fin;
 		public String id_socio;
+		public int cancelado;
 	}
 
 	List<AlquilerBLDto> findAll();

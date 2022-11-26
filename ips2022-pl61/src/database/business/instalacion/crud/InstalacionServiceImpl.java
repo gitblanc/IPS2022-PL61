@@ -18,4 +18,9 @@ public class InstalacionServiceImpl implements InstalacionService {
 		return new FindAllInstalaciones().execute();
 	}
 
+	@Override
+	public void cerrarInstalacion(String instalacion, String fechaCierre) {
+		new CerrarInstalacion(instalacion, fechaCierre).execute();
+	}
+
 }
