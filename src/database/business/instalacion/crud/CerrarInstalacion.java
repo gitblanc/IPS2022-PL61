@@ -1,32 +1,34 @@
 /**
  * 
  */
-package database.business.alquiler.crud;
+package database.business.instalacion.crud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import database.business.alquiler.AlquilerService.AlquilerBLDto;
 
 /**
  * @author UO285176
  *
  */
-public class FindAllAlquileres {
+public class CerrarInstalacion {
 
-	private static final String SQL = "select * from alquileres";
+	private static String SQL = "UPDATE INSTALACION SET CERRADA_PARA_ALQUILERES = ? where nombre_i = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	public List<AlquilerBLDto> execute() {
-		List<AlquilerBLDto> alquileres = new ArrayList<>();
+	private String instalacion;
+	private String fechaCierre;
 
+	public CerrarInstalacion(String instalacion, String fechaCierre) {
+		this.instalacion = instalacion;
+		this.fechaCierre = fechaCierre;
+	}
+
+	public void execute() {
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -35,19 +37,11 @@ public class FindAllAlquileres {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 
 			pst = c.prepareStatement(SQL);
+			pst.setString(1, fechaCierre);
+			pst.setString(2, instalacion);
 
-			rs = pst.executeQuery();
-			while (rs.next()) {
-				AlquilerBLDto al = new AlquilerBLDto();
-				al.id = rs.getString("id_a");
-				al.instalacion = rs.getString("nombre_i");
-				al.id_socio = rs.getString("id_socio");
-				al.fecha = rs.getString("fecha");
-				al.hora_inicio = rs.getString("hora_inicio");
-				al.hora_fin = rs.getString("hora_fin");
-				al.cancelado = rs.getInt("cancelado");
-				alquileres.add(al);
-			}
+			pst.executeUpdate();
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -67,7 +61,6 @@ public class FindAllAlquileres {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return alquileres;
 	}
 
 }

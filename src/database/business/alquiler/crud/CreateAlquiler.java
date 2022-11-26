@@ -8,25 +8,32 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import database.business.alquiler.AlquilerService.AlquilerBLDto;
+import java.util.UUID;
 
 /**
  * @author UO285176
  *
  */
-public class FindAllAlquileres {
+public class CreateAlquiler {
 
-	private static final String SQL = "select * from alquileres";
+	private static String SQL = "INSERT INTO ALQUILERES ( ID_A, NOMBRE_I, ID_SOCIO, FECHA, HORA_INICIO, HORA_FIN ) VALUES ( ?, ?, ?, ?, ?, ?)";
+
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	public List<AlquilerBLDto> execute() {
-		List<AlquilerBLDto> alquileres = new ArrayList<>();
+	String socio, instalacion, fecha, inicio, fin = null;
 
+	public CreateAlquiler(String id_socio, String instalacion, String hora_inicio, String hora_fin, String fecha) {
+		this.socio = id_socio;
+		this.instalacion = instalacion;
+		this.fecha = fecha;
+		this.inicio = hora_inicio;
+		this.fin = hora_fin;
+	}
+
+	public void execute() {
+		// Process
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -35,19 +42,15 @@ public class FindAllAlquileres {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 
 			pst = c.prepareStatement(SQL);
+			pst.setString(1, UUID.randomUUID().toString());
+			pst.setString(2, this.instalacion);
+			pst.setString(3, this.socio);
+			pst.setString(4, this.fecha);
+			pst.setString(5, this.inicio);
+			pst.setString(6, this.fin);
 
-			rs = pst.executeQuery();
-			while (rs.next()) {
-				AlquilerBLDto al = new AlquilerBLDto();
-				al.id = rs.getString("id_a");
-				al.instalacion = rs.getString("nombre_i");
-				al.id_socio = rs.getString("id_socio");
-				al.fecha = rs.getString("fecha");
-				al.hora_inicio = rs.getString("hora_inicio");
-				al.hora_fin = rs.getString("hora_fin");
-				al.cancelado = rs.getInt("cancelado");
-				alquileres.add(al);
-			}
+			pst.executeUpdate();
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -67,7 +70,6 @@ public class FindAllAlquileres {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return alquileres;
 	}
 
 }
