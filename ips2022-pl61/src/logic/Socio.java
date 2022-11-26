@@ -67,9 +67,6 @@ public class Socio {
 
 	// ------------------------------------------------------------
 
-	
-	
-	
 //	/**
 //	 * Método que encuentra las actividades de cada socio
 //	 */
@@ -96,21 +93,20 @@ public class Socio {
 //
 //		return lista;
 //	}
-	
-	
+
 	public List<String> findActivitiesBySocio(String correo) {
-		List<ActividadBLDto> actividades =  listarActividadSocioOrdenadas(correo);
+		List<ActividadBLDto> actividades = listarActividadSocioOrdenadas(correo);
 		List<String> lista = new ArrayList<String>();
-		for(int j = 0; j < actividades.size(); j++) {
+		for (int j = 0; j < actividades.size(); j++) {
 			String a = actividades.get(j).id + " ------ " + actividades.get(j).tipo + " ------ "
 					+ actividades.get(j).fecha + " ------ " + actividades.get(j).hora_inicio + " - "
 					+ actividades.get(j).hora_fin + " ------ " + actividades.get(j).instalacion;
 			lista.add(a);
-			
+
 		}
 		return lista;
 	}
-	
+
 	public List<ActividadBLDto> findActividadesDelSocio(String correo) {
 		List<ActividadSocioBLDto> actividadesApuntadas = listarActividadSocio();
 		List<ActividadBLDto> actividades = listarTodasLAsActividades();
@@ -129,13 +125,13 @@ public class Socio {
 		}
 		return resultado;
 	}
-	
+
 	private List<ActividadBLDto> listarActividadSocioOrdenadas(String correo) {
 		List<ActividadBLDto> actividades = new ArrayList<ActividadBLDto>(findActividadesDelSocio(correo));
 		actividades.sort(new OrderActividades());
 		return actividades;
 	}
-	
+
 	/**
 	 * Método que encuentra las instalaciones de cada socio
 	 */
@@ -143,16 +139,18 @@ public class Socio {
 		List<AlquilerBLDto> alquileres = devolverAlquileresDelSocioOrdenadoPorDias(correo);
 		List<String> lista = new ArrayList<String>();
 		for (int i = 0; i < alquileres.size(); i++) {
-			String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
-					+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
-					+ alquileres.get(i).hora_fin;
-			lista.add(a);
-			
+			if (alquileres.get(i).cancelado == 0) {
+				String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
+						+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
+						+ alquileres.get(i).hora_fin;
+				lista.add(a);
+			}
+
 		}
 
 		return lista;
 	}
-	
+
 	public List<AlquilerBLDto> devolverAlquileresDelSocio(String correo) {
 		List<AlquilerBLDto> todosLosAlquileres = listarTodosAlquileres();
 		List<AlquilerBLDto> result = new ArrayList<AlquilerBLDto>();
@@ -160,18 +158,20 @@ public class Socio {
 		String id = socio.id;
 		for (int i = 0; i < todosLosAlquileres.size(); i++) {
 			if (todosLosAlquileres.get(i).id_socio.equals(id)) {
-				result.add(todosLosAlquileres.get(i));
+				if (todosLosAlquileres.get(i).cancelado == 0) {
+					result.add(todosLosAlquileres.get(i));
+				}
 			}
 		}
 		return result;
 	}
-	
+
 	public List<AlquilerBLDto> devolverAlquileresDelSocioOrdenadoPorDias(String correo) {
 		List<AlquilerBLDto> lista = new ArrayList<AlquilerBLDto>(devolverAlquileresDelSocio(correo));
 		lista.sort(new OrderAlquileres());
 		return lista;
 	}
-	
+
 	public List<AlquilerBLDto> devolverAlquileresDelSocioOrdenadorPorHoras(String correo) {
 		List<AlquilerBLDto> lista = new ArrayList<AlquilerBLDto>(devolverAlquileresDelSocioOrdenadoPorDias(correo));
 		lista.sort(new OrderAlquileresPorHoras());
@@ -187,34 +187,33 @@ public class Socio {
 			int month = Integer.parseInt(date[1]);
 			int year = Integer.parseInt(date[2]);
 			LocalDate ac1 = LocalDate.of(year, month, day);
-			
+
 			String[] date2 = o2.fecha.split("/");
 			int day2 = Integer.parseInt(date2[0]);
 			int month2 = Integer.parseInt(date2[1]);
 			int year2 = Integer.parseInt(date2[2]);
 			LocalDate ac2 = LocalDate.of(year2, month2, day2);
-			
+
 			return ac1.compareTo(ac2);
-			
-			
+
 		}
-		
+
 	}
-	
-	class OrderAlquileresPorHoras implements Comparator<AlquilerBLDto>{
+
+	class OrderAlquileresPorHoras implements Comparator<AlquilerBLDto> {
 
 		@Override
 		public int compare(AlquilerBLDto o1, AlquilerBLDto o2) {
 			String[] hora1 = o1.hora_inicio.split(":");
 			Integer hora_inicio_1 = Integer.parseInt(hora1[0]);
-			String[] hora2  = o2.hora_inicio.split(":");
-			Integer   hora_inicio_2 = Integer.parseInt(hora2[0]);
-			
+			String[] hora2 = o2.hora_inicio.split(":");
+			Integer hora_inicio_2 = Integer.parseInt(hora2[0]);
+
 			return hora_inicio_1.compareTo(hora_inicio_2);
 		}
-		
+
 	}
-	
+
 	class OrderActividades implements Comparator<ActividadBLDto> {
 
 		@Override
@@ -224,16 +223,16 @@ public class Socio {
 			int month = Integer.parseInt(date[1]);
 			int year = Integer.parseInt(date[2]);
 			LocalDate ac1 = LocalDate.of(year, month, day);
-			
+
 			String[] date2 = o2.fecha.split("/");
 			int day2 = Integer.parseInt(date2[0]);
 			int month2 = Integer.parseInt(date2[1]);
 			int year2 = Integer.parseInt(date2[2]);
 			LocalDate ac2 = LocalDate.of(year2, month2, day2);
-			
+
 			return ac1.compareTo(ac2);
 		}
-		
+
 	}
 
 	private boolean fechaMasProxima(LocalDate l, String fechaActividad) {
@@ -357,18 +356,29 @@ public class Socio {
 		String socioId = ss.findByCorreo(correo).id;
 		List<AlquilerBLDto> alquileres = als.findByIdSocio(socioId);
 		AlquilerBLDto alquiler = null;
-		for(AlquilerBLDto a: alquileres) {
-			if(a.id.equals(id_alquiler)) {
+		for (AlquilerBLDto a : alquileres) {
+			if (a.id.equals(id_alquiler)) {
 				alquiler = a;
+				alquiler.cancelado = 1;
 			}
 		}
 		als.updateAlquiler(alquiler);
-		
+
 	}
 
 	public List<String> findAlquilersBySocioCancelados(String correo) {
-		// TODO Auto-generated method stub
-		return null;
+		String socioId = ss.findByCorreo(correo).id;
+		List<AlquilerBLDto> alquileres = als.findByIdSocio(socioId);
+		List<String> result = new ArrayList<String>();
+		for (int i = 0; i < alquileres.size(); i++) {
+			if (alquileres.get(i).cancelado == 1) {
+				String r = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
+						+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
+						+ alquileres.get(i).hora_fin + " CANCELADO";
+				result.add(r);
+			}
+		}
+		return result;
 	}
 
 }
