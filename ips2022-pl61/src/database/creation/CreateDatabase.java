@@ -57,7 +57,7 @@ public class CreateDatabase {
 				+ ", apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)";
 		String crearRecurso = "create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0)"
 				+ ", nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
-		String crearInstalacion = "create table instalacion(nombre_i varchar(20) primary key, plazas int not null)";
+		String crearInstalacion = "create table instalacion(nombre_i varchar(20) primary key, plazas int not null, cerrada_para_alquileres int)";
 		String crearTipoActividad = "create table TipoActividad(id_a varchar(150) primary key, tipo varchar(30) not null,"
 				+ " intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"  
 				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6),"
@@ -248,12 +248,12 @@ public class CreateDatabase {
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 						+ "VALUES ( '42', 'Danza', 'moderada', 'reserva', '16:00', '17:00', 'pista', '29/11/2022', 10)";
 				// INSTALACIONES
-				String instalacion1 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n" + "( \"NOMBRE_I\", \"PLAZAS\" )\r\n"
-						+ "VALUES ( 'gimnasio', 40)";
-				String instalacion2 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n" + "( \"NOMBRE_I\", \"PLAZAS\" )\r\n"
-						+ "VALUES ( 'piscina', 30)";
-				String instalacion3 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n" + "( \"NOMBRE_I\", \"PLAZAS\" )\r\n"
-						+ "VALUES ( 'pista', 60)";
+				String instalacion1 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n" + "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n"
+						+ "VALUES ( 'gimnasio', 40, 0)";
+				String instalacion2 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n" + "( \"NOMBRE_I\", \"PLAZAS\",  \"CERRADA_PARA_ALQUILERES\")\r\n"
+						+ "VALUES ( 'piscina', 30, 0)";
+				String instalacion3 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n" + "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n"
+						+ "VALUES ( 'pista', 60, 0)";
 				// RECURSOS
 				String recurso1 = "INSERT INTO RECURSO\r\n" + "( \"NOMBRE_R\", \"CANTIDAD_R\", \"NOMBRE_I\" )\r\n"
 						+ "VALUES ( 'pesa 15kg', 6, 'gimnasio')";
