@@ -891,7 +891,6 @@ public class NewVentanaSocio extends JFrame {
 		getList_MisInstalaciones().setModel(modelMisAlquileres);
 		
 		Socio.eliminarAlquiler(correo, id_alquiler);
-		actualizarListaMisInstalaciones();
 		
 	}
 	private boolean seleccionAlquiler() {
