@@ -99,4 +99,12 @@ public class Administrador {
 		return Recurso.listarTodosLosRecursos();
 	}
 
+	public void cerrarInstalacion(String instalacion, String fechaCierre) {
+		new Instalacion().cerrarInstalacion(instalacion, fechaCierre);
+	}
+
+	public void actualizarAlquilerACanceladoPorCierre(Alquiler a) {
+		new Alquiler().actualizarAlquilerACanceladoPorCierre(a);
+	}
+
 }

@@ -16,4 +16,6 @@ public interface InstalacionService {
 		public String nombre;
 		public int plazas;
 	}
+
+	public void cerrarInstalacion(String instalacion, String fechaCierre);
 }
