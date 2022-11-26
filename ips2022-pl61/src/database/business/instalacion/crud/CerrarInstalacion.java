@@ -1,7 +1,7 @@
 /**
  * 
  */
-package database.business.alquiler.crud;
+package database.business.instalacion.crud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,42 +9,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import assertion.Argument;
-import database.business.alquiler.AlquilerService.AlquilerBLDto;
-
 /**
  * @author UO285176
  *
  */
-public class UpdateAlquiler {
-	private static String SQL = "update Alquileres set nombre_i = ?, id_socio = ?, fecha = ?, hora_inicio = ?, hora_fin = ?, cancelado = ? where id_a = ?";
+public class CerrarInstalacion {
+
+	private static String SQL = "UPDATE INSTALACION SET CERRADA_PARA_ALQUILERES = ? where nombre_i = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	AlquilerBLDto alquiler = null;
+	private String instalacion;
+	private String fechaCierre;
 
-	public UpdateAlquiler(AlquilerBLDto al) {
-		Argument.isNotNull(al, "The id can't be null");
-		this.alquiler = al;
+	public CerrarInstalacion(String instalacion, String fechaCierre) {
+		this.instalacion = instalacion;
+		this.fechaCierre = fechaCierre;
 	}
 
 	public void execute() {
-		// Process
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 
 		try {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
+
 			pst = c.prepareStatement(SQL);
-			pst.setString(1, alquiler.instalacion);
-			pst.setString(2, alquiler.id_socio);
-			pst.setString(3, alquiler.fecha);
-			pst.setString(4, alquiler.hora_inicio);
-			pst.setString(5, alquiler.hora_fin);
-			pst.setInt(6, alquiler.cancelado);
-			pst.setString(7, alquiler.id);
+			pst.setString(1, fechaCierre);
+			pst.setString(2, instalacion);
 
 			pst.executeUpdate();
 

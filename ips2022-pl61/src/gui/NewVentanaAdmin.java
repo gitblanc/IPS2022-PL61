@@ -217,6 +217,22 @@ public class NewVentanaAdmin extends JFrame {
 	private boolean viernesMixed;
 	private boolean sabadoMixed;
 	private boolean domingoMixed;
+	private JPanel panelCerrarInstalacion;
+	private JButton btnNewButton;
+	private JPanel panelCerrarInstalacionAlquileres;
+	private JPanel panelInstalacionesCerrar;
+	private JPanel panelDiaCerrarInstalaciones;
+	private JPanel panelAtrasCerrarInstalacion;
+	private JComboBox<String> comboBoxInstalacionesACerrar;
+	private JLabel lblInstalacionACerrar;
+	private JLabel lblFechaInstalacionCerrada;
+	private JTextField textFieldFechaCierre;
+	private JLabel lblRecordatorioAlquileres;
+	private JPanel panelBotonesAtrasYCancelar;
+	private JButton btnAtrasCerrar;
+	private JButton btnCrearCerrar;
+	private JLabel lblNewLabel;
+	private JLabel lblTodoCorrectoCerrar;
 
 	/**
 	 * Create the frame.
@@ -277,8 +293,10 @@ public class NewVentanaAdmin extends JFrame {
 		getTextFieldFechaAlqInst().setText("");
 		getLblHorarioOcupado().setVisible(false);
 		getLblHorarioOcupado1().setVisible(false);
+		getTextFieldFechaCierre().setText("");
 		this.mesesRestantes = new ArrayList<>();
 		this.diasRestantes = null;
+		getLblTodoCorrectoCerrar().setVisible(false);
 	}
 
 	private JPanel getPanelCalendario() {
@@ -304,6 +322,7 @@ public class NewVentanaAdmin extends JFrame {
 			panelAcciones.add(getPanelPlanificacionActividad(), "panelPlanificacionActividad");
 			panelAcciones.add(getPanelCancelacionAlquiler(), "panelCancelacionAlquiler");
 			panelAcciones.add(getPanelAlquilarInstalacionASocio(), "panelAlquilarASocio");
+			panelAcciones.add(getPanelCerrarInstalacionAlquileres(), "panelCerrarInstalacion");
 		}
 		return panelAcciones;
 	}
@@ -312,11 +331,12 @@ public class NewVentanaAdmin extends JFrame {
 		if (panelBotones == null) {
 			panelBotones = new JPanel();
 			panelBotones.setBackground(new Color(255, 255, 255));
-			panelBotones.setLayout(new GridLayout(4, 0, 0, 0));
+			panelBotones.setLayout(new GridLayout(5, 0, 0, 0));
 			panelBotones.add(getPanelCrearTipoActividad());
 			panelBotones.add(getPanelPlanificarActividad());
 			panelBotones.add(getPanelAlquilarASocio());
 			panelBotones.add(getPanelCancelarAlquiler());
+			panelBotones.add(getPanelCerrarInstalacion());
 		}
 		return panelBotones;
 	}
@@ -923,7 +943,8 @@ public class NewVentanaAdmin extends JFrame {
 										inicio, fin), date, inicio, fin);
 							}
 							pintarPanelesCalendario(
-									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0],
+									null);
 						} else {
 							getLblPlanificaciónCorrecta().setText("");
 							getLblHorarioOcupado().setVisible(true);
@@ -953,7 +974,8 @@ public class NewVentanaAdmin extends JFrame {
 							}
 							getLblPlanificaciónCorrecta().setText("¡Hecho!");
 							pintarPanelesCalendario(
-									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0],
+									null);
 						} else {
 							getLblPlanificaciónCorrecta().setText("");
 							getLblHorarioOcupado().setVisible(true);
@@ -972,7 +994,8 @@ public class NewVentanaAdmin extends JFrame {
 							getLblHorarioOcupado().setVisible(false);
 							planificarActividad(null);
 							pintarPanelesCalendario(
-									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0],
+									null);
 						} else {
 							getLblPlanificaciónCorrecta().setText("");
 							getLblHorarioOcupado().setVisible(true);
@@ -1452,21 +1475,22 @@ public class NewVentanaAdmin extends JFrame {
 			panelSemana.add(getLblSemanaFechaCalendario());
 			panelSemana.add(getBtnSemanaSiguiente());
 			panelSemana.add(getComboBoxIntalacionesCalendario_1());
-			pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getItemAt(0));
+			pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getItemAt(0), null);
 		}
 		return panelSemana;
 	}
 
-	private void pintarPanelesCalendario(String instalacion) {
+	private void pintarPanelesCalendario(String instalacion, String fechaCierre) {
 		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
 		List<Alquiler> alquileres = admin.listarAlquileres(instalacion);
 		JButton bot;
 		getPanelCeldasCalendario().removeAll();
+
 		for (int i = 0; i < 14; i++) {
 			for (int j = 0; j < 7; j++) {
 				bot = new JButton();
 				bot.setBackground(new Color(152, 251, 152));
-				asignarTexto(bot, i, j, actividades, alquileres);
+				asignarTexto(bot, i, j, actividades, alquileres, fechaCierre);
 				getPanelCeldasCalendario().add(bot);
 			}
 		}
@@ -1577,6 +1601,7 @@ public class NewVentanaAdmin extends JFrame {
 
 		fecha = dia + "/" + monthYear + "/" + year;
 		getTextFieldFechaPlanificacion().setText(fecha);
+		getTextFieldFechaCierre().setText(fecha);
 		getTextFieldFechaAlqInst().setText(fecha);
 	}
 
@@ -1584,7 +1609,8 @@ public class NewVentanaAdmin extends JFrame {
 		getTextFieldFechaPlanificacion().setText(a.getFecha());
 	}
 
-	private void asignarTexto(JButton p, int i, int j, List<Actividad> actividades, List<Alquiler> alquileres) {
+	private void asignarTexto(JButton p, int i, int j, List<Actividad> actividades, List<Alquiler> alquileres,
+			String fechaCierre) {
 		int lunes = Integer.parseInt(getLblLunes().getText().split(" - ")[1]);
 		int martes = Integer.parseInt(getLblMartes().getText().split(" - ")[1]);
 		int miercoles = Integer.parseInt(getLblMiercoles().getText().split(" - ")[1]);
@@ -1682,31 +1708,31 @@ public class NewVentanaAdmin extends JFrame {
 					if (month == this.month.getValue()) {
 						if (dia == lunes) {
 							if (j == 0) {
-								pintarAlquiler(i, horainicio, horafin, p, a);
+								pintarAlquiler(i, horainicio, horafin, p, a, fechaCierre);
 							}
 						} else if (dia == martes) {
 							if (j == 1) {
-								pintarAlquiler(i, horainicio, horafin, p, a);
+								pintarAlquiler(i, horainicio, horafin, p, a, fechaCierre);
 							}
 						} else if (dia == miercoles) {
 							if (j == 2) {
-								pintarAlquiler(i, horainicio, horafin, p, a);
+								pintarAlquiler(i, horainicio, horafin, p, a, fechaCierre);
 							}
 						} else if (dia == jueves) {
 							if (j == 3) {
-								pintarAlquiler(i, horainicio, horafin, p, a);
+								pintarAlquiler(i, horainicio, horafin, p, a, fechaCierre);
 							}
 						} else if (dia == viernes) {
 							if (j == 4) {
-								pintarAlquiler(i, horainicio, horafin, p, a);
+								pintarAlquiler(i, horainicio, horafin, p, a, fechaCierre);
 							}
 						} else if (dia == sabado) {
 							if (j == 5) {
-								pintarAlquiler(i, horainicio, horafin, p, a);
+								pintarAlquiler(i, horainicio, horafin, p, a, fechaCierre);
 							}
 						} else if (dia == domingo) {
 							if (j == 6) {
-								pintarAlquiler(i, horainicio, horafin, p, a);
+								pintarAlquiler(i, horainicio, horafin, p, a, fechaCierre);
 							}
 						}
 					}
@@ -1715,7 +1741,7 @@ public class NewVentanaAdmin extends JFrame {
 		}
 	}
 
-	private void pintarAlquiler(int i, String horainicio, String horafin, JButton bot, Alquiler a) {
+	private void pintarAlquiler(int i, String horainicio, String horafin, JButton bot, Alquiler a, String fechaCierre) {
 		int fin = Integer.parseInt(horafin.split(":")[0]);
 		int inicio = Integer.parseInt(horainicio.split(":")[0]);
 		int diferencia = fin - inicio;
@@ -1745,10 +1771,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("10:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 10 && 10 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1764,10 +1786,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("11:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 11 && 11 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1779,10 +1797,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("12:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 12 && 12 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1794,10 +1808,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("13:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 13 && 13 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1809,10 +1819,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("14:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 14 && 14 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1824,10 +1830,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("15:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 15 && 15 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1839,10 +1841,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("16:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 16 && 16 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1854,10 +1852,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("17:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 17 && 17 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1869,10 +1863,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("18:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 18 && 18 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1884,10 +1874,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("19:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 19 && 19 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1899,10 +1885,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("20:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 20 && 20 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1914,10 +1896,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("21:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 21 && 21 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1929,10 +1907,6 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
 			}
-//			if (horafin.equals("22:00")) {
-//				bot.setText(a.getId_socio());
-//				bot.setBackground(new Color(100, 149, 237));
-//			}
 			if (diferencia > 1 && inicio < 22 && 22 < fin) {
 				bot.setText(a.getId_socio());
 				bot.setBackground(new Color(100, 149, 237));
@@ -1949,6 +1923,190 @@ public class NewVentanaAdmin extends JFrame {
 				bot.setBackground(new Color(100, 149, 237));
 			}
 			break;
+		}
+		if (fechaCierre != null) {
+			if (a.getFecha().equals(fechaCierre)) {
+				switch (i) {
+				// 9:00
+				case 0:
+					if (horainicio.equals("9:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (horafin.equals("9:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 9 && 9 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 10:00
+				case 1:
+					if (horainicio.equals("10:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio == 10) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 10 && 10 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 11:00
+				case 2:
+					if (horainicio.equals("11:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio == 11) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 11 && 11 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 12:00
+				case 3:
+					if (horainicio.equals("12:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 12 && 12 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 13:00
+				case 4:
+					if (horainicio.equals("13:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 13 && 13 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 14:00
+				case 5:
+					if (horainicio.equals("14:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 14 && 14 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 15:00
+				case 6:
+					if (horainicio.equals("15:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 15 && 15 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 16:00
+				case 7:
+					if (horainicio.equals("16:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 16 && 16 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 17:00
+				case 8:
+					if (horainicio.equals("17:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 17 && 17 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 18:00
+				case 9:
+					if (horainicio.equals("18:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 18 && 18 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 19:00
+				case 10:
+					if (horainicio.equals("19:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 19 && 19 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 20:00
+				case 11:
+					if (horainicio.equals("20:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 20 && 20 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+						;
+					}
+					break;
+				// 21:00
+				case 12:
+					if (horainicio.equals("21:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 21 && 21 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 22:00
+				case 13:
+					if (horainicio.equals("22:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (diferencia > 1 && inicio < 22 && 22 < fin) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				// 23:00
+				default:
+					if (horainicio.equals("23:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					if (horafin.equals("23:00")) {
+						bot.setText("CLOSED");
+						bot.setBackground(new Color(162, 42, 42));
+					}
+					break;
+				}
+			}
 		}
 		bot.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -2798,7 +2956,7 @@ public class NewVentanaAdmin extends JFrame {
 					mostrarSemanaAnterior();
 					getLblSemanaFechaCalendario().setText(month.getValue() + "/" + year);
 					pintarPanelesCalendario(
-							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0], null);
 				}
 			});
 			btnSemanaAnterior.setForeground(SystemColor.text);
@@ -3041,7 +3199,7 @@ public class NewVentanaAdmin extends JFrame {
 					mostrarSemanaSiguiente();
 					getLblSemanaFechaCalendario().setText(month.getValue() + "/" + year);
 					pintarPanelesCalendario(
-							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0], null);
 				}
 			});
 			btnSemanaSiguiente.setForeground(SystemColor.text);
@@ -3255,7 +3413,8 @@ public class NewVentanaAdmin extends JFrame {
 			comboBoxIntalacionesCalendario = new JComboBox<String>();
 			comboBoxIntalacionesCalendario.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					pintarPanelesCalendario(comboBoxIntalacionesCalendario.getSelectedItem().toString().split("@")[0]);
+					pintarPanelesCalendario(comboBoxIntalacionesCalendario.getSelectedItem().toString().split("@")[0],
+							null);
 					getLblInstalacionAlqInst().setText("Instalación: "
 							+ getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
 					int max = admin.getPlazasPorInstalacion(
@@ -3392,7 +3551,7 @@ public class NewVentanaAdmin extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					cancelarAlquiler();
 					pintarPanelesCalendario(
-							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+							getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0], null);
 				}
 			});
 			btnCancelacionAlquiler.setBackground(new Color(0, 250, 154));
@@ -3759,7 +3918,8 @@ public class NewVentanaAdmin extends JFrame {
 					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
 						getLblHorarioOcupado1().setVisible(false);
 						alquilarInstalacion();
-						getComboBoxSocios().setModel(new DefaultComboBoxModel<String>(admin.listarSociosPorAlquileres()));
+						getComboBoxSocios()
+								.setModel(new DefaultComboBoxModel<String>(admin.listarSociosPorAlquileres()));
 					} else {
 						getLblHorarioOcupado1().setVisible(true);
 					}
@@ -3783,7 +3943,7 @@ public class NewVentanaAdmin extends JFrame {
 			String hora_fin = getComboBoxHoraFinAlqInst().getSelectedItem().toString().split("@")[0];
 			admin.crearAlquiler(id_socio, instalacion, hora_inicio, hora_fin, fecha);
 			getTextFieldFechaAlqInst().setBorder(LineBorder.createGrayLineBorder());
-			pintarPanelesCalendario(instalacion);
+			pintarPanelesCalendario(instalacion, null);
 			getLblAlquilerCorrecto().setText("¡Alquilado!");
 		} else {
 			getTextFieldFechaAlqInst().setBorder(new LineBorder(Color.RED));
@@ -4195,5 +4355,210 @@ public class NewVentanaAdmin extends JFrame {
 			rdbtnNoRepetir.setBackground(Color.WHITE);
 		}
 		return rdbtnNoRepetir;
+	}
+
+	private JPanel getPanelCerrarInstalacion() {
+		if (panelCerrarInstalacion == null) {
+			panelCerrarInstalacion = new JPanel();
+			panelCerrarInstalacion.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+			FlowLayout flowLayout = (FlowLayout) panelCerrarInstalacion.getLayout();
+			flowLayout.setVgap(60);
+			panelCerrarInstalacion.setBackground(Color.WHITE);
+			panelCerrarInstalacion.add(getBtnNewButton());
+		}
+		return panelCerrarInstalacion;
+	}
+
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("Cerrar Instalación");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPanelAcciones("panelCerrarInstalacion");
+				}
+			});
+			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return btnNewButton;
+	}
+
+	private JPanel getPanelCerrarInstalacionAlquileres() {
+		if (panelCerrarInstalacionAlquileres == null) {
+			panelCerrarInstalacionAlquileres = new JPanel();
+			panelCerrarInstalacionAlquileres.setBackground(Color.WHITE);
+			panelCerrarInstalacionAlquileres.setLayout(new GridLayout(3, 0, 0, 0));
+			panelCerrarInstalacionAlquileres.add(getPanelInstalacionesCerrar());
+			panelCerrarInstalacionAlquileres.add(getPanelDiaCerrarInstalaciones());
+			panelCerrarInstalacionAlquileres.add(getPanelAtrasCerrarInstalacion());
+		}
+		return panelCerrarInstalacionAlquileres;
+	}
+
+	private JPanel getPanelInstalacionesCerrar() {
+		if (panelInstalacionesCerrar == null) {
+			panelInstalacionesCerrar = new JPanel();
+			panelInstalacionesCerrar.setBackground(Color.WHITE);
+			FlowLayout flowLayout = (FlowLayout) panelInstalacionesCerrar.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			flowLayout.setVgap(120);
+			panelInstalacionesCerrar.add(getLblInstalacionACerrar());
+			panelInstalacionesCerrar.add(getComboBoxInstalacionesACerrar());
+		}
+		return panelInstalacionesCerrar;
+	}
+
+	private JPanel getPanelDiaCerrarInstalaciones() {
+		if (panelDiaCerrarInstalaciones == null) {
+			panelDiaCerrarInstalaciones = new JPanel();
+			panelDiaCerrarInstalaciones.setBackground(Color.WHITE);
+			FlowLayout flowLayout = (FlowLayout) panelDiaCerrarInstalaciones.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			flowLayout.setVgap(120);
+			panelDiaCerrarInstalaciones.add(getLblFechaInstalacionCerrada());
+			panelDiaCerrarInstalaciones.add(getTextFieldFechaCierre());
+		}
+		return panelDiaCerrarInstalaciones;
+	}
+
+	private JPanel getPanelAtrasCerrarInstalacion() {
+		if (panelAtrasCerrarInstalacion == null) {
+			panelAtrasCerrarInstalacion = new JPanel();
+			panelAtrasCerrarInstalacion.setBackground(Color.WHITE);
+			panelAtrasCerrarInstalacion.setLayout(new GridLayout(2, 0, 0, 0));
+			panelAtrasCerrarInstalacion.add(getLblRecordatorioAlquileres());
+			panelAtrasCerrarInstalacion.add(getPanelBotonesAtrasYCancelar());
+		}
+		return panelAtrasCerrarInstalacion;
+	}
+
+	private JComboBox<String> getComboBoxInstalacionesACerrar() {
+		if (comboBoxInstalacionesACerrar == null) {
+			comboBoxInstalacionesACerrar = new JComboBox<String>();
+			comboBoxInstalacionesACerrar.setModel(new DefaultComboBoxModel<String>(admin.getInstalaciones()));
+			comboBoxInstalacionesACerrar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return comboBoxInstalacionesACerrar;
+	}
+
+	private JLabel getLblInstalacionACerrar() {
+		if (lblInstalacionACerrar == null) {
+			lblInstalacionACerrar = new JLabel("Instalación: ");
+			lblInstalacionACerrar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblInstalacionACerrar;
+	}
+
+	private JLabel getLblFechaInstalacionCerrada() {
+		if (lblFechaInstalacionCerrada == null) {
+			lblFechaInstalacionCerrada = new JLabel("Fecha de cierre: ");
+			lblFechaInstalacionCerrada.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblFechaInstalacionCerrada;
+	}
+
+	private JTextField getTextFieldFechaCierre() {
+		if (textFieldFechaCierre == null) {
+			textFieldFechaCierre = new JTextField();
+			textFieldFechaCierre.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			textFieldFechaCierre.setColumns(10);
+		}
+		return textFieldFechaCierre;
+	}
+
+	private JLabel getLblRecordatorioAlquileres() {
+		if (lblRecordatorioAlquileres == null) {
+			lblRecordatorioAlquileres = new JLabel("Recuerda que sólo se cerrará la instalación \npara alquileres");
+			lblRecordatorioAlquileres.setVerticalAlignment(SwingConstants.TOP);
+			lblRecordatorioAlquileres.setHorizontalAlignment(SwingConstants.CENTER);
+			lblRecordatorioAlquileres.setForeground(new Color(139, 0, 0));
+			lblRecordatorioAlquileres.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		}
+		return lblRecordatorioAlquileres;
+	}
+
+	private JPanel getPanelBotonesAtrasYCancelar() {
+		if (panelBotonesAtrasYCancelar == null) {
+			panelBotonesAtrasYCancelar = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelBotonesAtrasYCancelar.getLayout();
+			flowLayout.setAlignment(FlowLayout.RIGHT);
+			flowLayout.setVgap(80);
+			panelBotonesAtrasYCancelar.setBackground(Color.WHITE);
+			panelBotonesAtrasYCancelar.add(getLblTodoCorrectoCerrar());
+			panelBotonesAtrasYCancelar.add(getBtnAtrasTipo_1_2());
+			panelBotonesAtrasYCancelar.add(getBtnCrearTipo_1_2());
+			panelBotonesAtrasYCancelar.add(getLblNewLabel());
+		}
+		return panelBotonesAtrasYCancelar;
+	}
+
+	private JButton getBtnAtrasTipo_1_2() {
+		if (btnAtrasCerrar == null) {
+			btnAtrasCerrar = new JButton("Atrás");
+			btnAtrasCerrar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					vaciarCampos();
+					mostrarPanelAcciones("panelBotones");
+				}
+			});
+			btnAtrasCerrar.setVerticalAlignment(SwingConstants.BOTTOM);
+			btnAtrasCerrar.setHorizontalAlignment(SwingConstants.RIGHT);
+			btnAtrasCerrar.setForeground(Color.WHITE);
+			btnAtrasCerrar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnAtrasCerrar.setBackground(new Color(165, 42, 42));
+		}
+		return btnAtrasCerrar;
+	}
+
+	private JButton getBtnCrearTipo_1_2() {
+		if (btnCrearCerrar == null) {
+			btnCrearCerrar = new JButton("Cerrar");
+			btnCrearCerrar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cerrarInstalacion(getComboBoxInstalacionesACerrar().getSelectedItem().toString().split("@")[0],
+							getTextFieldFechaCierre().getText());
+					getLblTodoCorrectoCerrar().setVisible(true);
+				}
+			});
+			btnCrearCerrar.setVerticalAlignment(SwingConstants.BOTTOM);
+			btnCrearCerrar.setHorizontalAlignment(SwingConstants.RIGHT);
+			btnCrearCerrar.setForeground(Color.WHITE);
+			btnCrearCerrar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnCrearCerrar.setBackground(new Color(0, 250, 154));
+		}
+		return btnCrearCerrar;
+	}
+
+	protected void cerrarInstalacion(String instalacion, String fechaCierre) {
+		admin.cerrarInstalacion(instalacion, fechaCierre);
+
+		List<Alquiler> alquileres = admin.listarAlquileres(instalacion);
+		List<Alquiler> alquileresCancelados = new ArrayList<>();// alquileres que se van a cancelar
+		for (Alquiler a : alquileres) {
+			if (a.getFecha().equals(fechaCierre))
+				alquileresCancelados.add(a);
+		}
+		// Se eliminan los alquileres
+		for (Alquiler a : alquileresCancelados)
+			admin.actualizarAlquilerACanceladoPorCierre(a);
+
+		pintarPanelesCalendario(instalacion, fechaCierre);
+
+	}
+
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("");
+		}
+		return lblNewLabel;
+	}
+
+	private JLabel getLblTodoCorrectoCerrar() {
+		if (lblTodoCorrectoCerrar == null) {
+			lblTodoCorrectoCerrar = new JLabel("¡Hecho!");
+			lblTodoCorrectoCerrar.setVisible(false);
+			lblTodoCorrectoCerrar.setForeground(Color.GREEN);
+			lblTodoCorrectoCerrar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblTodoCorrectoCerrar;
 	}
 }
