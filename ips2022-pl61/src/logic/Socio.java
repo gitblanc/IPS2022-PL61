@@ -233,9 +233,6 @@ public class Socio {
 			
 			return ac1.compareTo(ac2);
 		}
-
-
-		
 		
 	}
 
@@ -354,6 +351,24 @@ public class Socio {
 			return false;
 		}
 		return true;
+	}
+
+	public static void eliminarAlquiler(String correo, String id_alquiler) {
+		String socioId = ss.findByCorreo(correo).id;
+		List<AlquilerBLDto> alquileres = als.findByIdSocio(socioId);
+		AlquilerBLDto alquiler = null;
+		for(AlquilerBLDto a: alquileres) {
+			if(a.id.equals(id_alquiler)) {
+				alquiler = a;
+			}
+		}
+		als.updateAlquiler(alquiler);
+		
+	}
+
+	public List<String> findAlquilersBySocioCancelados(String correo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

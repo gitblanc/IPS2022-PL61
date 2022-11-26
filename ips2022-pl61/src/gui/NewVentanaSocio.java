@@ -53,9 +53,6 @@ public class NewVentanaSocio extends JFrame {
 	private JButton bt_Añadir;
 	private JButton bt_Eliminar;
 	private JPanel pn_actividades;
-	private JPanel pn_filtrar;
-	private JLabel lbl_Elegir_que_filtrar;
-	private JButton btRefrescar;
 	private JPanel pn_actividades_centro;
 	private JPanel pn_todo_centro_FRASE;
 	private JLabel lbl_todo_centro;
@@ -109,7 +106,11 @@ public class NewVentanaSocio extends JFrame {
 	private JPanel pn_botones_1;
 	private JPanel pn_botones_2;
 	private JButton bt_eliminar_instalacion;
-	private JButton bt_Añadir_Instalacion;
+	private JButton bt_refrescar_alquileres;
+	private JButton bt_ver_cancelados;
+	private JPanel panel;
+	private JButton bt_refrescar_actividades;
+	private JPanel panel_1;
 
 	/**
 	 * Create the frame.
@@ -203,7 +204,7 @@ public class NewVentanaSocio extends JFrame {
 	}
 	private JButton getBt_Añadir() {
 		if (bt_Añadir == null) {
-			bt_Añadir = new JButton("Añadir actividad");
+			bt_Añadir = new JButton("Añadir");
 			bt_Añadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					((CardLayout) getPn_contenidos().getLayout()).show(getPn_contenidos(), "panel_2");
@@ -294,38 +295,9 @@ public class NewVentanaSocio extends JFrame {
 			pn_actividades = new JPanel();
 			pn_actividades.setBackground(new Color(255, 255, 255));
 			pn_actividades.setLayout(new BorderLayout(0, 0));
-			pn_actividades.add(getPn_filtrar(), BorderLayout.NORTH);
 			pn_actividades.add(getPn_miis_listas(), BorderLayout.CENTER);
 		}
 		return pn_actividades;
-	}
-	private JPanel getPn_filtrar() {
-		if (pn_filtrar == null) {
-			pn_filtrar = new JPanel();
-			pn_filtrar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-			pn_filtrar.setBackground(new Color(152, 251, 152));
-			pn_filtrar.add(getLabel_1());
-			pn_filtrar.add(getBtRefrescar());
-		}
-		return pn_filtrar;
-	}
-	private JLabel getLabel_1() {
-		if (lbl_Elegir_que_filtrar == null) {
-			lbl_Elegir_que_filtrar = new JLabel("Pulse para refrescar:");
-		}
-		return lbl_Elegir_que_filtrar;
-	}
-	private JButton getBtRefrescar() {
-		if (btRefrescar == null) {
-			btRefrescar = new JButton("Refrescar");
-			btRefrescar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					actualizarListaMisActividades();
-					actualizarListaMisInstalaciones();
-				}
-			});
-		}
-		return btRefrescar;
 	}
 	
 	
@@ -516,7 +488,7 @@ public class NewVentanaSocio extends JFrame {
 	
 	private String getIdActividad(String cadena) {
 		if(cadena == null) {
-			throw new IllegalArgumentException("No se ha seleccionado item en lista");
+			JOptionPane.showMessageDialog(this, "No se ha seleccionado item en lista", "Error seleccionar actividad", JOptionPane.INFORMATION_MESSAGE);
 		}
 		String[] valores = cadena.split(" ------ ");
 		return valores[0];
@@ -587,8 +559,10 @@ public class NewVentanaSocio extends JFrame {
 		if (pn_infor_Actividades == null) {
 			pn_infor_Actividades = new JPanel();
 			pn_infor_Actividades.setBorder(new LineBorder(new Color(0, 0, 0)));
-			pn_infor_Actividades.setBackground(new Color(255, 255, 255));
+			pn_infor_Actividades.setBackground(new Color(152, 251, 152));
+			pn_infor_Actividades.setLayout(new BorderLayout(0, 0));
 			pn_infor_Actividades.add(getLbl_actividades());
+			pn_infor_Actividades.add(getPanel_1_4(), BorderLayout.EAST);
 		}
 		return pn_infor_Actividades;
 	}
@@ -606,20 +580,25 @@ public class NewVentanaSocio extends JFrame {
 		if (pn_infor_instalaciones == null) {
 			pn_infor_instalaciones = new JPanel();
 			pn_infor_instalaciones.setBorder(new LineBorder(new Color(0, 0, 0)));
-			pn_infor_instalaciones.setBackground(new Color(255, 255, 255));
-			pn_infor_instalaciones.add(getLbl_instlaciones());
+			pn_infor_instalaciones.setBackground(new Color(152, 251, 152));
+			pn_infor_instalaciones.setLayout(new BorderLayout(0, 0));
+			pn_infor_instalaciones.add(getLbl_instlaciones(), BorderLayout.CENTER);
+			pn_infor_instalaciones.add(getPanel(), BorderLayout.EAST);
 		}
 		return pn_infor_instalaciones;
 	}
 	private JLabel getLbl_actividades() {
 		if (lbl_actividades == null) {
-			lbl_actividades = new JLabel("Actividades");
+			lbl_actividades = new JLabel("Actividades:");
+			lbl_actividades.setFont(new Font("Tahoma", Font.BOLD, 15));
 		}
 		return lbl_actividades;
 	}
 	private JLabel getLbl_instlaciones() { 
 		if (lbl_instlaciones == null) {
-			lbl_instlaciones = new JLabel("Alquileres");
+			lbl_instlaciones = new JLabel("Alquileres:");
+			lbl_instlaciones.setFont(new Font("Tahoma", Font.BOLD, 15));
+			lbl_instlaciones.setBackground(new Color(152, 251, 152));
 		}
 		return lbl_instlaciones;
 	}
@@ -882,7 +861,6 @@ public class NewVentanaSocio extends JFrame {
 			pn_botones_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 			pn_botones_2.setBackground(new Color(255, 255, 255));
 			pn_botones_2.setLayout(new GridLayout(0, 1, 0, 0));
-			pn_botones_2.add(getBt_Añadir_Instalacion());
 			pn_botones_2.add(getBt_eliminar_instalacion());
 		}
 		return pn_botones_2;
@@ -892,7 +870,11 @@ public class NewVentanaSocio extends JFrame {
 			bt_eliminar_instalacion = new JButton("Eliminar alquiler");
 			bt_eliminar_instalacion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					String correo = getCb_usuarios().getSelectedItem().toString();
+					if(seleccionAlquiler()) {
+						String id_alquiler = getIdAlquiler(getList_MisInstalaciones().getSelectedValue());
+						eliminarAlquiler(correo, id_alquiler);
+					} 
 				}
 			});
 			bt_eliminar_instalacion.setForeground(new Color(255, 255, 255));
@@ -900,18 +882,91 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return bt_eliminar_instalacion;
 	}
-	private JButton getBt_Añadir_Instalacion() {
-		if (bt_Añadir_Instalacion == null) {
-			bt_Añadir_Instalacion = new JButton("Añadir alquiler");
-			bt_Añadir_Instalacion.setForeground(new Color(255, 255, 255));
-			bt_Añadir_Instalacion.setBackground(new Color(0, 128, 0));
-			bt_Añadir_Instalacion.addActionListener(new ActionListener() {
+	
+	protected void eliminarAlquiler(String correo, String id_alquiler) {
+		List<String> elegidoEliminar = getList_misActividades().getSelectedValuesList();
+		for(int i = 0; i < elegidoEliminar.size(); i++) {
+			modelMisAlquileres.removeElement(elegidoEliminar.get(i));
+		}
+		getList_MisInstalaciones().setModel(modelMisAlquileres);
+		
+		Socio.eliminarAlquiler(correo, id_alquiler);
+		
+	}
+	private boolean seleccionAlquiler() {
+		if(getList_MisInstalaciones().getSelectedValue() != null) {
+			return true;
+		} 
+		
+		return false;
+	}
+	
+	private String getIdAlquiler(String cadena) {
+		if(cadena == null) {
+			JOptionPane.showMessageDialog(this, "No se ha seleccionado item en lista", "Error seleccionar alquiler", JOptionPane.INFORMATION_MESSAGE);
+		}
+		String[] valores = cadena.split(" ------ ");
+		return valores[0];
+	}
+	
+	
+	private JButton getBt_refrescar_alquileres() {
+		if (bt_refrescar_alquileres == null) {
+			bt_refrescar_alquileres = new JButton("Refrescar alquileres");
+			bt_refrescar_alquileres.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					((CardLayout) getPn_contenidos().getLayout()).show(getPn_contenidos(), "panel_2");
-					contentPane.getRootPane().setDefaultButton(getBt_Añadir_Instalacion());
+					actualizarListaMisInstalaciones();
 				}
 			});
 		}
-		return bt_Añadir_Instalacion;
+		return bt_refrescar_alquileres;
+	}
+	private JButton getBt_ver_cancelados() {
+		if (bt_ver_cancelados == null) {
+			bt_ver_cancelados = new JButton("Ver cancelados");
+			bt_ver_cancelados.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					actualizarMisAlquileresCancelados();
+				}
+			});
+		}
+		return bt_ver_cancelados;
+	}
+	protected void actualizarMisAlquileresCancelados() {
+		String correo = cb_usuarios.getSelectedItem().toString();
+		List<String> listaMisAlquileresCancelados = socio.findAlquilersBySocioCancelados(correo);
+		((DefaultListModel<String>) modelMisAlquileres).removeAllElements();
+		for(int i = 0; i < listaMisAlquileresCancelados.size(); i++) {
+			((DefaultListModel<String>) modelMisAlquileres).addElement(listaMisAlquileresCancelados.get(i));
+		}
+		
+	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setBackground(new Color(152, 251, 152));
+			panel.add(getBt_refrescar_alquileres());
+			panel.add(getBt_ver_cancelados());
+		}
+		return panel;
+	}
+	private JButton getBt_refrescar_actividades() {
+		if (bt_refrescar_actividades == null) {
+			bt_refrescar_actividades = new JButton("Refrescar actividades");
+			bt_refrescar_actividades.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					actualizarListaMisActividades();
+				}
+			});
+		}
+		return bt_refrescar_actividades;
+	}
+	private JPanel getPanel_1_4() {
+		if (panel_1 == null) {
+			panel_1 = new JPanel();
+			panel_1.setBackground(new Color(152, 251, 152));
+			panel_1.add(getBt_refrescar_actividades());
+		}
+		return panel_1;
 	}
 }
