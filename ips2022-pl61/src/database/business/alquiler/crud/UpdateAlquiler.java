@@ -17,7 +17,7 @@ import database.business.alquiler.AlquilerService.AlquilerBLDto;
  *
  */
 public class UpdateAlquiler {
-	private static String SQL = "update Alquileres set nombre_i = ?, id_socio = ?, fecha = ?, hora_inicio = ?, hora_fin = ? where id_a = ?";
+	private static String SQL = "update Alquileres set cancelado = 1 where id_a = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
@@ -38,12 +38,7 @@ public class UpdateAlquiler {
 		try {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 			pst = c.prepareStatement(SQL);
-			pst.setString(1, alquiler.instalacion);
-			pst.setString(2, alquiler.id_socio);
-			pst.setString(3, alquiler.fecha);
-			pst.setString(4, alquiler.hora_inicio);
-			pst.setString(5, alquiler.hora_fin);
-			pst.setString(6, alquiler.id);
+			pst.setString(1, alquiler.id);
 
 			pst.executeUpdate();
 
