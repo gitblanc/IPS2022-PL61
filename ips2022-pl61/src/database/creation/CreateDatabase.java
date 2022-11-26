@@ -121,37 +121,37 @@ public class CreateDatabase {
 		// ACTIVIDADES
 				String actividad1 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\", \"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '1', 'Natación', 'alta', 'reserva', '13:00', '15:00', 'piscina', '01/12/2022', 12)";
+						+ "VALUES ( '1', 'Natación', 'alta', 'reserva', '13:00', '15:00', 'piscina', '07/12/2022', 12)";
 				String actividad2 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '2', 'Sauna', 'baja', 'libre', '15:00', '16:00', 'piscina', '01/12/2022', 8)";
+						+ "VALUES ( '2', 'Sauna', 'baja', 'libre', '15:00', '16:00', 'piscina', '07/12/2022', 8)";
 				String actividad3 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '3', 'Jacuzzi', 'baja', 'reserva', '16:00', '18:00', 'piscina', '01/12/2022', 4)";
+						+ "VALUES ( '3', 'Jacuzzi', 'baja', 'reserva', '16:00', '18:00', 'piscina', '07/12/2022', 4)";
 				String actividad4 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '4', 'Peso muerto', 'alta', 'reserva', '13:00', '14:00', 'gimnasio', '01/12/2022', 15)";
+						+ "VALUES ( '4', 'Peso muerto', 'alta', 'reserva', '13:00', '14:00', 'gimnasio', '07/12/2022', 15)";
 				String actividad5 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\", \"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '5', 'Biceps', 'moderada', 'libre', '14:00', '15:00', 'gimnasio', '01/12/2022', 8)";
+						+ "VALUES ( '5', 'Biceps', 'moderada', 'libre', '14:00', '15:00', 'gimnasio', '07/12/2022', 8)";
 				String actividad6 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '6', 'Calistenia', 'alta', 'libre', '21:00', '23:00', 'gimnasio', '01/12/2022', -1)";
+						+ "VALUES ( '6', 'Calistenia', 'alta', 'libre', '21:00', '23:00', 'gimnasio', '07/12/2022', -1)";
 				String actividad7 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\", \"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '7', 'Carrera', 'alta', 'libre', '13:00', '15:00', 'pista', '01/12/2022', -1)";
+						+ "VALUES ( '7', 'Carrera', 'alta', 'libre', '13:00', '15:00', 'pista', '07/12/2022', -1)";
 				String actividad8 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '8', 'Jabalina', 'moderada', 'reserva', '17:00', '19:00', 'pista', '01/12/2022', 7)";
+						+ "VALUES ( '8', 'Jabalina', 'moderada', 'reserva', '17:00', '19:00', 'pista', '07/12/2022', 7)";
 				String actividad9 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '9', 'Jabalina', 'moderada', 'reserva', '09:00', '11:00', 'pista', '01/12/2022', 7)";
+						+ "VALUES ( '9', 'Jabalina', 'moderada', 'reserva', '09:00', '11:00', 'pista', '07/12/2022', 7)";
 				String actividad10 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 						+ "VALUES ( '10', 'Yoga', 'moderada', 'reserva', '22:00', '23:00', 'gimnasio', '30/11/2022', 9)";
 				String actividad11 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-						+ "VALUES ( '11', 'Danza', 'moderada', 'reserva', '20:00', '22:00', 'pista', '01/12/2022', 10)";
+						+ "VALUES ( '11', 'Danza', 'moderada', 'reserva', '20:00', '22:00', 'pista', '07/12/2022', 10)";
 				String actividad12 = "INSERT INTO TipoActividad\r\n"
 						+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 						+ "VALUES ( '12', 'Danza', 'moderada', 'reserva', '16:00', '17:00', 'pista', '30/11/2022', 10)";
