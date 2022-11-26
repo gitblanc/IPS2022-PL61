@@ -8,25 +8,33 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import database.business.alquiler.AlquilerService.AlquilerBLDto;
 
 /**
  * @author UO285176
  *
  */
-public class FindAllAlquileres {
+public class CancelarAlquiler {
 
-	private static final String SQL = "select * from alquileres";
+	private static String SQL = "delete from alquileres where id_socio = ? and nombre_i = ? and fecha = ? and hora_inicio = ? and hora_fin = ?";
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	public List<AlquilerBLDto> execute() {
-		List<AlquilerBLDto> alquileres = new ArrayList<>();
+	String socio = null;
+	String instalacion = null;
+	String fecha = null;
+	String hora_inicio = null;
+	String hora_fin = null;
 
+	public CancelarAlquiler(String socio, String instalacion, String fecha, String hora_inicio, String hora_fin) {
+		this.socio = socio;
+		this.instalacion = instalacion;
+		this.fecha = fecha;
+		this.hora_inicio = hora_inicio;
+		this.hora_fin = hora_fin;
+	}
+
+	public Void execute() {
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -35,19 +43,14 @@ public class FindAllAlquileres {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 
 			pst = c.prepareStatement(SQL);
+			pst.setString(1, this.socio);
+			pst.setString(2, this.instalacion);
+			pst.setString(3, this.fecha);
+			pst.setString(4, this.hora_inicio);
+			pst.setString(5, this.hora_fin);
 
-			rs = pst.executeQuery();
-			while (rs.next()) {
-				AlquilerBLDto al = new AlquilerBLDto();
-				al.id = rs.getString("id_a");
-				al.instalacion = rs.getString("nombre_i");
-				al.id_socio = rs.getString("id_socio");
-				al.fecha = rs.getString("fecha");
-				al.hora_inicio = rs.getString("hora_inicio");
-				al.hora_fin = rs.getString("hora_fin");
-				al.cancelado = rs.getInt("cancelado");
-				alquileres.add(al);
-			}
+			pst.executeUpdate();
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -67,7 +70,7 @@ public class FindAllAlquileres {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return alquileres;
+		return null;
 	}
 
 }
