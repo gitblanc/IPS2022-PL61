@@ -1,6 +1,3 @@
-/**
- * 
- */
 package database.business.alquiler.crud;
 
 import java.sql.Connection;
@@ -11,43 +8,41 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import assertion.Argument;
 import database.business.alquiler.AlquilerService.AlquilerBLDto;
 
-/**
- * @author UO285176
- *
- */
-public class FindAllAlquileres {
+public class FindByIdSocio {
 
-	private static final String SQL = "select * from alquileres";
+	private static String SQL = "select * from Alquileres where id_socio = ?";
+
 	private static final String URL = "jdbc:hsqldb:hsql://localhost:1521/";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 
-	public List<AlquilerBLDto> execute() {
-		List<AlquilerBLDto> alquileres = new ArrayList<>();
+	private String id;
 
+	public FindByIdSocio(String idSocio) {
+		Argument.isNotNull(idSocio);
+		this.id = idSocio;
+	}
+
+	public List<AlquilerBLDto> execute() {
+		// Process
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
+		List<AlquilerBLDto> alquiler = null;
 
 		try {
 			c = DriverManager.getConnection(URL, USER, PASSWORD);
 
 			pst = c.prepareStatement(SQL);
+			pst.setString(1, this.id);
+
 
 			rs = pst.executeQuery();
-			while (rs.next()) {
-				AlquilerBLDto al = new AlquilerBLDto();
-				al.id = rs.getString("id_a");
-				al.instalacion = rs.getString("nombre_i");
-				al.id_socio = rs.getString("id_socio");
-				al.fecha = rs.getString("fecha");
-				al.hora_inicio = rs.getString("hora_inicio");
-				al.hora_fin = rs.getString("hora_fin");
-				al.cancelado = rs.getInt("cancelado");
-				alquileres.add(al);
-			}
+			alquiler = getResult(rs);
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -67,7 +62,28 @@ public class FindAllAlquileres {
 				} catch (SQLException e) {
 					/* ignore */ }
 		}
-		return alquileres;
+		return alquiler;
+	}
+	
+	private List<AlquilerBLDto> getResult(ResultSet r) throws SQLException {
+		List<AlquilerBLDto> res = new ArrayList<>();
+		while (r.next()) {
+			res.add(resultSet(r));
+		}
+		return res;
 	}
 
+	private AlquilerBLDto resultSet(ResultSet r) throws SQLException {
+		AlquilerBLDto a = new AlquilerBLDto();
+		a.id = r.getString("id_a");
+		a.id_socio = r.getString("id_socio");
+		a.hora_inicio = r.getString("Hora_inicio");
+		a.hora_fin = r.getString("Hora_fin");
+		a.instalacion = r.getString("Nombre_i");
+		a.fecha = r.getString("fecha");
+
+		return a;
+	}
+		
+	
 }
