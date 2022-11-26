@@ -875,6 +875,7 @@ public class NewVentanaSocio extends JFrame {
 						String id_alquiler = getIdAlquiler(getList_MisInstalaciones().getSelectedValue());
 						eliminarAlquiler(correo, id_alquiler);
 					} 
+					actualizarListaMisInstalaciones();
 				}
 			});
 			bt_eliminar_instalacion.setForeground(new Color(255, 255, 255));
