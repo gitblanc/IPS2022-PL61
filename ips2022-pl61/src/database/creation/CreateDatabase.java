@@ -59,7 +59,7 @@ public class CreateDatabase {
 				+ ", nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
 		String crearInstalacion = "create table instalacion(nombre_i varchar(20) primary key, plazas int not null)";
 		String crearTipoActividad = "create table TipoActividad(id_a varchar(150) primary key, tipo varchar(30) not null,"
-				+ " intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
+				+ " intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"  
 				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6),"
 				+ "hora_fin varchar(6), nombre_i varchar(20) foreign key references Instalacion(nombre_i),"
 				+ "fecha varchar(20), plazas_a int)";
@@ -73,7 +73,7 @@ public class CreateDatabase {
 		String crearActividadSocio = "create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),"
 				+ "id_a varchar(150) foreign key references TipoActividad(id_a))";
 		String crearAlquileres = "create table Alquileres(id_a varchar(100) primary key, nombre_i varchar(20) foreign key references instalacion(nombre_i),"
-				+ " id_socio varchar(10) foreign key references socio(id_s), fecha varchar(20), hora_inicio varchar(6), hora_fin varchar(6))";
+				+ " id_socio varchar(10) foreign key references socio(id_s), fecha varchar(20), hora_inicio varchar(6), hora_fin varchar(6), cancelado int)";
 
 		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
 
@@ -313,47 +313,47 @@ public class CreateDatabase {
 						+ "VALUES ( '4', 'Benito', 'González Ahmed', 'bb345@gmail.com', 'hgft234')";
 
 				// ALQUILERES
-				String alquiler1 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('1', 'gimnasio','1','25/11/2022', '9:00', '11:00')";
-				String alquiler2 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('2', 'gimnasio','2','25/11/2022', '11:00', '13:00')";
-				String alquiler3 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('3', 'piscina','3','25/11/2022', '11:00', '13:00')";
-				String alquiler4 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('4', 'gimnasio','3','08/11/2022', '15:00', '17:00')";
-				String alquiler5 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('5', 'gimnasio','1','08/11/2022', '9:00', '11:00')";
-				String alquiler6 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('6', 'gimnasio','2','25/11/2022', '11:00', '13:00')";
-				String alquiler7 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('7', 'piscina','1','08/11/2022', '11:00', '13:00')";
-				String alquiler8 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('8', 'gimnasio','3','25/11/2022', '15:00', '17:00')";
+				String alquiler1 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('1', 'gimnasio','1','25/11/2022', '9:00', '11:00', 0)";
+				String alquiler2 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('2', 'gimnasio','2','25/11/2022', '11:00', '13:00', 0)";
+				String alquiler3 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('3', 'piscina','3','25/11/2022', '11:00', '13:00', 0)";
+				String alquiler4 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('4', 'gimnasio','3','08/11/2022', '15:00', '17:00', 0)";
+				String alquiler5 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('5', 'gimnasio','1','08/11/2022', '9:00', '11:00', 0)";
+				String alquiler6 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('6', 'gimnasio','2','25/11/2022', '11:00', '13:00', 0)";
+				String alquiler7 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('7', 'piscina','1','08/11/2022', '11:00', '13:00', 0)";
+				String alquiler8 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('8', 'gimnasio','3','25/11/2022', '15:00', '17:00', 0)";
 		        ////////////
-		        String alquiler9 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('9', 'gimnasio','1','30/11/2022', '9:00', '11:00')";
-				String alquiler10 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('10', 'gimnasio','2','30/11/2022', '11:00', '13:00')";
-				String alquiler11 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('11', 'piscina','3','30/11/20222', '11:00', '13:00')";
-				String alquiler12 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('12', 'gimnasio','3','30/11/2022', '15:00', '17:00')";
-				String alquiler13 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('13', 'gimnasio','1','22/11/2022', '9:00', '11:00')";
-				String alquiler14 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('14', 'gimnasio','2','22/11/2022', '11:00', '13:00')";
-				String alquiler15 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('15', 'piscina','1','22/11/2022', '11:00', '13:00')";
-				String alquiler16 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('16', 'gimnasio','3','22/11/2022', '15:00', '17:00')";
-				String alquiler17 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('17', 'gimnasio','1','22/11/2022', '9:00', '11:00')";
-				String alquiler18 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('18', 'gimnasio','2','30/11/2022', '11:00', '13:00')";
-				String alquiler19 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('19', 'piscina','1','22/11/2022', '11:00', '13:00')";
-				String alquiler20 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin)"
-						+ " values ('20', 'gimnasio','3','25/11/2022', '15:00', '17:00')";
+		        String alquiler9 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('9', 'gimnasio','1','30/11/2022', '9:00', '11:00', 0)";
+				String alquiler10 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('10', 'gimnasio','2','30/11/2022', '11:00', '13:00', 0)";
+				String alquiler11 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('11', 'piscina','3','30/11/20222', '11:00', '13:00', 0)";
+				String alquiler12 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('12', 'gimnasio','3','30/11/2022', '15:00', '17:00', 0)";
+				String alquiler13 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('13', 'gimnasio','1','22/11/2022', '9:00', '11:00', 0)";
+				String alquiler14 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('14', 'gimnasio','2','22/11/2022', '11:00', '13:00', 0)";
+				String alquiler15 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('15', 'piscina','1','22/11/2022', '11:00', '13:00', 0)";
+				String alquiler16 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('16', 'gimnasio','3','22/11/2022', '15:00', '17:00', 0)";
+				String alquiler17 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('17', 'gimnasio','1','22/11/2022', '9:00', '11:00', 0)";
+				String alquiler18 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('18', 'gimnasio','2','30/11/2022', '11:00', '13:00', 0)";
+				String alquiler19 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('19', 'piscina','1','22/12/2022', '11:00', '13:00', 0)";
+				String alquiler20 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
+						+ " values ('20', 'gimnasio','3','20/12/2022', '15:00', '17:00', 0)";
 				
 				//activiades a socios
 				String actividadSocio1 = "insert into actividadSocio(correo_s, id_a) values ('imxiin@gmail.com', '9')";
