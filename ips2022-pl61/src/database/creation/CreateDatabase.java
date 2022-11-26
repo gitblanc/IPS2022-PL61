@@ -338,7 +338,7 @@ public class CreateDatabase {
 		String alquiler10 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('10', 'gimnasio','2','30/11/2022', '11:00', '13:00', 0)";
 		String alquiler11 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('11', 'piscina','3','30/11/20222', '11:00', '13:00', 0)";
+				+ " values ('11', 'piscina','3','30/11/2022', '11:00', '13:00', 0)";
 		String alquiler12 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('12', 'gimnasio','3','30/11/2022', '15:00', '17:00', 0)";
 		String alquiler13 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"

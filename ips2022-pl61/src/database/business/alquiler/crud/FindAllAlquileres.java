@@ -45,6 +45,7 @@ public class FindAllAlquileres {
 				al.fecha = rs.getString("fecha");
 				al.hora_inicio = rs.getString("hora_inicio");
 				al.hora_fin = rs.getString("hora_fin");
+				al.cancelado = rs.getInt("cancelado");
 				alquileres.add(al);
 			}
 		} catch (SQLException e) {
