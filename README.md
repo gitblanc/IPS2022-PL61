@@ -15,3 +15,7 @@
 (Si se quiere reinicializar la base de datos, descomentar los drops y ejecutar el main de nuevo)
 
 ---
+## Administrador
+![imagen](https://user-images.githubusercontent.com/87705461/204107609-837edd3f-9e66-422f-bf69-fa01648daeda.png)
+
+![imagen](https://user-images.githubusercontent.com/87705461/204107635-a1d737d3-fdd5-4028-aab2-720df3b15b62.png)
