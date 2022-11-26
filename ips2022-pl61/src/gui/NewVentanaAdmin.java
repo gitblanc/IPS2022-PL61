@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -112,8 +113,6 @@ public class NewVentanaAdmin extends JFrame {
 	private JButton btnPlanificarTipo;
 
 	private JDateChooser jDateChooser;
-	private JLabel lblFechaPlanificar;
-	private JTextField textFieldFechaPlanificacion;
 	private JLabel lblPlanificaciónCorrecta;
 	private JPanel panelPanelDiasSemana;
 	private JLabel lblLunes;
@@ -198,6 +197,26 @@ public class NewVentanaAdmin extends JFrame {
 	private JLabel lbl22;
 	private JLabel lbl23;
 	private JRadioButton rdbtnRepetirActividadCadaDia;
+	private JPanel panelFechaPlPrincipal;
+	private JLabel lblFechaPlanificar;
+	private JTextField textFieldFechaPlanificacion;
+	private JPanel panelRepetirVariosDias;
+	private JScrollPane scrollPaneDiasRepetir;
+
+	private JList<String> listDiasDisponibles;
+	DefaultListModel<String> listDiasDisponiblesModel = new DefaultListModel<String>();
+
+	ButtonGroup Button_Group = new ButtonGroup(); // Creates new button group
+	private JRadioButton rdbtnRepetirVariosDias;
+	private JRadioButton rdbtnNoRepetir;
+
+	private boolean lunesMixed;
+	private boolean martesMixed;
+	private boolean miercolesMixed;
+	private boolean juevesMixed;
+	private boolean viernesMixed;
+	private boolean sabadoMixed;
+	private boolean domingoMixed;
 
 	/**
 	 * Create the frame.
@@ -214,6 +233,10 @@ public class NewVentanaAdmin extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 		contentPane.add(getPanelPrincipal(), "panelPrincipal");
+
+		Button_Group.add(getRdbtnRepetirActividadCadaDia_1());
+		Button_Group.add(getRdbtnRepetirVariosDias());
+		Button_Group.add(getRdbtnNoRepetir());
 	}
 
 	private void listarRecursosDisponibles(String instalacion) {
@@ -833,14 +856,13 @@ public class NewVentanaAdmin extends JFrame {
 	private JPanel getPanelSeleccionFecha() {
 		if (panelSeleccionFecha == null) {
 			panelSeleccionFecha = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) panelSeleccionFecha.getLayout();
-			flowLayout.setVgap(60);
-			flowLayout.setAlignment(FlowLayout.LEFT);
 			getJdateChooser();
 			panelSeleccionFecha.setBackground(Color.WHITE);
-			panelSeleccionFecha.add(getLblFechaPlanificar());
-			panelSeleccionFecha.add(getTextFieldFechaPlanificacion());
+			panelSeleccionFecha.setLayout(new GridLayout(4, 1, 0, 0));
+			panelSeleccionFecha.add(getPanelFechaPlPrincipal());
 			panelSeleccionFecha.add(getRdbtnRepetirActividadCadaDia_1());
+			panelSeleccionFecha.add(getPanelRepetirVariosDias());
+			panelSeleccionFecha.add(getRdbtnNoRepetir());
 		}
 		return panelSeleccionFecha;
 	}
@@ -889,17 +911,7 @@ public class NewVentanaAdmin extends JFrame {
 					String fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0];
 					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString()
 							.split("@")[0];
-					if (!getRdbtnRepetirActividadCadaDia_1().isSelected()) {
-						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
-							getLblHorarioOcupado().setVisible(false);
-							planificarActividad(null);
-							pintarPanelesCalendario(
-									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
-						} else {
-							getLblPlanificaciónCorrecta().setText("");
-							getLblHorarioOcupado().setVisible(true);
-						}
-					} else {
+					if (getRdbtnRepetirActividadCadaDia_1().isSelected()) {
 						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)
 								&& !existsActividadOrAlquilerInAFutureDay(fecha, inicio, fin, instalacion)) {
 							planificarActividad(null);
@@ -916,15 +928,65 @@ public class NewVentanaAdmin extends JFrame {
 							getLblPlanificaciónCorrecta().setText("");
 							getLblHorarioOcupado().setVisible(true);
 						}
-					}
+					} else if (getRdbtnRepetirVariosDias().isSelected()) {
+						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
+							List<String> diasSeleccionados = getListDiasDisponibles().getSelectedValuesList();
+							int nextDay = 0;
+							for (String day : diasSeleccionados) {
+								nextDay = obtenerProximoDiaSemana(day);
+								String newFecha = nextDay + "/" + fecha.split("/")[1] + "/" + fecha.split("/")[2];
+								if (!existsActividadOrAlquilerInAFutureDay(newFecha, inicio, fin, instalacion)) {
 
+									for (int i = 0; i < diasRestantes.length; i++) {
+										String date = diasRestantes[i] + "/" + mesesRestantes.get(i) + "/"
+												+ fecha.split("/")[2];
+										crearActividad(
+												admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem()
+														.toString().split("@")[0], date, inicio, fin),
+												date, inicio, fin);
+									}
+								} else {
+									getLblPlanificaciónCorrecta().setText("");
+									getLblHorarioOcupado().setVisible(true);
+									break;
+								}
+							}
+							getLblPlanificaciónCorrecta().setText("¡Hecho!");
+							pintarPanelesCalendario(
+									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+						} else {
+							getLblPlanificaciónCorrecta().setText("");
+							getLblHorarioOcupado().setVisible(true);
+						}
+					} else if (getRdbtnNoRepetir().isSelected()) {// si no se seleccionó ningún radioboton o
+																	// se
+																	// selecciono no repetir
+						String[] fechaSeparada = getTextFieldFechaPlanificacion().getText().split("/");
+						if (lunesMixed || martesMixed || miercolesMixed || juevesMixed || viernesMixed || sabadoMixed
+								|| domingoMixed) {// si hay un día que empieze otro mes intercalado con el finm de otro
+													// mes
+							fechaSeparada[1] = (Integer.parseInt(fechaSeparada[1]) + 1) + "";
+							fecha = fechaSeparada[0] + "/" + fechaSeparada[1] + "/" + fechaSeparada[2];
+						}
+						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
+							getLblHorarioOcupado().setVisible(false);
+							planificarActividad(null);
+							pintarPanelesCalendario(
+									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
+						} else {
+							getLblPlanificaciónCorrecta().setText("");
+							getLblHorarioOcupado().setVisible(true);
+						}
+					}
 				}
+
 			});
 			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
 			btnPlanificarTipo.setHorizontalAlignment(SwingConstants.RIGHT);
 			btnPlanificarTipo.setForeground(Color.WHITE);
 			btnPlanificarTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnPlanificarTipo.setBackground(new Color(0, 250, 154));
+
 		}
 		return btnPlanificarTipo;
 
@@ -939,9 +1001,11 @@ public class NewVentanaAdmin extends JFrame {
 		diasRestantes = obtenerDiasRestantes(Integer.parseInt(newDay), Integer.parseInt(newMonth), dayOfTheWeek);
 		for (Actividad a : actividades) {
 			String acMonth = a.getFecha().split("/")[1];
-			if (a.getInstalacion().equals(instalacion)) {// si la actividad tiene la misma instalacion en la que se esta
+			if (a.getInstalacion().equals(instalacion)) {// si la actividad tiene la misma instalacion en la que se
+															// esta
 															// planificando
-				if (Integer.parseInt(acMonth) >= Integer.parseInt(newMonth)) {// si la actividad es posterior al día que
+				if (Integer.parseInt(acMonth) >= Integer.parseInt(newMonth)) {// si la actividad es posterior al día
+																				// que
 																				// seleccionamos
 					String acDay = a.getFecha().split("/")[0];// dia actividad
 					if (findDay(diasRestantes, Integer.parseInt(acDay))) {// si ese día está ocupado
@@ -952,7 +1016,8 @@ public class NewVentanaAdmin extends JFrame {
 						else if (dif > 1)
 							if (Integer.parseInt(inicio.split(":")[0]) == obtenerHoraIntermedia(a.getHoraInicio(),
 									a.getHoraFin()))
-								return true;// si se coloca una actividad cuando hay una que estaría en curso devuelve
+								return true;// si se coloca una actividad cuando hay una que estaría en curso
+											// devuelve
 											// true
 					}
 				}
@@ -964,16 +1029,19 @@ public class NewVentanaAdmin extends JFrame {
 				int alMonth = Integer.parseInt(al.getFecha().split("/")[1]);
 				if (alMonth >= Integer.parseInt(newMonth)) { // si el alquiler es posterior al dia que seleccionamos
 					int alDay = Integer.parseInt(al.getFecha().split("/")[0]);
-					if (findDay(diasRestantes, alDay)) {// si en ese dia existe un alquiler
-						int dif = Integer.parseInt(al.getHora_fin().split(":")[0])
-								- Integer.parseInt(al.getHora_inicio().split(":")[0]);
-						if (al.getHora_inicio().equals(inicio)) {
-							return true;// ya está ocupado el horario
-						} else if (dif > 1) {
-							if (Integer.parseInt(inicio.split(":")[0]) == obtenerHoraIntermedia(al.getHora_inicio(),
-									al.getHora_fin())) {
-								return true; // si se coloca una actividad cuando hay un alquiler que estaría en curso
-												// devuelve true
+					if (alDay == Integer.parseInt(newDay)) {
+						if (findDay(diasRestantes, alDay)) {// si en ese dia existe un alquiler
+							int dif = Integer.parseInt(al.getHora_fin().split(":")[0])
+									- Integer.parseInt(al.getHora_inicio().split(":")[0]);
+							if (al.getHora_inicio().equals(inicio)) {
+								return true;// ya está ocupado el horario
+							} else if (dif > 1) {
+								if (Integer.parseInt(inicio.split(":")[0]) == obtenerHoraIntermedia(al.getHora_inicio(),
+										al.getHora_fin())) {
+									return true; // si se coloca una actividad cuando hay un alquiler que estaría en
+													// curso
+													// devuelve true
+								}
 							}
 						}
 					}
@@ -982,6 +1050,26 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return false;
 
+	}
+
+	private int obtenerProximoDiaSemana(String dia) {
+		int proxDia;
+		if (dia == "Lunes") {
+			proxDia = Integer.parseInt(getLblLunes().getText().split(" - ")[1]);
+		} else if (dia == "Martes") {
+			proxDia = Integer.parseInt(getLblMartes().getText().split(" - ")[1]);
+		} else if (dia == "Miércoles") {
+			proxDia = Integer.parseInt(getLblMiercoles().getText().split(" - ")[1]);
+		} else if (dia == "Jueves") {
+			proxDia = Integer.parseInt(getLblJueves().getText().split(" - ")[1]);
+		} else if (dia == "Viernes") {
+			proxDia = Integer.parseInt(getLblViernes().getText().split(" - ")[1]);
+		} else if (dia == "Sábado") {
+			proxDia = Integer.parseInt(getLblSabado().getText().split(" - ")[1]);
+		} else {
+			proxDia = Integer.parseInt(getLblDomingo().getText().split(" - ")[1]);
+		}
+		return proxDia;
 	}
 
 	private int obtenerHoraIntermedia(String inicio, String fin) {
@@ -1193,19 +1281,14 @@ public class NewVentanaAdmin extends JFrame {
 		// Comprobamos que la fecha sea posterior
 		if (Integer.parseInt(fecha.split("/")[2]) >= this.year) {
 			if (Integer.parseInt(fecha.split("/")[1]) >= this.month.getValue()) {
-				if (Integer.parseInt(fecha.split("/")[0]) >= this.day) {
-					if (fecha != null && !fecha.isEmpty()) {
-						String id = admin.buscarActividad(tipo, fecha, hora_inicio, hora_fin).getId();
-						admin.planificarActividad(tipo, fecha, hora_inicio, hora_fin, id);
-						getLblPlanificaciónCorrecta().setForeground(Color.GREEN);
-						getLblPlanificaciónCorrecta().setText("¡Hecho!");
-						getTextFieldFechaPlanificacion().setBorder(LineBorder.createGrayLineBorder());
-					} else {
-						getTextFieldFechaPlanificacion().setBorder(new LineBorder(Color.RED));
-					}
+				if (fecha != null && !fecha.isEmpty()) {
+					String id = admin.buscarActividad(tipo, fecha, hora_inicio, hora_fin).getId();
+					admin.planificarActividad(tipo, fecha, hora_inicio, hora_fin, id);
+					getLblPlanificaciónCorrecta().setForeground(Color.GREEN);
+					getLblPlanificaciónCorrecta().setText("¡Hecho!");
+					getTextFieldFechaPlanificacion().setBorder(LineBorder.createGrayLineBorder());
 				} else {
-					getLblPlanificaciónCorrecta().setForeground(Color.RED);
-					getLblPlanificaciónCorrecta().setText("¡Fecha no válida!");
+					getTextFieldFechaPlanificacion().setBorder(new LineBorder(Color.RED));
 				}
 			} else {
 				getLblPlanificaciónCorrecta().setForeground(Color.RED);
@@ -1224,26 +1307,10 @@ public class NewVentanaAdmin extends JFrame {
 		return jDateChooser;
 	}
 
-	private JLabel getLblFechaPlanificar() {
-		if (lblFechaPlanificar == null) {
-			lblFechaPlanificar = new JLabel("Fecha:");
-			lblFechaPlanificar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		}
-		return lblFechaPlanificar;
-	}
-
-	private JTextField getTextFieldFechaPlanificacion() {
-		if (textFieldFechaPlanificacion == null) {
-			textFieldFechaPlanificacion = new JTextField();
-			textFieldFechaPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			textFieldFechaPlanificacion.setColumns(10);
-		}
-		return textFieldFechaPlanificacion;
-	}
-
 	private JLabel getLblPlanificaciónCorrecta() {
 		if (lblPlanificaciónCorrecta == null) {
 			lblPlanificaciónCorrecta = new JLabel("");
+			lblPlanificaciónCorrecta.setForeground(Color.GREEN);
 			lblPlanificaciónCorrecta.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lblPlanificaciónCorrecta;
@@ -1409,48 +1476,106 @@ public class NewVentanaAdmin extends JFrame {
 	private void automatizarAccionesBotonVacio(int i, int j) {
 		String fecha = "";
 		String dia = "";
-		String monthYear = getLblSemanaFechaCalendario().getText();
+		int month = Integer.parseInt(getLblSemanaFechaCalendario().getText().split("/")[0]);
+		int monthYear = 0;
+		int year = Integer.parseInt(getLblSemanaFechaCalendario().getText().split("/")[1]);
 		switch (j) {
 		case 0:
 			getRdbtnRepetirActividadCadaDia_1()
 					.setText("Repetir cada " + getLblLunes().getText().split(" - ")[0] + " (1 año)");
 			dia = getLblLunes().getText().split(" - ")[1];
+			if (lunesMixed) {
+				if (month == 12) {
+					monthYear = 1;
+					year++;
+				} else
+					monthYear = month + 1;
+			} else
+				monthYear = month;
 			break;
 		case 1:
 			getRdbtnRepetirActividadCadaDia_1()
 					.setText("Repetir cada " + getLblMartes().getText().split(" - ")[0] + " (1 año)");
 			dia = getLblMartes().getText().split(" - ")[1];
+			if (martesMixed) {
+				if (month == 12) {
+					monthYear = 1;
+					year++;
+				} else
+					monthYear = month + 1;
+			} else
+				monthYear = month;
 			break;
 		case 2:
 			getRdbtnRepetirActividadCadaDia_1()
 					.setText("Repetir cada " + getLblMiercoles().getText().split(" - ")[0] + " (1 año)");
 			dia = getLblMiercoles().getText().split(" - ")[1];
+			if (miercolesMixed) {
+				if (month == 12) {
+					monthYear = 1;
+					year++;
+				} else
+					monthYear = month + 1;
+			} else
+				monthYear = month;
 			break;
 		case 3:
 			getRdbtnRepetirActividadCadaDia_1()
 					.setText("Repetir cada " + getLblJueves().getText().split(" - ")[0] + " (1 año)");
 			dia = getLblJueves().getText().split(" - ")[1];
+			if (juevesMixed) {
+				if (month == 12) {
+					monthYear = 1;
+					year++;
+				} else
+					monthYear = month + 1;
+			} else
+				monthYear = month;
 			break;
 		case 4:
 			getRdbtnRepetirActividadCadaDia_1()
 					.setText("Repetir cada " + getLblViernes().getText().split(" - ")[0] + " (1 año)");
 			dia = getLblViernes().getText().split(" - ")[1];
+			if (viernesMixed) {
+				if (month == 12) {
+					monthYear = 1;
+					year++;
+				} else
+					monthYear = month + 1;
+			} else
+				monthYear = month;
 			break;
 		case 5:
 			getRdbtnRepetirActividadCadaDia_1()
 					.setText("Repetir cada " + getLblSabado().getText().split(" - ")[0] + " (1 año)");
 			dia = getLblSabado().getText().split(" - ")[1];
+			if (sabadoMixed) {
+				if (month == 12) {
+					monthYear = 1;
+					year++;
+				} else
+					monthYear = month + 1;
+			} else
+				monthYear = month;
 			break;
 		case 6:
 			getRdbtnRepetirActividadCadaDia_1()
 					.setText("Repetir cada " + getLblDomingo().getText().split(" - ")[0] + " (1 año)");
 			dia = getLblDomingo().getText().split(" - ")[1];
+			if (domingoMixed) {
+				if (month == 12) {
+					monthYear = 1;
+					year++;
+				} else
+					monthYear = month + 1;
+			} else
+				monthYear = month;
 			break;
 		}
 		getComboBoxHoraInicioAlqInst().setSelectedIndex(i);
 		getComboBoxHoraInicio().setSelectedIndex(i);
 
-		fecha = dia + "/" + monthYear;
+		fecha = dia + "/" + monthYear + "/" + year;
 		getTextFieldFechaPlanificacion().setText(fecha);
 		getTextFieldFechaAlqInst().setText(fecha);
 	}
@@ -1508,6 +1633,36 @@ public class NewVentanaAdmin extends JFrame {
 								pintarActividad(i, horainicio, horafin, p, a);
 							}
 						} else if (dia == domingo) {
+							if (j == 6) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						}
+					} else if (month == this.month.getValue() + 1) {// dias de meses mezclados
+						if (dia == lunes && this.lunesMixed) {
+							if (j == 0) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == martes && this.martesMixed) {
+							if (j == 1) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == miercoles && this.miercolesMixed) {
+							if (j == 2) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == jueves && this.juevesMixed) {
+							if (j == 3) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == viernes && this.viernesMixed) {
+							if (j == 4) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == sabado && this.sabadoMixed) {
+							if (j == 5) {
+								pintarActividad(i, horainicio, horafin, p, a);
+							}
+						} else if (dia == domingo && this.domingoMixed) {
 							if (j == 6) {
 								pintarActividad(i, horainicio, horafin, p, a);
 							}
@@ -2095,6 +2250,7 @@ public class NewVentanaAdmin extends JFrame {
 			getLblSabado().setText("Sab - " + (dia + 4));
 			getLblDomingo().setText("Dom - " + (dia + 5));
 			getLblMartes().setText("Mar - " + (dia));
+			actualizarDiasMezclados(false, false, false, false, false, false, false);
 			break;
 		case WEDNESDAY:
 			if (dia == 1) {
@@ -2115,6 +2271,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (27));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
 			} else if (dia == 2) {
 				getLblMartes().setText("Mar - " + (1));
 				// meses de 31 días
@@ -2130,6 +2287,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (28));
 					}
 				}
+				actualizarDiasMezclados(false, true, false, false, false, false, false);
 			} else {
 				getLblLunes().setText("Lun - " + (dia - 2));
 				getLblMartes().setText("Mar - " + (dia - 1));
@@ -2139,6 +2297,7 @@ public class NewVentanaAdmin extends JFrame {
 			getLblSabado().setText("Sab - " + (dia + 3));
 			getLblDomingo().setText("Dom - " + (dia + 4));
 			getLblMiercoles().setText("Mier - " + (dia));
+			actualizarDiasMezclados(false, false, false, false, false, false, false);
 			break;
 		case THURSDAY:
 			if (dia == 1) {
@@ -2163,6 +2322,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (26));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
 			} else if (dia == 2) {
 				getLblMiercoles().setText("Mier - " + (1));
 				// meses de 31 días
@@ -2182,6 +2342,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (27));
 					}
 				}
+				actualizarDiasMezclados(false, false, true, false, false, false, false);
 			} else if (dia == 3) {
 				getLblMiercoles().setText("Mier - " + (2));
 				getLblMartes().setText("Mar - " + (1));
@@ -2198,6 +2359,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (28));
 					}
 				}
+				actualizarDiasMezclados(false, true, true, false, false, false, false);
 			} else {
 				getLblLunes().setText("Lun - " + (dia - 3));
 				getLblMartes().setText("Mar - " + (dia - 2));
@@ -2207,6 +2369,7 @@ public class NewVentanaAdmin extends JFrame {
 			getLblSabado().setText("Sab - " + (dia + 2));
 			getLblDomingo().setText("Dom - " + (dia + 3));
 			getLblJueves().setText("Jue - " + (dia));
+			actualizarDiasMezclados(false, false, false, false, false, false, false);
 			break;
 		case FRIDAY:
 			if (dia == 1) {
@@ -2235,6 +2398,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (25));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
 			} else if (dia == 2) {
 				getLblJueves().setText("Jue - " + (1));
 				// meses de 31 días
@@ -2258,6 +2422,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (26));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, true, false, false, false);
 			} else if (dia == 3) {
 				getLblJueves().setText("Jue - " + (2));
 				getLblMiercoles().setText("Mier - " + (1));
@@ -2278,6 +2443,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (27));
 					}
 				}
+				actualizarDiasMezclados(false, false, true, true, false, false, false);
 			} else if (dia == 4) {
 				getLblJueves().setText("Jue - " + (3));
 				getLblMiercoles().setText("Mier - " + (2));
@@ -2295,6 +2461,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (28));
 					}
 				}
+				actualizarDiasMezclados(false, true, true, true, false, false, false);
 			} else {
 				getLblLunes().setText("Lun - " + (dia - 4));
 				getLblMartes().setText("Mar - " + (dia - 3));
@@ -2304,6 +2471,7 @@ public class NewVentanaAdmin extends JFrame {
 			getLblViernes().setText("Vier - " + (dia));
 			getLblSabado().setText("Sab - " + (dia + 1));
 			getLblDomingo().setText("Dom - " + (dia + 2));
+			actualizarDiasMezclados(true, true, true, true, false, false, false);
 			break;
 		case SATURDAY:
 			if (dia == 1) {
@@ -2336,6 +2504,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (24));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
 			} else if (dia == 2) {
 				getLblViernes().setText("Vier - " + (1));
 				// meses de 31 días
@@ -2363,6 +2532,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (25));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, false, true, false, false);
 			} else if (dia == 3) {
 				getLblViernes().setText("Vier - " + (2));
 				getLblJueves().setText("Jue - " + (1));
@@ -2387,6 +2557,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (26));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, true, true, false, false);
 			} else if (dia == 4) {
 				getLblViernes().setText("Vier - " + (3));
 				getLblJueves().setText("Jue - " + (2));
@@ -2408,6 +2579,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (27));
 					}
 				}
+				actualizarDiasMezclados(false, false, true, true, true, false, false);
 			} else if (dia == 5) {
 				getLblViernes().setText("Vier - " + (4));
 				getLblJueves().setText("Jue - " + (3));
@@ -2426,6 +2598,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (28));
 					}
 				}
+				actualizarDiasMezclados(false, true, true, true, true, false, false);
 			} else {
 				getLblLunes().setText("Lun - " + (dia - 5));
 				getLblMartes().setText("Mar - " + (dia - 4));
@@ -2435,6 +2608,7 @@ public class NewVentanaAdmin extends JFrame {
 			}
 			getLblSabado().setText("Sab - " + (dia));
 			getLblDomingo().setText("Dom - " + (dia + 1));
+			actualizarDiasMezclados(false, false, false, false, false, false, false);
 			break;
 		default:// domingo
 			if (dia == 1) {
@@ -2471,6 +2645,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (23));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
 			} else if (dia == 2) {
 				getLblSabado().setText("Sab - " + (1));
 				// meses de 31 días
@@ -2502,6 +2677,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (24));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, false, false, true, false);
 			} else if (dia == 3) {
 				getLblSabado().setText("Sab - " + (2));
 				getLblViernes().setText("Vier - " + (1));
@@ -2530,6 +2706,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (25));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, false, true, true, false);
 			} else if (dia == 4) {
 				getLblSabado().setText("Sab - " + (3));
 				getLblViernes().setText("Vier - " + (2));
@@ -2555,6 +2732,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (26));
 					}
 				}
+				actualizarDiasMezclados(false, false, false, true, true, true, false);
 			} else if (dia == 5) {
 				getLblSabado().setText("Sab - " + (4));
 				getLblViernes().setText("Vier - " + (3));
@@ -2577,6 +2755,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (27));
 					}
 				}
+				actualizarDiasMezclados(false, false, true, true, true, true, false);
 			} else if (dia == 6) {
 				getLblSabado().setText("Sab - " + (5));
 				getLblViernes().setText("Vier - " + (4));
@@ -2596,6 +2775,7 @@ public class NewVentanaAdmin extends JFrame {
 						getLblLunes().setText("Lun - " + (28));
 					}
 				}
+				actualizarDiasMezclados(false, true, true, true, true, true, false);
 			} else {
 				getLblLunes().setText("Lun - " + (dia - 6));
 				getLblMartes().setText("Mar - " + (dia - 5));
@@ -2605,6 +2785,7 @@ public class NewVentanaAdmin extends JFrame {
 				getLblSabado().setText("Sab - " + (dia - 1));
 			}
 			getLblDomingo().setText("Dom - " + (dia));
+			actualizarDiasMezclados(false, false, false, false, false, false, false);
 			break;
 		}
 	}
@@ -2657,22 +2838,28 @@ public class NewVentanaAdmin extends JFrame {
 					}
 				}
 			}
+			actualizarDiasMezclados(false, false, false, false, false, false, false);
 		} else if (lastDay == 2) {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
 				asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
+				actualizarDiasMezclados(false, false, false, false, false, false, true);
 				this.year--;
 			} else {
 				asignarNuevoMes(previousMonth);
 				if (meses31dias) {
 					asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
+					actualizarDiasMezclados(false, false, false, false, false, false, true);
 				} else if (meses30dias) {
 					asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
+					actualizarDiasMezclados(false, false, false, false, false, false, true);
 				} else {
 					if (bisiesto) {
 						asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
+						actualizarDiasMezclados(false, false, false, false, false, false, true);
 					} else {
 						asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 29);
+						actualizarDiasMezclados(false, false, false, false, false, false, false);
 					}
 				}
 			}
@@ -2680,18 +2867,23 @@ public class NewVentanaAdmin extends JFrame {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
 				asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
+				actualizarDiasMezclados(false, false, false, false, false, true, true);
 				this.year--;
 			} else {
 				asignarNuevoMes(previousMonth);
 				if (meses31dias) {
 					asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
+					actualizarDiasMezclados(false, false, false, false, false, true, true);
 				} else if (meses30dias) {
 					asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
+					actualizarDiasMezclados(false, false, false, false, false, true, true);
 				} else {
 					if (bisiesto) {
 						asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
+						actualizarDiasMezclados(false, false, false, false, false, true, true);
 					} else {
 						asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
+						actualizarDiasMezclados(false, false, false, false, false, true, true);
 					}
 				}
 			}
@@ -2699,18 +2891,23 @@ public class NewVentanaAdmin extends JFrame {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
 				asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
+				actualizarDiasMezclados(false, false, false, false, true, true, true);
 				this.year--;
 			} else {
 				asignarNuevoMes(previousMonth);
 				if (meses31dias) {
 					asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
+					actualizarDiasMezclados(false, false, false, false, true, true, true);
 				} else if (meses30dias) {
 					asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
+					actualizarDiasMezclados(false, false, false, false, true, true, true);
 				} else {
 					if (bisiesto) {
 						asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
+						actualizarDiasMezclados(false, false, false, false, true, true, true);
 					} else {
 						asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
+						actualizarDiasMezclados(false, false, false, false, true, true, true);
 					}
 				}
 			}
@@ -2718,18 +2915,23 @@ public class NewVentanaAdmin extends JFrame {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
 				asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
+				actualizarDiasMezclados(false, false, false, true, true, true, true);
 				this.year--;
 			} else {
 				asignarNuevoMes(previousMonth);
 				if (meses31dias) {
 					asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
+					actualizarDiasMezclados(false, false, false, true, true, true, true);
 				} else if (meses30dias) {
 					asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
+					actualizarDiasMezclados(false, false, false, true, true, true, true);
 				} else {
 					if (bisiesto) {
 						asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
+						actualizarDiasMezclados(false, false, false, true, true, true, true);
 					} else {
 						asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
+						actualizarDiasMezclados(false, false, false, true, true, true, true);
 					}
 				}
 			}
@@ -2737,18 +2939,23 @@ public class NewVentanaAdmin extends JFrame {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
 				asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
+				actualizarDiasMezclados(false, false, true, true, true, true, true);
 				this.year--;
 			} else {
 				asignarNuevoMes(previousMonth);
 				if (meses31dias) {
 					asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
+					actualizarDiasMezclados(false, false, true, true, true, true, true);
 				} else if (meses30dias) {
 					asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
+					actualizarDiasMezclados(false, false, true, true, true, true, true);
 				} else {
 					if (bisiesto) {
 						asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
+						actualizarDiasMezclados(false, false, true, true, true, true, true);
 					} else {
 						asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
+						actualizarDiasMezclados(false, false, true, true, true, true, true);
 					}
 				}
 			}
@@ -2756,24 +2963,30 @@ public class NewVentanaAdmin extends JFrame {
 			if (month == Month.JANUARY) {
 				asignarNuevoMes(12);
 				asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
+				actualizarDiasMezclados(false, true, true, true, true, true, true);
 				this.year--;
 			} else {
 				asignarNuevoMes(previousMonth);
 				if (meses31dias) {
 					asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
+					actualizarDiasMezclados(false, true, true, true, true, true, true);
 				} else if (meses30dias) {
 					asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
+					actualizarDiasMezclados(false, true, true, true, true, true, true);
 				} else {
 					if (bisiesto) {
 						asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
+						actualizarDiasMezclados(false, true, true, true, true, true, true);
 					} else {
 						asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
+						actualizarDiasMezclados(false, true, true, true, true, true, true);
 					}
 				}
 			}
 		} else {
 			asignarValoresEtiquetas(lastDay - 7, lastDay - 6, lastDay - 5, lastDay - 4, lastDay - 3, lastDay - 2,
 					lastDay - 1);
+			actualizarDiasMezclados(false, false, false, false, false, false, false);
 			cambioDeMes = false;
 		}
 	}
@@ -2863,21 +3076,37 @@ public class NewVentanaAdmin extends JFrame {
 		if (actualMes31dias) {
 			if (lastDay == 31) {
 				asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
+
 			} else if (lastDay == 30) {
 				asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
+				actualizarDiasMezclados(false, true, true, true, true, true, true);
+
 			} else if (lastDay == 29) {
 				asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
+				actualizarDiasMezclados(false, false, true, true, true, true, true);
+
 			} else if (lastDay == 28) {
 				asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
+				actualizarDiasMezclados(false, false, false, true, true, true, true);
+
 			} else if (lastDay == 27) {
 				asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
+				actualizarDiasMezclados(false, false, false, false, true, true, true);
+
 			} else if (lastDay == 26) {
 				asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
+				actualizarDiasMezclados(false, false, false, false, false, true, true);
+
 			} else if (lastDay == 25) {
 				asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
+				actualizarDiasMezclados(false, false, false, false, false, false, true);
+
 			} else {
 				asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5, lastDay + 6,
 						lastDay + 7);
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
+
 				cambioDeMes = false;
 			}
 		}
@@ -2885,21 +3114,37 @@ public class NewVentanaAdmin extends JFrame {
 		else if (actualMes30dias) {
 			if (lastDay == 30) {
 				asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
+
 			} else if (lastDay == 29) {
 				asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
+				actualizarDiasMezclados(false, true, true, true, true, true, true);
+
 			} else if (lastDay == 28) {
 				asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
+				actualizarDiasMezclados(false, false, true, true, true, true, true);
+
 			} else if (lastDay == 27) {
 				asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
+				actualizarDiasMezclados(false, false, false, true, true, true, true);
+
 			} else if (lastDay == 26) {
 				asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
+				actualizarDiasMezclados(false, false, false, false, true, true, true);
+
 			} else if (lastDay == 25) {
 				asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
+				actualizarDiasMezclados(false, false, false, false, false, true, true);
+
 			} else if (lastDay == 24) {
 				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
+				actualizarDiasMezclados(false, false, false, false, false, false, true);
+
 			} else {
 				asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5, lastDay + 6,
 						lastDay + 7);
+				actualizarDiasMezclados(false, false, false, false, false, false, false);
+
 				cambioDeMes = false;
 			}
 		}
@@ -2908,40 +3153,71 @@ public class NewVentanaAdmin extends JFrame {
 			// si es un año bisiesto
 			if (bisiesto) {
 				if (lastDay == 29) {
+					actualizarDiasMezclados(false, false, false, false, false, false, false);
 					asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+
 				} else if (lastDay == 28) {
+					actualizarDiasMezclados(false, true, true, true, true, true, true);
 					asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
+
 				} else if (lastDay == 27) {
+					actualizarDiasMezclados(false, false, true, true, true, true, true);
 					asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
+
 				} else if (lastDay == 26) {
+					actualizarDiasMezclados(false, false, false, true, true, true, true);
 					asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
+
 				} else if (lastDay == 25) {
+					actualizarDiasMezclados(false, false, false, false, true, true, true);
 					asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
+
 				} else if (lastDay == 24) {
+					actualizarDiasMezclados(false, false, false, false, false, true, true);
 					asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
+
 				} else if (lastDay == 23) {
+					actualizarDiasMezclados(false, false, false, false, false, false, true);
 					asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
+
 				} else {
+					actualizarDiasMezclados(false, false, false, false, false, false, false);
 					asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5,
 							lastDay + 6, lastDay + 7);
+
 					cambioDeMes = false;
 				}
 			} else {
 				if (lastDay == 28) {
+					actualizarDiasMezclados(false, false, false, false, false, false, false);
 					asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
+
 				} else if (lastDay == 27) {
+					actualizarDiasMezclados(false, true, true, true, true, true, true);
 					asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
+
 				} else if (lastDay == 26) {
+					actualizarDiasMezclados(false, false, true, true, true, true, true);
 					asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
+
 				} else if (lastDay == 25) {
+					actualizarDiasMezclados(false, false, false, true, true, true, true);
 					asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
+
 				} else if (lastDay == 24) {
+					actualizarDiasMezclados(false, false, false, false, true, true, true);
 					asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
+
 				} else if (lastDay == 23) {
+					actualizarDiasMezclados(false, false, false, false, false, true, true);
 					asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
+
 				} else if (lastDay == 22) {
+					actualizarDiasMezclados(false, false, false, false, false, false, true);
 					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 1);
+
 				} else {
+					actualizarDiasMezclados(false, false, false, false, false, false, false);
 					asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5,
 							lastDay + 6, lastDay + 7);
 					cambioDeMes = false;
@@ -2950,6 +3226,16 @@ public class NewVentanaAdmin extends JFrame {
 			getLblSemanaFechaCalendario().setText(actualMonth + "/" + actualYear);
 		}
 
+	}
+
+	private void actualizarDiasMezclados(boolean b, boolean c, boolean d, boolean e, boolean f, boolean g, boolean h) {
+		lunesMixed = b;
+		martesMixed = c;
+		miercolesMixed = d;
+		juevesMixed = e;
+		viernesMixed = f;
+		sabadoMixed = g;
+		domingoMixed = h;
 	}
 
 	private void asignarValoresEtiquetas(int lunes, int martes, int miercoles, int jueves, int viernes, int sabado,
@@ -3473,6 +3759,7 @@ public class NewVentanaAdmin extends JFrame {
 					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
 						getLblHorarioOcupado1().setVisible(false);
 						alquilarInstalacion();
+						getComboBoxSocios().setModel(new DefaultComboBoxModel<String>(admin.listarSociosPorAlquileres()));
 					} else {
 						getLblHorarioOcupado1().setVisible(true);
 					}
@@ -3512,7 +3799,7 @@ public class NewVentanaAdmin extends JFrame {
 
 	private JLabel getLblHorarioOcupado() {
 		if (lblHorarioOcupado == null) {
-			lblHorarioOcupado = new JLabel("¡Horario ocupado!");
+			lblHorarioOcupado = new JLabel("¡Horario no válido!");
 			lblHorarioOcupado.setVisible(false);
 			lblHorarioOcupado.setForeground(new Color(255, 0, 0));
 		}
@@ -3818,5 +4105,95 @@ public class NewVentanaAdmin extends JFrame {
 			rdbtnRepetirActividadCadaDia.setBackground(Color.WHITE);
 		}
 		return rdbtnRepetirActividadCadaDia;
+	}
+
+	private JPanel getPanelFechaPlPrincipal() {
+		if (panelFechaPlPrincipal == null) {
+			panelFechaPlPrincipal = new JPanel();
+			panelFechaPlPrincipal.setBackground(Color.WHITE);
+			FlowLayout flowLayout = (FlowLayout) panelFechaPlPrincipal.getLayout();
+			flowLayout.setVgap(10);
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelFechaPlPrincipal.add(getLblFechaPlanificar());
+			panelFechaPlPrincipal.add(getTextFieldFechaPlanificacion());
+		}
+		return panelFechaPlPrincipal;
+	}
+
+	private JLabel getLblFechaPlanificar() {
+		if (lblFechaPlanificar == null) {
+			lblFechaPlanificar = new JLabel("Fecha:");
+			lblFechaPlanificar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblFechaPlanificar;
+	}
+
+	private JTextField getTextFieldFechaPlanificacion() {
+		if (textFieldFechaPlanificacion == null) {
+			textFieldFechaPlanificacion = new JTextField();
+			textFieldFechaPlanificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			textFieldFechaPlanificacion.setColumns(10);
+		}
+		return textFieldFechaPlanificacion;
+	}
+
+	private JPanel getPanelRepetirVariosDias() {
+		if (panelRepetirVariosDias == null) {
+			panelRepetirVariosDias = new JPanel();
+			panelRepetirVariosDias.setBackground(Color.WHITE);
+			panelRepetirVariosDias.setLayout(new GridLayout(0, 2, 0, 0));
+			panelRepetirVariosDias.add(getRdbtnRepetirVariosDias());
+			panelRepetirVariosDias.add(getScrollPaneDiasRepetir());
+		}
+		return panelRepetirVariosDias;
+	}
+
+	private JScrollPane getScrollPaneDiasRepetir() {
+		if (scrollPaneDiasRepetir == null) {
+			scrollPaneDiasRepetir = new JScrollPane();
+			scrollPaneDiasRepetir.setMaximumSize(new Dimension(10, 32767));
+			scrollPaneDiasRepetir.setMinimumSize(new Dimension(10, 23));
+			scrollPaneDiasRepetir.setViewportView(getListDiasDisponibles());
+		}
+		return scrollPaneDiasRepetir;
+	}
+
+	private JList<String> getListDiasDisponibles() {
+		if (listDiasDisponibles == null) {
+			listDiasDisponibles = new JList<String>();
+			listDiasDisponibles.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+			listDiasDisponibles.setVisibleRowCount(Integer.MAX_VALUE);
+			listDiasDisponibles.setValueIsAdjusting(true);
+			listDiasDisponibles.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			addDias();
+			listDiasDisponibles.setModel(listDiasDisponiblesModel);
+		}
+		return listDiasDisponibles;
+	}
+
+	private void addDias() {
+		listDiasDisponiblesModel.add(0, "Lunes");
+		listDiasDisponiblesModel.add(1, "Martes");
+		listDiasDisponiblesModel.add(2, "Miércoles");
+		listDiasDisponiblesModel.add(3, "Jueves");
+		listDiasDisponiblesModel.add(4, "Viernes");
+		listDiasDisponiblesModel.add(5, "Sábado");
+		listDiasDisponiblesModel.add(6, "Domingo");
+	}
+
+	private JRadioButton getRdbtnRepetirVariosDias() {
+		if (rdbtnRepetirVariosDias == null) {
+			rdbtnRepetirVariosDias = new JRadioButton("Repetir varios días (1 año)");
+			rdbtnRepetirVariosDias.setBackground(Color.WHITE);
+		}
+		return rdbtnRepetirVariosDias;
+	}
+
+	private JRadioButton getRdbtnNoRepetir() {
+		if (rdbtnNoRepetir == null) {
+			rdbtnNoRepetir = new JRadioButton("No repetir");
+			rdbtnNoRepetir.setBackground(Color.WHITE);
+		}
+		return rdbtnNoRepetir;
 	}
 }
