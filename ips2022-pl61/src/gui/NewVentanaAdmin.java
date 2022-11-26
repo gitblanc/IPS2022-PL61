@@ -1190,17 +1190,31 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		String hora_inicio = getComboBoxHoraInicio().getSelectedItem().toString().split("@")[0].toLowerCase();
 		String hora_fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0].toLowerCase();
-
-		if (fecha != null && !fecha.isEmpty()) {
-			String id = admin.buscarActividad(tipo, fecha, hora_inicio, hora_fin).getId();
-			admin.planificarActividad(tipo, fecha, hora_inicio, hora_fin, id);
-			getLblPlanificaciónCorrecta().setForeground(Color.GREEN);
-			getLblPlanificaciónCorrecta().setText("¡Hecho!");
-			getTextFieldFechaPlanificacion().setBorder(LineBorder.createGrayLineBorder());
+		// Comprobamos que la fecha sea posterior
+		if (Integer.parseInt(fecha.split("/")[2]) >= this.year) {
+			if (Integer.parseInt(fecha.split("/")[1]) >= this.month.getValue()) {
+				if (Integer.parseInt(fecha.split("/")[0]) >= this.day) {
+					if (fecha != null && !fecha.isEmpty()) {
+						String id = admin.buscarActividad(tipo, fecha, hora_inicio, hora_fin).getId();
+						admin.planificarActividad(tipo, fecha, hora_inicio, hora_fin, id);
+						getLblPlanificaciónCorrecta().setForeground(Color.GREEN);
+						getLblPlanificaciónCorrecta().setText("¡Hecho!");
+						getTextFieldFechaPlanificacion().setBorder(LineBorder.createGrayLineBorder());
+					} else {
+						getTextFieldFechaPlanificacion().setBorder(new LineBorder(Color.RED));
+					}
+				} else {
+					getLblPlanificaciónCorrecta().setForeground(Color.RED);
+					getLblPlanificaciónCorrecta().setText("¡Fecha no válida!");
+				}
+			} else {
+				getLblPlanificaciónCorrecta().setForeground(Color.RED);
+				getLblPlanificaciónCorrecta().setText("¡Fecha no válida!");
+			}
 		} else {
-			getTextFieldFechaPlanificacion().setBorder(new LineBorder(Color.RED));
+			getLblPlanificaciónCorrecta().setForeground(Color.RED);
+			getLblPlanificaciónCorrecta().setText("¡Fecha no válida!");
 		}
-
 	}
 
 	private JDateChooser getJdateChooser() {
