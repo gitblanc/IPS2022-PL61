@@ -171,17 +171,10 @@ public class Socio {
 		List<AlquilerBLDto> alquileres = devolverAlquileresDelSocioOrdenadoPorDias(correo);
 		List<String> lista = new ArrayList<String>();
 		for (int i = 0; i < alquileres.size(); i++) {
-			if (alquileres.get(i).cancelado == 0) {
-				String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
-						+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
-						+ alquileres.get(i).hora_fin;
-				lista.add(a);
-			}
 			String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
 					+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
 					+ alquileres.get(i).hora_fin;
 			lista.add(a);
-
 
 		}
 
@@ -195,9 +188,7 @@ public class Socio {
 		String id = socio.id;
 		for (int i = 0; i < todosLosAlquileres.size(); i++) {
 			if (todosLosAlquileres.get(i).id_socio.equals(id)) {
-				if (todosLosAlquileres.get(i).cancelado == 0) {
-					result.add(todosLosAlquileres.get(i));
-				}
+				result.add(todosLosAlquileres.get(i));
 			}
 		}
 		return result;
@@ -269,7 +260,6 @@ public class Socio {
 
 			return ac1.compareTo(ac2);
 		}
-
 	}
 
 	private boolean fechaMasProxima(LocalDate l, String fechaActividad) {
@@ -396,26 +386,10 @@ public class Socio {
 		for (AlquilerBLDto a : alquileres) {
 			if (a.id.equals(id_alquiler)) {
 				alquiler = a;
-				alquiler.cancelado = 1;
 			}
 		}
 		als.updateAlquiler(alquiler);
 
-	}
-
-	public List<String> findAlquilersBySocioCancelados(String correo) {
-		String socioId = ss.findByCorreo(correo).id;
-		List<AlquilerBLDto> alquileres = als.findByIdSocio(socioId);
-		List<String> result = new ArrayList<String>();
-		for (int i = 0; i < alquileres.size(); i++) {
-			if (alquileres.get(i).cancelado == 1) {
-				String r = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
-						+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
-						+ alquileres.get(i).hora_fin + " CANCELADO";
-				result.add(r);
-			}
-		}
-		return result;
 	}
 
 	public static Socio buscarSocio(String id_socio) {
@@ -423,5 +397,9 @@ public class Socio {
 		return new Socio(s.id, s.nombre, s.apellidos, s.contraseña);
 	}
 
+	public List<String> findAlquilersBySocioCancelados(String correo2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
