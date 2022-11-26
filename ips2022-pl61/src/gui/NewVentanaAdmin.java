@@ -1637,7 +1637,7 @@ public class NewVentanaAdmin extends JFrame {
 								pintarActividad(i, horainicio, horafin, p, a);
 							}
 						}
-					}else if(month == this.month.getValue() + 1) {//dias de meses mezclados
+					} else if (month == this.month.getValue() + 1) {// dias de meses mezclados
 						if (dia == lunes && this.lunesMixed) {
 							if (j == 0) {
 								pintarActividad(i, horainicio, horafin, p, a);
@@ -3077,36 +3077,36 @@ public class NewVentanaAdmin extends JFrame {
 			if (lastDay == 31) {
 				asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
 				actualizarDiasMezclados(false, false, false, false, false, false, false);
-				
+
 			} else if (lastDay == 30) {
 				asignarValoresEtiquetas(31, 1, 2, 3, 4, 5, 6);
 				actualizarDiasMezclados(false, true, true, true, true, true, true);
-				
+
 			} else if (lastDay == 29) {
 				asignarValoresEtiquetas(30, 31, 1, 2, 3, 4, 5);
 				actualizarDiasMezclados(false, false, true, true, true, true, true);
-				
+
 			} else if (lastDay == 28) {
 				asignarValoresEtiquetas(29, 30, 31, 1, 2, 3, 4);
 				actualizarDiasMezclados(false, false, false, true, true, true, true);
-				
+
 			} else if (lastDay == 27) {
 				asignarValoresEtiquetas(28, 29, 30, 31, 1, 2, 3);
 				actualizarDiasMezclados(false, false, false, false, true, true, true);
-				
+
 			} else if (lastDay == 26) {
 				asignarValoresEtiquetas(27, 28, 29, 30, 31, 1, 2);
 				actualizarDiasMezclados(false, false, false, false, false, true, true);
-				
+
 			} else if (lastDay == 25) {
 				asignarValoresEtiquetas(26, 27, 28, 29, 30, 31, 1);
 				actualizarDiasMezclados(false, false, false, false, false, false, true);
-				
+
 			} else {
 				asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5, lastDay + 6,
 						lastDay + 7);
 				actualizarDiasMezclados(false, false, false, false, false, false, false);
-				
+
 				cambioDeMes = false;
 			}
 		}
@@ -3115,36 +3115,36 @@ public class NewVentanaAdmin extends JFrame {
 			if (lastDay == 30) {
 				asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
 				actualizarDiasMezclados(false, false, false, false, false, false, false);
-				
+
 			} else if (lastDay == 29) {
 				asignarValoresEtiquetas(30, 1, 2, 3, 4, 5, 6);
 				actualizarDiasMezclados(false, true, true, true, true, true, true);
-				
+
 			} else if (lastDay == 28) {
 				asignarValoresEtiquetas(29, 30, 1, 2, 3, 4, 5);
 				actualizarDiasMezclados(false, false, true, true, true, true, true);
-				
+
 			} else if (lastDay == 27) {
 				asignarValoresEtiquetas(28, 29, 30, 1, 2, 3, 4);
 				actualizarDiasMezclados(false, false, false, true, true, true, true);
-				
+
 			} else if (lastDay == 26) {
 				asignarValoresEtiquetas(27, 28, 29, 30, 1, 2, 3);
 				actualizarDiasMezclados(false, false, false, false, true, true, true);
-				
+
 			} else if (lastDay == 25) {
 				asignarValoresEtiquetas(26, 27, 28, 29, 30, 1, 2);
 				actualizarDiasMezclados(false, false, false, false, false, true, true);
-				
+
 			} else if (lastDay == 24) {
 				asignarValoresEtiquetas(25, 26, 27, 28, 29, 30, 1);
 				actualizarDiasMezclados(false, false, false, false, false, false, true);
-				
+
 			} else {
 				asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5, lastDay + 6,
 						lastDay + 7);
 				actualizarDiasMezclados(false, false, false, false, false, false, false);
-				
+
 				cambioDeMes = false;
 			}
 		}
@@ -3155,67 +3155,67 @@ public class NewVentanaAdmin extends JFrame {
 				if (lastDay == 29) {
 					actualizarDiasMezclados(false, false, false, false, false, false, false);
 					asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
-					
+
 				} else if (lastDay == 28) {
 					actualizarDiasMezclados(false, true, true, true, true, true, true);
 					asignarValoresEtiquetas(29, 1, 2, 3, 4, 5, 6);
-					
+
 				} else if (lastDay == 27) {
 					actualizarDiasMezclados(false, false, true, true, true, true, true);
 					asignarValoresEtiquetas(28, 29, 1, 2, 3, 4, 5);
-					
+
 				} else if (lastDay == 26) {
 					actualizarDiasMezclados(false, false, false, true, true, true, true);
 					asignarValoresEtiquetas(27, 28, 29, 1, 2, 3, 4);
-					
+
 				} else if (lastDay == 25) {
 					actualizarDiasMezclados(false, false, false, false, true, true, true);
 					asignarValoresEtiquetas(26, 27, 28, 29, 1, 2, 3);
-					
+
 				} else if (lastDay == 24) {
 					actualizarDiasMezclados(false, false, false, false, false, true, true);
 					asignarValoresEtiquetas(25, 26, 27, 28, 29, 1, 2);
-					
+
 				} else if (lastDay == 23) {
 					actualizarDiasMezclados(false, false, false, false, false, false, true);
 					asignarValoresEtiquetas(24, 25, 26, 27, 28, 29, 1);
-					
+
 				} else {
 					actualizarDiasMezclados(false, false, false, false, false, false, false);
 					asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5,
 							lastDay + 6, lastDay + 7);
-					
+
 					cambioDeMes = false;
 				}
 			} else {
 				if (lastDay == 28) {
 					actualizarDiasMezclados(false, false, false, false, false, false, false);
 					asignarValoresEtiquetas(1, 2, 3, 4, 5, 6, 7);
-					
+
 				} else if (lastDay == 27) {
 					actualizarDiasMezclados(false, true, true, true, true, true, true);
 					asignarValoresEtiquetas(28, 1, 2, 3, 4, 5, 6);
-					
+
 				} else if (lastDay == 26) {
 					actualizarDiasMezclados(false, false, true, true, true, true, true);
 					asignarValoresEtiquetas(27, 28, 1, 2, 3, 4, 5);
-					
+
 				} else if (lastDay == 25) {
 					actualizarDiasMezclados(false, false, false, true, true, true, true);
 					asignarValoresEtiquetas(26, 27, 28, 1, 2, 3, 4);
-					
+
 				} else if (lastDay == 24) {
 					actualizarDiasMezclados(false, false, false, false, true, true, true);
 					asignarValoresEtiquetas(25, 26, 27, 28, 1, 2, 3);
-					
+
 				} else if (lastDay == 23) {
 					actualizarDiasMezclados(false, false, false, false, false, true, true);
 					asignarValoresEtiquetas(24, 25, 26, 27, 28, 1, 2);
-					
+
 				} else if (lastDay == 22) {
 					actualizarDiasMezclados(false, false, false, false, false, false, true);
 					asignarValoresEtiquetas(23, 24, 25, 26, 27, 28, 1);
-					
+
 				} else {
 					actualizarDiasMezclados(false, false, false, false, false, false, false);
 					asignarValoresEtiquetas(lastDay + 1, lastDay + 2, lastDay + 3, lastDay + 4, lastDay + 5,
@@ -3759,6 +3759,7 @@ public class NewVentanaAdmin extends JFrame {
 					if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
 						getLblHorarioOcupado1().setVisible(false);
 						alquilarInstalacion();
+						getComboBoxSocios().setModel(new DefaultComboBoxModel<String>(admin.listarSociosPorAlquileres()));
 					} else {
 						getLblHorarioOcupado1().setVisible(true);
 					}
