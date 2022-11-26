@@ -20,17 +20,3 @@ Socio --> { id:3, nombre: Chen Xin, apellidos: Pan Wang, correo: null }
 		Instalación: piscina
 <---/------/------/------/--->
 
-Socio --> { id:2, nombre: Paula, apellidos: Román Arias, correo: null }
-		Día de cancelación: 30/11/2022
-		Instalación: gimnasio
-Socio --> { id:3, nombre: Chen Xin, apellidos: Pan Wang, correo: null }
-		Día de cancelación: 30/11/2022
-		Instalación: gimnasio
-Socio --> { id:2, nombre: Paula, apellidos: Román Arias, correo: null }
-		Día de cancelación: 30/11/2022
-		Instalación: gimnasio
-Socio --> { id:1, nombre: Juan, apellidos: Pérez Galdós, correo: null }
-		Día de cancelación: 30/11/2022
-		Instalación: gimnasio
-<---/------/------/------/--->
-

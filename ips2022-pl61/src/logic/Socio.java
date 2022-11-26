@@ -260,7 +260,6 @@ public class Socio {
 
 			return ac1.compareTo(ac2);
 		}
-
 	}
 
 	private boolean fechaMasProxima(LocalDate l, String fechaActividad) {
@@ -380,9 +379,27 @@ public class Socio {
 		return true;
 	}
 
+	public static void eliminarAlquiler(String correo, String id_alquiler) {
+		String socioId = ss.findByCorreo(correo).id;
+		List<AlquilerBLDto> alquileres = als.findByIdSocio(socioId);
+		AlquilerBLDto alquiler = null;
+		for (AlquilerBLDto a : alquileres) {
+			if (a.id.equals(id_alquiler)) {
+				alquiler = a;
+			}
+		}
+		als.updateAlquiler(alquiler);
+
+	}
+
 	public static Socio buscarSocio(String id_socio) {
 		SocioBLDto s = ss.findSocioById(id_socio);
 		return new Socio(s.id, s.nombre, s.apellidos, s.contraseña);
+	}
+
+	public List<String> findAlquilersBySocioCancelados(String correo2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
