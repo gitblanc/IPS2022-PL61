@@ -81,7 +81,6 @@ public class FindByIdSocio {
 		a.hora_fin = r.getString("Hora_fin");
 		a.instalacion = r.getString("Nombre_i");
 		a.fecha = r.getString("fecha");
-		a.cancelado = r.getInt("cancelado");
 
 		return a;
 	}
