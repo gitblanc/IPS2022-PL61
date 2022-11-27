@@ -111,6 +111,20 @@ public class NewVentanaSocio extends JFrame {
 	private JPanel panel;
 	private JButton bt_refrescar_actividades;
 	private JPanel panel_1;
+	private JPanel pn_ver_recursos_necesarios;
+	private JPanel pn_1_recursos;
+	private JLabel lbl_observe_recursos;
+	private JButton btnNewButton;
+	private JLabel lbl_aportados_instalacion;
+	private JButton btnNewButton_1;
+	private JPanel pn_2_recursos_necesarios;
+	private JPanel pn_3_recursos_aportados;
+	private JPanel p1_label;
+	private JLabel recursos_a_aportar_lbl;
+	private JList list_recursos_necesarios;
+	private JPanel p1_label_1;
+	private JLabel recursos_aportados;
+	private JList list_recursos_aportados;
 
 	/**
 	 * Create the frame.
@@ -684,6 +698,7 @@ public class NewVentanaSocio extends JFrame {
 			pn_reserva_instalaciones.add(getPn_escoger_instalacion());
 			pn_reserva_instalaciones.add(getPn_escoger_fecha());
 			pn_reserva_instalaciones.add(getPn_escoger_horas());
+			pn_reserva_instalaciones.add(getPanel_2_1());
 		}
 		return pn_reserva_instalaciones;
 	}
@@ -969,5 +984,118 @@ public class NewVentanaSocio extends JFrame {
 			panel_1.add(getBt_refrescar_actividades());
 		}
 		return panel_1;
+	}
+	private JPanel getPanel_2_1() {
+		if (pn_ver_recursos_necesarios == null) {
+			pn_ver_recursos_necesarios = new JPanel();
+			pn_ver_recursos_necesarios.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pn_ver_recursos_necesarios.setBackground(new Color(255, 255, 255));
+			pn_ver_recursos_necesarios.setLayout(new CardLayout(0, 0));
+			pn_ver_recursos_necesarios.add(getPanel_2_2(), "name_723774518346700");
+			pn_ver_recursos_necesarios.add(getPanel_2_3(), "name_723871347958200");
+			pn_ver_recursos_necesarios.add(getPanel_2_4(), "name_723899445897200");
+		}
+		return pn_ver_recursos_necesarios;
+	}
+	private JPanel getPanel_2_2() {
+		if (pn_1_recursos == null) {
+			pn_1_recursos = new JPanel();
+			pn_1_recursos.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pn_1_recursos.setBackground(new Color(204, 255, 204));
+			pn_1_recursos.add(getLbl_observe_recursos_1());
+			pn_1_recursos.add(getBtnNewButton_2());
+			pn_1_recursos.add(getLbl_aportados_instalacion_1());
+			pn_1_recursos.add(getBtnNewButton_1_1());
+		}
+		return pn_1_recursos;
+	}
+	private JLabel getLbl_observe_recursos_1() {
+		if (lbl_observe_recursos == null) {
+			lbl_observe_recursos = new JLabel("Recursos necesarios:\r\n");
+			lbl_observe_recursos.setFont(new Font("Tahoma", Font.BOLD, 11));
+		}
+		return lbl_observe_recursos;
+	}
+	private JButton getBtnNewButton_2() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("Necesarios para llevar");
+		}
+		return btnNewButton;
+	}
+	private JLabel getLbl_aportados_instalacion_1() {
+		if (lbl_aportados_instalacion == null) {
+			lbl_aportados_instalacion = new JLabel("Recursos ya aportados:");
+			lbl_aportados_instalacion.setFont(new Font("Tahoma", Font.BOLD, 11));
+		}
+		return lbl_aportados_instalacion;
+	}
+	private JButton getBtnNewButton_1_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("Ya aportados");
+		}
+		return btnNewButton_1;
+	}
+	private JPanel getPanel_2_3() {
+		if (pn_2_recursos_necesarios == null) {
+			pn_2_recursos_necesarios = new JPanel();
+			pn_2_recursos_necesarios.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pn_2_recursos_necesarios.setBackground(new Color(255, 255, 255));
+			pn_2_recursos_necesarios.setLayout(new BorderLayout(0, 0));
+			pn_2_recursos_necesarios.add(getPanel_2_5(), BorderLayout.NORTH);
+			pn_2_recursos_necesarios.add(getList_recursos_necesarios(), BorderLayout.CENTER);
+		}
+		return pn_2_recursos_necesarios;
+	}
+	private JPanel getPanel_2_4() {
+		if (pn_3_recursos_aportados == null) {
+			pn_3_recursos_aportados = new JPanel();
+			pn_3_recursos_aportados.setBackground(new Color(255, 255, 255));
+			pn_3_recursos_aportados.setLayout(new BorderLayout(0, 0));
+			pn_3_recursos_aportados.add(getP1_label_1(), BorderLayout.NORTH);
+			pn_3_recursos_aportados.add(getList_recursos_aportados());
+		}
+		return pn_3_recursos_aportados;
+	}
+	private JPanel getPanel_2_5() {
+		if (p1_label == null) {
+			p1_label = new JPanel();
+			p1_label.setBackground(new Color(204, 255, 204));
+			p1_label.add(getLabel_1());
+		}
+		return p1_label;
+	}
+	private JLabel getLabel_1() {
+		if (recursos_a_aportar_lbl == null) {
+			recursos_a_aportar_lbl = new JLabel("Recursos necesarios:");
+			recursos_a_aportar_lbl.setFont(new Font("Tahoma", Font.BOLD, 11));
+		}
+		return recursos_a_aportar_lbl;
+	}
+	private JList getList_recursos_necesarios() {
+		if (list_recursos_necesarios == null) {
+			list_recursos_necesarios = new JList();
+		}
+		return list_recursos_necesarios;
+	}
+	private JPanel getP1_label_1() {
+		if (p1_label_1 == null) {
+			p1_label_1 = new JPanel();
+			p1_label_1.setBackground(new Color(204, 255, 204));
+			p1_label_1.add(getRecursos_aportados());
+		}
+		return p1_label_1;
+	}
+	private JLabel getRecursos_aportados() {
+		if (recursos_aportados == null) {
+			recursos_aportados = new JLabel("Recursos aportados:");
+			recursos_aportados.setFont(new Font("Tahoma", Font.BOLD, 11));
+		}
+		return recursos_aportados;
+	}
+	private JList getList_recursos_aportados() {
+		if (list_recursos_aportados == null) {
+			list_recursos_aportados = new JList();
+		}
+		return list_recursos_aportados;
 	}
 }
