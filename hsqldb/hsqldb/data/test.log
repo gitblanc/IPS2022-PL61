@@ -1,4 +1,4 @@
-/*C8*/SET SCHEMA PUBLIC
+/*C87*/SET SCHEMA PUBLIC
 drop table monitor
 drop table no_socio
 drop table recursosactividad
@@ -235,6 +235,4 @@ INSERT INTO RECURSOSALLEVARSOCIO VALUES('balon futbol','campo futbol')
 COMMIT
 INSERT INTO RECURSOSALLEVARSOCIO VALUES('raqueta','cancha')
 COMMIT
-DISCONNECT
-/*C7*/SET SCHEMA PUBLIC
 DISCONNECT

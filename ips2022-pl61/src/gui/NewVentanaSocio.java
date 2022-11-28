@@ -114,17 +114,23 @@ public class NewVentanaSocio extends JFrame {
 	private JPanel pn_ver_recursos_necesarios;
 	private JPanel pn_1_recursos;
 	private JLabel lbl_observe_recursos;
-	private JButton btnNewButton;
+	private JButton Bt_necesarios_para_llevar;
 	private JLabel lbl_aportados_instalacion;
-	private JButton btnNewButton_1;
+	private JButton bt_ya_aportados;
 	private JPanel pn_2_recursos_necesarios;
 	private JPanel pn_3_recursos_aportados;
 	private JPanel p1_label;
 	private JLabel recursos_a_aportar_lbl;
-	private JList list_recursos_necesarios;
+	private JList<String> list_recursos_necesarios;
 	private JPanel p1_label_1;
 	private JLabel recursos_aportados;
-	private JList list_recursos_aportados;
+	private JList<String> list_recursos_aportados;
+	private JPanel pn_con_boton_atras;
+	private JButton bt_Atras_Rec_1;
+	private JPanel pn_boton_atras_recursos;
+	private JButton bt_atras_rec_2;
+	private DefaultListModel<String> modelListaRecursos = new DefaultListModel<String>();
+	private DefaultListModel<String> modelRecursosALlevar = new DefaultListModel<String>();
 
 	/**
 	 * Create the frame.
@@ -991,9 +997,9 @@ public class NewVentanaSocio extends JFrame {
 			pn_ver_recursos_necesarios.setBorder(new LineBorder(new Color(0, 0, 0)));
 			pn_ver_recursos_necesarios.setBackground(new Color(255, 255, 255));
 			pn_ver_recursos_necesarios.setLayout(new CardLayout(0, 0));
-			pn_ver_recursos_necesarios.add(getPanel_2_2(), "name_723774518346700");
-			pn_ver_recursos_necesarios.add(getPanel_2_3(), "name_723871347958200");
-			pn_ver_recursos_necesarios.add(getPanel_2_4(), "name_723899445897200");
+			pn_ver_recursos_necesarios.add(getPanel_2_2(), "p1");
+			pn_ver_recursos_necesarios.add(getPanel_recursos_necesarios(), "p2");
+			pn_ver_recursos_necesarios.add(getPanel_recursos_aportados() , "p3");
 		}
 		return pn_ver_recursos_necesarios;
 	}
@@ -1003,9 +1009,9 @@ public class NewVentanaSocio extends JFrame {
 			pn_1_recursos.setBorder(new LineBorder(new Color(0, 0, 0)));
 			pn_1_recursos.setBackground(new Color(204, 255, 204));
 			pn_1_recursos.add(getLbl_observe_recursos_1());
-			pn_1_recursos.add(getBtnNewButton_2());
+			pn_1_recursos.add(getBt_Necesarios());
 			pn_1_recursos.add(getLbl_aportados_instalacion_1());
-			pn_1_recursos.add(getBtnNewButton_1_1());
+			pn_1_recursos.add(getBtYaAportados());
 		}
 		return pn_1_recursos;
 	}
@@ -1016,11 +1022,28 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return lbl_observe_recursos;
 	}
-	private JButton getBtnNewButton_2() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("Necesarios para llevar");
+	private JButton getBt_Necesarios() {
+		if (Bt_necesarios_para_llevar == null) {
+			Bt_necesarios_para_llevar = new JButton("Necesarios para llevar");
+			Bt_necesarios_para_llevar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String instalacion = getCb_Instalacion().getSelectedItem().toString();
+					mostrarListaDeRecursosNecesariosALlevar(instalacion);
+				}
+			});
 		}
-		return btnNewButton;
+		return Bt_necesarios_para_llevar;
+	}
+	
+	protected void mostrarListaDeRecursosNecesariosALlevar(String instalacion) {
+		mostrarPanelRecursosNecesariosALLevar();
+		//TODO
+		
+	}
+	private void mostrarPanelRecursosNecesariosALLevar() {
+		((CardLayout) getPanel_2_1().getLayout()).show(getPanel_2_1(), "p2");
+		contentPane.getRootPane().setDefaultButton(getBt_Necesarios());
+		
 	}
 	private JLabel getLbl_aportados_instalacion_1() {
 		if (lbl_aportados_instalacion == null) {
@@ -1029,13 +1052,38 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return lbl_aportados_instalacion;
 	}
-	private JButton getBtnNewButton_1_1() {
-		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("Ya aportados");
+	private JButton getBtYaAportados() {
+		if (bt_ya_aportados == null) {
+			bt_ya_aportados = new JButton("Ya aportados");
+			bt_ya_aportados.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String instalacion = getCb_Instalacion().getSelectedItem().toString();
+					mostrarListaDeRecursos(instalacion);
+				}
+			});
 		}
-		return btnNewButton_1;
+		return bt_ya_aportados;
 	}
-	private JPanel getPanel_2_3() {
+	protected void mostrarListaDeRecursos(String instalacion) {
+		mostrarPanelDeListaRecursos();
+		rellenarListaDeRecursos(instalacion);
+		getList_recursos_aportados().setModel(modelListaRecursos);
+	}
+	private void rellenarListaDeRecursos(String instalacion) {
+		List<String> listaRecursos = socio.findRecursosByInstalacion(instalacion);
+		((DefaultListModel<String>) modelListaRecursos).removeAllElements();
+		for(int i = 0; i < listaRecursos.size(); i++) {
+			((DefaultListModel<String>) modelListaRecursos).addElement(listaRecursos.get(i));
+			
+		}
+		
+	}
+	private void mostrarPanelDeListaRecursos() {
+		((CardLayout) getPanel_2_1().getLayout()).show(getPanel_2_1(), "p3");
+		contentPane.getRootPane().setDefaultButton(getBtYaAportados());
+		
+	}
+	private JPanel getPanel_recursos_necesarios() {
 		if (pn_2_recursos_necesarios == null) {
 			pn_2_recursos_necesarios = new JPanel();
 			pn_2_recursos_necesarios.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -1043,16 +1091,18 @@ public class NewVentanaSocio extends JFrame {
 			pn_2_recursos_necesarios.setLayout(new BorderLayout(0, 0));
 			pn_2_recursos_necesarios.add(getPanel_2_5(), BorderLayout.NORTH);
 			pn_2_recursos_necesarios.add(getList_recursos_necesarios(), BorderLayout.CENTER);
+			pn_2_recursos_necesarios.add(getPanel_2_7(), BorderLayout.SOUTH);
 		}
 		return pn_2_recursos_necesarios;
 	}
-	private JPanel getPanel_2_4() {
+	private JPanel getPanel_recursos_aportados() {
 		if (pn_3_recursos_aportados == null) {
 			pn_3_recursos_aportados = new JPanel();
 			pn_3_recursos_aportados.setBackground(new Color(255, 255, 255));
 			pn_3_recursos_aportados.setLayout(new BorderLayout(0, 0));
 			pn_3_recursos_aportados.add(getP1_label_1(), BorderLayout.NORTH);
 			pn_3_recursos_aportados.add(getList_recursos_aportados());
+			pn_3_recursos_aportados.add(getPanel_2_6(), BorderLayout.SOUTH);
 		}
 		return pn_3_recursos_aportados;
 	}
@@ -1071,9 +1121,9 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return recursos_a_aportar_lbl;
 	}
-	private JList getList_recursos_necesarios() {
+	private JList<String> getList_recursos_necesarios() {
 		if (list_recursos_necesarios == null) {
-			list_recursos_necesarios = new JList();
+			list_recursos_necesarios = new JList<String>();
 		}
 		return list_recursos_necesarios;
 	}
@@ -1092,10 +1142,64 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return recursos_aportados;
 	}
-	private JList getList_recursos_aportados() {
+	private JList<String> getList_recursos_aportados() {
 		if (list_recursos_aportados == null) {
-			list_recursos_aportados = new JList();
+			list_recursos_aportados = new JList<String>();
+			list_MisInstalaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			list_MisInstalaciones.setModel(modelListaRecursos);
+			
 		}
 		return list_recursos_aportados;
+	}
+	private JPanel getPanel_2_6() {
+		if (pn_con_boton_atras == null) {
+			pn_con_boton_atras = new JPanel();
+			pn_con_boton_atras.setBackground(new Color(255, 255, 255));
+			pn_con_boton_atras.setLayout(new GridLayout(1, 0, 0, 0));
+			pn_con_boton_atras.add(getBt_Atras_Rec_1());
+		}
+		return pn_con_boton_atras;
+	}
+	private JButton getBt_Atras_Rec_1() {
+		if (bt_Atras_Rec_1 == null) {
+			bt_Atras_Rec_1 = new JButton("Atrás");
+			bt_Atras_Rec_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					volverAntes1();
+				}
+			});
+		}
+		return bt_Atras_Rec_1;
+	}
+	private JPanel getPanel_2_7() {
+		if (pn_boton_atras_recursos == null) {
+			pn_boton_atras_recursos = new JPanel();
+			pn_boton_atras_recursos.setBackground(new Color(255, 255, 255));
+			pn_boton_atras_recursos.setLayout(new GridLayout(1, 0, 0, 0));
+			pn_boton_atras_recursos.add(getBt_atras_rec_2());
+		}
+		return pn_boton_atras_recursos;
+	}
+	private JButton getBt_atras_rec_2() {
+		if (bt_atras_rec_2 == null) {
+			bt_atras_rec_2 = new JButton("Atrás");
+			bt_atras_rec_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					volverAntes();
+				}
+			});
+		}
+		return bt_atras_rec_2;
+	}
+	protected void volverAntes() {
+		((CardLayout) getPanel_2_1().getLayout()).show(getPanel_2_1(), "p1");
+		contentPane.getRootPane().setDefaultButton(getBt_atras_rec_2());
+		
+	}
+	
+	protected void volverAntes1() {
+		((CardLayout) getPanel_2_1().getLayout()).show(getPanel_2_1(), "p1");
+		contentPane.getRootPane().setDefaultButton(getBt_Atras_Rec_1());
+		
 	}
 }

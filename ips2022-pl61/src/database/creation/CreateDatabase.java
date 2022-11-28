@@ -494,7 +494,8 @@ public class CreateDatabase {
 		createQueries.add(actividadSocio6);
 		
 		createQueries.add(recursoALlevar1);
-		createQueries.add(recursoALlevar2);
+		createQueries.add(recursoALlevar2
+				);
 
 	}
 }
