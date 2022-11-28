@@ -263,7 +263,7 @@ public class CreateDatabase {
 				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n" + "VALUES ( 'cancha', 5, null)";
 		String instalacion5 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n"
 				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n"
-				+ "VALUES ( 'campo futbol', 20, null)";
+				+ "VALUES ( 'campo', 20, null)";
 		// RECURSOS
 		String recurso1 = "INSERT INTO RECURSO\r\n" + "( \"NOMBRE_R\", \"CANTIDAD_R\", \"NOMBRE_I\" )\r\n"
 				+ "VALUES ( 'pesa 15kg', 6, 'gimnasio')";
