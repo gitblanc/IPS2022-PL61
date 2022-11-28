@@ -15,6 +15,8 @@ import database.business.alquiler.AlquilerService;
 import database.business.alquiler.AlquilerService.AlquilerBLDto;
 import database.business.recurso.RecursoService;
 import database.business.recurso.RecursoService.RecursoBLDto;
+import database.business.recursosALlevarSocio.RecursosALlevarSocioService;
+import database.business.recursosALlevarSocio.RecursosALlevarSocioService.RecursosALlevarSocioBLDto;
 import database.business.socio.SocioService;
 import database.business.socio.SocioService.SocioBLDto;
 
@@ -27,6 +29,7 @@ public class Socio {
 	private static ActividadService aser = BusinessFactory.forActividadService();
 	private static AlquilerService als = BusinessFactory.forAlquilerService();
 	private static RecursoService rs = BusinessFactory.forRecursoService();
+	private static RecursosALlevarSocioService ralss = BusinessFactory.forRecursosALlevarSocioService();
 
 	public Socio(String id, String nombre, String apellidos, String pass) {
 		this.id = id;
@@ -431,6 +434,16 @@ public class Socio {
 		List<String> result = new ArrayList<>();
 		for(int i = 0; i < lista.size(); i++) {
 			String a = lista.get(i).nombre + "\n";
+			result.add(a);
+		}
+		return result;
+	}
+
+	public List<String> findRecursosByInstalacionNecesarios(String instalacion) {
+		List<RecursosALlevarSocioBLDto> lista = ralss.findRecursoByInstalacion(instalacion);
+		List<String> result = new ArrayList<>();
+		for(int i = 0; i < lista.size(); i++) {
+			String a = lista.get(i).nombre_recurso_a_llevar + "\n";
 			result.add(a);
 		}
 		return result;
