@@ -932,81 +932,90 @@ public class NewVentanaAdmin extends JFrame {
 					String fin = getComboBoxHoraFin().getSelectedItem().toString().split("@")[0];
 					String instalacion = getComboBoxIntalacionesCalendario_1().getSelectedItem().toString()
 							.split("@")[0];
-					if (getRdbtnRepetirActividadCadaDia_1().isSelected()) {
-						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)
-								&& !existsActividadOrAlquilerInAFutureDay(fecha, inicio, fin, instalacion)) {
-							planificarActividad(null);
-							for (int i = 0; i < diasRestantes.length; i++) {
-								String date = diasRestantes[i] + "/" + mesesRestantes.get(i) + "/"
-										+ fecha.split("/")[2];
-								crearActividad(admin.buscarActividad(
-										getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0], date,
-										inicio, fin), date, inicio, fin);
+					if (comprobarValidezRecursos(getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0],
+							instalacion)) {
+						if (getRdbtnRepetirActividadCadaDia_1().isSelected()) {
+							if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)
+									&& !existsActividadOrAlquilerInAFutureDay(fecha, inicio, fin, instalacion)) {
+								planificarActividad(null);
+								for (int i = 0; i < diasRestantes.length; i++) {
+									String date = diasRestantes[i] + "/" + mesesRestantes.get(i) + "/"
+											+ fecha.split("/")[2];
+									crearActividad(admin.buscarActividad(
+											getComboBoxTiposActividad().getSelectedItem().toString().split("@")[0],
+											date, inicio, fin), date, inicio, fin);
+								}
+								pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getSelectedItem()
+										.toString().split("@")[0]);
+							} else {
+								getLblPlanificaciónCorrecta().setText("");
+								getLblHorarioOcupado().setVisible(true);
 							}
-							pintarPanelesCalendario(
-									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
-						} else {
-							getLblPlanificaciónCorrecta().setText("");
-							getLblHorarioOcupado().setVisible(true);
-						}
-					} else if (getRdbtnRepetirVariosDias().isSelected()) {
-						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
-							List<String> diasSeleccionados = getListDiasDisponibles().getSelectedValuesList();
-							int nextDay = 0;
-							String newFecha = "";
-							for (String day : diasSeleccionados) {
-								if (!comprobarDiasMesesMezclados()) {// si no hay mezcla de meses
-									nextDay = obtenerProximoDiaSemana(day);
-									newFecha = nextDay + "/" + fecha.split("/")[1] + "/" + fecha.split("/")[2];
-								} else {
-									nextDay = obtenerProximoDiaSemana(day);
-									if (nextDay <= 6) {
-										newFecha = nextDay + "/" + (Integer.parseInt(fecha.split("/")[1]) + 1) + "/"
-												+ fecha.split("/")[2];
-									} else {
+						} else if (getRdbtnRepetirVariosDias().isSelected()) {
+							if (!existsActividad(fecha, inicio, fin)
+									&& !existsAlquiler(fecha, inicio, fin, instalacion)) {
+								List<String> diasSeleccionados = getListDiasDisponibles().getSelectedValuesList();
+								int nextDay = 0;
+								String newFecha = "";
+								for (String day : diasSeleccionados) {
+									if (!comprobarDiasMesesMezclados()) {// si no hay mezcla de meses
+										nextDay = obtenerProximoDiaSemana(day);
 										newFecha = nextDay + "/" + fecha.split("/")[1] + "/" + fecha.split("/")[2];
+									} else {
+										nextDay = obtenerProximoDiaSemana(day);
+										if (nextDay <= 6) {
+											newFecha = nextDay + "/" + (Integer.parseInt(fecha.split("/")[1]) + 1) + "/"
+													+ fecha.split("/")[2];
+										} else {
+											newFecha = nextDay + "/" + fecha.split("/")[1] + "/" + fecha.split("/")[2];
+										}
 									}
-								}
-								if (!existsActividadOrAlquilerInAFutureDay(newFecha, inicio, fin, instalacion)) {
+									if (!existsActividadOrAlquilerInAFutureDay(newFecha, inicio, fin, instalacion)) {
 
-									for (int i = 0; i < diasRestantes.length; i++) {
-										String date = diasRestantes[i] + "/" + mesesRestantes.get(i) + "/"
-												+ fecha.split("/")[2];
-										crearActividad(
-												admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem()
-														.toString().split("@")[0], date, inicio, fin),
-												date, inicio, fin);
+										for (int i = 0; i < diasRestantes.length; i++) {
+											String date = diasRestantes[i] + "/" + mesesRestantes.get(i) + "/"
+													+ fecha.split("/")[2];
+											crearActividad(
+													admin.buscarActividad(getComboBoxTiposActividad().getSelectedItem()
+															.toString().split("@")[0], date, inicio, fin),
+													date, inicio, fin);
+										}
+									} else {
+										getLblPlanificaciónCorrecta().setText("");
+										getLblHorarioOcupado().setVisible(true);
+										break;
 									}
-								} else {
-									getLblPlanificaciónCorrecta().setText("");
-									getLblHorarioOcupado().setVisible(true);
-									break;
+									getLblPlanificaciónCorrecta().setText("¡Hecho!");
 								}
-								getLblPlanificaciónCorrecta().setText("¡Hecho!");
+							} else {
+								getLblPlanificaciónCorrecta().setText("");
+								getLblHorarioOcupado().setVisible(true);
 							}
-						} else {
-							getLblPlanificaciónCorrecta().setText("");
-							getLblHorarioOcupado().setVisible(true);
+						} else if (getRdbtnNoRepetir().isSelected()) {// si no se seleccionó ningún radioboton o
+																		// se
+																		// selecciono no repetir
+							String[] fechaSeparada = getTextFieldFechaPlanificacion().getText().split("/");
+							if (lunesMixed || martesMixed || miercolesMixed || juevesMixed || viernesMixed
+									|| sabadoMixed || domingoMixed) {// si hay un día que empieze otro mes intercalado
+																		// con el finm de otro
+																		// mes
+								fechaSeparada[1] = (Integer.parseInt(fechaSeparada[1]) + 1) + "";
+								fecha = fechaSeparada[0] + "/" + fechaSeparada[1] + "/" + fechaSeparada[2];
+							}
+							if (!existsActividad(fecha, inicio, fin)
+									&& !existsAlquiler(fecha, inicio, fin, instalacion)) {
+								getLblHorarioOcupado().setVisible(false);
+								planificarActividad(null);
+								pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getSelectedItem()
+										.toString().split("@")[0]);
+							} else {
+								getLblPlanificaciónCorrecta().setText("");
+								getLblHorarioOcupado().setVisible(true);
+							}
 						}
-					} else if (getRdbtnNoRepetir().isSelected()) {// si no se seleccionó ningún radioboton o
-																	// se
-																	// selecciono no repetir
-						String[] fechaSeparada = getTextFieldFechaPlanificacion().getText().split("/");
-						if (lunesMixed || martesMixed || miercolesMixed || juevesMixed || viernesMixed || sabadoMixed
-								|| domingoMixed) {// si hay un día que empieze otro mes intercalado con el finm de otro
-													// mes
-							fechaSeparada[1] = (Integer.parseInt(fechaSeparada[1]) + 1) + "";
-							fecha = fechaSeparada[0] + "/" + fechaSeparada[1] + "/" + fechaSeparada[2];
-						}
-						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
-							getLblHorarioOcupado().setVisible(false);
-							planificarActividad(null);
-							pintarPanelesCalendario(
-									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
-						} else {
-							getLblPlanificaciónCorrecta().setText("");
-							getLblHorarioOcupado().setVisible(true);
-						}
+					} else {
+						getLblHorarioOcupado().setText("Recursos mal asignados");
+						getLblHorarioOcupado().setVisible(true);
 					}
 				}
 
@@ -1021,6 +1030,27 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return btnPlanificarTipo;
 
+	}
+
+	protected boolean comprobarValidezRecursos(String tipoActividad, String instalacion) {
+		String[] recursosDisponibles = admin.getRecursosPorInstalacion(instalacion);
+		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
+		for (Actividad a : actividades) {
+			List<String> recursos = a.getAllRecursos(a.getId());// sacamos los recursos de la actividad
+			for (String r : recursosDisponibles) {
+				if (!checkearExistenciaRecursos(r, recursos))
+					return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkearExistenciaRecursos(String recurso, List<String> recursos) {
+		for (String r : recursos) {
+			if (r.equals(recurso))
+				return true;
+		}
+		return false;
 	}
 
 	private boolean comprobarDiasMesesMezclados() {

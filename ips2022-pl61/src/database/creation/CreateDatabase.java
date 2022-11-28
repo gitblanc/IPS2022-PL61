@@ -296,9 +296,9 @@ public class CreateDatabase {
 		String recurso15 = "INSERT INTO RECURSO\r\n" + "( \"NOMBRE_R\", \"CANTIDAD_R\", \"NOMBRE_I\" )\r\n"
 				+ "VALUES ( 'altavoces', 10, 'gimnasio')";
 		String recurso16 = "INSERT INTO RECURSO\r\n" + "( \"NOMBRE_R\", \"CANTIDAD_R\", \"NOMBRE_I\" )\r\n"
-				+ "VALUES ( 'porteria', 2, 'campo futbol')";
+				+ "VALUES ( 'porteria', 2, 'campo')";
 		String recurso17 = "INSERT INTO RECURSO\r\n" + "( \"NOMBRE_R\", \"CANTIDAD_R\", \"NOMBRE_I\" )\r\n"
-				+ "VALUES ( 'petos', 30, 'campo futbol')";
+				+ "VALUES ( 'petos', 30, 'campo')";
 		String recurso18 = "INSERT INTO RECURSO\r\n" + "( \"NOMBRE_R\", \"CANTIDAD_R\", \"NOMBRE_I\" )\r\n"
 				+ "VALUES ( 'red', 2, 'cancha')";
 		String recurso19 = "INSERT INTO RECURSO\r\n" + "( \"NOMBRE_R\", \"CANTIDAD_R\", \"NOMBRE_I\" )\r\n"
@@ -373,12 +373,12 @@ public class CreateDatabase {
 		String alquiler20 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('20', 'gimnasio','3','20/12/2022', '15:00', '17:00', 0)";
 		// RECURSOS A LLEVAR EL SOCIO
-		String recursoALlevar1 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'balon futbol', 'campo futbol')";
+		String recursoALlevar1 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'balon futbol', 'campo')";
 		String recursoALlevar2 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'raqueta', 'cancha')";
 		String recursoALlevar3 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'pelota', 'cancha')";
 		String recursoALlevar4 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'gorra', 'cancha')";
-		String recursoALlevar5 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'botas', 'campo futbol')";
-		String recursoALlevar6 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'medias', 'campo futbol')";
+		String recursoALlevar5 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'botas', 'campo')";
+		String recursoALlevar6 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'medias', 'campo')";
 
 		// activiades a socios
 		String actividadSocio1 = "insert into actividadSocio(correo_s, id_a) values ('imxiin@gmail.com', '9')";

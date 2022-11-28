@@ -1,4 +1,4 @@
-/*C65*/SET SCHEMA PUBLIC
+/*C4*/SET SCHEMA PUBLIC
 drop table monitor
 drop table no_socio
 drop table recursosactividad
@@ -35,7 +35,7 @@ INSERT INTO INSTALACION VALUES('pista',60,NULL)
 COMMIT
 INSERT INTO INSTALACION VALUES('cancha',5,NULL)
 COMMIT
-INSERT INTO INSTALACION VALUES('campo futbol',20,NULL)
+INSERT INTO INSTALACION VALUES('campo',20,NULL)
 COMMIT
 INSERT INTO TIPOACTIVIDAD VALUES('1','Nataci\u00f3n','alta','reserva','13:00','15:00','piscina','07/12/2022',12)
 COMMIT
@@ -151,9 +151,407 @@ INSERT INTO RECURSO VALUES('bal\u00f3n medicinal',15,'gimnasio')
 COMMIT
 INSERT INTO RECURSO VALUES('altavoces',10,'gimnasio')
 COMMIT
-INSERT INTO RECURSO VALUES('porteria',2,'campo futbol')
+DISCONNECT
+/*C5*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C6*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C8*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C9*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C10*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C11*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C12*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C13*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C14*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C15*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C16*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C17*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C18*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C19*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C20*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C21*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C22*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C23*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C24*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C25*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C26*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C27*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C28*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C29*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C30*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C31*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C32*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C33*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C34*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C35*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C36*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C37*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C38*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C39*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C40*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C41*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C42*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C43*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C44*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C45*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C46*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C47*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C48*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C49*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C50*/SET SCHEMA PUBLIC
+drop table monitor
+drop table no_socio
+drop table recursosactividad
+drop table cursillo
+drop table lista_espera
+drop table administracion
+drop table actividadsocio
+drop table alquileres
+drop table socio
+drop table TipoActividad
+drop table recurso
+drop table recursosALlevarSocio
+drop table instalacion
+create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
+create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
+create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
+create table instalacion(nombre_i varchar(20) primary key, plazas int not null, cerrada_para_alquileres varchar(10))
+create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
+INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
 COMMIT
-INSERT INTO RECURSO VALUES('petos',30,'campo futbol')
+create table TipoActividad(id_a varchar(150) primary key, tipo varchar(30) not null, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6),hora_fin varchar(6), nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int)
+create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
+create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
+create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
+create table RecursosActividad(id_a varchar(150) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
+create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(150) foreign key references TipoActividad(id_a))
+create table Alquileres(id_a varchar(100) primary key, nombre_i varchar(20) foreign key references instalacion(nombre_i), id_socio varchar(10) foreign key references socio(id_s), fecha varchar(20), hora_inicio varchar(6), hora_fin varchar(6), cancelado int)
+create table RecursosALlevarSocio(nombre_recurso_a_llevar varchar(20) primary key, nombre_i varchar(20) foreign key references Instalacion(nombre_i))
+INSERT INTO INSTALACION VALUES('gimnasio',40,NULL)
+COMMIT
+INSERT INTO INSTALACION VALUES('piscina',30,NULL)
+COMMIT
+INSERT INTO INSTALACION VALUES('pista',60,NULL)
+COMMIT
+INSERT INTO INSTALACION VALUES('cancha',5,NULL)
+COMMIT
+INSERT INTO INSTALACION VALUES('campo',20,NULL)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('1','Nataci\u00f3n','alta','reserva','13:00','15:00','piscina','07/12/2022',12)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('2','Sauna','baja','libre','15:00','16:00','piscina','07/12/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('3','Jacuzzi','baja','reserva','16:00','18:00','piscina','07/12/2022',4)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('4','Peso muerto','alta','reserva','13:00','14:00','gimnasio','07/12/2022',15)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('5','Biceps','moderada','libre','14:00','15:00','gimnasio','07/12/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('6','Calistenia','alta','libre','21:00','23:00','gimnasio','07/12/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('7','Carrera','alta','libre','13:00','15:00','pista','07/12/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('8','Jabalina','moderada','reserva','17:00','19:00','pista','07/12/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('9','Jabalina','moderada','reserva','09:00','11:00','pista','07/12/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('10','Yoga','moderada','reserva','22:00','23:00','gimnasio','30/11/2022',9)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('11','Danza','moderada','reserva','20:00','22:00','pista','07/12/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('12','Danza','moderada','reserva','16:00','17:00','pista','30/11/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('13','Nataci\u00f3n','alta','reserva','13:00','15:00','piscina','30/11/2022',12)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('14','Sauna','baja','libre','15:00','16:00','piscina','22/11/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('15','Jacuzzi','baja','reserva','16:00','18:00','piscina','30/11/2022',4)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('16','Peso muerto','alta','reserva','13:00','14:00','gimnasio','22/11/2022',15)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('17','Biceps','moderada','libre','14:00','16:00','gimnasio','30/11/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('18','Calistenia','alta','libre','21:00','23:00','gimnasio','22/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('19','Carrera','alta','libre','13:00','15:00','pista','30/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('20','Jabalina','moderada','reserva','17:00','19:00','pista','22/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('21','Jabalina','moderada','reserva','09:00','11:00','pista','30/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('22','Yoga','moderada','reserva','22:00','23:00','gimnasio','22/11/2022',9)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('23','Danza','moderada','reserva','20:00','22:00','pista','30/11/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('24','Danza','moderada','reserva','16:00','17:00','pista','11/10/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('25','Nataci\u00f3n','alta','reserva','13:00','15:00','piscina','25/11/2022',12)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('26','Sauna','baja','libre','15:00','16:00','piscina','08/11/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('27','Jacuzzi','baja','reserva','16:00','18:00','piscina','25/11/2022',4)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('28','Peso muerto','alta','reserva','13:00','14:00','gimnasio','08/11/2022',15)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('29','Biceps','moderada','libre','14:00','16:00','gimnasio','25/11/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('30','Calistenia','alta','libre','21:00','23:00','gimnasio','08/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('31','Carrera','alta','libre','13:00','15:00','pista','25/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('32','Jabalina','moderada','reserva','17:00','19:00','pista','08/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('33','Jabalina','moderada','reserva','09:00','11:00','pista','25/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('34','Yoga','moderada','reserva','22:00','23:00','gimnasio','08/11/2022',9)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('35','Danza','moderada','reserva','20:00','22:00','pista','25/11/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('36','Danza','moderada','reserva','16:00','17:00','pista','08/10/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('37','Carrera','alta','libre','13:00','15:00','pista','22/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('38','Jabalina','moderada','reserva','17:00','19:00','pista','22/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('39','Jabalina','moderada','reserva','09:00','11:00','pista','22/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('40','Yoga','moderada','reserva','22:00','23:00','gimnasio','30/11/2022',9)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('41','Danza','moderada','reserva','20:00','22:00','pista','30/11/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('42','Danza','moderada','reserva','16:00','17:00','pista','29/11/2022',10)
+COMMIT
+INSERT INTO RECURSO VALUES('pesa 15kg',6,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('mancuerna 12kg',6,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('comba',3,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('manguito',12,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('tabla nataci\u00f3n',15,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('flotador',10,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('toalla',6,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('jabalina',8,'pista')
+COMMIT
+INSERT INTO RECURSO VALUES('barra ol\u00edmpica',10,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('banco',5,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('corcheras',15,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('banco pista',15,'pista')
+COMMIT
+INSERT INTO RECURSO VALUES('cuerda',15,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('bal\u00f3n medicinal',15,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('altavoces',10,'gimnasio')
+COMMIT
+DISCONNECT
+/*C52*/SET SCHEMA PUBLIC
+drop table monitor
+drop table no_socio
+drop table recursosactividad
+drop table cursillo
+drop table lista_espera
+drop table administracion
+drop table actividadsocio
+drop table alquileres
+drop table socio
+drop table TipoActividad
+drop table recurso
+drop table recursosALlevarSocio
+drop table instalacion
+create table socio(id_s varchar(10) primary key, nombre_s varchar(20) not null, apellidos_s varchar(50) not null, correo_s varchar(50) unique  not null, contrase\u00f1a_s varchar(50) not null)
+create table monitor(id_m varchar(10) primary key, nombre_m varchar(20) not null, apellidos_m varchar(50) not null, correo_m varchar(50) not null )
+create table no_socio(id_ns varchar(10) primary key, nombre_ns varchar(20) not null, apellidos_ns varchar(50) not null, correo_ns varchar(50) not null)
+create table instalacion(nombre_i varchar(20) primary key, plazas int not null, cerrada_para_alquileres varchar(10))
+create table recurso(nombre_r varchar(20) primary key, cantidad_r int check(cantidad_r >= 0), nombre_i varchar(20) foreign key references Instalacion(nombre_i))
+INSERT INTO RECURSO VALUES('sin recursos',0,NULL)
+COMMIT
+create table TipoActividad(id_a varchar(150) primary key, tipo varchar(30) not null, intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'), acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6),hora_fin varchar(6), nombre_i varchar(20) foreign key references Instalacion(nombre_i),fecha varchar(20), plazas_a int)
+create table cursillo(id_c varchar(10) primary key, nombre_c varchar(20) not null, duracion varchar(20) not null, horario date not null)
+create table lista_espera(id_lista varchar(10) primary key, cantidad int not null)
+create table administracion(id_a varchar(10) primary key, nombre_a varchar(20) not null, apellidos_a varchar(50) not null, correo_a varchar(50) not null)
+create table RecursosActividad(id_a varchar(150) foreign key references TipoActividad(id_a),nombre_r varchar(20) foreign key references Recurso(nombre_r))
+create table ActividadSocio(correo_s varchar(50) foreign key references Socio(correo_s),id_a varchar(150) foreign key references TipoActividad(id_a))
+create table Alquileres(id_a varchar(100) primary key, nombre_i varchar(20) foreign key references instalacion(nombre_i), id_socio varchar(10) foreign key references socio(id_s), fecha varchar(20), hora_inicio varchar(6), hora_fin varchar(6), cancelado int)
+create table RecursosALlevarSocio(nombre_recurso_a_llevar varchar(20) primary key, nombre_i varchar(20) foreign key references Instalacion(nombre_i))
+INSERT INTO INSTALACION VALUES('gimnasio',40,NULL)
+COMMIT
+INSERT INTO INSTALACION VALUES('piscina',30,NULL)
+COMMIT
+INSERT INTO INSTALACION VALUES('pista',60,NULL)
+COMMIT
+INSERT INTO INSTALACION VALUES('cancha',5,NULL)
+COMMIT
+INSERT INTO INSTALACION VALUES('campo',20,NULL)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('1','Nataci\u00f3n','alta','reserva','13:00','15:00','piscina','07/12/2022',12)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('2','Sauna','baja','libre','15:00','16:00','piscina','07/12/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('3','Jacuzzi','baja','reserva','16:00','18:00','piscina','07/12/2022',4)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('4','Peso muerto','alta','reserva','13:00','14:00','gimnasio','07/12/2022',15)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('5','Biceps','moderada','libre','14:00','15:00','gimnasio','07/12/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('6','Calistenia','alta','libre','21:00','23:00','gimnasio','07/12/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('7','Carrera','alta','libre','13:00','15:00','pista','07/12/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('8','Jabalina','moderada','reserva','17:00','19:00','pista','07/12/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('9','Jabalina','moderada','reserva','09:00','11:00','pista','07/12/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('10','Yoga','moderada','reserva','22:00','23:00','gimnasio','30/11/2022',9)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('11','Danza','moderada','reserva','20:00','22:00','pista','07/12/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('12','Danza','moderada','reserva','16:00','17:00','pista','30/11/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('13','Nataci\u00f3n','alta','reserva','13:00','15:00','piscina','30/11/2022',12)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('14','Sauna','baja','libre','15:00','16:00','piscina','22/11/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('15','Jacuzzi','baja','reserva','16:00','18:00','piscina','30/11/2022',4)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('16','Peso muerto','alta','reserva','13:00','14:00','gimnasio','22/11/2022',15)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('17','Biceps','moderada','libre','14:00','16:00','gimnasio','30/11/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('18','Calistenia','alta','libre','21:00','23:00','gimnasio','22/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('19','Carrera','alta','libre','13:00','15:00','pista','30/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('20','Jabalina','moderada','reserva','17:00','19:00','pista','22/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('21','Jabalina','moderada','reserva','09:00','11:00','pista','30/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('22','Yoga','moderada','reserva','22:00','23:00','gimnasio','22/11/2022',9)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('23','Danza','moderada','reserva','20:00','22:00','pista','30/11/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('24','Danza','moderada','reserva','16:00','17:00','pista','11/10/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('25','Nataci\u00f3n','alta','reserva','13:00','15:00','piscina','25/11/2022',12)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('26','Sauna','baja','libre','15:00','16:00','piscina','08/11/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('27','Jacuzzi','baja','reserva','16:00','18:00','piscina','25/11/2022',4)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('28','Peso muerto','alta','reserva','13:00','14:00','gimnasio','08/11/2022',15)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('29','Biceps','moderada','libre','14:00','16:00','gimnasio','25/11/2022',8)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('30','Calistenia','alta','libre','21:00','23:00','gimnasio','08/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('31','Carrera','alta','libre','13:00','15:00','pista','25/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('32','Jabalina','moderada','reserva','17:00','19:00','pista','08/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('33','Jabalina','moderada','reserva','09:00','11:00','pista','25/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('34','Yoga','moderada','reserva','22:00','23:00','gimnasio','08/11/2022',9)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('35','Danza','moderada','reserva','20:00','22:00','pista','25/11/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('36','Danza','moderada','reserva','16:00','17:00','pista','08/10/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('37','Carrera','alta','libre','13:00','15:00','pista','22/11/2022',-1)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('38','Jabalina','moderada','reserva','17:00','19:00','pista','22/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('39','Jabalina','moderada','reserva','09:00','11:00','pista','22/11/2022',7)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('40','Yoga','moderada','reserva','22:00','23:00','gimnasio','30/11/2022',9)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('41','Danza','moderada','reserva','20:00','22:00','pista','30/11/2022',10)
+COMMIT
+INSERT INTO TIPOACTIVIDAD VALUES('42','Danza','moderada','reserva','16:00','17:00','pista','29/11/2022',10)
+COMMIT
+INSERT INTO RECURSO VALUES('pesa 15kg',6,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('mancuerna 12kg',6,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('comba',3,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('manguito',12,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('tabla nataci\u00f3n',15,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('flotador',10,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('toalla',6,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('jabalina',8,'pista')
+COMMIT
+INSERT INTO RECURSO VALUES('barra ol\u00edmpica',10,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('banco',5,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('corcheras',15,'piscina')
+COMMIT
+INSERT INTO RECURSO VALUES('banco pista',15,'pista')
+COMMIT
+INSERT INTO RECURSO VALUES('cuerda',15,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('bal\u00f3n medicinal',15,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('altavoces',10,'gimnasio')
+COMMIT
+INSERT INTO RECURSO VALUES('porteria',2,'campo')
+COMMIT
+INSERT INTO RECURSO VALUES('petos',30,'campo')
 COMMIT
 INSERT INTO RECURSO VALUES('red',2,'cancha')
 COMMIT
@@ -231,7 +629,7 @@ INSERT INTO ACTIVIDADSOCIO VALUES('imxiin@gmail.com','3')
 COMMIT
 INSERT INTO ACTIVIDADSOCIO VALUES('bb345@gmail.com','4')
 COMMIT
-INSERT INTO RECURSOSALLEVARSOCIO VALUES('balon futbol','campo futbol')
+INSERT INTO RECURSOSALLEVARSOCIO VALUES('balon futbol','campo')
 COMMIT
 INSERT INTO RECURSOSALLEVARSOCIO VALUES('raqueta','cancha')
 COMMIT
@@ -239,24 +637,84 @@ INSERT INTO RECURSOSALLEVARSOCIO VALUES('pelota','cancha')
 COMMIT
 INSERT INTO RECURSOSALLEVARSOCIO VALUES('gorra','cancha')
 COMMIT
-INSERT INTO RECURSOSALLEVARSOCIO VALUES('botas','campo futbol')
+INSERT INTO RECURSOSALLEVARSOCIO VALUES('botas','campo')
 COMMIT
-INSERT INTO RECURSOSALLEVARSOCIO VALUES('medias','campo futbol')
+INSERT INTO RECURSOSALLEVARSOCIO VALUES('medias','campo')
 COMMIT
 DISCONNECT
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
+/*C53*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C54*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C55*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C56*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C57*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C58*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C59*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C60*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C61*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C62*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C63*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C64*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C65*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C66*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C67*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C68*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C69*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C70*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C71*/SET SCHEMA PUBLIC
+INSERT INTO TIPOACTIVIDAD VALUES('6208dc19-7ee6-4081-9544-95ee97399feb','prueba fallo','alta','libre',NULL,NULL,'gimnasio',NULL,-1)
+COMMIT
+DISCONNECT
+/*C72*/SET SCHEMA PUBLIC
+INSERT INTO RECURSOSACTIVIDAD VALUES('6208dc19-7ee6-4081-9544-95ee97399feb','porteria')
+COMMIT
+DISCONNECT
+/*C73*/SET SCHEMA PUBLIC
+INSERT INTO RECURSOSACTIVIDAD VALUES('6208dc19-7ee6-4081-9544-95ee97399feb','tabla nataci\u00f3n')
+COMMIT
+DISCONNECT
+/*C74*/SET SCHEMA PUBLIC
+INSERT INTO RECURSOSACTIVIDAD VALUES('6208dc19-7ee6-4081-9544-95ee97399feb','sillas')
+COMMIT
+DISCONNECT
+/*C75*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C76*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C77*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C78*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C79*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C80*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C81*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C82*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C83*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C84*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C85*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C86*/SET SCHEMA PUBLIC
+DISCONNECT
