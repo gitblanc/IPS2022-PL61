@@ -59,7 +59,7 @@ public class CreateDatabase {
 				+ ", nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
 		String crearInstalacion = "create table instalacion(nombre_i varchar(20) primary key, plazas int not null, cerrada_para_alquileres varchar(10))";
 		String crearTipoActividad = "create table TipoActividad(id_a varchar(150) primary key, tipo varchar(30) not null,"
-				+ " intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"  
+				+ " intensidad varchar(10) check(intensidad = 'alta' or intensidad = 'moderada' or intensidad = 'baja'),"
 				+ " acceso varchar(20) check(acceso = 'libre' or acceso = 'reserva'), hora_inicio varchar(6),"
 				+ "hora_fin varchar(6), nombre_i varchar(20) foreign key references Instalacion(nombre_i),"
 				+ "fecha varchar(20), plazas_a int)";
@@ -74,8 +74,8 @@ public class CreateDatabase {
 				+ "id_a varchar(150) foreign key references TipoActividad(id_a))";
 		String crearAlquileres = "create table Alquileres(id_a varchar(100) primary key, nombre_i varchar(20) foreign key references instalacion(nombre_i),"
 				+ " id_socio varchar(10) foreign key references socio(id_s), fecha varchar(20), hora_inicio varchar(6), hora_fin varchar(6), cancelado int)"; // 1
-		String crearRecursosALlevarSocio = "create table RecursosALlevarSocio(nombre_recurso_a_llevar varchar(20) primary key, nombre_i varchar(20) foreign key references Instalacion(nombre_i))";			
-																																								// no
+		String crearRecursosALlevarSocio = "create table RecursosALlevarSocio(nombre_recurso_a_llevar varchar(20) primary key, nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
+		// no
 
 		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
 
@@ -106,7 +106,7 @@ public class CreateDatabase {
 		dropTables.add(dropRecurso);
 		dropTables.add(dropRecursosALlevarSocio);
 		dropTables.add(dropInstalacion);
-		
+
 		createQueries.add(crearSocios);
 		createQueries.add(crearMonitor);
 		createQueries.add(crearNoSocio);
@@ -258,11 +258,12 @@ public class CreateDatabase {
 		String instalacion2 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n"
 				+ "( \"NOMBRE_I\", \"PLAZAS\",  \"CERRADA_PARA_ALQUILERES\")\r\n" + "VALUES ( 'piscina', 30, null)";
 		String instalacion3 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n"
-				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n" + "VALUES ( 'pista', 60, null)";		
+				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n" + "VALUES ( 'pista', 60, null)";
 		String instalacion4 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n"
 				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n" + "VALUES ( 'cancha', 5, null)";
 		String instalacion5 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n"
-				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n" + "VALUES ( 'campo futbol', 20, null)";
+				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n"
+				+ "VALUES ( 'campo futbol', 20, null)";
 		// RECURSOS
 		String recurso1 = "INSERT INTO RECURSO\r\n" + "( \"NOMBRE_R\", \"CANTIDAD_R\", \"NOMBRE_I\" )\r\n"
 				+ "VALUES ( 'pesa 15kg', 6, 'gimnasio')";
@@ -371,11 +372,14 @@ public class CreateDatabase {
 				+ " values ('19', 'piscina','1','22/12/2022', '11:00', '13:00', 0)";
 		String alquiler20 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('20', 'gimnasio','3','20/12/2022', '15:00', '17:00', 0)";
-		//RECURSOS A LLEVAR EL SOCIO
+		// RECURSOS A LLEVAR EL SOCIO
 		String recursoALlevar1 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'balon futbol', 'campo futbol')";
 		String recursoALlevar2 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'raqueta', 'cancha')";
-		
-		
+		String recursoALlevar3 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'pelota', 'cancha')";
+		String recursoALlevar4 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'gorra', 'cancha')";
+		String recursoALlevar5 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'botas', 'campo futbol')";
+		String recursoALlevar6 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'medias', 'campo futbol')";
+
 		// activiades a socios
 		String actividadSocio1 = "insert into actividadSocio(correo_s, id_a) values ('imxiin@gmail.com', '9')";
 		String actividadSocio2 = "insert into actividadSocio(correo_s, id_a) values ('bb345@gmail.com', '9')";
@@ -492,10 +496,13 @@ public class CreateDatabase {
 		createQueries.add(actividadSocio4);
 		createQueries.add(actividadSocio5);
 		createQueries.add(actividadSocio6);
-		
+
 		createQueries.add(recursoALlevar1);
-		createQueries.add(recursoALlevar2
-				);
+		createQueries.add(recursoALlevar2);
+		createQueries.add(recursoALlevar3);
+		createQueries.add(recursoALlevar4);
+		createQueries.add(recursoALlevar5);
+		createQueries.add(recursoALlevar6);
 
 	}
 }
