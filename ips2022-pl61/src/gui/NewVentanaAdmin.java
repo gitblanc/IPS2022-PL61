@@ -953,9 +953,20 @@ public class NewVentanaAdmin extends JFrame {
 						if (!existsActividad(fecha, inicio, fin) && !existsAlquiler(fecha, inicio, fin, instalacion)) {
 							List<String> diasSeleccionados = getListDiasDisponibles().getSelectedValuesList();
 							int nextDay = 0;
+							String newFecha = "";
 							for (String day : diasSeleccionados) {
-								nextDay = obtenerProximoDiaSemana(day);
-								String newFecha = nextDay + "/" + fecha.split("/")[1] + "/" + fecha.split("/")[2];
+								if (!comprobarDiasMesesMezclados()) {// si no hay mezcla de meses
+									nextDay = obtenerProximoDiaSemana(day);
+									newFecha = nextDay + "/" + fecha.split("/")[1] + "/" + fecha.split("/")[2];
+								} else {
+									nextDay = obtenerProximoDiaSemana(day);
+									if (nextDay <= 6) {
+										newFecha = nextDay + "/" + (Integer.parseInt(fecha.split("/")[1]) + 1) + "/"
+												+ fecha.split("/")[2];
+									} else {
+										newFecha = nextDay + "/" + fecha.split("/")[1] + "/" + fecha.split("/")[2];
+									}
+								}
 								if (!existsActividadOrAlquilerInAFutureDay(newFecha, inicio, fin, instalacion)) {
 
 									for (int i = 0; i < diasRestantes.length; i++) {
@@ -971,10 +982,8 @@ public class NewVentanaAdmin extends JFrame {
 									getLblHorarioOcupado().setVisible(true);
 									break;
 								}
+								getLblPlanificaciónCorrecta().setText("¡Hecho!");
 							}
-							getLblPlanificaciónCorrecta().setText("¡Hecho!");
-							pintarPanelesCalendario(
-									getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
 						} else {
 							getLblPlanificaciónCorrecta().setText("");
 							getLblHorarioOcupado().setVisible(true);
@@ -1002,6 +1011,7 @@ public class NewVentanaAdmin extends JFrame {
 				}
 
 			});
+			pintarPanelesCalendario(getComboBoxIntalacionesCalendario_1().getSelectedItem().toString().split("@")[0]);
 			btnPlanificarTipo.setVerticalAlignment(SwingConstants.BOTTOM);
 			btnPlanificarTipo.setHorizontalAlignment(SwingConstants.RIGHT);
 			btnPlanificarTipo.setForeground(Color.WHITE);
@@ -1011,6 +1021,32 @@ public class NewVentanaAdmin extends JFrame {
 		}
 		return btnPlanificarTipo;
 
+	}
+
+	private boolean comprobarDiasMesesMezclados() {
+		int[] dias = new int[7];// los días de la semana (número)
+		dias[0] = Integer.parseInt(getLblLunes().getText().split(" - ")[1]);
+		dias[1] = Integer.parseInt(getLblMartes().getText().split(" - ")[1]);
+		dias[2] = Integer.parseInt(getLblMiercoles().getText().split(" - ")[1]);
+		dias[3] = Integer.parseInt(getLblJueves().getText().split(" - ")[1]);
+		dias[4] = Integer.parseInt(getLblViernes().getText().split(" - ")[1]);
+		dias[5] = Integer.parseInt(getLblSabado().getText().split(" - ")[1]);
+		dias[6] = Integer.parseInt(getLblDomingo().getText().split(" - ")[1]);
+		int[] diasSeleccionadosInt = getListDiasDisponibles().getSelectedIndices();// dias seleccionados por el usuario
+
+		int[] valores = new int[diasSeleccionadosInt.length];
+		for (int i = 0; i < diasSeleccionadosInt.length; i++) {
+			valores[i] = dias[diasSeleccionadosInt[i]];
+		}
+
+		int inicio = valores[0];
+		for (int i = 1; i < diasSeleccionadosInt.length; i++) {
+			if (valores[i] - inicio < 0) {
+				return true;
+			}
+			inicio = valores[i];
+		}
+		return false;
 	}
 
 	protected boolean existsActividadOrAlquilerInAFutureDay(String fecha, String inicio, String fin,
@@ -1029,7 +1065,8 @@ public class NewVentanaAdmin extends JFrame {
 																				// que
 																				// seleccionamos
 					String acDay = a.getFecha().split("/")[0];// dia actividad
-					if (findDay(diasRestantes, Integer.parseInt(acDay))) {// si ese día está ocupado
+					if (findDay(diasRestantes, Integer.parseInt(acDay))) {// si ese día está
+																			// ocupado
 						int dif = Integer.parseInt(a.getHoraFin().split(":")[0])
 								- Integer.parseInt(a.getHoraInicio().split(":")[0]);
 						if (a.getHoraInicio().equals(inicio))
@@ -1050,19 +1087,17 @@ public class NewVentanaAdmin extends JFrame {
 				int alMonth = Integer.parseInt(al.getFecha().split("/")[1]);
 				if (alMonth >= Integer.parseInt(newMonth)) { // si el alquiler es posterior al dia que seleccionamos
 					int alDay = Integer.parseInt(al.getFecha().split("/")[0]);
-					if (alDay == Integer.parseInt(newDay)) {
-						if (findDay(diasRestantes, alDay)) {// si en ese dia existe un alquiler
-							int dif = Integer.parseInt(al.getHora_fin().split(":")[0])
-									- Integer.parseInt(al.getHora_inicio().split(":")[0]);
-							if (al.getHora_inicio().equals(inicio)) {
-								return true;// ya está ocupado el horario
-							} else if (dif > 1) {
-								if (Integer.parseInt(inicio.split(":")[0]) == obtenerHoraIntermedia(al.getHora_inicio(),
-										al.getHora_fin())) {
-									return true; // si se coloca una actividad cuando hay un alquiler que estaría en
-													// curso
-													// devuelve true
-								}
+					if (findDay(diasRestantes, alDay)) {// si en ese dia existe un alquiler
+						int dif = Integer.parseInt(al.getHora_fin().split(":")[0])
+								- Integer.parseInt(al.getHora_inicio().split(":")[0]);
+						if (al.getHora_inicio().equals(inicio)) {
+							return true;// ya está ocupado el horario
+						} else if (dif > 1) {
+							if (Integer.parseInt(inicio.split(":")[0]) == obtenerHoraIntermedia(al.getHora_inicio(),
+									al.getHora_fin())) {
+								return true; // si se coloca una actividad cuando hay un alquiler que estaría en
+												// curso
+												// devuelve true
 							}
 						}
 					}
@@ -1188,7 +1223,7 @@ public class NewVentanaAdmin extends JFrame {
 							day = 4;
 						} else if (day == 28) {
 							day = 5;
-						} else if (day == 39) {
+						} else if (day == 29) {
 							day = 6;
 						} else if (day == 30) {
 							day = 7;
@@ -2352,6 +2387,32 @@ public class NewVentanaAdmin extends JFrame {
 		return lblSemanaFechaCalendario;
 	}
 
+//	private void pintarDiaResaltado() {
+//		switch (diaSemana) {
+//		case MONDAY:
+//			getLblLunes().setBackground(Color.lightGray);
+//			break;
+//		case TUESDAY:
+//			getLblMartes().setBackground(Color.lightGray);
+//			break;
+//		case WEDNESDAY:
+//			getLblMiercoles().setBackground(Color.lightGray);
+//			break;
+//		case THURSDAY:
+//			getLblJueves().setBackground(Color.lightGray);
+//			break;
+//		case FRIDAY:
+//			getLblViernes().setBackground(Color.lightGray);
+//			break;
+//		case SATURDAY:
+//			getLblSabado().setBackground(Color.lightGray);
+//			break;
+//		default:
+//			getLblDomingo().setBackground(Color.lightGray);
+//			break;
+//		}
+//	}
+
 	private void asignarDias(DayOfWeek diaSemana, int dia, Month month, int year) {
 		boolean meses31dias = month == Month.JANUARY || month == Month.MARCH || month == Month.MAY
 				|| month == Month.JULY || month == Month.AUGUST || month == Month.OCTOBER || month == Month.DECEMBER;
@@ -2360,10 +2421,27 @@ public class NewVentanaAdmin extends JFrame {
 		boolean bisiesto = (year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0);
 		switch (diaSemana) {
 		case MONDAY:
-			asignarValoresEtiquetas(dia, dia + 1, dia + 2, dia + 3, dia + 4, dia + 5, dia + 6);
+
+			if (dia == 28) {
+				if (meses31dias) {
+					asignarValoresEtiquetas(dia, dia + 1, dia + 2, dia + 3, 1, 2, 3);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(dia, dia + 1, dia + 2, 1, 2, 3, 4);
+				}
+				break;
+			} else {
+				asignarValoresEtiquetas(dia, dia + 1, dia + 2, dia + 3, dia + 4, dia + 5, dia + 6);
+			}
 			break;
 		case TUESDAY:
-			if (dia == 1) {
+			if (dia == 29) {
+				if (meses31dias) {
+					asignarValoresEtiquetas(dia, dia + 1, dia + 2, 1, 2, 3, 4);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(dia, dia + 1, 1, 2, 3, 4, 5);
+				}
+				break;
+			} else if (dia == 1) {
 				// meses de 31 días
 				if (meses31dias) {
 					getLblLunes().setText("Lun - " + (31));
@@ -2389,6 +2467,14 @@ public class NewVentanaAdmin extends JFrame {
 			actualizarDiasMezclados(false, false, false, false, false, false, false);
 			break;
 		case WEDNESDAY:
+			if (dia == 30) {
+				if (meses31dias) {
+					asignarValoresEtiquetas(dia, dia + 1, 1, 2, 3, 4, 5);
+				} else if (meses30dias) {
+					asignarValoresEtiquetas(dia, 1, 2, 3, 4, 5, 6);
+				}
+				break;
+			}
 			if (dia == 1) {
 				// meses de 31 días
 				if (meses31dias) {
