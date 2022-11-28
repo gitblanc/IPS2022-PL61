@@ -183,12 +183,6 @@ public class Socio {
 						+ alquileres.get(i).hora_fin;
 				lista.add(a);
 			}
-			String a = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
-					+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
-					+ alquileres.get(i).hora_fin;
-			lista.add(a);
-
-
 		}
 
 		return lista;
