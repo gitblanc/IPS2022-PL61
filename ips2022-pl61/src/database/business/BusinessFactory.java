@@ -17,6 +17,8 @@ import database.business.monitor.MonitorService;
 import database.business.monitor.crud.MonitorServiceImpl;
 import database.business.recurso.RecursoService;
 import database.business.recurso.crud.RecursoServiceImpl;
+import database.business.recursosALlevarSocio.RecursosALlevarSocioService;
+import database.business.recursosALlevarSocio.crud.RecursosALlevarSocioServiceImpl;
 import database.business.recursosActividad.RecursosActividadService;
 import database.business.recursosActividad.crud.RecursosActividadServiceImpl;
 import database.business.socio.SocioService;
@@ -61,6 +63,10 @@ public class BusinessFactory {
 	
 	public static AlquilerService forAlquilerService() {
 		return new AlquilerServiceImpl();
+	}
+	
+	public static RecursosALlevarSocioService forRecursosALlevarSocioService() {
+		return new RecursosALlevarSocioServiceImpl();
 	}
 	
 }

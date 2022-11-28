@@ -1037,7 +1037,16 @@ public class NewVentanaSocio extends JFrame {
 	
 	protected void mostrarListaDeRecursosNecesariosALlevar(String instalacion) {
 		mostrarPanelRecursosNecesariosALLevar();
-		//TODO
+		rellenarListaDeRecursosNecesarios(instalacion);
+		getList_recursos_necesarios().setModel(modelRecursosALlevar);
+	}
+	private void rellenarListaDeRecursosNecesarios(String instalacion) {
+		List<String> listaRecursos = socio.findRecursosByInstalacionNecesarios(instalacion);
+		((DefaultListModel<String>) modelRecursosALlevar).removeAllElements();
+		for(int i = 0; i < listaRecursos.size(); i++) {
+			((DefaultListModel<String>) modelRecursosALlevar).addElement(listaRecursos.get(i));
+			
+		}
 		
 	}
 	private void mostrarPanelRecursosNecesariosALLevar() {
@@ -1124,6 +1133,8 @@ public class NewVentanaSocio extends JFrame {
 	private JList<String> getList_recursos_necesarios() {
 		if (list_recursos_necesarios == null) {
 			list_recursos_necesarios = new JList<String>();
+			list_recursos_necesarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			list_recursos_necesarios.setModel(modelRecursosALlevar);
 		}
 		return list_recursos_necesarios;
 	}
@@ -1145,8 +1156,8 @@ public class NewVentanaSocio extends JFrame {
 	private JList<String> getList_recursos_aportados() {
 		if (list_recursos_aportados == null) {
 			list_recursos_aportados = new JList<String>();
-			list_MisInstalaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			list_MisInstalaciones.setModel(modelListaRecursos);
+			list_recursos_aportados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			list_recursos_aportados.setModel(modelListaRecursos);
 			
 		}
 		return list_recursos_aportados;
