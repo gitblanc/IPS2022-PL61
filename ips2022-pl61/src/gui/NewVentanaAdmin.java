@@ -1036,17 +1036,19 @@ public class NewVentanaAdmin extends JFrame {
 		String[] recursosDisponibles = admin.getRecursosPorInstalacion(instalacion);
 		List<Actividad> actividades = admin.listarActividadesPorInstalacion(instalacion);
 		for (Actividad a : actividades) {
-			List<String> recursos = a.getAllRecursos(a.getId());// sacamos los recursos de la actividad
-			for (String r : recursosDisponibles) {
-				if (!checkearExistenciaRecursos(r, recursos))
-					return false;
+			if (a.getTipo().equals(tipoActividad)) {
+				List<String> recursos = a.getAllRecursos(a.getId());// sacamos los recursos de la actividad
+				for (String r : recursos) {
+					if (!checkearExistenciaRecursos(r, recursosDisponibles))
+						return false;
+				}
 			}
 		}
 		return true;
 	}
 
-	private boolean checkearExistenciaRecursos(String recurso, List<String> recursos) {
-		for (String r : recursos) {
+	private boolean checkearExistenciaRecursos(String recurso, String[] recursosDisponibles) {
+		for (String r : recursosDisponibles) {
 			if (r.equals(recurso))
 				return true;
 		}

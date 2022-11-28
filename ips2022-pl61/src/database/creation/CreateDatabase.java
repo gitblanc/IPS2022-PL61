@@ -129,10 +129,10 @@ public class CreateDatabase {
 				+ "VALUES ( '1', 'Natación', 'alta', 'reserva', '13:00', '15:00', 'piscina', '07/12/2022', 12)";
 		String actividad2 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '2', 'Sauna', 'baja', 'libre', '15:00', '16:00', 'piscina', '07/12/2022', 8)";
+				+ "VALUES ( '2', 'Sauna', 'baja', 'libre', '15:00', '16:00', 'piscina', '06/12/2022', 8)";
 		String actividad3 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '3', 'Jacuzzi', 'baja', 'reserva', '16:00', '18:00', 'piscina', '07/12/2022', 4)";
+				+ "VALUES ( '3', 'Jacuzzi', 'baja', 'reserva', '16:00', '18:00', 'piscina', '05/12/2022', 4)";
 		String actividad4 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '4', 'Peso muerto', 'alta', 'reserva', '13:00', '14:00', 'gimnasio', '07/12/2022', 15)";
@@ -166,31 +166,31 @@ public class CreateDatabase {
 				+ "VALUES ( '13', 'Natación', 'alta', 'reserva', '13:00', '15:00', 'piscina', '30/11/2022', 12)";
 		String actividad14 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '14', 'Sauna', 'baja', 'libre', '15:00', '16:00', 'piscina', '22/11/2022', 8)";
+				+ "VALUES ( '14', 'Sauna', 'baja', 'libre', '15:00', '16:00', 'piscina', '28/11/2022', 8)";
 		String actividad15 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '15', 'Jacuzzi', 'baja', 'reserva', '16:00', '18:00', 'piscina', '30/11/2022', 4)";
+				+ "VALUES ( '15', 'Jacuzzi', 'baja', 'reserva', '16:00', '18:00', 'piscina', '29/11/2022', 4)";
 		String actividad16 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '16', 'Peso muerto', 'alta', 'reserva', '13:00', '14:00', 'gimnasio', '22/11/2022', 15)";
+				+ "VALUES ( '16', 'Peso muerto', 'alta', 'reserva', '13:00', '14:00', 'gimnasio', '01/12/2022', 15)";
 		String actividad17 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\", \"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '17', 'Biceps', 'moderada', 'libre', '14:00', '16:00', 'gimnasio', '30/11/2022', 8)";
 		String actividad18 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '18', 'Calistenia', 'alta', 'libre', '21:00', '23:00', 'gimnasio', '22/11/2022', -1)";
+				+ "VALUES ( '18', 'Calistenia', 'alta', 'libre', '21:00', '23:00', 'gimnasio', '29/11/2022', -1)";
 		String actividad19 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\", \"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '19', 'Carrera', 'alta', 'libre', '13:00', '15:00', 'pista', '30/11/2022', -1)";
 		String actividad20 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '20', 'Jabalina', 'moderada', 'reserva', '17:00', '19:00', 'pista', '22/11/2022', 7)";
+				+ "VALUES ( '20', 'Jabalina', 'moderada', 'reserva', '17:00', '19:00', 'pista', '03/12/2022', 7)";
 		String actividad21 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '21', 'Jabalina', 'moderada', 'reserva', '09:00', '11:00', 'pista', '30/11/2022', 7)";
 		String actividad22 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '22', 'Yoga', 'moderada', 'reserva', '22:00', '23:00', 'gimnasio', '22/11/2022', 9)";
+				+ "VALUES ( '22', 'Yoga', 'moderada', 'reserva', '22:00', '23:00', 'gimnasio', '03/12/2022', 9)";
 		String actividad23 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '23', 'Danza', 'moderada', 'reserva', '20:00', '22:00', 'pista', '30/11/2022', 10)";
@@ -200,13 +200,13 @@ public class CreateDatabase {
 		//////////
 		String actividad25 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\", \"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '25', 'Natación', 'alta', 'reserva', '13:00', '15:00', 'piscina', '25/11/2022', 12)";
+				+ "VALUES ( '25', 'Natación', 'alta', 'reserva', '13:00', '15:00', 'piscina', '01/12/2022', 12)";
 		String actividad26 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '26', 'Sauna', 'baja', 'libre', '15:00', '16:00', 'piscina', '08/11/2022', 8)";
+				+ "VALUES ( '26', 'Sauna', 'baja', 'libre', '15:00', '16:00', 'piscina', '03/12/2022', 8)";
 		String actividad27 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '27', 'Jacuzzi', 'baja', 'reserva', '16:00', '18:00', 'piscina', '25/11/2022', 4)";
+				+ "VALUES ( '27', 'Jacuzzi', 'baja', 'reserva', '16:00', '18:00', 'piscina', '04/12/2022', 4)";
 		String actividad28 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '28', 'Peso muerto', 'alta', 'reserva', '13:00', '14:00', 'gimnasio', '08/11/2022', 15)";
@@ -236,13 +236,13 @@ public class CreateDatabase {
 				+ "VALUES ( '36', 'Danza', 'moderada', 'reserva', '16:00', '17:00', 'pista', '08/10/2022', 10)";
 		String actividad37 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\", \"TIPO\",\"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '37', 'Carrera', 'alta', 'libre', '13:00', '15:00', 'pista', '22/11/2022', -1)";
+				+ "VALUES ( '37', 'Carrera', 'alta', 'libre', '13:00', '15:00', 'pista', '03/12/2022', -1)";
 		String actividad38 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '38', 'Jabalina', 'moderada', 'reserva', '17:00', '19:00', 'pista', '22/11/2022', 7)";
+				+ "VALUES ( '38', 'Jabalina', 'moderada', 'reserva', '17:00', '19:00', 'pista', '03/12/2022', 7)";
 		String actividad39 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
-				+ "VALUES ( '39', 'Jabalina', 'moderada', 'reserva', '09:00', '11:00', 'pista', '22/11/2022', 7)";
+				+ "VALUES ( '39', 'Jabalina', 'moderada', 'reserva', '09:00', '11:00', 'pista', '03/12/2022', 7)";
 		String actividad40 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '40', 'Yoga', 'moderada', 'reserva', '22:00', '23:00', 'gimnasio', '30/11/2022', 9)";
@@ -252,6 +252,42 @@ public class CreateDatabase {
 		String actividad42 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '42', 'Danza', 'moderada', 'reserva', '16:00', '17:00', 'pista', '29/11/2022', 10)";
+		String actividad43 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '43', 'Fútbol', 'moderada', 'reserva', '22:00', '23:00', 'campo', '1/12/2022', 9)";
+		String actividad44 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '44', 'Rugby', 'moderada', 'reserva', '20:00', '22:00', 'campo', '30/11/2022', 10)";
+		String actividad45 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '45', 'Balonpié', 'moderada', 'reserva', '16:00', '17:00', 'campo', '29/11/2022', 10)";
+		String actividad46 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '46', 'Fútbol', 'moderada', 'reserva', '22:00', '23:00', 'campo', '5/12/2022', 9)";
+		String actividad47 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '47', 'Rugby', 'moderada', 'reserva', '20:00', '22:00', 'campo', '7/12/2022', 10)";
+		String actividad48 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '48', 'Balonpié', 'moderada', 'reserva', '16:00', '17:00', 'cancha', '8/12/2022', 10)";
+		String actividad49 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '49', 'Basket', 'moderada', 'reserva', '22:00', '23:00', 'cancha', '1/12/2022', 9)";
+		String actividad50 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '50', 'Tenis mesa', 'moderada', 'reserva', '20:00', '22:00', 'cancha', '30/11/2022', 10)";
+		String actividad51 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '51', 'Patinaje', 'moderada', 'reserva', '16:00', '17:00', 'cancha', '29/11/2022', 10)";
+		String actividad52 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '52', 'Basket', 'moderada', 'reserva', '22:00', '23:00', 'cancha', '5/12/2022', 9)";
+		String actividad53 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '53', 'Patinaje', 'moderada', 'reserva', '20:00', '22:00', 'cancha', '7/12/2022', 10)";
+		String actividad54 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '54', 'Hockey', 'moderada', 'reserva', '16:00', '17:00', 'cancha', '8/12/2022', 10)";
 		// INSTALACIONES
 		String instalacion1 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n"
 				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n" + "VALUES ( 'gimnasio', 40, null)";
@@ -338,15 +374,15 @@ public class CreateDatabase {
 		String alquiler3 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('3', 'piscina','3','25/11/2022', '11:00', '13:00', 0)";
 		String alquiler4 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('4', 'gimnasio','3','08/11/2022', '15:00', '17:00', 0)";
+				+ " values ('4', 'gimnasio','3','08/12/2022', '15:00', '17:00', 0)";
 		String alquiler5 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('5', 'gimnasio','1','08/11/2022', '9:00', '11:00', 0)";
+				+ " values ('5', 'gimnasio','1','08/12/2022', '9:00', '11:00', 0)";
 		String alquiler6 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('6', 'gimnasio','2','25/11/2022', '11:00', '13:00', 0)";
 		String alquiler7 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('7', 'piscina','1','08/11/2022', '11:00', '13:00', 0)";
+				+ " values ('7', 'piscina','1','08/12/2022', '11:00', '13:00', 0)";
 		String alquiler8 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('8', 'gimnasio','3','25/11/2022', '15:00', '17:00', 0)";
+				+ " values ('8', 'gimnasio','3','30/11/2022', '15:00', '17:00', 0)";
 		////////////
 		String alquiler9 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('9', 'gimnasio','1','30/11/2022', '9:00', '11:00', 0)";
@@ -357,21 +393,21 @@ public class CreateDatabase {
 		String alquiler12 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('12', 'gimnasio','3','30/11/2022', '15:00', '17:00', 0)";
 		String alquiler13 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('13', 'gimnasio','1','22/11/2022', '9:00', '11:00', 0)";
+				+ " values ('13', 'gimnasio','1','03/12/2022', '9:00', '11:00', 0)";
 		String alquiler14 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('14', 'gimnasio','2','22/11/2022', '11:00', '13:00', 0)";
+				+ " values ('14', 'gimnasio','2','03/12/2022', '11:00', '13:00', 0)";
 		String alquiler15 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('15', 'piscina','1','22/11/2022', '11:00', '13:00', 0)";
+				+ " values ('15', 'piscina','1','03/12/2022', '11:00', '13:00', 0)";
 		String alquiler16 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('16', 'gimnasio','3','22/11/2022', '15:00', '17:00', 0)";
+				+ " values ('16', 'gimnasio','3','03/12/2022', '15:00', '17:00', 0)";
 		String alquiler17 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('17', 'gimnasio','1','22/11/2022', '9:00', '11:00', 0)";
+				+ " values ('17', 'gimnasio','1','03/12/2022', '9:00', '11:00', 0)";
 		String alquiler18 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
 				+ " values ('18', 'gimnasio','2','30/11/2022', '11:00', '13:00', 0)";
 		String alquiler19 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('19', 'piscina','1','22/12/2022', '11:00', '13:00', 0)";
+				+ " values ('19', 'piscina','1','28/11/2022', '11:00', '13:00', 0)";
 		String alquiler20 = "insert into alquileres (id_a, nombre_i, id_socio, fecha, hora_inicio, hora_fin, cancelado)"
-				+ " values ('20', 'gimnasio','3','20/12/2022', '15:00', '17:00', 0)";
+				+ " values ('20', 'gimnasio','3','30/12/2022', '15:00', '17:00', 0)";
 		// RECURSOS A LLEVAR EL SOCIO
 		String recursoALlevar1 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'balon futbol', 'campo')";
 		String recursoALlevar2 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'raqueta', 'cancha')";
@@ -436,6 +472,18 @@ public class CreateDatabase {
 		createQueries.add(actividad40);
 		createQueries.add(actividad41);
 		createQueries.add(actividad42);
+		createQueries.add(actividad43);
+		createQueries.add(actividad44);
+		createQueries.add(actividad45);
+		createQueries.add(actividad46);
+		createQueries.add(actividad47);
+		createQueries.add(actividad48);
+		createQueries.add(actividad49);
+		createQueries.add(actividad50);
+		createQueries.add(actividad51);
+		createQueries.add(actividad52);
+		createQueries.add(actividad53);
+		createQueries.add(actividad54);
 
 		createQueries.add(recurso1);
 		createQueries.add(recurso2);
