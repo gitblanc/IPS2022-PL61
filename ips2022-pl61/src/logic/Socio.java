@@ -13,6 +13,8 @@ import database.business.actividadSocio.ActividadSocioService;
 import database.business.actividadSocio.ActividadSocioService.ActividadSocioBLDto;
 import database.business.alquiler.AlquilerService;
 import database.business.alquiler.AlquilerService.AlquilerBLDto;
+import database.business.recurso.RecursoService;
+import database.business.recurso.RecursoService.RecursoBLDto;
 import database.business.socio.SocioService;
 import database.business.socio.SocioService.SocioBLDto;
 
@@ -24,6 +26,7 @@ public class Socio {
 	private static ActividadSocioService ass = BusinessFactory.forActividadSocioService();
 	private static ActividadService aser = BusinessFactory.forActividadService();
 	private static AlquilerService als = BusinessFactory.forAlquilerService();
+	private static RecursoService rs = BusinessFactory.forRecursoService();
 
 	public Socio(String id, String nombre, String apellidos, String pass) {
 		this.id = id;
@@ -411,7 +414,7 @@ public class Socio {
 			if (alquileres.get(i).cancelado == 1) {
 				String r = alquileres.get(i).id + " ------ " + alquileres.get(i).instalacion + " ------ "
 						+ alquileres.get(i).fecha + " ------ " + alquileres.get(i).hora_inicio + " - "
-						+ alquileres.get(i).hora_fin + " CANCELADO";
+						+ alquileres.get(i).hora_fin + " ----CANCELADO----";
 				result.add(r);
 			}
 		}
@@ -421,6 +424,16 @@ public class Socio {
 	public static Socio buscarSocio(String id_socio) {
 		SocioBLDto s = ss.findSocioById(id_socio);
 		return new Socio(s.id, s.nombre, s.apellidos, s.contraseña);
+	}
+	
+	public List<String> findRecursosByInstalacion(String instalacion) {
+		List<RecursoBLDto> lista = rs.findRecursoByInstalacion(instalacion);
+		List<String> result = new ArrayList<>();
+		for(int i = 0; i < lista.size(); i++) {
+			String a = lista.get(i).nombre + "\n";
+			result.add(a);
+		}
+		return result;
 	}
 
 
