@@ -281,7 +281,7 @@ public class Socio {
 
 		l = LocalDate.now();
 
-		return l.isBefore(ac);
+		return l.isBefore(ac) || l.isEqual(ac);
 
 	}
 
@@ -311,19 +311,17 @@ public class Socio {
 		String[] valores = hora_a.split(":");
 		int v = Integer.parseInt(valores[0]);
 		int hora_ahora = hora.getHour();
-		System.out.println(ac.isBefore(hoy));
 		boolean result = false;
 
 		if (!a.acceso.toUpperCase().equals("LIBRE")) {
-			if (hoy.isBefore(ac)) {
-				if (Math.abs(hora_ahora - v) >= 1) {
+			if (hoy.isBefore(ac) || (hoy.isEqual(ac) && Math.abs(hora_ahora - v) >= 1)) {
 					List<ActividadSocioBLDto> actividadesDelSocio = ass.findAllActividadSocio();
 					for (ActividadSocioBLDto acsocio : actividadesDelSocio) {
 						if (acsocio.correo_socio.equals(correo) && acsocio.id_actividad.equals(id_actividad)) {
 							result = false;
 						} else {
 							result = true;
-						}
+						
 					}
 				}
 
@@ -365,7 +363,7 @@ public class Socio {
 				String id_actividad = as.id_actividad;
 				ActividadBLDto actividad = aser.findActividadById(id_actividad);
 				if (!actividad.fecha.equals(fecha) && !actividad.hora_inicio.equals(inicio)
-						&& !comprobarHoras(actividad.hora_inicio, inicio, fin)) {
+						|| !actividad.fecha.equals(fecha) && !comprobarHoras(actividad.hora_inicio, inicio, fin)) {
 					return true;
 				}
 			}

@@ -271,16 +271,38 @@ public class NewVentanaSocio extends JFrame {
 		int mes = Integer.parseInt(linea[1]);
 		int año = Integer.parseInt(linea[2]);
 		
-		if(dia >= 1 && dia < 30) {
-			dia = dia +1;
-		} else if(dia == 30 && mes < 12) {
-			mes = mes +1;
-			dia = 1;
-		} else {
-			año = año +1;
-			mes = 1;
-			dia = 1;
+		int[] mesesCon31 = {1,3,5,7,8,10,12};
+		boolean mesCon31 = false;
+		for(int i = 0; i < mesesCon31.length; i++) {
+			if(mes == mesesCon31[i]) {
+				mesCon31 = true;
+			}
 		}
+		
+		if(mesCon31 && dia >= 1 && dia <=30) {
+			dia = dia +1;
+		} else if(mesCon31 && dia == 31) {
+			if(mes != 12) {
+				mes = mes + 1;
+				dia = 1;
+			} else {
+				mes = 1;
+				año = año + 1;
+				dia = 1;
+			}
+		} else if(!mesCon31 && dia >= 1 && dia <=29) {
+			dia = dia + 1;
+		} else if(!mesCon31 && dia == 30) {
+			if(mes != 12) {
+				mes = mes + 1;
+				dia = 1;
+			} else {
+				mes = 1;
+				dia = 1;
+				año = año + 1;
+			}
+		}
+		
 		return dia + "/" + mes + "/" + año;
 	
 	}
@@ -291,19 +313,35 @@ public class NewVentanaSocio extends JFrame {
 		int mes = Integer.parseInt(linea[1]);
 		int año = Integer.parseInt(linea[2]);
 		
-		if(dia > 1 && dia <= 30) {
+		int[] mesesCon31 = {1,3,5,7,8,10,12};
+		boolean mesCon31 = false;
+		for(int i = 0; i < mesesCon31.length; i++) {
+			if(mes == mesesCon31[i]) {
+				mesCon31 = true;
+			}
+		}
+		
+		if(dia >= 2 && dia <= 31) {
 			dia = dia -1;
-		} else if(dia == 1 && mes < 12) {
+		} else if(mes != 8 && mes != 1) {
 			mes = mes -1;
 			dia = 30;
-		} else {
-			año = año -1;
+		} else if(dia == 1 && mes == 8) {
+			mes = mes -1;
+			dia = 31;
+		} else if(dia == 1 && mes == 1) {
 			mes = 12;
+			dia = 31;
+			año = año -1;
+		} else if(dia == 1 && mesCon31){
 			dia = 30;
+			mes = mes -1;
 		}
+		
 		return dia + "/" + mes + "/" + año;
 	
 	}
+	
 	
 	private String fecha() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -385,7 +423,7 @@ public class NewVentanaSocio extends JFrame {
 					if(!AlquilerNoMasDeDosHoras(hora_inicio, hora_fin)) {
 						showMEssageDialog();
 					} else {
-						añadirAlquiler(correo, instalacion, fecha, hora_inicio, hora_fin);
+						añadirAlquilerASocio(correo, instalacion, fecha, hora_inicio, hora_fin);
 					}
 					actualizarListaMisInstalaciones();
 					
@@ -413,21 +451,28 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return true;
 	}
-	private void añadirAlquiler(String socio, String instalacion, String fecha, String inicio, String fin) {
+	 
+	
+	private void añadirAlquilerASocio(String socio, String instalacion, String fecha, String horaInicio, String horaFin) {
 		String correo = getCb_usuarios().getSelectedItem().toString();
 		String id_socio = Socio.getIdSocio(correo);
-		if(Alquiler.comprobarRequisitosAlquilerCorrecto(LocalDate.now(), fecha) && Alquiler.comprobarHoras(inicio, fin)) {
-			if(!Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, inicio, fin) && !Socio.comprobarNotieneActividades(id_socio,fecha, inicio, fin)) {
-				admin.crearAlquiler(id_socio, instalacion, inicio, fin, fecha);
-				JOptionPane.showMessageDialog(this, "Añadido correcto");
+		if(Alquiler.comprobarRequisitosAlquilerCorrecto(LocalDate.now(), fecha)) {
+			if(Alquiler.comprobarHoras(horaInicio, horaFin)) {
+				if(!Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, horaInicio, horaFin)){
+					if(!Socio.comprobarNotieneActividades(id_socio,fecha, horaInicio, horaFin)) {
+						admin.crearAlquiler(id_socio, instalacion, horaInicio, horaFin, fecha);
+						JOptionPane.showMessageDialog(this, "Añadido correcto");
+					} else {
+						JOptionPane.showMessageDialog(this, "Error: Tiene una actividad reservada a esa hora", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(this, "Error: A esa misma hora tiene un alquiler de una instalación", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
+				}
 			} else {
-				JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
-				
+				JOptionPane.showMessageDialog(this, "Error: No se puede reservar por más de dos horas", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
 			}
-			
-		}
-		else {
-			JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this, "Error: Plazo máximo de días de reserva", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}
@@ -490,9 +535,10 @@ public class NewVentanaSocio extends JFrame {
 				modelMisActividades.addElement(elegidoAñadir.get(i));
 			}
 			getList_misActividades().setModel(modelMisActividades);
+			
 		}
 		actualizarListaMisActividades();
-		
+		Socio.añadirActividadASocio(correo, id_actividad);
 	}
 	
 	
@@ -906,7 +952,7 @@ public class NewVentanaSocio extends JFrame {
 	}
 	
 	protected void eliminarAlquiler(String correo, String id_alquiler) {
-		List<String> elegidoEliminar = getList_misActividades().getSelectedValuesList();
+		List<String> elegidoEliminar = getList_MisInstalaciones().getSelectedValuesList();
 		for(int i = 0; i < elegidoEliminar.size(); i++) {
 			modelMisAlquileres.removeElement(elegidoEliminar.get(i));
 		}
