@@ -74,7 +74,7 @@ public class CreateDatabase {
 				+ "id_a varchar(150) foreign key references TipoActividad(id_a))";
 		String crearAlquileres = "create table Alquileres(id_a varchar(100) primary key, nombre_i varchar(20) foreign key references instalacion(nombre_i),"
 				+ " id_socio varchar(10) foreign key references socio(id_s), fecha varchar(20), hora_inicio varchar(6), hora_fin varchar(6), cancelado int)"; // 1
-		String crearRecursosALlevarSocio = "create table RecursosALlevarSocio(nombre_recurso_a_llevar varchar(20) primary key, nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
+		String crearRecursosALlevarSocio = "create table RecursosALlevarSocio(nombre_recurso_a_llevar varchar(20), nombre_i varchar(20) foreign key references Instalacion(nombre_i))";
 		// no
 
 		String crearSinRecursos = "insert into Recurso(nombre_r, cantidad_r) values('sin recursos', '0')";
@@ -288,6 +288,20 @@ public class CreateDatabase {
 		String actividad54 = "INSERT INTO TipoActividad\r\n"
 				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
 				+ "VALUES ( '54', 'Hockey', 'moderada', 'reserva', '16:00', '17:00', 'cancha', '8/12/2022', 10)";
+		String actividad55 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '55', 'Boxeo', 'alta', 'reserva', '16:00', '17:00', 'gimnasio', '10/12/2022', 20)";
+		String actividad56 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '56', 'Spinning', 'moderada', 'libre', '13:00', '14:00', 'gimnasio', '8/12/2022', -1)";
+		String actividad57 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '57', 'Atletismo', 'moderada', 'reserva', '16:00', '17:00', 'campo', '11/12/2022', 10)";
+		String actividad58 = "INSERT INTO TipoActividad\r\n"
+				+ "( \"ID_A\",\"TIPO\", \"INTENSIDAD\", \"ACCESO\", \"HORA_INICIO\", \"HORA_FIN\", \"NOMBRE_I\", \"FECHA\", \"PLAZAS_A\" )\r\n"
+				+ "VALUES ( '58', 'Juegos', 'baja', 'libre', '10:00', '12:00', 'campo', '5/12/2022', -1)";
+		
+		
 		// INSTALACIONES
 		String instalacion1 = "INSERT INTO \"PUBLIC\".\"INSTALACION\"\r\n"
 				+ "( \"NOMBRE_I\", \"PLAZAS\", \"CERRADA_PARA_ALQUILERES\" )\r\n" + "VALUES ( 'gimnasio', 40, null)";
@@ -415,6 +429,13 @@ public class CreateDatabase {
 		String recursoALlevar4 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'gorra', 'cancha')";
 		String recursoALlevar5 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'botas', 'campo')";
 		String recursoALlevar6 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'medias', 'campo')";
+		String recursoALlevar7 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'toalla', 'gimnasio')";
+		String recursoALlevar8 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'botella', 'gimnasio')";
+		String recursoALlevar9 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'playeros', 'pista')";
+		String recursoALlevar10 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'cascos', 'pista')";
+		String recursoALlevar11 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'bañador', 'piscina')";
+		String recursoALlevar12 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'chanclas', 'piscina')";
+		String recursoALlevar13 = "INSERT INTO RECURSOSALLEVARSOCIO (NOMBRE_RECURSO_A_LLEVAR, NOMBRE_I )VALUES ( 'toalla', 'piscina')";
 
 		// activiades a socios
 		String actividadSocio1 = "insert into actividadSocio(correo_s, id_a) values ('imxiin@gmail.com', '9')";
@@ -484,6 +505,10 @@ public class CreateDatabase {
 		createQueries.add(actividad52);
 		createQueries.add(actividad53);
 		createQueries.add(actividad54);
+		createQueries.add(actividad55);
+		createQueries.add(actividad56);
+		createQueries.add(actividad57);
+		createQueries.add(actividad58);
 
 		createQueries.add(recurso1);
 		createQueries.add(recurso2);
@@ -551,6 +576,13 @@ public class CreateDatabase {
 		createQueries.add(recursoALlevar4);
 		createQueries.add(recursoALlevar5);
 		createQueries.add(recursoALlevar6);
+		createQueries.add(recursoALlevar7);
+		createQueries.add(recursoALlevar8);
+		createQueries.add(recursoALlevar9);
+		createQueries.add(recursoALlevar10);
+		createQueries.add(recursoALlevar11);
+		createQueries.add(recursoALlevar12);
+		createQueries.add(recursoALlevar13);
 
 	}
 }
