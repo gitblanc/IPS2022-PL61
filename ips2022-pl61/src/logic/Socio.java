@@ -281,7 +281,7 @@ public class Socio {
 
 		l = LocalDate.now();
 
-		return l.isBefore(ac);
+		return l.isBefore(ac) || l.isEqual(ac);
 
 	}
 
@@ -311,19 +311,17 @@ public class Socio {
 		String[] valores = hora_a.split(":");
 		int v = Integer.parseInt(valores[0]);
 		int hora_ahora = hora.getHour();
-		System.out.println(ac.isBefore(hoy));
 		boolean result = false;
 
 		if (!a.acceso.toUpperCase().equals("LIBRE")) {
-			if (hoy.isBefore(ac)) {
-				if (Math.abs(hora_ahora - v) >= 1) {
+			if (hoy.isBefore(ac) || (hoy.isEqual(ac) && Math.abs(hora_ahora - v) >= 1)) {
 					List<ActividadSocioBLDto> actividadesDelSocio = ass.findAllActividadSocio();
 					for (ActividadSocioBLDto acsocio : actividadesDelSocio) {
 						if (acsocio.correo_socio.equals(correo) && acsocio.id_actividad.equals(id_actividad)) {
 							result = false;
 						} else {
 							result = true;
-						}
+						
 					}
 				}
 
@@ -356,23 +354,26 @@ public class Socio {
 		return socio.id;
 	}
 
+
 	public static boolean comprobarNotieneActividades(String id_socio, String fecha, String inicio, String fin) {
 		SocioBLDto socio = ss.findSocioById(id_socio);
 		String correoObtenido = socio.correo;
 		List<ActividadSocioBLDto> actividadSocio = ass.findByCorreoSocio(correoObtenido);
-		if (actividadSocio != null && actividadSocio.size() != 0) {
-			for (ActividadSocioBLDto as : actividadSocio) {
-				String id_actividad = as.id_actividad;
-				ActividadBLDto actividad = aser.findActividadById(id_actividad);
-				if (!actividad.fecha.equals(fecha) && !actividad.hora_inicio.equals(inicio)
-						&& !comprobarHoras(actividad.hora_inicio, inicio, fin)) {
-					return true;
-				}
+		List<ActividadBLDto> listaActividad = new ArrayList<>();
+		boolean result = true;
+		for(ActividadSocioBLDto as: actividadSocio) {
+			listaActividad.add(aser.findActividadById(as.id_actividad));
+		}
+		
+		for(ActividadBLDto actividad: listaActividad) {
+			if(actividad.fecha.equals(fecha) && actividad.hora_inicio.equals(inicio) ||
+					actividad.fecha.equals(fecha) && comprobarHoras(actividad.hora_inicio, inicio, fin)) {
+				result = false;
 			}
 		}
-		return false;
+		return result;
 	}
-
+	
 	private static boolean comprobarHoras(String horaRan, String inicio, String fin) {
 		String[] i = inicio.split(":");
 		int hora_inicio = Integer.parseInt(i[0]);

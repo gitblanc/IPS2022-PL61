@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -271,16 +272,38 @@ public class NewVentanaSocio extends JFrame {
 		int mes = Integer.parseInt(linea[1]);
 		int año = Integer.parseInt(linea[2]);
 		
-		if(dia >= 1 && dia < 30) {
-			dia = dia +1;
-		} else if(dia == 30 && mes < 12) {
-			mes = mes +1;
-			dia = 1;
-		} else {
-			año = año +1;
-			mes = 1;
-			dia = 1;
+		int[] mesesCon31 = {1,3,5,7,8,10,12};
+		boolean mesCon31 = false;
+		for(int i = 0; i < mesesCon31.length; i++) {
+			if(mes == mesesCon31[i]) {
+				mesCon31 = true;
+			}
 		}
+		
+		if(mesCon31 && dia >= 1 && dia <=30) {
+			dia = dia +1;
+		} else if(mesCon31 && dia == 31) {
+			if(mes != 12) {
+				mes = mes + 1;
+				dia = 1;
+			} else {
+				mes = 1;
+				año = año + 1;
+				dia = 1;
+			}
+		} else if(!mesCon31 && dia >= 1 && dia <=29) {
+			dia = dia + 1;
+		} else if(!mesCon31 && dia == 30) {
+			if(mes != 12) {
+				mes = mes + 1;
+				dia = 1;
+			} else {
+				mes = 1;
+				dia = 1;
+				año = año + 1;
+			}
+		}
+		
 		return dia + "/" + mes + "/" + año;
 	
 	}
@@ -291,19 +314,35 @@ public class NewVentanaSocio extends JFrame {
 		int mes = Integer.parseInt(linea[1]);
 		int año = Integer.parseInt(linea[2]);
 		
-		if(dia > 1 && dia <= 30) {
+		int[] mesesCon31 = {1,3,5,7,8,10,12};
+		boolean mesCon31 = false;
+		for(int i = 0; i < mesesCon31.length; i++) {
+			if(mes == mesesCon31[i]) {
+				mesCon31 = true;
+			}
+		}
+		
+		if(dia >= 2 && dia <= 31) {
 			dia = dia -1;
-		} else if(dia == 1 && mes < 12) {
+		} else if(mes != 8 && mes != 1) {
 			mes = mes -1;
 			dia = 30;
-		} else {
-			año = año -1;
+		} else if(dia == 1 && mes == 8) {
+			mes = mes -1;
+			dia = 31;
+		} else if(dia == 1 && mes == 1) {
 			mes = 12;
+			dia = 31;
+			año = año -1;
+		} else if(dia == 1 && mesCon31){
 			dia = 30;
+			mes = mes -1;
 		}
+		
 		return dia + "/" + mes + "/" + año;
 	
 	}
+	
 	
 	private String fecha() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -385,10 +424,11 @@ public class NewVentanaSocio extends JFrame {
 					if(!AlquilerNoMasDeDosHoras(hora_inicio, hora_fin)) {
 						showMEssageDialog();
 					} else {
-						añadirAlquiler(correo, instalacion, fecha, hora_inicio, hora_fin);
+						añadirAlquilerASocio(correo, instalacion, fecha, hora_inicio, hora_fin);
 					}
 					actualizarListaMisInstalaciones();
 					
+					actualizarCampos();
 				}
 			});
 			bt_AÑadir_Algo.setForeground(new Color(255, 255, 255));
@@ -397,6 +437,12 @@ public class NewVentanaSocio extends JFrame {
 		return bt_AÑadir_Algo;
 	}
 	
+	protected void actualizarCampos() {
+		//TODO
+		getTxtfield_fecha_instalacion().setText("");
+		
+		
+	}
 	private void showMEssageDialog() {
 		JOptionPane.showMessageDialog(this, "No se puede añadir una actividad de mas de dos horas");
 	}
@@ -413,21 +459,28 @@ public class NewVentanaSocio extends JFrame {
 		}
 		return true;
 	}
-	private void añadirAlquiler(String socio, String instalacion, String fecha, String inicio, String fin) {
+	 
+	
+	private void añadirAlquilerASocio(String socio, String instalacion, String fecha, String horaInicio, String horaFin) {
 		String correo = getCb_usuarios().getSelectedItem().toString();
 		String id_socio = Socio.getIdSocio(correo);
-		if(Alquiler.comprobarRequisitosAlquilerCorrecto(LocalDate.now(), fecha) && Alquiler.comprobarHoras(inicio, fin)) {
-			if(!Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, inicio, fin) && !Socio.comprobarNotieneActividades(id_socio,fecha, inicio, fin)) {
-				admin.crearAlquiler(id_socio, instalacion, inicio, fin, fecha);
-				JOptionPane.showMessageDialog(this, "Añadido correcto");
+		if(Alquiler.comprobarRequisitosAlquilerCorrecto(LocalDate.now(), fecha)) {
+			if(Alquiler.comprobarHoras(horaInicio, horaFin)) {
+				if(!Alquiler.comprobarRequisitoNoTieneMasAlquileres(id_socio,fecha, horaInicio, horaFin)){
+					if(!Socio.comprobarNotieneActividades(id_socio,fecha, horaInicio, horaFin)) {
+						admin.crearAlquiler(id_socio, instalacion, horaInicio, horaFin, fecha);
+						JOptionPane.showMessageDialog(this, "Añadido correcto");
+					} else {
+						JOptionPane.showMessageDialog(this, "Error: Tiene una actividad reservada a esa hora", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(this, "Error: A esa misma hora tiene un alquiler de una instalación", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
+				}
 			} else {
-				JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
-				
+				JOptionPane.showMessageDialog(this, "Error: No se puede reservar por más de dos horas", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
 			}
-			
-		}
-		else {
-			JOptionPane.showMessageDialog(this, "Error: No se puede añadir el alquiler", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this, "Error: Plazo máximo de días de reserva", "Error añadir alquiler", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}
@@ -439,6 +492,8 @@ public class NewVentanaSocio extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					((CardLayout) getPn_contenidos().getLayout()).show(getPn_contenidos(), "panel_1");
 					contentPane.getRootPane().setDefaultButton(bt_Cancelar);
+					
+					actualizarCampos();
 				}
 			});
 			bt_Cancelar.setForeground(new Color(255, 255, 255));
@@ -490,9 +545,10 @@ public class NewVentanaSocio extends JFrame {
 				modelMisActividades.addElement(elegidoAñadir.get(i));
 			}
 			getList_misActividades().setModel(modelMisActividades);
+			
 		}
 		actualizarListaMisActividades();
-		
+		Socio.añadirActividadASocio(correo, id_actividad);
 	}
 	
 	
@@ -823,6 +879,13 @@ public class NewVentanaSocio extends JFrame {
 	private JComboBox<String> getComboBox_1() {
 		if (comboBox_1 == null) {
 			comboBox_1 = new JComboBox<String>();
+			comboBox_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String[] model = obtenerModelo(
+							getComboBox_1().getSelectedItem().toString().split("@")[0]);
+					getComboBox_2().setModel(new DefaultComboBoxModel<String>(model));
+				}
+			});
 			comboBox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"}));
 		}
 		return comboBox_1;
@@ -906,7 +969,7 @@ public class NewVentanaSocio extends JFrame {
 	}
 	
 	protected void eliminarAlquiler(String correo, String id_alquiler) {
-		List<String> elegidoEliminar = getList_misActividades().getSelectedValuesList();
+		List<String> elegidoEliminar = getList_MisInstalaciones().getSelectedValuesList();
 		for(int i = 0; i < elegidoEliminar.size(); i++) {
 			modelMisAlquileres.removeElement(elegidoEliminar.get(i));
 		}
@@ -1212,5 +1275,72 @@ public class NewVentanaSocio extends JFrame {
 		((CardLayout) getPanel_2_1().getLayout()).show(getPanel_2_1(), "p1");
 		contentPane.getRootPane().setDefaultButton(getBt_Atras_Rec_1());
 		
+	}
+	
+	protected String[] obtenerModelo(String inicio) {
+		String[] modelo = new String[2];
+		switch (inicio) {
+		case "9:00":
+			modelo[0] = "10:00";
+			modelo[1] = "11:00";
+			break;
+		case "10:00":
+			modelo[0] = "11:00";
+			modelo[1] = "12:00";
+			break;
+		case "11:00":
+			modelo[0] = "12:00";
+			modelo[1] = "13:00";
+			break;
+		case "12:00":
+			modelo[0] = "13:00";
+			modelo[1] = "14:00";
+			break;
+		case "13:00":
+			modelo[0] = "14:00";
+			modelo[1] = "15:00";
+			break;
+		case "14:00":
+			modelo[0] = "15:00";
+			modelo[1] = "16:00";
+			break;
+		case "15:00":
+			modelo[0] = "16:00";
+			modelo[1] = "17:00";
+			break;
+		case "16:00":
+			modelo[0] = "17:00";
+			modelo[1] = "18:00";
+			break;
+		case "17:00":
+			modelo[0] = "18:00";
+			modelo[1] = "19:00";
+			break;
+		case "18:00":
+			modelo[0] = "19:00";
+			modelo[1] = "20:00";
+			break;
+		case "19:00":
+			modelo[0] = "20:00";
+			modelo[1] = "21:00";
+			break;
+		case "20:00":
+			modelo[0] = "21:00";
+			modelo[1] = "22:00";
+			break;
+		case "21:00":
+			modelo[0] = "22:00";
+			modelo[1] = "23:00";
+			break;
+		default:
+			modelo[0] = "23:00";
+			modelo[1] = null;
+			ArrayList<String> removedNull = new ArrayList<String>();
+			for (String str : modelo)
+				if (str != null)
+					removedNull.add(str);
+			return removedNull.toArray(new String[0]);
+		}
+		return modelo;
 	}
 }
